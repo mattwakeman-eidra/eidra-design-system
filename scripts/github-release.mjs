@@ -54,8 +54,10 @@ async function main() {
 
   run(`gh release create ${tag} ${assets} --title "${tag}" --notes-file "${notesFile}"`);
   console.log(`✓ Created GitHub Release ${tag} with ${Object.keys(manifest.files).length} tarballs`);
-  // Signals to changesets/action that a publish happened.
-  console.log(`New tag: @eidra/react@${version}`);
+  // NOTE: do NOT emit a "New tag: <pkg>@<version>" line here. changesets/action parses that
+  // pattern and tries to `git push origin <pkg>@<version>` — a per-package tag this flow never
+  // creates (we tag a single `v<version>` via `gh release create`), which fails the run after
+  // the release is already live. This repo's release model uses one `v<version>` tag only.
 }
 
 main().catch((err) => {
