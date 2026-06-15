@@ -14,6 +14,20 @@ The design system is released through **GitHub Releases** — each release attac
 2. Merge to `main` → the bot opens a **"Version Packages" PR** (bumps versions + changelogs).
 3. Merge that PR → GitHub Actions builds, packs, and publishes a **GitHub Release `v<version>`** with the tarballs attached.
 
+```mermaid
+flowchart TD
+    subgraph DS [Design system repo]
+      PR[Feature PR<br/>+ changeset] --> Main[Merge to main]
+      Main --> VP[&quot;Version Packages&quot; PR]
+      VP --> Rel[GitHub Release v&lt;version&gt;<br/>tarballs + manifest.json]
+    end
+    subgraph App [Consumer app · apps/web]
+      Sync[sync-eidra.mjs] --> Vendor[vendor/eidra/*.tgz<br/>file: deps rewritten]
+      Vendor --> Install[pnpm install]
+    end
+    Rel -->|gh download / URL| Sync
+```
+
 > Local/offline: `pnpm release` packs the same tarballs into `./releases/` without GitHub, for inner-loop testing.
 
 ## 2. Wire up the consumer (one-time)
