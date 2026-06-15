@@ -10,6 +10,11 @@ permissions:
   contents: write # create tags, GitHub Releases, and the version PR commit
   pull-requests: write # open/update the "Version Packages" PR
 
+# Run JS actions on Node 24 (checkout/setup-node/pnpm-setup/changesets still ship Node 20 majors).
+# Silences the Node 20 deprecation warning ahead of the forced switch.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   release:
     runs-on: ubuntu-latest

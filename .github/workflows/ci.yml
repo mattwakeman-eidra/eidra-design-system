@@ -7,6 +7,11 @@ on:
 permissions:
   contents: read
 
+# Run JS actions on Node 24 (checkout/setup-node/pnpm-setup still ship Node 20 majors).
+# Silences the Node 20 deprecation warning ahead of the forced switch.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   validate:
     runs-on: ubuntu-latest
