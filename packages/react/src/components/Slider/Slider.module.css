@@ -1,0 +1,145 @@
+/* ─── Slider.Root ─────────────────────────────────────────────────────────── */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-2);
+  width: 100%;
+  /* Size custom properties */
+  --_track-size: 4px;
+  --_thumb-size: 18px;
+}
+
+.root[data-size='sm'] {
+  --_track-size: 3px;
+  --_thumb-size: 14px;
+}
+
+.root[data-size='lg'] {
+  --_track-size: 6px;
+  --_thumb-size: 22px;
+}
+
+.root[data-orientation='vertical'] {
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+  height: 200px;
+}
+
+/* ─── Slider.Control ──────────────────────────────────────────────────────── */
+.control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--eidra-size-control-md);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.root[data-orientation='vertical'] .control {
+  flex-direction: column;
+  width: var(--eidra-size-control-md);
+  height: 100%;
+}
+
+.control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ─── Slider.Track ────────────────────────────────────────────────────────── */
+.track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  height: var(--_track-size);
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-bg-inset);
+  overflow: hidden;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.root[data-orientation='vertical'] .track {
+  flex-direction: column;
+  justify-content: flex-end;
+  width: var(--_track-size);
+  height: 100%;
+}
+
+/* ─── Slider.Indicator ────────────────────────────────────────────────────── */
+.indicator {
+  height: 100%;
+  background-color: var(--eidra-accent);
+  border-radius: var(--eidra-radius-full);
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.root[data-orientation='vertical'] .indicator {
+  width: 100%;
+  height: auto;
+}
+
+/* When disabled, indicator matches muted color */
+.root[data-disabled] .indicator {
+  background-color: var(--eidra-fg-disabled);
+}
+
+/* ─── Slider.Thumb ────────────────────────────────────────────────────────── */
+.thumb {
+  position: absolute;
+  width: var(--_thumb-size);
+  height: var(--_thumb-size);
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-accent);
+  border: 2px solid var(--eidra-surface);
+  box-shadow: var(--eidra-shadow-sm);
+  cursor: grab;
+  outline: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.thumb:hover {
+  background-color: var(--eidra-accent-hover);
+  transform: scale(1.1);
+}
+
+.thumb[data-dragging] {
+  cursor: grabbing;
+  background-color: var(--eidra-accent-active);
+  transform: scale(1.15);
+  box-shadow: var(--eidra-shadow-md);
+}
+
+/* Focus-visible ring */
+.thumb:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.thumb[data-disabled] {
+  cursor: not-allowed;
+  background-color: var(--eidra-fg-disabled);
+  transform: none;
+}
+
+/* ─── Slider.Value ────────────────────────────────────────────────────────── */
+.value {
+  display: block;
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  color: var(--eidra-fg-muted);
+  line-height: var(--eidra-font-line-height-tight);
+  tabular-nums: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.root[data-disabled] .value {
+  color: var(--eidra-fg-disabled);
+}

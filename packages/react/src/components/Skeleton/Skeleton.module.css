@@ -1,0 +1,72 @@
+.root {
+  --_width: 100%;
+  --_height: var(--eidra-size-control-md);
+  --_radius: var(--eidra-radius-md);
+
+  display: block;
+  width: var(--_width);
+  height: var(--_height);
+  border-radius: var(--_radius);
+  background-color: var(--eidra-bg-muted);
+  overflow: hidden;
+  flex-shrink: 0;
+
+  /* Shimmer animation via background-position sweep */
+  background-image: linear-gradient(
+    90deg,
+    var(--eidra-bg-muted) 0%,
+    var(--eidra-bg-subtle) 40%,
+    var(--eidra-bg-muted) 100%
+  );
+  background-size: 200% 100%;
+  background-position: 200% center;
+  animation: eidra-skeleton-shimmer var(--eidra-duration-slow) var(--eidra-easing-standard) infinite;
+}
+
+/* ---- Variants ---- */
+.root[data-variant='text'] {
+  --_height: 1em;
+  --_radius: var(--eidra-radius-sm);
+  width: var(--_width);
+}
+
+.root[data-variant='circle'] {
+  --_radius: var(--eidra-radius-full);
+  /* For circle, if no explicit width/height is given, fall back to a sensible icon-sized default */
+  --_width: var(--eidra-size-icon-md);
+  --_height: var(--eidra-size-icon-md);
+  aspect-ratio: 1;
+}
+
+.root[data-variant='rect'] {
+  --_radius: var(--eidra-radius-md);
+}
+
+/* ---- Shimmer keyframe ---- */
+@keyframes eidra-skeleton-shimmer {
+  from {
+    background-position: 200% center;
+  }
+  to {
+    background-position: -200% center;
+  }
+}
+
+/* ---- Respect prefers-reduced-motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    animation: none;
+    background-image: none;
+    /* Subtle opacity pulse instead — much less motion */
+    animation: eidra-skeleton-fade var(--eidra-duration-slow) var(--eidra-easing-standard) infinite alternate;
+  }
+
+  @keyframes eidra-skeleton-fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+    }
+  }
+}

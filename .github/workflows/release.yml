@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency: release-${{ github.ref }}
+
+permissions:
+  contents: write # create tags, GitHub Releases, and the version PR commit
+  pull-requests: write # open/update the "Version Packages" PR
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # If changesets are present: open/update the "Version Packages" PR (versions + changelogs).
+      # If none are present (i.e. that PR just merged): run release:github, which builds, packs,
+      # and creates a GitHub Release v<version> with the tarballs attached (idempotent).
+      - uses: changesets/action@v1
+        with:
+          version: pnpm version-packages
+          publish: pnpm release:github
+          commit: 'chore: version packages'
+          title: 'chore: version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

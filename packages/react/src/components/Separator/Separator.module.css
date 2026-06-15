@@ -1,0 +1,46 @@
+/* ---- Plain separator ---- */
+.root {
+  flex-shrink: 0;
+  background-color: var(--eidra-border);
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Horizontal: full-width 1 px rule */
+.root[data-orientation='horizontal'] {
+  width: 100%;
+  height: 1px;
+}
+
+/* Vertical: full-height 1 px rule (parent must establish a height) */
+.root[data-orientation='vertical'] {
+  width: 1px;
+  height: 100%;
+  align-self: stretch;
+}
+
+/* ---- Separator with centred label ---- */
+.labelled {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-3);
+  width: 100%;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--eidra-border);
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.labelText {
+  flex-shrink: 0;
+  color: var(--eidra-fg-subtle);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-none);
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+}

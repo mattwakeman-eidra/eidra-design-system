@@ -1,0 +1,108 @@
+/* ─── Wrapper (label element acting as click target) ──────────────────────── */
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.wrapperDisabled {
+  cursor: not-allowed;
+}
+
+/* ─── Root (the visible track) ───────────────────────────────────────────── */
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  /* Track dimensions: 2.25rem × 1.25rem (36×20px) */
+  width: 2.25rem;
+  height: 1.25rem;
+  padding: 2px;
+  border: 1px solid var(--eidra-border-strong);
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-bg-muted);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Hover — unchecked */
+.root:hover:not([data-disabled]) {
+  border-color: var(--eidra-accent);
+}
+
+/* Focus-visible */
+.root:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Checked */
+.root[data-checked] {
+  background-color: var(--eidra-accent);
+  border-color: var(--eidra-accent);
+}
+
+.root[data-checked]:hover:not([data-disabled]) {
+  background-color: var(--eidra-accent-hover);
+  border-color: var(--eidra-accent-hover);
+}
+
+/* Read-only */
+.root[data-readonly] {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Disabled */
+.root[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Thumb (the circular knob) ──────────────────────────────────────────── */
+.thumb {
+  display: block;
+  width: 0.875rem;  /* 14px */
+  height: 0.875rem;
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-fg-on-accent);
+  box-shadow: var(--eidra-shadow-xs);
+  translate: 0;
+  transition:
+    translate var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Unchecked — thumb uses a slightly muted colour so it reads on the muted track */
+.root:not([data-checked]) .thumb {
+  background-color: var(--eidra-fg-muted);
+}
+
+/* Checked — slide thumb to the right: track(36px) - padding(2×2) - thumb(14) = 18px */
+.root[data-checked] .thumb {
+  translate: 1.125rem;
+  background-color: var(--eidra-fg-on-accent);
+  box-shadow: var(--eidra-shadow-sm);
+}
+
+/* ─── Label text ─────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-regular);
+  line-height: var(--eidra-font-line-height-normal);
+  color: var(--eidra-fg);
+  transition: color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.wrapper:has(.root[data-disabled]) .label {
+  color: var(--eidra-fg-disabled);
+}

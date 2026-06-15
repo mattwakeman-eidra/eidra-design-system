@@ -1,0 +1,143 @@
+/* ─── Wrapper (label element acting as click target) ──────────────────────── */
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ─── Root (the visible checkbox box) ────────────────────────────────────── */
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.125rem; /* 18px — between icon-sm and icon-md */
+  height: 1.125rem;
+  border: 1px solid var(--eidra-border-strong);
+  border-radius: var(--eidra-radius-sm);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg-on-accent);
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+  outline: none;
+}
+
+/* Hover */
+.root:hover:not([data-disabled]) {
+  border-color: var(--eidra-accent);
+}
+
+/* Focus-visible */
+.root:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Checked */
+.root[data-checked] {
+  background-color: var(--eidra-accent);
+  border-color: var(--eidra-accent);
+}
+
+.root[data-checked]:hover:not([data-disabled]) {
+  background-color: var(--eidra-accent-hover);
+  border-color: var(--eidra-accent-hover);
+}
+
+/* Indeterminate */
+.root[data-indeterminate] {
+  background-color: var(--eidra-accent);
+  border-color: var(--eidra-accent);
+}
+
+.root[data-indeterminate]:hover:not([data-disabled]) {
+  background-color: var(--eidra-accent-hover);
+  border-color: var(--eidra-accent-hover);
+}
+
+/* Disabled */
+.root[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wrapper:has(.root[data-disabled]) {
+  cursor: not-allowed;
+}
+
+/* ─── Indicator ──────────────────────────────────────────────────────────── */
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  /* Hidden by default; Base UI removes it from DOM unless keepMounted is set */
+}
+
+/* Check icon — visible when checked (not indeterminate) */
+.check {
+  width: 0.75rem;
+  height: 0.75rem;
+  display: none;
+  color: var(--eidra-fg-on-accent);
+}
+
+.root[data-checked]:not([data-indeterminate]) .check {
+  display: block;
+}
+
+/* Indeterminate icon */
+.indeterminate {
+  width: 0.75rem;
+  height: 0.75rem;
+  display: none;
+  color: var(--eidra-fg-on-accent);
+}
+
+.root[data-indeterminate] .indeterminate {
+  display: block;
+}
+
+/* ─── Label text ─────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-regular);
+  line-height: var(--eidra-font-line-height-normal);
+  color: var(--eidra-fg);
+  transition: color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.wrapper:has(.root[data-disabled]) .label {
+  color: var(--eidra-fg-disabled);
+}
+
+/* ─── Group ──────────────────────────────────────────────────────────────── */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-2);
+}
+
+.group[data-disabled] > * {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Group legend ───────────────────────────────────────────────────────── */
+.groupLegend {
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-normal);
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  color: var(--eidra-fg-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--eidra-space-1);
+}

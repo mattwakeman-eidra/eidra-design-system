@@ -1,0 +1,122 @@
+/* ---- Root ---- */
+.root {
+  --_bg: var(--eidra-surface);
+  --_border: transparent;
+  --_shadow: none;
+
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--_border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--_bg);
+  box-shadow: var(--_shadow);
+  overflow: hidden;
+  transition:
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* ---- Variants ---- */
+.root[data-variant='elevated'] {
+  --_bg: var(--eidra-surface-raised);
+  --_border: transparent;
+  --_shadow: var(--eidra-shadow-sm);
+}
+
+.root[data-variant='outline'] {
+  --_bg: var(--eidra-surface);
+  --_border: var(--eidra-border);
+  --_shadow: none;
+}
+
+.root[data-variant='subtle'] {
+  --_bg: var(--eidra-bg-subtle);
+  --_border: var(--eidra-border-subtle);
+  --_shadow: none;
+}
+
+/* ---- Padding on root (applied to .root when padding != none) ---- */
+.root[data-padding='sm'] {
+  padding: var(--eidra-space-3);
+}
+.root[data-padding='md'] {
+  padding: var(--eidra-space-4);
+}
+.root[data-padding='lg'] {
+  padding: var(--eidra-space-6);
+}
+
+/* ---- Focus-visible ring (when card is interactive / tabIndex set) ---- */
+.root:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-base);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: var(--eidra-font-line-height-snug);
+  color: var(--eidra-fg);
+  border-bottom: 1px solid var(--eidra-border-subtle);
+}
+
+.header[data-padding='none'] {
+  padding: 0;
+}
+.header[data-padding='sm'] {
+  padding: var(--eidra-space-3);
+}
+.header[data-padding='md'] {
+  padding: var(--eidra-space-4);
+}
+.header[data-padding='lg'] {
+  padding: var(--eidra-space-6);
+}
+
+/* ---- Body ---- */
+.body {
+  flex: 1;
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-relaxed);
+  color: var(--eidra-fg-muted);
+}
+
+.body[data-padding='none'] {
+  padding: 0;
+}
+.body[data-padding='sm'] {
+  padding: var(--eidra-space-3);
+}
+.body[data-padding='md'] {
+  padding: var(--eidra-space-4);
+}
+.body[data-padding='lg'] {
+  padding: var(--eidra-space-6);
+}
+
+/* ---- Footer ---- */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  border-top: 1px solid var(--eidra-border-subtle);
+}
+
+.footer[data-padding='none'] {
+  padding: 0;
+}
+.footer[data-padding='sm'] {
+  padding: var(--eidra-space-3);
+}
+.footer[data-padding='md'] {
+  padding: var(--eidra-space-4);
+}
+.footer[data-padding='lg'] {
+  padding: var(--eidra-space-6);
+}

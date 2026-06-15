@@ -1,0 +1,83 @@
+/* ── Root ─────────────────────────────────────────────────────────────────── */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-1-5);
+  width: 100%;
+}
+
+/* ── Tone colour sources ──────────────────────────────────────────────────── */
+
+.root[data-tone='accent'] {
+  --_indicator-color: var(--eidra-accent);
+}
+
+.root[data-tone='success'] {
+  --_indicator-color: var(--eidra-success);
+}
+
+.root[data-tone='warning'] {
+  --_indicator-color: var(--eidra-warning);
+}
+
+.root[data-tone='danger'] {
+  --_indicator-color: var(--eidra-danger);
+}
+
+.root[data-tone='info'] {
+  --_indicator-color: var(--eidra-info);
+}
+
+/* ── Header row (label + value) ───────────────────────────────────────────── */
+
+.label {
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-snug);
+  color: var(--eidra-fg);
+}
+
+.value {
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-regular);
+  line-height: var(--eidra-font-line-height-snug);
+  color: var(--eidra-fg-muted);
+}
+
+/* ── Track ────────────────────────────────────────────────────────────────── */
+
+.track {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--eidra-bg-inset);
+  border-radius: var(--eidra-radius-full);
+  /* default md height */
+  height: var(--_track-height, 8px);
+}
+
+.root[data-size='sm'] {
+  --_track-height: 4px;
+}
+
+.root[data-size='md'] {
+  --_track-height: 8px;
+}
+
+.root[data-size='lg'] {
+  --_track-height: 12px;
+}
+
+/* ── Indicator ────────────────────────────────────────────────────────────── */
+
+.indicator {
+  /* Base UI sets width as an inline style (percentage). We just need height,
+     colour, and the transition. */
+  height: 100%;
+  background-color: var(--_indicator-color, var(--eidra-accent));
+  border-radius: var(--eidra-radius-full);
+  transition: width var(--eidra-duration-base) var(--eidra-easing-standard);
+}

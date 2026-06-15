@@ -1,0 +1,97 @@
+/* ---- Trigger ---- */
+.trigger {
+  /* No default styling — the trigger is usually a button or icon button;
+     consumers style it themselves. We only layer the focus ring so
+     keyboard users always see feedback. */
+  cursor: default;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-sm);
+}
+
+/* When the tooltip is open, give the trigger a subtle highlight */
+.trigger[data-popup-open] {
+  /* intentionally minimal — trigger retains its own look */
+}
+
+/* ---- Positioner ---- */
+.positioner {
+  /* Base UI injects top/left via inline styles; we only set z-index */
+  z-index: var(--eidra-z-tooltip);
+}
+
+/* ---- Popup ---- */
+.popup {
+  position: relative;
+  z-index: var(--eidra-z-tooltip);
+  max-width: min(calc(100vw - var(--eidra-space-8)), 280px);
+  padding: var(--eidra-space-1-5) var(--eidra-space-3);
+  background-color: var(--eidra-bg-inverse);
+  color: var(--eidra-fg-on-inverse);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-normal);
+  border-radius: var(--eidra-radius-md);
+  box-shadow: var(--eidra-shadow-md);
+  outline: none;
+  /* Enter/exit animated via opacity + small translateY */
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Instant mode (hover group, focus, dismiss) — skip transitions */
+.popup[data-instant] {
+  transition: none;
+}
+
+/* ---- Enter animation (side-aware) ---- */
+.popup[data-starting-style] {
+  opacity: 0;
+  transform: translateY(var(--eidra-space-1));
+}
+
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: translateY(var(--eidra-space-1));
+}
+
+/* Top — tooltip slides down when appearing from above */
+[data-side='top'] .popup[data-starting-style],
+[data-side='top'] .popup[data-ending-style] {
+  transform: translateY(calc(var(--eidra-space-1) * -1));
+}
+
+/* Left */
+[data-side='left'] .popup[data-starting-style],
+[data-side='left'] .popup[data-ending-style] {
+  transform: translateX(var(--eidra-space-1));
+}
+
+/* Right */
+[data-side='right'] .popup[data-starting-style],
+[data-side='right'] .popup[data-ending-style] {
+  transform: translateX(calc(var(--eidra-space-1) * -1));
+}
+
+/* ---- Arrow ---- */
+.arrow {
+  width: 10px;
+  height: 5px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.arrow::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--eidra-bg-inverse);
+  transform: rotate(45deg) translateX(-50%);
+  transform-origin: 0 0;
+}

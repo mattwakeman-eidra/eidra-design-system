@@ -1,0 +1,189 @@
+/* ── Root ───────────────────────────────────────────────────────────────────── */
+.root {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--eidra-space-1-5);
+  font-family: var(--eidra-font-family-sans);
+}
+
+/* ── Group ──────────────────────────────────────────────────────────────────── */
+.group {
+  display: inline-flex;
+  align-items: stretch;
+  height: var(--eidra-size-control-md);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg);
+  transition:
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+  overflow: hidden;
+}
+
+.group:hover:not([data-disabled]) {
+  border-color: var(--eidra-border-strong);
+}
+
+.group:focus-within:not([data-disabled]) {
+  border-color: var(--eidra-accent);
+  box-shadow: 0 0 0 3px var(--eidra-accent-subtle);
+}
+
+.group[data-disabled] {
+  background-color: var(--eidra-bg-muted);
+  border-color: var(--eidra-border-subtle);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.group[data-invalid] {
+  border-color: var(--eidra-danger-border);
+}
+
+.group[data-invalid]:focus-within {
+  border-color: var(--eidra-danger);
+  box-shadow: 0 0 0 3px var(--eidra-danger-subtle);
+}
+
+.group[data-scrubbing] {
+  cursor: ew-resize;
+}
+
+/* Size variants applied to the root propagate via data-size on the root */
+.root[data-size='sm'] .group {
+  height: var(--eidra-size-control-sm);
+  font-size: var(--eidra-font-size-xs);
+}
+
+.root[data-size='lg'] .group {
+  height: var(--eidra-size-control-lg);
+  font-size: var(--eidra-font-size-base);
+}
+
+/* ── Input ──────────────────────────────────────────────────────────────────── */
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding-inline: var(--eidra-space-3);
+  border: none;
+  background: transparent;
+  color: var(--eidra-fg);
+  font-family: inherit;
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-regular);
+  line-height: 1;
+  text-align: center;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--eidra-fg-subtle);
+}
+
+.input[data-disabled] {
+  color: var(--eidra-fg-disabled);
+  cursor: not-allowed;
+}
+
+.input[data-readonly] {
+  cursor: default;
+}
+
+.root[data-size='sm'] .input {
+  font-size: var(--eidra-font-size-xs);
+  padding-inline: var(--eidra-space-2);
+}
+
+.root[data-size='lg'] .input {
+  font-size: var(--eidra-font-size-base);
+  padding-inline: var(--eidra-space-4);
+}
+
+/* ── Stepper buttons (Increment / Decrement) ────────────────────────────────── */
+.stepper {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--eidra-size-control-md);
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Separator line between stepper and input */
+.stepper:first-child {
+  border-right: 1px solid var(--eidra-border-subtle);
+}
+
+.stepper:last-child {
+  border-left: 1px solid var(--eidra-border-subtle);
+}
+
+.stepper:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-fg);
+}
+
+.stepper:active:not([data-disabled]) {
+  background-color: var(--eidra-surface-active);
+}
+
+.stepper:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.stepper[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.root[data-size='sm'] .stepper {
+  width: var(--eidra-size-control-sm);
+}
+
+.root[data-size='lg'] .stepper {
+  width: var(--eidra-size-control-lg);
+}
+
+/* ── ScrubArea ──────────────────────────────────────────────────────────────── */
+.scrubArea {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  cursor: ew-resize;
+  user-select: none;
+  color: var(--eidra-fg-muted);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-medium);
+}
+
+.scrubArea[data-scrubbing] {
+  color: var(--eidra-accent);
+}
+
+.scrubArea[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── ScrubAreaCursor ────────────────────────────────────────────────────────── */
+.scrubAreaCursor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-fg);
+  color: var(--eidra-bg);
+  filter: drop-shadow(var(--eidra-shadow-sm));
+}

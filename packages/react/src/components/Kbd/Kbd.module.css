@@ -1,0 +1,39 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-1-5);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-sm);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg-muted);
+  font-family: var(--eidra-font-family-mono);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-none);
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- Sizes ---- */
+.root[data-size='sm'] {
+  padding-block: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-1);
+  font-size: var(--eidra-font-size-xs);
+}
+
+.root[data-size='lg'] {
+  padding-block: var(--eidra-space-1);
+  padding-inline: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-base);
+}

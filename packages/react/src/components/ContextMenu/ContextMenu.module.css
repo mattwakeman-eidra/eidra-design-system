@@ -1,0 +1,186 @@
+/* ---- Trigger ---- */
+
+.trigger {
+  display: inline-block;
+  user-select: none;
+  border-radius: var(--eidra-radius-md);
+  outline: none;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger[data-popup-open] {
+  background-color: var(--eidra-surface-hover);
+}
+
+.trigger[data-pressed] {
+  background-color: var(--eidra-surface-active);
+}
+
+/* ---- Positioner ---- */
+
+.positioner {
+  z-index: var(--eidra-z-popover);
+}
+
+/* ---- Popup ---- */
+
+.popup {
+  min-width: 180px;
+  max-width: 280px;
+  padding-block: var(--eidra-space-1);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--eidra-surface);
+  box-shadow: var(--eidra-shadow-lg);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  outline: none;
+  overflow: hidden;
+
+  /* Enter / exit transitions keyed off data-open / starting+ending style */
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.popup[data-open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.popup[data-starting-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* ---- Item (shared by Item, CheckboxItem, RadioItem, SubmenuTrigger) ---- */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  padding-inline: var(--eidra-space-3);
+  padding-block: var(--eidra-space-1-5);
+  min-height: var(--eidra-size-control-sm);
+  border-radius: var(--eidra-radius-sm);
+  margin-inline: var(--eidra-space-1);
+  color: var(--eidra-fg);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+  cursor: default;
+  user-select: none;
+  outline: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.item[data-highlighted] {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-fg);
+}
+
+.item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- CheckboxItem ---- */
+
+.checkboxItem {
+  padding-inline-start: var(--eidra-space-8);
+  position: relative;
+}
+
+/* ---- RadioItem ---- */
+
+.radioItem {
+  padding-inline-start: var(--eidra-space-8);
+  position: relative;
+}
+
+/* ---- Item indicator (checkbox + radio) ---- */
+
+.itemIndicator {
+  position: absolute;
+  left: var(--eidra-space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  color: var(--eidra-accent);
+  flex-shrink: 0;
+}
+
+/* ---- SubmenuTrigger ---- */
+
+.submenuTrigger {
+  /* Chevron affordance is rendered by caller via endIcon slot */
+  justify-content: space-between;
+}
+
+.submenuTrigger[data-highlighted] {
+  background-color: var(--eidra-surface-hover);
+}
+
+/* ---- Group ---- */
+
+.group {
+  /* no additional styles – relies on its GroupLabel and Items */
+}
+
+/* ---- GroupLabel ---- */
+
+.groupLabel {
+  padding-inline: var(--eidra-space-3);
+  padding-block: var(--eidra-space-1);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-semibold);
+  color: var(--eidra-fg-muted);
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* ---- Separator ---- */
+
+.separator {
+  height: 1px;
+  margin-block: var(--eidra-space-1);
+  margin-inline: var(--eidra-space-3);
+  background-color: var(--eidra-border-subtle);
+}
+
+/* ---- Arrow ---- */
+
+.arrow {
+  width: 10px;
+  height: 10px;
+  background-color: var(--eidra-surface);
+  border-top: 1px solid var(--eidra-border);
+  border-left: 1px solid var(--eidra-border);
+  transform: rotate(45deg);
+}
+
+/* ---- Backdrop ---- */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  /* Transparent — used only for dismiss-on-click outside */
+  background-color: transparent;
+}

@@ -1,0 +1,237 @@
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ─── List ─────────────────────────────────────────────────────────────────── */
+.list {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+.item {
+  position: relative;
+}
+
+/* ─── Trigger ──────────────────────────────────────────────────────────────── */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border: none;
+  border-radius: var(--eidra-radius-md);
+  background-color: transparent;
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover {
+  background-color: var(--eidra-surface-hover);
+}
+
+.trigger:active {
+  background-color: var(--eidra-surface-active);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* When the popup is open, highlight the trigger */
+.trigger[data-popup-open] {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-accent);
+}
+
+/* Pressed state */
+.trigger[data-pressed] {
+  background-color: var(--eidra-surface-active);
+}
+
+/* ─── Trigger Icon ─────────────────────────────────────────────────────────── */
+.triggerIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  flex-shrink: 0;
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Rotate the chevron when open */
+.trigger[data-popup-open] .triggerIcon {
+  transform: rotate(180deg);
+}
+
+/* ─── Positioner ───────────────────────────────────────────────────────────── */
+.positioner {
+  position: absolute;
+  z-index: var(--eidra-z-popover);
+  /* Width is driven by content; positioner handles placement */
+}
+
+.positioner[data-closed] {
+  pointer-events: none;
+}
+
+/* ─── Popup ─────────────────────────────────────────────────────────────────── */
+.popup {
+  position: relative;
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  box-shadow: var(--eidra-shadow-lg);
+  overflow: hidden;
+  /* Enter transition */
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.popup[data-open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.popup[data-starting-style] {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.popup[data-closed] {
+  pointer-events: none;
+}
+
+/* ─── Viewport ─────────────────────────────────────────────────────────────── */
+.viewport {
+  overflow: hidden;
+  /* Viewport handles the content crossfade / resize transitions */
+  transition:
+    width var(--eidra-duration-base) var(--eidra-easing-standard),
+    height var(--eidra-duration-base) var(--eidra-easing-standard);
+}
+
+/* ─── Content ──────────────────────────────────────────────────────────────── */
+.content {
+  padding: var(--eidra-space-4);
+  /* Content slides in from left/right based on activation direction */
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.content[data-open] {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.content[data-starting-style] {
+  opacity: 0;
+}
+
+.content[data-starting-style][data-activation-direction='left'] {
+  transform: translateX(-8px);
+}
+
+.content[data-starting-style][data-activation-direction='right'] {
+  transform: translateX(8px);
+}
+
+.content[data-ending-style] {
+  opacity: 0;
+}
+
+.content[data-ending-style][data-activation-direction='left'] {
+  transform: translateX(8px);
+}
+
+.content[data-ending-style][data-activation-direction='right'] {
+  transform: translateX(-8px);
+}
+
+/* ─── Arrow ─────────────────────────────────────────────────────────────────── */
+.arrow {
+  width: 10px;
+  height: 10px;
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-sm);
+  transform: rotate(45deg);
+  /* Arrow is absolutely positioned by Base UI */
+}
+
+/* ─── Backdrop ──────────────────────────────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--eidra-z-overlay);
+  background-color: transparent;
+  /* Optional: use for click-away dismissal */
+}
+
+/* ─── Link ──────────────────────────────────────────────────────────────────── */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  border-radius: var(--eidra-radius-md);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  text-decoration: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.link:hover {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-fg);
+}
+
+.link:active {
+  background-color: var(--eidra-surface-active);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Active/current page link */
+.link[data-active] {
+  color: var(--eidra-accent);
+  background-color: var(--eidra-accent-subtle);
+}
+
+.link[data-active]:hover {
+  background-color: var(--eidra-accent-subtle);
+}

@@ -1,0 +1,216 @@
+/* ---- Trigger (plain pass-through — consumers apply their own button styles) ---- */
+.trigger {
+  /* No default styling; consumers apply their own button styles */
+}
+
+/* ---- Positioner ---- */
+.positioner {
+  /* Base UI manages top/left positioning via inline styles */
+  z-index: var(--eidra-z-popover);
+}
+
+/* ---- Popup ---- */
+.popup {
+  position: relative;
+  z-index: var(--eidra-z-popover);
+  width: max-content;
+  max-width: min(calc(100vw - var(--eidra-space-8)), 320px);
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  box-shadow: var(--eidra-shadow-lg);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  outline: none;
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-decelerate);
+}
+
+.popup:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Enter/exit transitions keyed to Base UI data attributes */
+.popup[data-starting-style] {
+  opacity: 0;
+  transform: scale(0.96) translateY(var(--eidra-space-1));
+}
+
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96) translateY(var(--eidra-space-1));
+}
+
+/* Directional offset adjustments */
+[data-side='top'] .popup[data-starting-style],
+[data-side='top'] .popup[data-ending-style] {
+  transform: scale(0.96) translateY(calc(var(--eidra-space-1) * -1));
+}
+
+[data-side='left'] .popup[data-starting-style],
+[data-side='left'] .popup[data-ending-style] {
+  transform: scale(0.96) translateX(var(--eidra-space-1));
+}
+
+[data-side='right'] .popup[data-starting-style],
+[data-side='right'] .popup[data-ending-style] {
+  transform: scale(0.96) translateX(calc(var(--eidra-space-1) * -1));
+}
+
+/* ---- Arrow ---- */
+.arrow {
+  width: 10px;
+  height: 5px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.arrow::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  transform: rotate(45deg) translateX(-50%);
+  transform-origin: 0 0;
+  box-shadow: var(--eidra-shadow-xs);
+}
+
+/* ---- Backdrop (for modal popover use-case) ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--eidra-bg-inverse) 30%, transparent);
+  z-index: var(--eidra-z-overlay);
+  transition: opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.backdrop[data-starting-style] {
+  opacity: 0;
+}
+
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--eidra-space-3);
+  padding: var(--eidra-space-4) var(--eidra-space-4) 0;
+  flex-shrink: 0;
+}
+
+/* ---- Title ---- */
+.title {
+  margin: 0;
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: var(--eidra-font-line-height-tight);
+  color: var(--eidra-fg);
+}
+
+/* ---- Description ---- */
+.description {
+  margin: 0;
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+  color: var(--eidra-fg-muted);
+}
+
+/* ---- Body ---- */
+.body {
+  padding: var(--eidra-space-3) var(--eidra-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-3);
+}
+
+/* When there's no header, body gets top padding instead */
+.body:first-child {
+  padding-top: var(--eidra-space-4);
+}
+
+/* ---- Footer ---- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--eidra-space-2);
+  padding: 0 var(--eidra-space-4) var(--eidra-space-4);
+  flex-shrink: 0;
+}
+
+/* ---- Close (raw close, no icon) ---- */
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--eidra-fg-muted);
+  padding: var(--eidra-space-1);
+  border-radius: var(--eidra-radius-md);
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.close:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.close[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- CloseButton (X icon variant) ---- */
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--eidra-size-control-sm);
+  height: var(--eidra-size-control-sm);
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--eidra-radius-md);
+  cursor: pointer;
+  color: var(--eidra-fg-subtle);
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.closeButton:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.closeButton:active:not([data-disabled]) {
+  background-color: var(--eidra-surface-active);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.closeButton[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

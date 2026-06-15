@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.pnpm-store/
+.turbo/
+storybook-static/
+.artifacts/
+# Release tarballs are build artifacts; keep the manifest, drop the binaries.
+releases/*.tgz
+*.tsbuildinfo
+*.log
+.DS_Store
+# generated token outputs
+packages/tokens/src/_generated.ts
+# local/personal Claude Code config (shared settings.json stays tracked)
+.claude/settings.local.json
+# env / secrets
+.env
+.env.*
+!.env.example

@@ -1,0 +1,306 @@
+/* ─── Menubar Root ─────────────────────────────────────────────────────────── */
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--eidra-space-0-5);
+  padding: var(--eidra-space-1);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--eidra-surface);
+  box-shadow: var(--eidra-shadow-xs);
+}
+
+/* Vertical orientation */
+.root[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ─── Trigger (the menubar top-level button) ──────────────────────────────── */
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1-5);
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-3);
+  border: none;
+  border-radius: var(--eidra-radius-md);
+  background-color: transparent;
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Active / open state */
+.trigger[data-popup-open] {
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent-fg);
+}
+
+.trigger[data-pressed] {
+  background-color: var(--eidra-surface-active);
+}
+
+/* ─── Positioner ──────────────────────────────────────────────────────────── */
+
+.positioner {
+  z-index: var(--eidra-z-dropdown);
+  outline: none;
+}
+
+/* ─── Popup ───────────────────────────────────────────────────────────────── */
+
+.popup {
+  min-width: 180px;
+  padding: var(--eidra-space-1);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--eidra-surface);
+  box-shadow: var(--eidra-shadow-lg);
+  outline: none;
+  transform-origin: var(--transform-origin);
+
+  /* Enter animation */
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-decelerate),
+    scale var(--eidra-duration-fast) var(--eidra-easing-decelerate);
+}
+
+.popup[data-open] {
+  opacity: 1;
+  scale: 1;
+}
+
+.popup[data-closed] {
+  opacity: 0;
+  scale: 0.97;
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-accelerate),
+    scale var(--eidra-duration-fast) var(--eidra-easing-accelerate);
+}
+
+.popup[data-starting-style] {
+  opacity: 0;
+  scale: 0.97;
+}
+
+.popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.97;
+}
+
+/* ─── Item ────────────────────────────────────────────────────────────────── */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  border-radius: var(--eidra-radius-md);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.item[data-highlighted] {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-fg);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Checkbox Item ───────────────────────────────────────────────────────── */
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  border-radius: var(--eidra-radius-md);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.checkboxItem[data-highlighted] {
+  background-color: var(--eidra-surface-hover);
+}
+
+.checkboxItem:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.checkboxItem[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Radio Item ──────────────────────────────────────────────────────────── */
+
+.radioItem {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  border-radius: var(--eidra-radius-md);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.radioItem[data-highlighted] {
+  background-color: var(--eidra-surface-hover);
+}
+
+.radioItem:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.radioItem[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Item Indicator (for checkbox / radio) ───────────────────────────────── */
+
+.itemIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  flex-shrink: 0;
+  color: var(--eidra-accent);
+  transition: opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* ─── Submenu Trigger ─────────────────────────────────────────────────────── */
+
+.submenuTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--eidra-space-2);
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  border-radius: var(--eidra-radius-md);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.submenuTrigger[data-highlighted] {
+  background-color: var(--eidra-surface-hover);
+}
+
+.submenuTrigger[data-popup-open] {
+  background-color: var(--eidra-surface-hover);
+}
+
+.submenuTrigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.submenuTrigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Separator ───────────────────────────────────────────────────────────── */
+
+.separator {
+  height: 1px;
+  margin-block: var(--eidra-space-1);
+  margin-inline: var(--eidra-space-2);
+  background-color: var(--eidra-border-subtle);
+}
+
+/* ─── Group ───────────────────────────────────────────────────────────────── */
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Group Label ─────────────────────────────────────────────────────────── */
+
+.groupLabel {
+  padding-inline: var(--eidra-space-2);
+  padding-block: var(--eidra-space-1);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-semibold);
+  color: var(--eidra-fg-muted);
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* ─── Arrow ───────────────────────────────────────────────────────────────── */
+
+.arrow {
+  width: 10px;
+  height: 5px;
+  fill: var(--eidra-surface);
+  stroke: var(--eidra-border);
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
+}

@@ -1,0 +1,177 @@
+/* ─── Root ──────────────────────────────────────────────────────────────────── */
+
+.root {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  padding: var(--eidra-space-1);
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  box-shadow: var(--eidra-shadow-xs);
+}
+
+.root[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.root[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Button ────────────────────────────────────────────────────────────────── */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eidra-space-2);
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border: none;
+  border-radius: var(--eidra-radius-md);
+  background-color: transparent;
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.button:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+}
+
+.button:active:not([data-disabled]) {
+  background-color: var(--eidra-surface-active);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Link ──────────────────────────────────────────────────────────────────── */
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1-5);
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border-radius: var(--eidra-radius-md);
+  background-color: transparent;
+  color: var(--eidra-accent-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.link:hover {
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent);
+}
+
+.link:active {
+  background-color: var(--eidra-accent-subtle);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ─── Input ─────────────────────────────────────────────────────────────────── */
+
+.input {
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-bg);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  transition:
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.input::placeholder {
+  color: var(--eidra-fg-subtle);
+}
+
+.input:hover:not([data-disabled]) {
+  border-color: var(--eidra-border-strong);
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--eidra-accent);
+  box-shadow: 0 0 0 3px var(--eidra-accent-subtle);
+}
+
+.input[data-disabled] {
+  background-color: var(--eidra-bg-muted);
+  color: var(--eidra-fg-disabled);
+  cursor: not-allowed;
+}
+
+/* ─── Group ─────────────────────────────────────────────────────────────────── */
+
+.group {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--eidra-space-0-5);
+  padding: var(--eidra-space-0-5);
+  border: 1px solid var(--eidra-border-subtle);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-bg-subtle);
+}
+
+.group[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Separator ─────────────────────────────────────────────────────────────── */
+
+.separator {
+  flex: none;
+  width: 1px;
+  align-self: stretch;
+  background-color: var(--eidra-border);
+  margin-inline: var(--eidra-space-1);
+}
+
+.root[data-orientation='vertical'] .separator {
+  width: auto;
+  height: 1px;
+  align-self: auto;
+  margin-inline: 0;
+  margin-block: var(--eidra-space-1);
+}

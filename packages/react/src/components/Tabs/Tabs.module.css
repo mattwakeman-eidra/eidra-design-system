@@ -1,0 +1,123 @@
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-0);
+}
+
+.root[data-orientation='vertical'] {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+/* ─── List ─────────────────────────────────────────────────────────────────── */
+
+.list {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: var(--eidra-space-0);
+  border-bottom: 1px solid var(--eidra-border);
+}
+
+.root[data-orientation='vertical'] .list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid var(--eidra-border);
+  flex: none;
+}
+
+/* ─── Tab ──────────────────────────────────────────────────────────────────── */
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eidra-space-2);
+  padding-block: var(--eidra-space-3);
+  padding-inline: var(--eidra-space-4);
+  border: none;
+  background: transparent;
+  color: var(--eidra-fg-muted);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-none);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.tab:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-sm);
+}
+
+.tab[data-selected] {
+  color: var(--eidra-fg);
+}
+
+.tab[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Indicator ────────────────────────────────────────────────────────────── */
+
+.indicator {
+  position: absolute;
+  bottom: -1px;
+  left: var(--active-tab-left);
+  width: var(--active-tab-width);
+  height: 2px;
+  background-color: var(--eidra-accent);
+  border-radius: var(--eidra-radius-full);
+  transition:
+    left var(--eidra-duration-fast) var(--eidra-easing-standard),
+    width var(--eidra-duration-fast) var(--eidra-easing-standard),
+    top var(--eidra-duration-fast) var(--eidra-easing-standard),
+    height var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.root[data-orientation='vertical'] .indicator {
+  bottom: auto;
+  right: -1px;
+  left: auto;
+  top: var(--active-tab-top);
+  width: 2px;
+  height: var(--active-tab-height);
+}
+
+/* ─── Panel ────────────────────────────────────────────────────────────────── */
+
+.panel {
+  flex: 1;
+  padding-block: var(--eidra-space-5);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+}
+
+.panel:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-sm);
+}
+
+.root[data-orientation='vertical'] .panel {
+  padding-block: var(--eidra-space-4);
+  padding-inline: var(--eidra-space-5);
+}

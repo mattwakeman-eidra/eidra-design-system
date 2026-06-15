@@ -1,0 +1,354 @@
+/* ============================================================
+   Combobox – Eidra Design System
+   All values from design tokens only.
+   ============================================================ */
+
+/* ---- Input ---- */
+
+.input {
+  width: 100%;
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  transition:
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.input::placeholder {
+  color: var(--eidra-fg-subtle);
+}
+
+.input:hover:not([data-disabled]) {
+  border-color: var(--eidra-border-strong);
+}
+
+.input:focus-visible,
+.input[data-open] {
+  outline: none;
+  border-color: var(--eidra-accent);
+  box-shadow: 0 0 0 3px var(--eidra-accent-subtle);
+}
+
+.input[data-disabled] {
+  background-color: var(--eidra-bg-muted);
+  color: var(--eidra-fg-disabled);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.input[data-invalid] {
+  border-color: var(--eidra-danger-border);
+}
+
+.input[data-invalid]:focus-visible {
+  border-color: var(--eidra-danger);
+  box-shadow: 0 0 0 3px var(--eidra-danger-subtle);
+}
+
+/* ---- Trigger ---- */
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-2);
+  border: 1px solid var(--eidra-border);
+  border-left: none;
+  border-radius: 0 var(--eidra-radius-md) var(--eidra-radius-md) 0;
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-fg);
+  border-color: var(--eidra-border-strong);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.trigger[data-open] {
+  background-color: var(--eidra-surface-active);
+  color: var(--eidra-fg);
+}
+
+.trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Icon (chevron) ---- */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--eidra-fg-subtle);
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger[data-open] .icon,
+[data-open] .icon {
+  transform: rotate(180deg);
+}
+
+/* ---- Value (read-only display) ---- */
+
+.value {
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+}
+
+/* ---- Positioner ---- */
+
+.positioner {
+  z-index: var(--eidra-z-dropdown);
+}
+
+/* ---- Popup ---- */
+
+.popup {
+  min-width: var(--available-width, 200px);
+  max-height: 320px;
+  overflow: hidden;
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  box-shadow: var(--eidra-shadow-lg);
+  outline: none;
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Enter animation */
+.popup[data-open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Starting state */
+@starting-style {
+  .popup[data-open] {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* Exit animation */
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ---- List ---- */
+
+.list {
+  overflow-y: auto;
+  max-height: 300px;
+  padding: var(--eidra-space-1) var(--eidra-space-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-0-5);
+}
+
+/* ---- Group ---- */
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Group Label ---- */
+
+.groupLabel {
+  padding-inline: var(--eidra-space-3);
+  padding-block: var(--eidra-space-1-5) var(--eidra-space-1);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-semibold);
+  color: var(--eidra-fg-muted);
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* ---- Item ---- */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  min-height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  padding-block: var(--eidra-space-1-5);
+  border-radius: var(--eidra-radius-md);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  cursor: default;
+  user-select: none;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.item[data-highlighted] {
+  background-color: var(--eidra-surface-hover);
+  outline: none;
+}
+
+.item[data-selected] {
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent-fg);
+  font-weight: var(--eidra-font-weight-medium);
+}
+
+.item[data-selected][data-highlighted] {
+  background-color: var(--eidra-accent-subtle);
+}
+
+.item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- ItemIndicator ---- */
+
+.itemIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  color: var(--eidra-accent);
+  margin-left: auto;
+}
+
+/* ---- Empty ---- */
+
+.empty {
+  padding: var(--eidra-space-4) var(--eidra-space-3);
+  text-align: center;
+  font-size: var(--eidra-font-size-sm);
+  color: var(--eidra-fg-muted);
+}
+
+/* ---- Clear ---- */
+
+.clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: var(--eidra-space-1);
+  border: none;
+  border-radius: var(--eidra-radius-sm);
+  background: transparent;
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.clear:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-fg);
+}
+
+.clear:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.clear[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Status (loading/empty announcement) ---- */
+
+.status {
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  font-size: var(--eidra-font-size-xs);
+  color: var(--eidra-fg-muted);
+  text-align: center;
+}
+
+/* ---- Chips container ---- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eidra-space-1);
+  padding: var(--eidra-space-1-5) var(--eidra-space-2);
+}
+
+/* ---- Chip ---- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent-fg);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-medium);
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.chip[data-disabled] {
+  opacity: 0.5;
+}
+
+/* ---- ChipRemove ---- */
+
+.chipRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: var(--eidra-space-0-5);
+  border: none;
+  border-radius: var(--eidra-radius-full);
+  background: transparent;
+  color: currentcolor;
+  cursor: pointer;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.chipRemove:hover:not([data-disabled]) {
+  background-color: var(--eidra-accent);
+  color: var(--eidra-fg-on-accent);
+}
+
+.chipRemove:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.chipRemove[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

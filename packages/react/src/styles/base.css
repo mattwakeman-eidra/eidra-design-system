@@ -1,0 +1,52 @@
+/*
+ * Eidra base layer. Inlines the token custom properties, then applies a light reset
+ * and the root theme scope. Components are styled in their own *.module.css files.
+ * Consumers import this once: `import '@eidra/react/styles.css'`.
+ */
+@import '@eidra/tokens/css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*
+ * The theme/identity scope. Apply `class="eidra-root"` + `data-theme` to a wrapping
+ * element (or use <ThemeProvider>). Everything inside inherits brand type and colours.
+ */
+.eidra-root {
+  font-family: var(--eidra-font-family-sans);
+  font-size: 1rem;
+  line-height: var(--eidra-font-line-height-normal);
+  color: var(--eidra-fg);
+  background-color: var(--eidra-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Eidra Sans has only Regular + Bold masters; never synthesise the in-between weights. */
+  font-synthesis: none;
+}
+
+/* Compact density: remap control sizes; components read these tokens. */
+.eidra-root[data-density='compact'] {
+  --eidra-size-control-sm: 1.75rem;
+  --eidra-size-control-md: 2rem;
+  --eidra-size-control-lg: 2.5rem;
+}
+
+/* Numerals use tabular figures, per the brand spec. */
+.eidra-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidra-root *,
+  .eidra-root *::before,
+  .eidra-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,130 @@
+/* ─── Wrapper (label element acting as click target) ──────────────────────── */
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ─── Root (the visible radio circle) ────────────────────────────────────── */
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.125rem; /* 18px */
+  height: 1.125rem;
+  border: 1px solid var(--eidra-border-strong);
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg-on-accent);
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+  outline: none;
+}
+
+/* Hover */
+.root:hover:not([data-disabled]) {
+  border-color: var(--eidra-accent);
+}
+
+/* Focus-visible */
+.root:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Checked */
+.root[data-checked] {
+  background-color: var(--eidra-accent);
+  border-color: var(--eidra-accent);
+}
+
+.root[data-checked]:hover:not([data-disabled]) {
+  background-color: var(--eidra-accent-hover);
+  border-color: var(--eidra-accent-hover);
+}
+
+/* Invalid */
+.root[data-invalid] {
+  border-color: var(--eidra-danger-border);
+}
+
+.root[data-invalid][data-checked] {
+  background-color: var(--eidra-danger);
+  border-color: var(--eidra-danger);
+}
+
+/* Disabled */
+.root[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wrapper:has(.root[data-disabled]) {
+  cursor: not-allowed;
+}
+
+/* ─── Indicator ──────────────────────────────────────────────────────────── */
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* The filled dot — hidden until checked */
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  display: none;
+  color: var(--eidra-fg-on-accent);
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.root[data-checked] .dot {
+  display: block;
+}
+
+/* ─── Label text ─────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-regular);
+  line-height: var(--eidra-font-line-height-normal);
+  color: var(--eidra-fg);
+  transition: color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.wrapper:has(.root[data-disabled]) .label {
+  color: var(--eidra-fg-disabled);
+}
+
+/* ─── Group ──────────────────────────────────────────────────────────────── */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-2);
+}
+
+.group[data-disabled] > * {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Group legend ───────────────────────────────────────────────────────── */
+.groupLegend {
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-normal);
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  color: var(--eidra-fg-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--eidra-space-1);
+}

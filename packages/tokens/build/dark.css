@@ -1,0 +1,53 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+[data-theme='dark'] {
+  --eidra-bg: var(--eidra-color-grey-950);
+  --eidra-bg-subtle: var(--eidra-color-grey-1000);
+  --eidra-bg-muted: var(--eidra-color-grey-800);
+  --eidra-bg-inset: var(--eidra-color-grey-1000);
+  --eidra-bg-inverse: var(--eidra-color-grey-50);
+  --eidra-surface: var(--eidra-color-grey-900);
+  --eidra-surface-hover: var(--eidra-color-grey-800);
+  --eidra-surface-active: var(--eidra-color-grey-700);
+  --eidra-surface-raised: var(--eidra-color-grey-800);
+  --eidra-fg: var(--eidra-color-grey-100);
+  --eidra-fg-muted: var(--eidra-color-grey-400);
+  --eidra-fg-subtle: var(--eidra-color-grey-500);
+  --eidra-fg-disabled: var(--eidra-color-grey-600);
+  --eidra-fg-on-accent: var(--eidra-color-black);
+  --eidra-fg-on-inverse: var(--eidra-color-grey-900);
+  --eidra-border: var(--eidra-color-grey-800);
+  --eidra-border-subtle: var(--eidra-color-grey-900);
+  --eidra-border-strong: var(--eidra-color-grey-700);
+  --eidra-border-inverse: var(--eidra-color-grey-200);
+  --eidra-accent: var(--eidra-color-orange-500);
+  --eidra-accent-hover: var(--eidra-color-orange-400);
+  --eidra-accent-active: var(--eidra-color-orange-300);
+  --eidra-accent-subtle: var(--eidra-color-orange-900);
+  --eidra-accent-fg: var(--eidra-color-black);
+  --eidra-accent-border: var(--eidra-color-orange-500);
+  --eidra-coral: var(--eidra-color-coral-500);
+  --eidra-coral-hover: var(--eidra-color-coral-400);
+  --eidra-coral-subtle: var(--eidra-color-coral-900);
+  --eidra-coral-fg: var(--eidra-color-white);
+  --eidra-focus-ring: var(--eidra-color-orange-400);
+  --eidra-success: var(--eidra-color-green-500);
+  --eidra-success-subtle: var(--eidra-color-green-900);
+  --eidra-success-fg: var(--eidra-color-green-300);
+  --eidra-success-border: var(--eidra-color-green-700);
+  --eidra-danger: var(--eidra-color-red-500);
+  --eidra-danger-hover: var(--eidra-color-red-300);
+  --eidra-danger-subtle: var(--eidra-color-red-900);
+  --eidra-danger-fg: var(--eidra-color-red-300);
+  --eidra-danger-border: var(--eidra-color-red-700);
+  --eidra-warning: var(--eidra-color-orange-500);
+  --eidra-warning-subtle: var(--eidra-color-orange-900);
+  --eidra-warning-fg: var(--eidra-color-orange-300);
+  --eidra-warning-border: var(--eidra-color-orange-700);
+  --eidra-info: var(--eidra-color-blue-500);
+  --eidra-info-subtle: var(--eidra-color-blue-900);
+  --eidra-info-fg: var(--eidra-color-blue-300);
+  --eidra-info-border: var(--eidra-color-blue-700);
+}

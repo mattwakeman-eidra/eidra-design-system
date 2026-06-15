@@ -1,0 +1,132 @@
+/* ---- Trigger ---- */
+.trigger {
+  color: var(--eidra-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--eidra-accent-border);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    text-decoration-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover {
+  color: var(--eidra-accent-hover);
+  text-decoration-color: var(--eidra-accent-hover);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-sm);
+}
+
+.trigger[data-popup-open] {
+  color: var(--eidra-accent-hover);
+  text-decoration-color: var(--eidra-accent-hover);
+}
+
+/* ---- Positioner ---- */
+.positioner {
+  position: absolute;
+  z-index: var(--eidra-z-popover);
+}
+
+/* ---- Popup ---- */
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-3);
+  width: min(var(--eidra-size-container-sm), calc(var(--available-width, 9999px) - var(--eidra-space-4)));
+  max-height: min(480px, var(--available-height, 9999px));
+  overflow: hidden;
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  box-shadow: var(--eidra-shadow-lg);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+  outline: none;
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.popup:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Enter animation */
+.popup[data-open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.popup[data-starting-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* Exit animation */
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* ---- Arrow ---- */
+.arrow {
+  display: flex;
+  width: 10px;
+  height: 10px;
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+  /* Position is handled by Base UI positioner */
+}
+
+/* Arrow side adjustments */
+.arrow[data-side='top'] {
+  transform: rotate(45deg);
+  border-top: none;
+  border-left: none;
+}
+.arrow[data-side='bottom'] {
+  transform: rotate(225deg);
+  border-top: none;
+  border-left: none;
+}
+.arrow[data-side='left'] {
+  transform: rotate(135deg);
+  border-top: none;
+  border-left: none;
+}
+.arrow[data-side='right'] {
+  transform: rotate(315deg);
+  border-top: none;
+  border-left: none;
+}
+
+/* ---- Backdrop (optional dim overlay for mobile use) ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--eidra-bg-inverse) 20%, transparent);
+  z-index: var(--eidra-z-overlay);
+  transition: opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.backdrop[data-starting-style] {
+  opacity: 0;
+}
+
+.backdrop[data-ending-style] {
+  opacity: 0;
+}

@@ -1,0 +1,112 @@
+/* ---- Root ---- */
+.root {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- Viewport ---- */
+.viewport {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: none; /* hide native scrollbar in Firefox */
+}
+
+.viewport::-webkit-scrollbar {
+  display: none; /* hide native scrollbar in Chrome/Safari */
+}
+
+/* ---- Content ---- */
+.content {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+/* ---- Scrollbar track ---- */
+.scrollbar {
+  display: flex;
+  padding: 2px;
+  border-radius: var(--eidra-radius-full);
+  background-color: transparent;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+  /* Show on hover/scroll, fade out otherwise */
+  opacity: 0;
+  touch-action: none;
+  user-select: none;
+}
+
+.scrollbarVertical {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  flex-direction: column;
+}
+
+.scrollbarHorizontal {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  bottom: 0;
+  height: 10px;
+  flex-direction: row;
+}
+
+/* Show scrollbar when scrolling or hovering the root */
+.scrollbar[data-scrolling],
+.scrollbar[data-hovering] {
+  opacity: 1;
+  background-color: var(--eidra-bg-subtle);
+}
+
+/* Also show when hovering the scrollbar itself */
+.scrollbar:hover {
+  opacity: 1;
+  background-color: var(--eidra-bg-subtle);
+}
+
+/* Focus-visible on the scrollbar track */
+.scrollbar:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- Thumb ---- */
+.thumb {
+  flex: 1;
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-border-strong);
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+  /* Thumb needs a minimum size so it stays visible */
+  min-height: 40px;
+  min-width: 40px;
+  position: relative;
+}
+
+/* Expand hit area via pseudo-element */
+.thumb::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+}
+
+.thumb:hover {
+  background-color: var(--eidra-fg-muted);
+}
+
+.thumb:active {
+  background-color: var(--eidra-fg);
+}
+
+/* ---- Corner ---- */
+.corner {
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  background-color: var(--eidra-bg-subtle);
+}

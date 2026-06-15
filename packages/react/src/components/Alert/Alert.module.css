@@ -1,0 +1,130 @@
+.root {
+  --_bg: var(--eidra-bg-subtle);
+  --_fg: var(--eidra-fg);
+  --_border: var(--eidra-border);
+  --_icon-fg: var(--eidra-fg-muted);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--eidra-space-3);
+  padding: var(--eidra-space-4);
+  border: 1px solid var(--_border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* ---- Tone colour mapping ---- */
+.root[data-tone='info'] {
+  --_bg: var(--eidra-info-subtle);
+  --_fg: var(--eidra-fg);
+  --_border: var(--eidra-info-border);
+  --_icon-fg: var(--eidra-info-fg);
+}
+
+.root[data-tone='success'] {
+  --_bg: var(--eidra-success-subtle);
+  --_fg: var(--eidra-fg);
+  --_border: var(--eidra-success-border);
+  --_icon-fg: var(--eidra-success-fg);
+}
+
+.root[data-tone='warning'] {
+  --_bg: var(--eidra-warning-subtle);
+  --_fg: var(--eidra-fg);
+  --_border: var(--eidra-warning-border);
+  --_icon-fg: var(--eidra-warning-fg);
+}
+
+.root[data-tone='danger'] {
+  --_bg: var(--eidra-danger-subtle);
+  --_fg: var(--eidra-fg);
+  --_border: var(--eidra-danger-border);
+  --_icon-fg: var(--eidra-danger-fg);
+}
+
+.root[data-tone='neutral'] {
+  --_bg: var(--eidra-bg-subtle);
+  --_fg: var(--eidra-fg);
+  --_border: var(--eidra-border);
+  --_icon-fg: var(--eidra-fg-muted);
+}
+
+/* ---- Icon slot ---- */
+.iconSlot {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--_icon-fg);
+  /* Nudge down slightly to align with first line of text */
+  margin-top: 1px;
+  transition: color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* ---- Body ---- */
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-1);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: var(--eidra-font-line-height-snug);
+  color: var(--_fg);
+}
+
+.content {
+  color: var(--eidra-fg-muted);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+}
+
+/* When there's no title, the content takes full fg colour */
+.body:not(:has(.title)) .content {
+  color: var(--_fg);
+}
+
+/* ---- Dismiss button ---- */
+.dismiss {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--eidra-space-0-5);
+  border: none;
+  border-radius: var(--eidra-radius-sm);
+  background: transparent;
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+  /* Nudge to keep the X optically aligned with icon/title row */
+  margin-top: -1px;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.dismiss:hover {
+  background-color: var(--eidra-surface-hover);
+  color: var(--eidra-fg);
+}
+
+.dismiss:active {
+  background-color: var(--eidra-surface-active);
+}
+
+.dismiss:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}

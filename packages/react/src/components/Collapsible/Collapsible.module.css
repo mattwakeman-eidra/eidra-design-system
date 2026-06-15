@@ -1,0 +1,106 @@
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.root {
+  width: 100%;
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--eidra-surface);
+  overflow: hidden;
+}
+
+/* ─── Trigger ──────────────────────────────────────────────────────────────── */
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--eidra-space-4) var(--eidra-space-5);
+  background: transparent;
+  border: none;
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-snug);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+}
+
+.trigger:active:not([data-disabled]) {
+  background-color: var(--eidra-surface-active);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Trigger chevron icon ─────────────────────────────────────────────────── */
+
+.triggerIcon {
+  display: inline-block;
+  flex: none;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  background-color: currentcolor;
+  /* Chevron down shape via clip-path */
+  clip-path: polygon(20% 35%, 50% 65%, 80% 35%, 87% 42%, 50% 75%, 13% 42%);
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger[data-panel-open] .triggerIcon {
+  transform: rotate(180deg);
+}
+
+/* ─── Panel ────────────────────────────────────────────────────────────────── */
+
+.panel {
+  overflow: hidden;
+  /* Base UI sets --collapsible-panel-height for the animation */
+  height: var(--collapsible-panel-height);
+  transition: height var(--eidra-duration-base) var(--eidra-easing-standard);
+}
+
+/* Entry animation */
+.panel[data-starting-style] {
+  height: 0;
+}
+
+/* Exit animation */
+.panel[data-ending-style] {
+  height: 0;
+}
+
+.panel[data-open] {
+  height: var(--collapsible-panel-height);
+}
+
+.panel[data-closed]:not([data-ending-style]) {
+  height: 0;
+}
+
+/* Inner padding wrapper — applied to direct children via a wrapper div pattern;
+   since we don't inject a wrapper, consumers should pad their own content.
+   We set a sensible default via a :not(:empty) padding hint. */
+.panelContent {
+  padding: var(--eidra-space-4) var(--eidra-space-5);
+  padding-top: 0;
+  color: var(--eidra-fg-muted);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+}

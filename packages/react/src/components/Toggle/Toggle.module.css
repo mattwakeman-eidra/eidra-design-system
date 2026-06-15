@@ -1,0 +1,149 @@
+/* ─── Single Toggle button ───────────────────────────────────────────────── */
+.toggle {
+  --_bg: transparent;
+  --_fg: var(--eidra-fg);
+  --_border: var(--eidra-border);
+  --_bg-hover: var(--eidra-surface-hover);
+  --_bg-pressed: var(--eidra-accent-subtle);
+  --_fg-pressed: var(--eidra-accent-fg);
+  --_border-pressed: var(--eidra-accent-border);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eidra-space-1-5);
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border: 1px solid var(--_border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* Hover */
+.toggle:hover:not([data-disabled]) {
+  background-color: var(--_bg-hover);
+}
+
+/* Focus-visible */
+.toggle:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Pressed state — keyed off Base UI's data-pressed attribute */
+.toggle[data-pressed] {
+  background-color: var(--_bg-pressed);
+  color: var(--_fg-pressed);
+  border-color: var(--_border-pressed);
+}
+
+.toggle[data-pressed]:hover:not([data-disabled]) {
+  background-color: var(--eidra-accent-subtle);
+  border-color: var(--eidra-accent-border);
+}
+
+/* Disabled */
+.toggle[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────────────────── */
+.toggle[data-size='sm'] {
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-xs);
+}
+
+.toggle[data-size='lg'] {
+  height: var(--eidra-size-control-lg);
+  padding-inline: var(--eidra-space-4);
+  font-size: var(--eidra-font-size-base);
+}
+
+/* ─── Variants ───────────────────────────────────────────────────────────── */
+/* outline (default) — already set by --_border above */
+
+.toggle[data-variant='solid'] {
+  --_bg: var(--eidra-surface);
+  --_border: var(--eidra-border);
+  --_bg-hover: var(--eidra-surface-hover);
+}
+
+.toggle[data-variant='solid'][data-pressed] {
+  --_bg-pressed: var(--eidra-accent);
+  background-color: var(--eidra-accent);
+  color: var(--eidra-fg-on-accent);
+  border-color: var(--eidra-accent);
+}
+
+.toggle[data-variant='solid'][data-pressed]:hover:not([data-disabled]) {
+  background-color: var(--eidra-accent-hover);
+  border-color: var(--eidra-accent-hover);
+}
+
+.toggle[data-variant='ghost'] {
+  --_border: transparent;
+  --_bg-hover: var(--eidra-surface-hover);
+}
+
+.toggle[data-variant='ghost'][data-pressed] {
+  border-color: transparent;
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent-fg);
+}
+
+/* ─── ToggleGroup container ──────────────────────────────────────────────── */
+.group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  overflow: hidden;
+}
+
+/* Vertical orientation */
+.group[data-orientation='vertical'] {
+  flex-direction: column;
+}
+
+/* Disabled group */
+.group[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Toggles inside a group: flush borders, seamless row ───────────────── */
+.group .toggle {
+  border: none;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+/* Re-add divider lines between siblings */
+.group[data-orientation='horizontal'] .toggle + .toggle {
+  border-left: 1px solid var(--eidra-border);
+}
+
+.group[data-orientation='vertical'] .toggle + .toggle {
+  border-top: 1px solid var(--eidra-border);
+}
+
+/* Focus ring inset so it doesn't bleed outside rounded container */
+.group .toggle:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: -2px;
+}

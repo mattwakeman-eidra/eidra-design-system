@@ -1,0 +1,260 @@
+/* ============================================================
+   Autocomplete — Eidra Design System
+   ============================================================ */
+
+/* ---- Control (input group container) ---- */
+.control {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg-muted);
+  gap: var(--eidra-space-1);
+  transition:
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.control:hover:not(:has([data-disabled])) {
+  border-color: var(--eidra-border-strong);
+}
+
+.control:focus-within {
+  border-color: var(--eidra-accent);
+  box-shadow: 0 0 0 3px var(--eidra-accent-subtle);
+}
+
+/* ---- Trigger (the chevron button that opens the list) ---- */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--eidra-size-icon-md);
+  height: var(--eidra-size-icon-md);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--eidra-fg-muted);
+  border-radius: var(--eidra-radius-sm);
+  cursor: pointer;
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Rotate the chevron when the popup is open */
+.trigger[data-open] {
+  transform: rotate(180deg);
+  color: var(--eidra-accent);
+}
+
+/* ---- Input ---- */
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+}
+
+.input::placeholder {
+  color: var(--eidra-fg-subtle);
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.input[data-disabled] {
+  cursor: not-allowed;
+  color: var(--eidra-fg-disabled);
+}
+
+/* ---- Icon (indicator inside trigger) ---- */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  color: inherit;
+  width: 1em;
+  height: 1em;
+  pointer-events: none;
+}
+
+/* ---- Clear button ---- */
+.clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--eidra-size-icon-md);
+  height: var(--eidra-size-icon-md);
+  padding: 0;
+  border: none;
+  border-radius: var(--eidra-radius-sm);
+  background: transparent;
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.clear:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.clear:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.clear[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Positioner ---- */
+.positioner {
+  z-index: var(--eidra-z-dropdown);
+}
+
+/* ---- Popup ---- */
+.popup {
+  display: flex;
+  flex-direction: column;
+  min-width: var(--anchor-width, 200px);
+  max-height: 320px;
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--eidra-surface);
+  box-shadow: var(--eidra-shadow-lg);
+  overflow: hidden;
+  outline: none;
+
+  /* Enter animation */
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-decelerate),
+    transform var(--eidra-duration-fast) var(--eidra-easing-decelerate);
+  transform-origin: var(--transform-origin, top center);
+}
+
+.popup[data-open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97) translateY(-4px);
+}
+
+/* ---- List ---- */
+.list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--eidra-space-1);
+  scrollbar-width: thin;
+  scrollbar-color: var(--eidra-border) transparent;
+}
+
+/* ---- Item ---- */
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  min-height: var(--eidra-size-control-sm);
+  padding: var(--eidra-space-1-5) var(--eidra-space-3);
+  border-radius: var(--eidra-radius-md);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  color: var(--eidra-fg);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.item:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+}
+
+.item[data-highlighted] {
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent-fg);
+}
+
+.item[data-selected] {
+  font-weight: var(--eidra-font-weight-medium);
+  color: var(--eidra-accent);
+}
+
+.item[data-highlighted][data-selected] {
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent);
+}
+
+.item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Group ---- */
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- GroupLabel ---- */
+.groupLabel {
+  padding: var(--eidra-space-1-5) var(--eidra-space-3);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-semibold);
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--eidra-fg-muted);
+}
+
+/* ---- Empty state ---- */
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--eidra-space-6) var(--eidra-space-4);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  color: var(--eidra-fg-subtle);
+}

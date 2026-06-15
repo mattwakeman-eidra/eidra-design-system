@@ -1,0 +1,70 @@
+/* ── Root (the animated ring) ────────────────────────────────────────────── */
+
+.root {
+  --_color: var(--eidra-accent);
+
+  display: inline-block;
+  flex: none;
+  border-radius: var(--eidra-radius-full);
+  border: 2px solid var(--_color);
+  border-top-color: transparent;
+  animation: eidra-spinner-spin var(--eidra-duration-slow) linear infinite;
+
+  /* Prevent the element from collapsing when used in flex containers */
+  aspect-ratio: 1;
+}
+
+/* ── Sizes ───────────────────────────────────────────────────────────────── */
+
+.root[data-size='sm'] {
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+}
+
+.root[data-size='md'] {
+  width: var(--eidra-size-icon-md);
+  height: var(--eidra-size-icon-md);
+}
+
+.root[data-size='lg'] {
+  width: var(--eidra-size-icon-lg);
+  height: var(--eidra-size-icon-lg);
+}
+
+/* ── Tones ───────────────────────────────────────────────────────────────── */
+
+.root[data-tone='accent'] {
+  --_color: var(--eidra-accent);
+}
+
+.root[data-tone='neutral'] {
+  --_color: var(--eidra-fg-muted);
+}
+
+.root[data-tone='coral'] {
+  --_color: var(--eidra-coral);
+}
+
+.root[data-tone='danger'] {
+  --_color: var(--eidra-danger);
+}
+
+.root[data-tone='success'] {
+  --_color: var(--eidra-success);
+}
+
+/* ── Keyframe ────────────────────────────────────────────────────────────── */
+
+@keyframes eidra-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    animation-duration: 1.5s;
+  }
+}

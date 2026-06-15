@@ -1,0 +1,175 @@
+/* ---- Backdrop ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--eidra-bg-inverse) 40%, transparent);
+  z-index: var(--eidra-z-overlay);
+  transition: opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.backdrop[data-starting-style] {
+  opacity: 0;
+}
+
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+/* ---- Popup ---- */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: var(--eidra-z-modal);
+  width: min(calc(100vw - var(--eidra-space-8)), var(--eidra-size-container-sm));
+  max-height: calc(100dvh - var(--eidra-space-8));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  box-shadow: var(--eidra-shadow-lg);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
+    transform var(--eidra-duration-fast) var(--eidra-easing-decelerate);
+  outline: none;
+}
+
+.popup:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.popup[data-starting-style] {
+  opacity: 0;
+  transform: scale(0.96) translateY(var(--eidra-space-2));
+}
+
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96) translateY(var(--eidra-space-2));
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--eidra-space-3);
+  padding: var(--eidra-space-5) var(--eidra-space-5) 0;
+  flex-shrink: 0;
+}
+
+/* ---- Title ---- */
+.title {
+  margin: 0;
+  font-size: var(--eidra-font-size-lg);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: var(--eidra-font-line-height-tight);
+  color: var(--eidra-fg);
+}
+
+/* ---- Description ---- */
+.description {
+  margin: 0;
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+  color: var(--eidra-fg-muted);
+}
+
+/* ---- Body ---- */
+.body {
+  flex: 1;
+  padding: var(--eidra-space-4) var(--eidra-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-3);
+}
+
+/* ---- Footer ---- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--eidra-space-3);
+  padding: 0 var(--eidra-space-5) var(--eidra-space-5);
+  flex-shrink: 0;
+}
+
+/* ---- Trigger (plain pass-through — inherits btn styles from consumer) ---- */
+.trigger {
+  /* No default styling; consumers apply their own button styles */
+}
+
+/* ---- Close (raw close, no icon) ---- */
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--eidra-fg-muted);
+  padding: var(--eidra-space-1);
+  border-radius: var(--eidra-radius-md);
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.close:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.close[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- CloseButton (X icon variant) ---- */
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--eidra-size-control-sm);
+  height: var(--eidra-size-control-sm);
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--eidra-radius-md);
+  cursor: pointer;
+  color: var(--eidra-fg-subtle);
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.closeButton:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.closeButton:active:not([data-disabled]) {
+  background-color: var(--eidra-surface-active);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.closeButton[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,133 @@
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+.item {
+  border-bottom: 1px solid var(--eidra-border);
+  transition: border-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.item:first-child {
+  border-top: 1px solid var(--eidra-border);
+}
+
+/* ─── Header ───────────────────────────────────────────────────────────────── */
+.header {
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Trigger ──────────────────────────────────────────────────────────────── */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-block: var(--eidra-space-4);
+  padding-inline: 0;
+  background: none;
+  border: none;
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-base);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: var(--eidra-font-line-height-snug);
+  text-align: start;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover:not([data-disabled]) {
+  color: var(--eidra-accent);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-sm);
+}
+
+.trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.triggerLabel {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Indicator (chevron icon) ─────────────────────────────────────────────── */
+.indicator {
+  flex-shrink: 0;
+  color: var(--eidra-fg-muted);
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger[data-panel-open] .indicator {
+  transform: rotate(180deg);
+}
+
+/* ─── Panel ────────────────────────────────────────────────────────────────── */
+.panel {
+  overflow: hidden;
+  color: var(--eidra-fg-muted);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-relaxed);
+}
+
+/* Animate height on open/close using the CSS var Base UI injects */
+.panel:not([hidden]) {
+  padding-bottom: var(--eidra-space-4);
+}
+
+/* Enter animation */
+.panel[data-open][data-starting-style] {
+  opacity: 0;
+  height: 0;
+}
+
+/* The panel transitions to its natural height */
+.panel[data-open] {
+  animation: accordionPanelOpen var(--eidra-duration-base) var(--eidra-easing-decelerate);
+}
+
+/* Exit animation */
+.panel[data-ending-style] {
+  animation: accordionPanelClose var(--eidra-duration-fast) var(--eidra-easing-accelerate);
+  overflow: hidden;
+}
+
+@keyframes accordionPanelOpen {
+  from {
+    opacity: 0;
+    height: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    height: var(--accordion-panel-height);
+    padding-bottom: var(--eidra-space-4);
+  }
+}
+
+@keyframes accordionPanelClose {
+  from {
+    opacity: 1;
+    height: var(--accordion-panel-height);
+    padding-bottom: var(--eidra-space-4);
+  }
+  to {
+    opacity: 0;
+    height: 0;
+    padding-bottom: 0;
+  }
+}

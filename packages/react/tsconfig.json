@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["react", "react-dom"],
+    // This tsconfig is for type-checking only; tsup owns .d.ts emit (entry: index.ts).
+    // Disabling declaration here avoids declaration-portability false positives (TS2742/
+    // TS4023) on stories, which are never emitted, while still fully type-checking them.
+    "declaration": false,
+    "declarationMap": false
+  },
+  "include": ["src"]
+}

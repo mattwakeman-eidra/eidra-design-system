@@ -1,0 +1,68 @@
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.root {
+  --_size: var(--eidra-size-control-md);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: var(--eidra-radius-full);
+  overflow: hidden;
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-weight: var(--eidra-font-weight-medium);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  user-select: none;
+  vertical-align: middle;
+  position: relative;
+}
+
+/* Sizes */
+.root[data-size='sm'] {
+  --_size: var(--eidra-size-control-sm);
+  font-size: var(--eidra-font-size-xs);
+}
+
+.root[data-size='md'] {
+  --_size: var(--eidra-size-control-md);
+  font-size: var(--eidra-font-size-sm);
+}
+
+.root[data-size='lg'] {
+  --_size: var(--eidra-size-control-lg);
+  font-size: var(--eidra-font-size-base);
+}
+
+/* ─── Image ────────────────────────────────────────────────────────────────── */
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: inherit;
+  /* Fade in when loaded */
+  transition: opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+/* ─── Fallback ─────────────────────────────────────────────────────────────── */
+
+.fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  /* Inherit font settings from root so initials scale with size */
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: 1;
+  letter-spacing: var(--eidra-font-letter-spacing-wide);
+  text-transform: uppercase;
+}

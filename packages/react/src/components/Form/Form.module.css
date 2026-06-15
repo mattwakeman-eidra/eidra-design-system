@@ -1,0 +1,8 @@
+/* Form root — a native <form> with no default browser margin */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-5);
+  /* Prevent the browser from applying -webkit-overflow-scrolling etc. */
+  width: 100%;
+}

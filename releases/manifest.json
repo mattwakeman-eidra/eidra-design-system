@@ -1,0 +1,9 @@
+{
+  "version": "0.1.3",
+  "files": {
+    "@eidra/tokens": "eidra-tokens-0.1.3.tgz",
+    "@eidra/icons": "eidra-icons-0.1.3.tgz",
+    "@eidra/react": "eidra-react-0.1.3.tgz"
+  },
+  "packedAt": "2026-06-15T19:01:01.483Z"
+}

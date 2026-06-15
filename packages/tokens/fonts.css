@@ -1,0 +1,43 @@
+/*
+ * Eidra Sans @font-face declarations.
+ *
+ * Eidra Sans ships two real weights — Regular (400) and Bold (700) — plus italics.
+ * The design system exposes four weight tokens (regular/medium/semibold/bold); we map
+ * them onto the two real masters with font-weight RANGES so there is never any faux
+ * (synthesised) weight:
+ *   - weight 400–550  → Regular master   (regular, medium render as Regular)
+ *   - weight 551–900  → Bold master      (semibold, bold render as Bold)
+ * `font-synthesis: none` (set on .eidra-root) enforces this.
+ */
+
+@font-face {
+  font-family: 'Eidra Sans';
+  font-style: normal;
+  font-weight: 100 550;
+  font-display: swap;
+  src: url('./fonts/eidra-sans-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eidra Sans';
+  font-style: italic;
+  font-weight: 100 550;
+  font-display: swap;
+  src: url('./fonts/eidra-sans-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eidra Sans';
+  font-style: normal;
+  font-weight: 551 900;
+  font-display: swap;
+  src: url('./fonts/eidra-sans-bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eidra Sans';
+  font-style: italic;
+  font-weight: 551 900;
+  font-display: swap;
+  src: url('./fonts/eidra-sans-bold-italic.woff2') format('woff2');
+}
