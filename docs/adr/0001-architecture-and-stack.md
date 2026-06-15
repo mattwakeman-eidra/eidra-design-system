@@ -6,6 +6,19 @@ Components wrap **Base UI** (headless, accessible primitives) — we own styling
 
 Tokens are authored once in **DTCG JSON** and built with **Style Dictionary** to CSS custom properties + typed TS constants. `@eidra/icons` wraps **Lucide** behind a token-aware `<Icon>`.
 
+```mermaid
+flowchart TD
+    DTCG[DTCG JSON] -->|Style Dictionary| TOK["@eidra/tokens<br/>CSS vars + typed TS"]
+    BUI[Base UI primitives] --> RC["@eidra/react<br/>CSS Modules + tokens"]
+    Lucide[Lucide] --> IC["@eidra/icons<br/>token-aware Icon"]
+    TOK --> RC
+    TOK --> IC
+    RC --> APP[Consumer app]
+    IC --> APP
+    TOK --> APP
+    APP -->|data-theme override| THEME[Theme<br/>CSS-variable overrides, no recompile]
+```
+
 ## Considered Options
 
 - **Tailwind / vanilla-extract / runtime CSS-in-JS** for styling — rejected: Tailwind couples every consumer to its build; vanilla-extract adds a bundler plugin; runtime CSS-in-JS has RSC friction and runtime cost.

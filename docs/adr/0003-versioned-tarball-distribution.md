@@ -13,5 +13,5 @@ Packing also resolves the `workspace:*` internal dependencies (`@eidra/react` �
 ## Consequences
 
 - Consumers commit `vendor/eidra/*.tgz` so CI and teammates install identical bytes.
-- Updating is a single command in the consumer (`sync-eidra.mjs` → copy tarballs, rewrite `file:` versions, install). See [consuming.md](../consuming.md).
+- Updating is a single command in the consumer (`sync-eidra.mjs` → copy tarballs, rewrite `file:` versions, install). See [CONSUMING.md](../CONSUMING.md).
 - Migrating to a real registry later is low-cost: bump-and-publish replaces pack-and-sync; the Changesets versioning already in place carries over.

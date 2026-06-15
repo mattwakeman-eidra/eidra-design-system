@@ -4,10 +4,12 @@ Releases are **tarballs attached to a GitHub Release**, driven by Changesets and
 
 ## TL;DR
 
-```
-your PR  ──(include a changeset)──►  merge to main  ──►  "Version Packages" PR opens
-                                                          ──(merge it)──►  GitHub Release v<x.y.z>
-                                                                            with eidra-*-<x.y.z>.tgz attached
+```mermaid
+flowchart LR
+    A[Your PR<br/>+ changeset] --> B[Merge to main]
+    B --> C[&quot;Version Packages&quot;<br/>PR opens]
+    C --> D[Merge it]
+    D --> E[GitHub Release v&lt;x.y.z&gt;<br/>eidra-*-&lt;x.y.z&gt;.tgz attached]
 ```
 
 You never bump versions or pack tarballs by hand — merging the two PRs does it.
@@ -47,10 +49,10 @@ pnpm release:github   # the above, then create the GitHub Release (needs an auth
 
 ## Consumers get the update
 
-Apps pull a release with the sync script (see [consuming.md](./consuming.md)):
+Apps pull a release with the sync script (see [CONSUMING.md](./CONSUMING.md)):
 
 ```bash
-node scripts/sync-eidra.mjs OWNER/eidra-design-system v<version>
+node scripts/sync-eidra.mjs mattwakeman-eidra/eidra-design-system v<version>
 ```
 
 ## Troubleshooting

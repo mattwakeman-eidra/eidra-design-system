@@ -12,4 +12,4 @@ pnpm version-packages   # apply the bump to all three package.json + changelogs
 pnpm release            # build + pack version-stamped tarballs into ./releases
 ```
 
-Then update the consumer (see `docs/consuming.md`).
+Then update the consumer (see `docs/CONSUMING.md`).

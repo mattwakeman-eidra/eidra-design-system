@@ -21,6 +21,14 @@ _Avoid_: alias token (use only when describing the mapping mechanism)
 **Component token**:
 A token scoped to one component that maps to a semantic token — e.g. `button-bg`. Used when a component needs a value that may diverge from the generic semantic.
 
+```mermaid
+flowchart LR
+    P[Primitive token<br/>orange, grey-700, space-4] -->|maps to| S[Semantic token<br/>surface, fg, accent, danger<br/>resolves per theme]
+    S -->|maps to| C[Component token<br/>button-bg]
+    S --> U[Components & apps consume]
+    C --> U
+```
+
 ### Brand
 
 **Eidra Sans**:

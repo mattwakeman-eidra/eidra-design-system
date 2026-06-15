@@ -8,7 +8,7 @@ React component library on [Base UI](https://base-ui.com/) (headless, accessible
 - `packages/icons/` — `<Icon>` wrapper + Lucide re-export.
 - `packages/react/src/components/<Name>/` — one dir per component: `<Name>.tsx`, `<Name>.module.css`, `<Name>.stories.tsx`, `index.ts`. `src/index.ts` re-exports every component dir.
 - `docs/COMPONENTS.md` — **generated** catalog of all components (run `pnpm catalog`). The agent-readable index of what exists. Don't hand-edit.
-- `docs/adr/` — architecture decisions. `CONTEXT.md` — glossary. `docs/consuming.md` — how apps adopt the DS.
+- `docs/adr/` — architecture decisions. `CONTEXT.md` — glossary. `docs/CONSUMING.md` — how apps adopt the DS.
 
 ## The component pattern (follow the exemplars exactly)
 
@@ -30,7 +30,7 @@ Semantic tokens resolve per `data-theme` (`light`/`dark`) on the `eidra-root` el
 - `pnpm typecheck` — all packages (includes stories).
 - `pnpm build` — tokens → icons → react. **All three build with Vite** (shared `vite.config.base.ts`); react's CSS Modules require it — don't switch back to tsup (it ships empty style locals + unscoped CSS; see ADR-0005). The react build self-checks via `scripts/check-build.mjs`.
 - `pnpm catalog` — regenerate `docs/COMPONENTS.md` + the shipped `packages/react/llms.txt`.
-- `pnpm changeset` — record a version bump in a PR (CI requires one). Merging to `main` opens a "Version Packages" PR; merging that publishes a GitHub Release with the tarballs (`.github/workflows/release.yml`). `pnpm release` packs locally; `pnpm release:github` also creates the release. Runbook: `docs/RELEASING.md`. See also `docs/consuming.md` + ADR-0004.
+- `pnpm changeset` — record a version bump in a PR (CI requires one). Merging to `main` opens a "Version Packages" PR; merging that publishes a GitHub Release with the tarballs (`.github/workflows/release.yml`). `pnpm release` packs locally; `pnpm release:github` also creates the release. Runbook: `docs/RELEASING.md`. See also `docs/CONSUMING.md` + ADR-0004.
 
 ## Sandbox note
 
