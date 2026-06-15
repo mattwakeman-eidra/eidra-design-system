@@ -2,6 +2,8 @@
 
 The shared design language and React component library Eidra uses to build web apps — internal tools, client-facing SaaS, marketing sites, and pitch demos. Built on [Base UI](https://base-ui.com/) (headless, accessible primitives) with Eidra's brand layered on through design tokens.
 
+📖 **[Browse the components in Storybook →](https://mattwakeman-eidra.github.io/eidra-design-system/)** — the hosted workshop with every component, its props, and live theme/density toggles.
+
 ## Packages
 
 | Package | What it is |
@@ -15,7 +17,7 @@ The shared design language and React component library Eidra uses to build web a
 ```bash
 pnpm install
 pnpm build        # build tokens → icons → react
-pnpm storybook    # open the component workshop at http://localhost:6006
+pnpm storybook    # local workshop at http://localhost:6006 (hosted: mattwakeman-eidra.github.io/eidra-design-system)
 ```
 
 ### Using it in an app
@@ -75,7 +77,7 @@ pnpm release          # build + catalog + pack ./releases/eidra-*-<version>.tgz 
 pnpm release:github   # the above + create the GitHub Release (used by CI; needs the gh CLI)
 ```
 
-Step-by-step release runbook: **[docs/RELEASING.md](./docs/RELEASING.md)**. Consuming apps (e.g. frankly) copy `templates/sync-eidra.mjs` and run it against a release tag (or a local dir) to pull tarballs and reinstall. Full integration guide — layout, fonts, theming, example pages, agent setup — is in **[docs/consuming.md](./docs/consuming.md)**. Rationale in ADRs [`0003`](./docs/adr/0003-versioned-tarball-distribution.md) (tarballs) and [`0004`](./docs/adr/0004-github-releases-distribution.md) (GitHub Releases flow).
+Step-by-step release runbook: **[docs/RELEASING.md](./docs/RELEASING.md)**. Consuming apps (e.g. frankly) copy `templates/sync-eidra.mjs` and run it against a release tag (or a local dir) to pull tarballs and reinstall. Full integration guide — layout, fonts, theming, example pages, agent setup — is in **[docs/CONSUMING.md](./docs/CONSUMING.md)**. Rationale in ADRs [`0003`](./docs/adr/0003-versioned-tarball-distribution.md) (tarballs) and [`0004`](./docs/adr/0004-github-releases-distribution.md) (GitHub Releases flow).
 
 > Scope note: the package scope stays `@eidra` because GitHub Releases are plain file assets (unlike GitHub Packages, which would require the scope to match the repo owner).
 

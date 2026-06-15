@@ -4,6 +4,8 @@ The packages aren't published to a registry yet. They're distributed as **versio
 
 This guide uses **frankly** (`apps/web`, Next.js App Router) as the example consumer.
 
+> **Repo:** [github.com/mattwakeman-eidra/eidra-design-system](https://github.com/mattwakeman-eidra/eidra-design-system) · **Storybook:** [mattwakeman-eidra.github.io/eidra-design-system](https://mattwakeman-eidra.github.io/eidra-design-system/) (browse every component and its props without checking out the repo).
+
 ---
 
 ## 1. How releases are produced
@@ -37,9 +39,9 @@ Copy `templates/sync-eidra.mjs` from the design system into the consumer at `app
 Then, from `apps/web`, pull a release. Use whichever matches the repo's visibility:
 
 ```bash
-# From a GitHub Release (needs the `gh` CLI, authenticated). Replace OWNER.
-node scripts/sync-eidra.mjs OWNER/eidra-design-system            # latest release
-node scripts/sync-eidra.mjs OWNER/eidra-design-system v0.1.2     # a specific tag
+# From a GitHub Release (needs the `gh` CLI, authenticated).
+node scripts/sync-eidra.mjs mattwakeman-eidra/eidra-design-system            # latest release
+node scripts/sync-eidra.mjs mattwakeman-eidra/eidra-design-system v0.1.2     # a specific tag
 
 # …or from a local releases dir (offline):
 node scripts/sync-eidra.mjs /path/to/eidra-design-system/releases
@@ -60,9 +62,9 @@ Commit `vendor/eidra/*.tgz` so teammates and CI install the same bytes.
 **Public-repo shortcut (no vendoring):** if the design-system repo is public, skip the script and point directly at the release-asset URLs — pnpm installs tarballs from a URL and pins them in the lockfile:
 
 ```jsonc
-"@eidra/react":  "https://github.com/OWNER/eidra-design-system/releases/download/v0.1.2/eidra-react-0.1.2.tgz",
-"@eidra/tokens": "https://github.com/OWNER/eidra-design-system/releases/download/v0.1.2/eidra-tokens-0.1.2.tgz",
-"@eidra/icons":  "https://github.com/OWNER/eidra-design-system/releases/download/v0.1.2/eidra-icons-0.1.2.tgz"
+"@eidra/react":  "https://github.com/mattwakeman-eidra/eidra-design-system/releases/download/v0.1.2/eidra-react-0.1.2.tgz",
+"@eidra/tokens": "https://github.com/mattwakeman-eidra/eidra-design-system/releases/download/v0.1.2/eidra-tokens-0.1.2.tgz",
+"@eidra/icons":  "https://github.com/mattwakeman-eidra/eidra-design-system/releases/download/v0.1.2/eidra-icons-0.1.2.tgz"
 ```
 
 ## 3. Updating later
@@ -70,7 +72,7 @@ Commit `vendor/eidra/*.tgz` so teammates and CI install the same bytes.
 Re-run the sync with the new tag (or `latest`):
 
 ```bash
-node scripts/sync-eidra.mjs OWNER/eidra-design-system v0.1.3
+node scripts/sync-eidra.mjs mattwakeman-eidra/eidra-design-system v0.1.3
 ```
 
 The version-stamped filename changes, so pnpm reinstalls the new code — no `--force`. (URL-dep consumers just bump the version in the three URLs.)
@@ -245,7 +247,7 @@ export default function SettingsForm() {
 }
 ```
 
-> The full, exact API for every component (Select, Dialog, Combobox, Menu, etc.) is in Storybook — run `pnpm storybook` in the design system. Each component's stories show its compound parts and props.
+> The full, exact API for every component (Select, Dialog, Combobox, Menu, etc.) is in Storybook — browse it at **[mattwakeman-eidra.github.io/eidra-design-system](https://mattwakeman-eidra.github.io/eidra-design-system/)**, or run `pnpm storybook` in the design system. Each component's stories show its compound parts and props.
 
 ---
 

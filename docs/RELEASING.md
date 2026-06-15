@@ -49,10 +49,10 @@ pnpm release:github   # the above, then create the GitHub Release (needs an auth
 
 ## Consumers get the update
 
-Apps pull a release with the sync script (see [consuming.md](./consuming.md)):
+Apps pull a release with the sync script (see [CONSUMING.md](./CONSUMING.md)):
 
 ```bash
-node scripts/sync-eidra.mjs OWNER/eidra-design-system v<version>
+node scripts/sync-eidra.mjs mattwakeman-eidra/eidra-design-system v<version>
 ```
 
 ## Troubleshooting

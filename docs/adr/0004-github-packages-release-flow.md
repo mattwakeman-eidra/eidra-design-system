@@ -15,6 +15,6 @@ The goal is a shared, versioned package consumed across apps (frankly and beyond
 ## Constraints & consequences
 
 - **Scope must match the repo owner.** GitHub Packages requires the npm scope (`@eidra`) to equal the GitHub org/user that owns the repo. This assumes the repo is `github.com/eidra/eidra-design-system`. If the org differs, rename the scope across all `package.json` names + `publishConfig`, or rename the org.
-- **Consumers authenticate.** Even read access needs a token. Apps add an `.npmrc` with `@eidra:registry=https://npm.pkg.github.com` and a PAT/`GITHUB_TOKEN` with `read:packages` (see `docs/consuming.md`).
+- **Consumers authenticate.** Even read access needs a token. Apps add an `.npmrc` with `@eidra:registry=https://npm.pkg.github.com` and a PAT/`GITHUB_TOKEN` with `read:packages` (see `docs/CONSUMING.md`).
 - **The local tarball flow (ADR-0003) stays** as the offline/inner-loop path (`pnpm release` → `sync-eidra`). It does not require the registry or auth.
 - Migrating to public npm later is a registry-URL change in `publishConfig` + consumer `.npmrc`; the Changesets flow is unchanged.
