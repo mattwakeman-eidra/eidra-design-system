@@ -20,7 +20,9 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
+      # Build first: typecheck needs the generated token sources (packages/tokens/src/_generated.ts,
+      # which is gitignored) plus the built @eidra/tokens/@eidra/icons declarations react consumes.
       - run: pnpm build
+      - run: pnpm typecheck
       # Fail the PR if it changes a package without a changeset describing the bump.
       - run: pnpm changeset status --since=origin/main
