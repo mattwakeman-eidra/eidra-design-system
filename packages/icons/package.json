@@ -1,6 +1,6 @@
 {
   "name": "@eidra/icons",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Eidra icon set — token-aware wrapper around Lucide.",
   "type": "module",
   "sideEffects": false,
