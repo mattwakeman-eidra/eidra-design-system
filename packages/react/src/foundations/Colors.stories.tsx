@@ -78,3 +78,28 @@ export const Semantic: Story = {
     </Grid>
   ),
 };
+
+/**
+ * The financial data-viz palette. These colours carry domain meaning, so they
+ * are a dedicated family rather than generic UI roles: the action accent is
+ * Eidra Blue (in a financial context orange reads as caution); RAG conveys
+ * positive/caution/negative; and the revenue ramp runs green→gold from
+ * confirmed actuals to speculative upside. Consumed by `DataGrid`
+ * (`accent="finance"`) and finance charts.
+ */
+export const Finance: Story = {
+  render: () => (
+    <Grid>
+      <Swatch name="Accent (action)" varName="--eidra-finance-accent" />
+      <Swatch name="Accent hover" varName="--eidra-finance-accent-hover" />
+      <Swatch name="Accent subtle" varName="--eidra-finance-accent-subtle" />
+      <Swatch name="Positive" varName="--eidra-finance-positive" />
+      <Swatch name="Caution" varName="--eidra-finance-caution" />
+      <Swatch name="Negative" varName="--eidra-finance-negative" />
+      <Swatch name="Revenue · Actuals" varName="--eidra-finance-revenue-actuals" />
+      <Swatch name="Revenue · Sold" varName="--eidra-finance-revenue-sold" />
+      <Swatch name="Revenue · Hi-prob" varName="--eidra-finance-revenue-hi-prob" />
+      <Swatch name="Revenue · Additional" varName="--eidra-finance-revenue-additional" />
+    </Grid>
+  ),
+};
