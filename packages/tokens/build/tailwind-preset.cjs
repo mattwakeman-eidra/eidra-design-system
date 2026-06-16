@@ -66,6 +66,8 @@ module.exports = {
         "eidra-finance-rev-sold": "var(--eidra-color-finance-rev-sold)",
         "eidra-finance-rev-hi-prob": "var(--eidra-color-finance-rev-hi-prob)",
         "eidra-finance-rev-additional": "var(--eidra-color-finance-rev-additional)",
+        "eidra-finance-rev-budget": "var(--eidra-color-finance-rev-budget)",
+        "eidra-finance-comparison": "var(--eidra-finance-comparison)",
         "eidra-bg": "var(--eidra-bg)",
         "eidra-bg-subtle": "var(--eidra-bg-subtle)",
         "eidra-bg-muted": "var(--eidra-bg-muted)",
@@ -126,7 +128,8 @@ module.exports = {
         "eidra-finance-revenue-actuals": "var(--eidra-finance-revenue-actuals)",
         "eidra-finance-revenue-sold": "var(--eidra-finance-revenue-sold)",
         "eidra-finance-revenue-hi-prob": "var(--eidra-finance-revenue-hi-prob)",
-        "eidra-finance-revenue-additional": "var(--eidra-finance-revenue-additional)"
+        "eidra-finance-revenue-additional": "var(--eidra-finance-revenue-additional)",
+        "eidra-finance-revenue-budget": "var(--eidra-finance-revenue-budget)"
       },
       "spacing": {
         "eidra-0": "var(--eidra-space-0)",

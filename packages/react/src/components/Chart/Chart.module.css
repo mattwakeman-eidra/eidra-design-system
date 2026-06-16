@@ -1,0 +1,119 @@
+.container {
+  width: 100%;
+  height: 320px;
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-xs);
+}
+.container[data-size='sm'] {
+  height: 180px;
+  font-size: calc(var(--eidra-font-size-xs) * 0.9);
+}
+
+/* Recharts axis + grid theming via tokens (Recharts renders inline SVG; target by class). */
+.container :global(.recharts-cartesian-axis-tick-value) {
+  fill: var(--eidra-fg-muted);
+}
+.container :global(.recharts-cartesian-grid line) {
+  stroke: var(--eidra-border-subtle);
+}
+.container :global(.recharts-cartesian-axis-line),
+.container :global(.recharts-cartesian-axis-tick-line) {
+  stroke: var(--eidra-border);
+}
+.container :global(.recharts-label),
+.container :global(.recharts-bar-label-list text) {
+  fill: var(--eidra-fg);
+}
+
+/* ---- Tooltip ---- */
+.tooltip {
+  min-width: 160px;
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  background-color: var(--eidra-surface);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  box-shadow: var(--eidra-shadow-md);
+  font-size: var(--eidra-font-size-xs);
+  color: var(--eidra-fg);
+}
+.tooltipLabel {
+  margin-block-end: var(--eidra-space-1-5);
+  font-weight: 600;
+  color: var(--eidra-fg);
+}
+.tooltipItems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-1);
+}
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+}
+.tooltipSwatch {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: var(--eidra-radius-sm);
+}
+.tooltipName {
+  color: var(--eidra-fg-muted);
+}
+.tooltipValue {
+  margin-inline-start: auto;
+  font-family: var(--eidra-font-family-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--eidra-fg);
+}
+.tooltipFooter {
+  margin-block-start: var(--eidra-space-2);
+  padding-block-start: var(--eidra-space-2);
+  border-top: 1px solid var(--eidra-border-subtle);
+  color: var(--eidra-fg-muted);
+}
+
+/* ---- Legend ---- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eidra-space-3);
+  padding-block-start: var(--eidra-space-2);
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1-5);
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--eidra-font-size-xs);
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+}
+.legendItem:disabled {
+  cursor: default;
+}
+.legendItem:not(:disabled):hover {
+  color: var(--eidra-fg);
+}
+.legendItem:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-sm);
+}
+.legendItem[data-hidden] {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.legendSwatch {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: var(--eidra-radius-sm);
+}

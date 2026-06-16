@@ -66,4 +66,6 @@
   --eidra-finance-revenue-sold: var(--eidra-color-finance-rev-sold);
   --eidra-finance-revenue-hi-prob: var(--eidra-color-finance-rev-hi-prob);
   --eidra-finance-revenue-additional: var(--eidra-color-finance-rev-additional);
+  --eidra-finance-revenue-budget: var(--eidra-color-finance-rev-budget);
+  --eidra-finance-comparison: var(--eidra-color-finance-comparison);
 }

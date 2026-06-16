@@ -83,6 +83,8 @@
     "revenue-actuals":    { "$type": "color", "$value": "{color.finance.rev-actuals}" },
     "revenue-sold":       { "$type": "color", "$value": "{color.finance.rev-sold}" },
     "revenue-hi-prob":    { "$type": "color", "$value": "{color.finance.rev-hi-prob}" },
-    "revenue-additional": { "$type": "color", "$value": "{color.finance.rev-additional}" }
+    "revenue-additional": { "$type": "color", "$value": "{color.finance.rev-additional}" },
+    "revenue-budget":     { "$type": "color", "$value": "{color.finance.rev-budget}" },
+    "comparison":         { "$type": "color", "$value": "{color.finance.comparison}" }
   }
 }
