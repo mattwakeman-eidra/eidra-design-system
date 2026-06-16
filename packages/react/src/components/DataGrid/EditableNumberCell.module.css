@@ -1,0 +1,90 @@
+.cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--eidra-space-0-5);
+  width: 100%;
+  min-height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  appearance: none;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: end;
+  cursor: pointer;
+  border-radius: var(--eidra-radius-sm);
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+.cell:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-active);
+}
+.cell:focus-visible {
+  outline: 2px solid var(--eidra-accent);
+  outline-offset: -2px;
+}
+.cell[data-disabled] {
+  cursor: default;
+  color: var(--eidra-fg-disabled);
+}
+
+/* Explicit override — accent left border + emphasised value. */
+.cell[data-overridden] {
+  border-inline-start: 2px solid var(--eidra-accent);
+  background-color: var(--eidra-accent-subtle);
+}
+
+/* Aggregated (read-only) — dashed accent border, rendered as a span. */
+.cell[data-aggregated] {
+  cursor: default;
+  border-inline-start: 2px dashed var(--eidra-accent);
+  background-color: var(--eidra-accent-subtle);
+}
+
+.value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.aggregatedValue {
+  color: var(--eidra-accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.marker {
+  margin-inline-start: var(--eidra-space-0-5);
+  font-size: 0.6em;
+  color: var(--eidra-accent);
+  vertical-align: middle;
+}
+
+.empty {
+  color: var(--eidra-fg-subtle);
+}
+
+.input {
+  width: 100%;
+  min-height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  border: 2px solid var(--eidra-accent);
+  border-radius: var(--eidra-radius-sm);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-mono);
+  font-size: var(--eidra-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+.input:focus-visible {
+  outline: none;
+}
+/* Hide native number spinners — editing is keyboard/blur driven. */
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+.input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}

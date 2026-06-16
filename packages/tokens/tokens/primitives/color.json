@@ -67,6 +67,22 @@
       "500": { "$type": "color", "$value": "#d92d20" },
       "700": { "$type": "color", "$value": "#9a1b12" },
       "900": { "$type": "color", "$value": "#5f120c" }
+    },
+
+    "finance": {
+      "blue":           { "$type": "color", "$value": "#27567a" },
+      "blue-dark":      { "$type": "color", "$value": "#1d4060" },
+      "blue-soft":      { "$type": "color", "$value": "#d9e8ff" },
+      "good":           { "$type": "color", "$value": "#15803d" },
+      "good-soft":      { "$type": "color", "$value": "#dcfce7" },
+      "caution":        { "$type": "color", "$value": "#b45309" },
+      "caution-soft":   { "$type": "color", "$value": "#fef3c7" },
+      "bad":            { "$type": "color", "$value": "#cc594e" },
+      "bad-soft":       { "$type": "color", "$value": "#ffd4cc" },
+      "rev-actuals":    { "$type": "color", "$value": "#1b5e38" },
+      "rev-sold":       { "$type": "color", "$value": "#6fb47a" },
+      "rev-hi-prob":    { "$type": "color", "$value": "#b2d88a" },
+      "rev-additional": { "$type": "color", "$value": "#f0cc60" }
     }
   }
 }
