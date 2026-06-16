@@ -116,7 +116,36 @@ For a runtime light/dark toggle, use the `ThemeProvider` component (a client com
 
 ---
 
-## 5. Example pages with controls
+## 5. Use the tokens with Tailwind (optional)
+
+If your app uses Tailwind, add the Eidra preset so every token is available as a utility class — no inline `style={{ … var(--eidra-*) }}` just to reach a token. The utilities reference the CSS variables, so they stay theme-reactive (light / dark / finance) automatically.
+
+```js
+// tailwind.config.js  (Tailwind v3)
+module.exports = {
+  presets: [require('@eidra/tokens/tailwind')],
+  content: ['./src/**/*.{ts,tsx}'],
+}
+```
+
+You still load the CSS variables once (via `@eidra/react/styles.css` or `@eidra/tokens/css`); the preset only maps utilities onto `var(--eidra-*)`.
+
+Every token becomes an `eidra-`-prefixed utility:
+
+| Token family | Example utilities | Resolves to |
+| --- | --- | --- |
+| Colour | `bg-eidra-accent`, `text-eidra-fg-muted`, `border-eidra-finance-accent` | `var(--eidra-accent)` … |
+| Spacing | `p-eidra-4`, `gap-eidra-2`, `h-eidra-control-md` | `var(--eidra-space-4)` … |
+| Radius | `rounded-eidra-lg` | `var(--eidra-radius-lg)` |
+| Shadow | `shadow-eidra-md` | `var(--eidra-shadow-md)` |
+| Type | `font-eidra-sans`, `text-eidra-sm` | `var(--eidra-font-family-sans)` … |
+| Z-index | `z-eidra-modal` | `var(--eidra-z-modal)` |
+
+The preset uses `theme.extend`, so Tailwind's built-in utilities keep working alongside the Eidra ones. Caveat: because the colours are `var()` references, Tailwind's opacity modifier (`bg-eidra-accent/50`) has no effect — reach for a `-subtle` token variant instead.
+
+---
+
+## 6. Example pages with controls
 
 Two ready-to-paste pages live in the design system under `templates/examples/`. Drop them into frankly at `apps/web/src/app/design/` and visit `/design`.
 
@@ -251,7 +280,7 @@ export default function SettingsForm() {
 
 ---
 
-## 6. Teaching an AI agent to use the design system
+## 7. Teaching an AI agent to use the design system
 
 The package ships an agent catalog at **`node_modules/@eidra/react/llms.txt`** (every component, its imports, compound parts, and a one-line description) and exact prop types at **`node_modules/@eidra/react/dist/index.d.ts`**. An agent that reads those two files can write correct code without guessing.
 
