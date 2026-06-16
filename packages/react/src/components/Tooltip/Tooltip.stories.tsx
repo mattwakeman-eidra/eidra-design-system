@@ -186,3 +186,48 @@ export const Disabled: Story = {
     </Tooltip.Root>
   ),
 };
+
+export const InlineTerm: Story = {
+  name: 'Inline term (glossary)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Reproduces an inline glossary term: a dashed-underlined word in running text that ' +
+          'reveals a definition on hover or focus. The trigger renders as a `<span>` (with ' +
+          '`tabIndex={0}` for keyboard focus) and `delay` matches the 200ms used in the source app. ' +
+          'Collision handling flips the popup automatically when near a viewport edge. The glossary ' +
+          'map stays in application code — render the Tooltip only when a definition exists, otherwise ' +
+          'render the word as plain text.',
+      },
+    },
+  },
+  render: () => (
+    <p style={{ maxWidth: 460, lineHeight: 1.8, color: 'var(--eidra-fg)' }}>
+      This month&rsquo;s{' '}
+      <Tooltip.Provider delay={200}>
+        <Tooltip.Root>
+          <Tooltip.Trigger
+            render={asRender(
+              <span
+                tabIndex={0}
+                style={{ borderBottom: '1px dashed var(--eidra-border-strong)', cursor: 'help' }}
+              >
+                WIP
+              </span>,
+            )}
+          />
+          <Tooltip.Portal>
+            <Tooltip.Positioner side="bottom" sideOffset={6}>
+              <Tooltip.Popup>
+                Work In Progress — revenue earned but not yet invoiced to the client.
+                <Tooltip.Arrow />
+              </Tooltip.Popup>
+            </Tooltip.Positioner>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>{' '}
+      is up 12% on last quarter.
+    </p>
+  ),
+};
