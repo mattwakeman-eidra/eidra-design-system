@@ -6,6 +6,7 @@ export * from './components/AlertDialog/index.js';
 export * from './components/Autocomplete/index.js';
 export * from './components/Avatar/index.js';
 export * from './components/Badge/index.js';
+export * from './components/Breadcrumbs/index.js';
 export * from './components/Button/index.js';
 export * from './components/Card/index.js';
 export * from './components/Checkbox/index.js';
