@@ -1,17 +1,17 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { PreviewCard as BasePreviewCard } from '@base-ui-components/react/preview-card';
+import { PreviewCard as BasePreviewCard } from '@base-ui/react/preview-card';
 import { cn } from '../../utils/cn.js';
 import styles from './PreviewCard.module.css';
 
 // ---- Re-export types from Base UI for external use ----
-export type { PreviewCardRootProps } from '@base-ui-components/react/preview-card';
-export type { PreviewCardTriggerProps } from '@base-ui-components/react/preview-card';
-export type { PreviewCardPortalProps } from '@base-ui-components/react/preview-card';
-export type { PreviewCardPositionerProps } from '@base-ui-components/react/preview-card';
-export type { PreviewCardPopupProps } from '@base-ui-components/react/preview-card';
-export type { PreviewCardArrowProps } from '@base-ui-components/react/preview-card';
-export type { PreviewCardBackdropProps } from '@base-ui-components/react/preview-card';
+export type { PreviewCardRootProps } from '@base-ui/react/preview-card';
+export type { PreviewCardTriggerProps } from '@base-ui/react/preview-card';
+export type { PreviewCardPortalProps } from '@base-ui/react/preview-card';
+export type { PreviewCardPositionerProps } from '@base-ui/react/preview-card';
+export type { PreviewCardPopupProps } from '@base-ui/react/preview-card';
+export type { PreviewCardArrowProps } from '@base-ui/react/preview-card';
+export type { PreviewCardBackdropProps } from '@base-ui/react/preview-card';
 
 // ---- Root (no DOM element, pass-through) ----
 const Root = BasePreviewCard.Root;

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { ScrollArea as BaseScrollArea } from '@base-ui-components/react/scroll-area';
+import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area';
 import type {
   ScrollAreaRootProps,
   ScrollAreaViewportProps,
@@ -7,7 +7,7 @@ import type {
   ScrollAreaContentProps,
   ScrollAreaThumbProps,
   ScrollAreaCornerProps,
-} from '@base-ui-components/react/scroll-area';
+} from '@base-ui/react/scroll-area';
 import { cn } from '../../utils/cn.js';
 import styles from './ScrollArea.module.css';
 

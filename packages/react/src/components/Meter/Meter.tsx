@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Meter as BaseMeter } from '@base-ui-components/react/meter';
+import { Meter as BaseMeter } from '@base-ui/react/meter';
 import { cn } from '../../utils/cn.js';
 import styles from './Meter.module.css';
 

@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
-import { Field as BaseField } from '@base-ui-components/react/field';
+import { Field as BaseField } from '@base-ui/react/field';
 import { cn } from '../../utils/cn.js';
 import styles from './Field.module.css';
 

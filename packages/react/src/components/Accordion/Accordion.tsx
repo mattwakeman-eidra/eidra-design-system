@@ -1,11 +1,11 @@
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
-import { Accordion as BaseAccordion } from '@base-ui-components/react/accordion';
+import { Accordion as BaseAccordion } from '@base-ui/react/accordion';
 import type {
   AccordionValue,
   AccordionRootChangeEventDetails,
   AccordionRootChangeEventReason,
-} from '@base-ui-components/react/accordion';
+} from '@base-ui/react/accordion';
 import { cn } from '../../utils/cn.js';
 import styles from './Accordion.module.css';
 
@@ -99,7 +99,7 @@ const Trigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(function Tr
 ) {
   return (
     <BaseAccordion.Trigger
-      ref={ref as React.Ref<Element>}
+      ref={ref as React.Ref<HTMLElement>}
       className={cn(styles.trigger, className)}
       {...props}
     >

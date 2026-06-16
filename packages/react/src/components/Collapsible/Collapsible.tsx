@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Collapsible as BaseCollapsible } from '@base-ui-components/react/collapsible';
+import { Collapsible as BaseCollapsible } from '@base-ui/react/collapsible';
 import { cn } from '../../utils/cn.js';
 import styles from './Collapsible.module.css';
 

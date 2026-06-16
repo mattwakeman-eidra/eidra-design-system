@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { Select as BaseSelect } from '@base-ui-components/react/select';
+import { Select as BaseSelect } from '@base-ui/react/select';
 import { ChevronsUpDown, Check } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
@@ -114,7 +114,7 @@ const SelectPopup = forwardRef<Element, SelectPopupProps>(function SelectPopup(
 ) {
   return (
     <BaseSelect.Popup
-      ref={ref as React.Ref<Element>}
+      ref={ref as React.Ref<HTMLDivElement>}
       className={cn(styles.popup, className)}
       {...props}
     />

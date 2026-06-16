@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
-import { Radio as BaseRadio } from '@base-ui-components/react/radio';
-import { RadioGroup as BaseRadioGroup } from '@base-ui-components/react/radio-group';
+import { Radio as BaseRadio } from '@base-ui/react/radio';
+import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group';
 import { cn } from '../../utils/cn.js';
 import styles from './Radio.module.css';
 

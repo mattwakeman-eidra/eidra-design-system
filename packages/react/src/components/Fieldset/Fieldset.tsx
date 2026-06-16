@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { Fieldset as BaseFieldset } from '@base-ui-components/react/fieldset';
+import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset';
 import { cn } from '../../utils/cn.js';
 import styles from './Fieldset.module.css';
 
