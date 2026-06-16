@@ -51,4 +51,19 @@
   --eidra-info-subtle: var(--eidra-color-blue-100);
   --eidra-info-fg: var(--eidra-color-blue-700);
   --eidra-info-border: var(--eidra-color-blue-300);
+  --eidra-finance-accent: var(--eidra-color-finance-blue);
+  --eidra-finance-accent-hover: var(--eidra-color-finance-blue-dark);
+  --eidra-finance-accent-active: var(--eidra-color-finance-blue-dark);
+  --eidra-finance-accent-subtle: var(--eidra-color-finance-blue-soft);
+  --eidra-finance-accent-fg: var(--eidra-color-white);
+  --eidra-finance-positive: var(--eidra-color-finance-good);
+  --eidra-finance-positive-subtle: var(--eidra-color-finance-good-soft);
+  --eidra-finance-caution: var(--eidra-color-finance-caution);
+  --eidra-finance-caution-subtle: var(--eidra-color-finance-caution-soft);
+  --eidra-finance-negative: var(--eidra-color-finance-bad);
+  --eidra-finance-negative-subtle: var(--eidra-color-finance-bad-soft);
+  --eidra-finance-revenue-actuals: var(--eidra-color-finance-rev-actuals);
+  --eidra-finance-revenue-sold: var(--eidra-color-finance-rev-sold);
+  --eidra-finance-revenue-hi-prob: var(--eidra-color-finance-rev-hi-prob);
+  --eidra-finance-revenue-additional: var(--eidra-color-finance-rev-additional);
 }

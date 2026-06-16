@@ -1,0 +1,239 @@
+.root {
+  width: 100%;
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--eidra-surface);
+  overflow: hidden;
+}
+
+/*
+ * Scoped accent override. `accent="finance"` repoints the accent tokens to the
+ * financial data-viz palette's action blue for this grid subtree only — no
+ * global theme. The override cascades to descendants (sort glyphs, focus rings,
+ * EditableNumberCell markers) via CSS custom-property inheritance. It consumes
+ * the semantic `--eidra-finance-*` tokens, so grid and charts share one source
+ * of truth for financial colour.
+ */
+.root[data-accent='finance'] {
+  --eidra-accent: var(--eidra-finance-accent);
+  --eidra-accent-hover: var(--eidra-finance-accent-hover);
+  --eidra-accent-active: var(--eidra-finance-accent-active);
+  --eidra-accent-subtle: var(--eidra-finance-accent-subtle);
+  --eidra-accent-border: var(--eidra-finance-accent);
+  --eidra-accent-fg: var(--eidra-finance-accent-fg);
+  --eidra-fg-on-accent: var(--eidra-finance-accent-fg);
+}
+
+.scroll {
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  outline: none;
+}
+.scroll:focus-visible {
+  outline: 2px solid var(--eidra-accent);
+  outline-offset: -2px;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  color: var(--eidra-fg);
+}
+
+/* ---- Header ---- */
+.thead {
+  position: sticky;
+  top: 0;
+}
+
+.groupHeader,
+.colHeader {
+  position: sticky;
+  top: 0;
+  z-index: var(--eidra-z-sticky);
+  background-color: var(--eidra-bg-subtle);
+  border-bottom: 1px solid var(--eidra-border);
+  border-inline-end: 1px solid var(--eidra-border-subtle);
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--eidra-fg-muted);
+  white-space: nowrap;
+  text-align: start;
+}
+
+.groupHeader {
+  text-align: center;
+}
+
+.colHeader[data-align='end'] {
+  text-align: end;
+}
+.colHeader[data-align='center'] {
+  text-align: center;
+}
+
+/* Pinned header cells sit above both the sticky header row and pinned body cells. */
+.colHeader[data-pinned],
+.groupHeader[data-pinned] {
+  position: sticky;
+  z-index: calc(var(--eidra-z-sticky) + 1);
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.sortButton:hover {
+  color: var(--eidra-fg);
+}
+.sortButton:focus-visible {
+  outline: 2px solid var(--eidra-accent);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-sm);
+}
+
+.sortGlyph {
+  font-size: var(--eidra-font-size-xs);
+  color: var(--eidra-fg-subtle);
+}
+.sortGlyph[data-direction='asc'],
+.sortGlyph[data-direction='desc'] {
+  color: var(--eidra-accent);
+}
+
+/* ---- Body ---- */
+.row {
+  background-color: var(--eidra-surface);
+}
+.row:hover {
+  background-color: var(--eidra-surface-hover);
+}
+.row[data-depth] {
+  background-color: var(--eidra-bg-subtle);
+}
+.row[data-depth]:hover {
+  background-color: var(--eidra-surface-hover);
+}
+
+.cell {
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  border-bottom: 1px solid var(--eidra-border-subtle);
+  border-inline-end: 1px solid var(--eidra-border-subtle);
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: start;
+  /* Inherit row background so pinned cells stay opaque while scrolling. */
+  background-color: inherit;
+}
+.cell[data-align='end'] {
+  text-align: end;
+}
+.cell[data-align='center'] {
+  text-align: center;
+}
+.cell[data-numeric] {
+  font-family: var(--eidra-font-family-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.cellInner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  width: 100%;
+}
+.cell[data-align='end'] .cellInner {
+  justify-content: flex-end;
+}
+.cell[data-align='center'] .cellInner {
+  justify-content: center;
+}
+
+.empty {
+  color: var(--eidra-fg-subtle);
+}
+
+/* ---- Pinned (sticky-left) body cells ---- */
+.cell[data-pinned] {
+  position: sticky;
+  z-index: var(--eidra-z-raised);
+  border-inline-end: 1px solid var(--eidra-border);
+}
+
+/* ---- Expand toggle ---- */
+.expandToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+  border-radius: var(--eidra-radius-sm);
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+.expandToggle:hover {
+  background-color: var(--eidra-surface-active);
+  color: var(--eidra-fg);
+}
+.expandToggle:focus-visible {
+  outline: 2px solid var(--eidra-accent);
+  outline-offset: 1px;
+}
+.expandToggle[data-expanded] {
+  transform: rotate(90deg);
+}
+
+/* ---- Footer / totals ---- */
+.tfoot {
+  position: sticky;
+  bottom: 0;
+}
+.footerCell {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--eidra-z-sticky);
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  background-color: var(--eidra-bg-subtle);
+  border-top: 1px solid var(--eidra-border);
+  border-inline-end: 1px solid var(--eidra-border-subtle);
+  font-weight: 700;
+  white-space: nowrap;
+  text-align: start;
+}
+.footerCell[data-align='end'] {
+  text-align: end;
+}
+.footerCell[data-align='center'] {
+  text-align: center;
+}
+.footerCell[data-numeric] {
+  font-family: var(--eidra-font-family-mono);
+  font-variant-numeric: tabular-nums;
+}
+.footerCell[data-pinned] {
+  z-index: calc(var(--eidra-z-sticky) + 1);
+}

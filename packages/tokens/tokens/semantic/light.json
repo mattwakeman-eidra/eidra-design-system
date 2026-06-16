@@ -67,5 +67,22 @@
     "subtle":  { "$type": "color", "$value": "{color.blue.100}" },
     "fg":      { "$type": "color", "$value": "{color.blue.700}" },
     "border":  { "$type": "color", "$value": "{color.blue.300}" }
+  },
+  "finance": {
+    "accent":             { "$type": "color", "$value": "{color.finance.blue}" },
+    "accent-hover":       { "$type": "color", "$value": "{color.finance.blue-dark}" },
+    "accent-active":      { "$type": "color", "$value": "{color.finance.blue-dark}" },
+    "accent-subtle":      { "$type": "color", "$value": "{color.finance.blue-soft}" },
+    "accent-fg":          { "$type": "color", "$value": "{color.white}" },
+    "positive":           { "$type": "color", "$value": "{color.finance.good}" },
+    "positive-subtle":    { "$type": "color", "$value": "{color.finance.good-soft}" },
+    "caution":            { "$type": "color", "$value": "{color.finance.caution}" },
+    "caution-subtle":     { "$type": "color", "$value": "{color.finance.caution-soft}" },
+    "negative":           { "$type": "color", "$value": "{color.finance.bad}" },
+    "negative-subtle":    { "$type": "color", "$value": "{color.finance.bad-soft}" },
+    "revenue-actuals":    { "$type": "color", "$value": "{color.finance.rev-actuals}" },
+    "revenue-sold":       { "$type": "color", "$value": "{color.finance.rev-sold}" },
+    "revenue-hi-prob":    { "$type": "color", "$value": "{color.finance.rev-hi-prob}" },
+    "revenue-additional": { "$type": "color", "$value": "{color.finance.rev-additional}" }
   }
 }
