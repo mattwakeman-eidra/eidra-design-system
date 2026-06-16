@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { Form as BaseForm } from '@base-ui-components/react/form';
+import { Form as BaseForm } from '@base-ui/react/form';
 import { cn } from '../../utils/cn.js';
 import styles from './Form.module.css';
 

@@ -1,12 +1,12 @@
 import { forwardRef } from 'react';
-import { Menubar as BaseMenubar } from '@base-ui-components/react/menubar';
-import { Menu } from '@base-ui-components/react/menu';
+import { Menubar as BaseMenubar } from '@base-ui/react/menubar';
+import { Menu } from '@base-ui/react/menu';
 import { cn } from '../../utils/cn.js';
 import styles from './Menubar.module.css';
 
 // ─── Re-export Base UI types ─────────────────────────────────────────────────
 
-export type { MenubarProps, MenubarState } from '@base-ui-components/react/menubar';
+export type { MenubarProps, MenubarState } from '@base-ui/react/menubar';
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
@@ -45,7 +45,7 @@ const Positioner = forwardRef<HTMLDivElement, Menu.Positioner.Props>(function Po
 
 // ─── Popup ────────────────────────────────────────────────────────────────────
 
-const Popup = forwardRef<Element, Menu.Popup.Props>(function Popup(
+const Popup = forwardRef<HTMLDivElement, Menu.Popup.Props>(function Popup(
   { className, ...props },
   ref,
 ) {
@@ -54,7 +54,7 @@ const Popup = forwardRef<Element, Menu.Popup.Props>(function Popup(
 
 // ─── Item ─────────────────────────────────────────────────────────────────────
 
-const Item = forwardRef<Element, Menu.Item.Props>(function Item(
+const Item = forwardRef<HTMLElement, Menu.Item.Props>(function Item(
   { className, ...props },
   ref,
 ) {
@@ -72,7 +72,7 @@ const Separator = forwardRef<HTMLDivElement, Menu.Separator.Props>(function Sepa
 
 // ─── Group ────────────────────────────────────────────────────────────────────
 
-const Group = forwardRef<Element, Menu.Group.Props>(function Group(
+const Group = forwardRef<HTMLDivElement, Menu.Group.Props>(function Group(
   { className, ...props },
   ref,
 ) {
@@ -108,7 +108,7 @@ const SubmenuTrigger = forwardRef<HTMLElement, Menu.SubmenuTrigger.Props>(
 
 // ─── CheckboxItem ─────────────────────────────────────────────────────────────
 
-const CheckboxItem = forwardRef<Element, Menu.CheckboxItem.Props>(
+const CheckboxItem = forwardRef<HTMLElement, Menu.CheckboxItem.Props>(
   function CheckboxItem({ className, ...props }, ref) {
     return (
       <Menu.CheckboxItem ref={ref} className={cn(styles.checkboxItem, className)} {...props} />
@@ -136,7 +136,7 @@ const RadioGroup = Menu.RadioGroup;
 
 // ─── RadioItem ────────────────────────────────────────────────────────────────
 
-const RadioItem = forwardRef<Element, Menu.RadioItem.Props>(function RadioItem(
+const RadioItem = forwardRef<HTMLElement, Menu.RadioItem.Props>(function RadioItem(
   { className, ...props },
   ref,
 ) {

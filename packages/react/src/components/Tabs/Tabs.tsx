@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
-import { Tabs as BaseTabs } from '@base-ui-components/react/tabs';
+import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { cn } from '../../utils/cn.js';
 import styles from './Tabs.module.css';
 
@@ -44,7 +44,7 @@ const TabsTab = forwardRef<HTMLButtonElement, TabsTabProps>(function TabsTab(
 ) {
   return (
     <BaseTabs.Tab
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLElement>}
       className={cn(styles.tab, className)}
       {...props}
     />

@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
-import { Switch as BaseSwitch } from '@base-ui-components/react/switch';
+import { Switch as BaseSwitch } from '@base-ui/react/switch';
 import { cn } from '../../utils/cn.js';
 import styles from './Switch.module.css';
 

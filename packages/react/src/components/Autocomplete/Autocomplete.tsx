@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { HTMLAttributes } from 'react';
-import { Autocomplete as BaseAutocomplete } from '@base-ui-components/react/autocomplete';
+import { Autocomplete as BaseAutocomplete } from '@base-ui/react/autocomplete';
 import { cn } from '../../utils/cn.js';
 import styles from './Autocomplete.module.css';
 

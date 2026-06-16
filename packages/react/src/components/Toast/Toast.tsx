@@ -1,30 +1,30 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { Toast as BaseToast } from '@base-ui-components/react/toast';
+import { Toast as BaseToast } from '@base-ui/react/toast';
 import { X } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
 import styles from './Toast.module.css';
 
 // ---- Re-export types from Base UI for external use ----
-export type { ToastProviderProps } from '@base-ui-components/react/toast';
-export type { ToastViewportProps } from '@base-ui-components/react/toast';
-export type { ToastRootProps } from '@base-ui-components/react/toast';
-export type { ToastContentProps } from '@base-ui-components/react/toast';
-export type { ToastTitleProps } from '@base-ui-components/react/toast';
-export type { ToastDescriptionProps } from '@base-ui-components/react/toast';
-export type { ToastCloseProps } from '@base-ui-components/react/toast';
-export type { ToastActionProps } from '@base-ui-components/react/toast';
+export type { ToastProviderProps } from '@base-ui/react/toast';
+export type { ToastViewportProps } from '@base-ui/react/toast';
+export type { ToastRootProps } from '@base-ui/react/toast';
+export type { ToastContentProps } from '@base-ui/react/toast';
+export type { ToastTitleProps } from '@base-ui/react/toast';
+export type { ToastDescriptionProps } from '@base-ui/react/toast';
+export type { ToastCloseProps } from '@base-ui/react/toast';
+export type { ToastActionProps } from '@base-ui/react/toast';
 export type {
   ToastObject,
   UseToastManagerReturnValue,
   ToastManagerAddOptions,
   ToastManagerUpdateOptions,
   ToastManagerPromiseOptions,
-} from '@base-ui-components/react/toast';
+} from '@base-ui/react/toast';
 
 // ---- useToastManager and createToastManager ----
-// These live on the `Toast` namespace from @base-ui-components/react/toast.
+// These live on the `Toast` namespace from @base-ui/react/toast.
 // We re-export them as named functions for ergonomic usage.
 export const useToastManager: typeof BaseToast.useToastManager = BaseToast.useToastManager;
 export const createToastManager: typeof BaseToast.createToastManager = BaseToast.createToastManager;

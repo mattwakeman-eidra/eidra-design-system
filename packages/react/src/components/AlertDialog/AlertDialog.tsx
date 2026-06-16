@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { AlertDialog as BaseAlertDialog } from '@base-ui-components/react/alert-dialog';
+import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog';
 import { cn } from '../../utils/cn.js';
 import styles from './AlertDialog.module.css';
 

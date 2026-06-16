@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import { Input as BaseInput } from '@base-ui-components/react/input';
+import { Input as BaseInput } from '@base-ui/react/input';
 import { cn } from '../../utils/cn.js';
 import styles from './Input.module.css';
 

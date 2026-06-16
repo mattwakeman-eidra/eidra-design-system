@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
-import { Avatar as BaseAvatar } from '@base-ui-components/react/avatar';
-import type { AvatarRootProps, AvatarImageProps, AvatarFallbackProps } from '@base-ui-components/react/avatar';
+import { Avatar as BaseAvatar } from '@base-ui/react/avatar';
+import type { AvatarRootProps, AvatarImageProps, AvatarFallbackProps } from '@base-ui/react/avatar';
 import { cn } from '../../utils/cn.js';
 import styles from './Avatar.module.css';
 

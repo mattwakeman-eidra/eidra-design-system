@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
-import { ContextMenu as BaseContextMenu } from '@base-ui-components/react/context-menu';
+import { ContextMenu as BaseContextMenu } from '@base-ui/react/context-menu';
 import { cn } from '../../utils/cn.js';
 import styles from './ContextMenu.module.css';
 
@@ -65,7 +65,7 @@ const Popup = forwardRef<Element, ContextMenuPopupProps>(function Popup(
 ) {
   return (
     <BaseContextMenu.Popup
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLDivElement>}
       className={cn(styles.popup, className)}
       {...props}
     />
@@ -85,7 +85,7 @@ const Item = forwardRef<Element, ContextMenuItemProps>(function Item(
 ) {
   return (
     <BaseContextMenu.Item
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLElement>}
       className={cn(styles.item, className)}
       {...props}
     />
@@ -103,7 +103,7 @@ const CheckboxItem = forwardRef<Element, ContextMenuCheckboxItemProps>(
   function CheckboxItem({ className, ...props }, ref) {
     return (
       <BaseContextMenu.CheckboxItem
-        ref={ref as Ref<Element>}
+        ref={ref as Ref<HTMLElement>}
         className={cn(styles.item, styles.checkboxItem, className)}
         {...props}
       />
@@ -141,7 +141,7 @@ const RadioGroup = forwardRef<Element, ContextMenuRadioGroupProps>(
   function RadioGroup({ className, ...props }, ref) {
     return (
       <BaseContextMenu.RadioGroup
-        ref={ref as Ref<Element>}
+        ref={ref as Ref<HTMLDivElement>}
         className={cn(styles.radioGroup, className)}
         {...props}
       />
@@ -160,7 +160,7 @@ const RadioItem = forwardRef<Element, ContextMenuRadioItemProps>(
   function RadioItem({ className, ...props }, ref) {
     return (
       <BaseContextMenu.RadioItem
-        ref={ref as Ref<Element>}
+        ref={ref as Ref<HTMLElement>}
         className={cn(styles.item, styles.radioItem, className)}
         {...props}
       />
@@ -200,7 +200,7 @@ const Group = forwardRef<Element, ContextMenuGroupProps>(function Group(
 ) {
   return (
     <BaseContextMenu.Group
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLDivElement>}
       className={cn(styles.group, className)}
       {...props}
     />

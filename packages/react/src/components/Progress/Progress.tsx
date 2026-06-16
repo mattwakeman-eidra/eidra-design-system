@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Progress as BaseProgress } from '@base-ui-components/react/progress';
+import { Progress as BaseProgress } from '@base-ui/react/progress';
 import { cn } from '../../utils/cn.js';
 import styles from './Progress.module.css';
 

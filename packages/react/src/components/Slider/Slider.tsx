@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Slider as BaseSlider } from '@base-ui-components/react/slider';
+import { Slider as BaseSlider } from '@base-ui/react/slider';
 import { cn } from '../../utils/cn.js';
 import styles from './Slider.module.css';
 
@@ -54,7 +54,7 @@ export interface SliderTrackProps
   className?: string;
 }
 
-const SliderTrack = forwardRef<HTMLElement, SliderTrackProps>(
+const SliderTrack = forwardRef<HTMLDivElement, SliderTrackProps>(
   function SliderTrack({ className, ...props }, ref) {
     return (
       <BaseSlider.Track

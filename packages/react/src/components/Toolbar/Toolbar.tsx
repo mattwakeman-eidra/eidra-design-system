@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { Toolbar as BaseToolbar } from '@base-ui-components/react/toolbar';
+import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar';
 import { cn } from '../../utils/cn.js';
 import styles from './Toolbar.module.css';
 
@@ -86,7 +86,7 @@ export interface ToolbarGroupProps extends ComponentPropsWithoutRef<typeof BaseT
   className?: string;
 }
 
-const ToolbarGroup = forwardRef<HTMLElement, ToolbarGroupProps>(function ToolbarGroup(
+const ToolbarGroup = forwardRef<HTMLDivElement, ToolbarGroupProps>(function ToolbarGroup(
   { className, ...props },
   ref,
 ) {

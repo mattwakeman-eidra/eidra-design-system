@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Combobox as BaseCombobox } from '@base-ui-components/react/combobox';
+import { Combobox as BaseCombobox } from '@base-ui/react/combobox';
 import { cn } from '../../utils/cn.js';
 import styles from './Combobox.module.css';
 

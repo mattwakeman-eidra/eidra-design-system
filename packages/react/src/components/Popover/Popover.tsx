@@ -6,7 +6,7 @@ import type {
   PropsWithoutRef,
   RefAttributes,
 } from 'react';
-import { Popover as BasePopover } from '@base-ui-components/react/popover';
+import { Popover as BasePopover } from '@base-ui/react/popover';
 import { X } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
@@ -22,19 +22,19 @@ import type {
   PopoverCloseProps,
   PopoverRootProps,
   PopoverPortalProps,
-} from '@base-ui-components/react/popover';
+} from '@base-ui/react/popover';
 
 // ---- Re-export types from Base UI for external use ----
-export type { PopoverRootProps } from '@base-ui-components/react/popover';
-export type { PopoverTriggerProps } from '@base-ui-components/react/popover';
-export type { PopoverPortalProps } from '@base-ui-components/react/popover';
-export type { PopoverPositionerProps } from '@base-ui-components/react/popover';
-export type { PopoverPopupProps } from '@base-ui-components/react/popover';
-export type { PopoverArrowProps } from '@base-ui-components/react/popover';
-export type { PopoverBackdropProps } from '@base-ui-components/react/popover';
-export type { PopoverTitleProps } from '@base-ui-components/react/popover';
-export type { PopoverDescriptionProps } from '@base-ui-components/react/popover';
-export type { PopoverCloseProps } from '@base-ui-components/react/popover';
+export type { PopoverRootProps } from '@base-ui/react/popover';
+export type { PopoverTriggerProps } from '@base-ui/react/popover';
+export type { PopoverPortalProps } from '@base-ui/react/popover';
+export type { PopoverPositionerProps } from '@base-ui/react/popover';
+export type { PopoverPopupProps } from '@base-ui/react/popover';
+export type { PopoverArrowProps } from '@base-ui/react/popover';
+export type { PopoverBackdropProps } from '@base-ui/react/popover';
+export type { PopoverTitleProps } from '@base-ui/react/popover';
+export type { PopoverDescriptionProps } from '@base-ui/react/popover';
+export type { PopoverCloseProps } from '@base-ui/react/popover';
 
 // ---- Root (no DOM element, pass-through) ----
 function Root(props: PopoverRootProps) {

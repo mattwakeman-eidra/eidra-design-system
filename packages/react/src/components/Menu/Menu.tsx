@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
-import { Menu as BaseMenu } from '@base-ui-components/react/menu';
+import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { cn } from '../../utils/cn.js';
 import styles from './Menu.module.css';
 
@@ -24,7 +24,7 @@ const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(function Men
 ) {
   return (
     <BaseMenu.Trigger
-      ref={ref as Ref<HTMLElement>}
+      ref={ref}
       className={cn(styles.trigger, className)}
       {...props}
     />
@@ -64,7 +64,7 @@ const MenuPopup = forwardRef<HTMLDivElement, MenuPopupProps>(function MenuPopup(
 ) {
   return (
     <BaseMenu.Popup
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLDivElement>}
       className={cn(styles.popup, className)}
       {...props}
     />
@@ -83,7 +83,7 @@ const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
 ) {
   return (
     <BaseMenu.Item
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLElement>}
       className={cn(styles.item, className)}
       {...props}
     />
@@ -102,7 +102,7 @@ const MenuCheckboxItem = forwardRef<HTMLDivElement, MenuCheckboxItemProps>(funct
 ) {
   return (
     <BaseMenu.CheckboxItem
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLElement>}
       className={cn(styles.item, styles.checkboxItem, className)}
       {...props}
     />
@@ -140,7 +140,7 @@ const MenuGroup = forwardRef<HTMLDivElement, MenuGroupProps>(function MenuGroup(
 ) {
   return (
     <BaseMenu.Group
-      ref={ref as Ref<Element>}
+      ref={ref as Ref<HTMLDivElement>}
       className={cn(styles.group, className)}
       {...props}
     />

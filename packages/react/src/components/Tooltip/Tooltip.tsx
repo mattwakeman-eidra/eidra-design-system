@@ -1,17 +1,17 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { Tooltip as BaseTooltip } from '@base-ui-components/react/tooltip';
+import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import { cn } from '../../utils/cn.js';
 import styles from './Tooltip.module.css';
 
 // ---- Re-export types from Base UI for external use ----
-export type { TooltipProviderProps } from '@base-ui-components/react/tooltip';
-export type { TooltipRootProps } from '@base-ui-components/react/tooltip';
-export type { TooltipTriggerProps } from '@base-ui-components/react/tooltip';
-export type { TooltipPortalProps } from '@base-ui-components/react/tooltip';
-export type { TooltipPositionerProps } from '@base-ui-components/react/tooltip';
-export type { TooltipPopupProps } from '@base-ui-components/react/tooltip';
-export type { TooltipArrowProps } from '@base-ui-components/react/tooltip';
+export type { TooltipProviderProps } from '@base-ui/react/tooltip';
+export type { TooltipRootProps } from '@base-ui/react/tooltip';
+export type { TooltipTriggerProps } from '@base-ui/react/tooltip';
+export type { TooltipPortalProps } from '@base-ui/react/tooltip';
+export type { TooltipPositionerProps } from '@base-ui/react/tooltip';
+export type { TooltipPopupProps } from '@base-ui/react/tooltip';
+export type { TooltipArrowProps } from '@base-ui/react/tooltip';
 
 // ---- Provider (shared delay grouping — no DOM element) ----
 const Provider = BaseTooltip.Provider;
@@ -20,7 +20,7 @@ const Provider = BaseTooltip.Provider;
 const Root = BaseTooltip.Root;
 
 // ---- Trigger ----
-const Trigger = forwardRef<HTMLElement, ComponentPropsWithoutRef<typeof BaseTooltip.Trigger>>(
+const Trigger = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef<typeof BaseTooltip.Trigger>>(
   function Trigger({ className, children, ...props }, ref) {
     return (
       <BaseTooltip.Trigger ref={ref} className={cn(styles.trigger, className)} {...props}>

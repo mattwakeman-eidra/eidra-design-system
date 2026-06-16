@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { NavigationMenu as BaseNavigationMenu } from '@base-ui-components/react/navigation-menu';
+import { NavigationMenu as BaseNavigationMenu } from '@base-ui/react/navigation-menu';
 import { cn } from '../../utils/cn.js';
 import styles from './NavigationMenu.module.css';
 
@@ -24,7 +24,7 @@ export type NavigationMenuListProps = BaseNavigationMenu.List.Props & {
   className?: string;
 };
 
-const List = forwardRef<HTMLDivElement, NavigationMenuListProps>(function List(
+const List = forwardRef<HTMLUListElement, NavigationMenuListProps>(function List(
   { className, ...props },
   ref,
 ) {
@@ -39,7 +39,7 @@ export type NavigationMenuItemProps = BaseNavigationMenu.Item.Props & {
   className?: string;
 };
 
-const Item = forwardRef<HTMLDivElement, NavigationMenuItemProps>(function Item(
+const Item = forwardRef<HTMLLIElement, NavigationMenuItemProps>(function Item(
   { className, ...props },
   ref,
 ) {

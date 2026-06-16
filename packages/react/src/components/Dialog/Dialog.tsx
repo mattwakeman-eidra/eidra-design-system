@@ -1,20 +1,20 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
-import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
+import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { X } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
 import styles from './Dialog.module.css';
 
 // ---- Re-export types from Base UI for external use ----
-export type { DialogRootProps } from '@base-ui-components/react/dialog';
-export type { DialogTriggerProps } from '@base-ui-components/react/dialog';
-export type { DialogPortalProps } from '@base-ui-components/react/dialog';
-export type { DialogBackdropProps } from '@base-ui-components/react/dialog';
-export type { DialogPopupProps } from '@base-ui-components/react/dialog';
-export type { DialogTitleProps } from '@base-ui-components/react/dialog';
-export type { DialogDescriptionProps } from '@base-ui-components/react/dialog';
-export type { DialogCloseProps } from '@base-ui-components/react/dialog';
+export type { DialogRootProps } from '@base-ui/react/dialog';
+export type { DialogTriggerProps } from '@base-ui/react/dialog';
+export type { DialogPortalProps } from '@base-ui/react/dialog';
+export type { DialogBackdropProps } from '@base-ui/react/dialog';
+export type { DialogPopupProps } from '@base-ui/react/dialog';
+export type { DialogTitleProps } from '@base-ui/react/dialog';
+export type { DialogDescriptionProps } from '@base-ui/react/dialog';
+export type { DialogCloseProps } from '@base-ui/react/dialog';
 
 // ---- Root (no DOM element, pass-through) ----
 // Generic function type; displayName is set via the compound object name instead.
