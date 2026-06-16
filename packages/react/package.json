@@ -1,6 +1,6 @@
 {
   "name": "@eidra/react",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Eidra React component library, built on Base UI.",
   "type": "module",
   "sideEffects": [
