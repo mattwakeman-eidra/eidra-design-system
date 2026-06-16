@@ -52,6 +52,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { DataGrid, EditableNumberCell } from '@eidra/react'`
 - **Kbd** — Keyboard key hint.
   - import: `import { Kbd } from '@eidra/react'`
+- **Statistic** — A single labelled metric: an uppercase label, a prominent value, and optional trailing delta, caption, and progress bar.
+  - import: `import { Statistic } from '@eidra/react'`
 
 ### Feedback
 
