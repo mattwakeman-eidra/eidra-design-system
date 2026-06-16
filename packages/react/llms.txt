@@ -26,7 +26,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - Compound components are namespaces: render the listed parts (e.g. `<Dialog.Root><Dialog.Trigger/>…</Dialog.Root>`).
 - `@eidra/react` is a client boundary (`"use client"` baked in) — safe to import from React Server Components.
 
-## Components (41)
+## Components (42)
 
 ### Actions
 
@@ -50,6 +50,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Card } from '@eidra/react'` · parts: Card.Header, Card.Body, Card.Footer
 - **Kbd** — Keyboard key hint.
   - import: `import { Kbd } from '@eidra/react'`
+- **Statistic** — A single labelled metric: an uppercase label, a prominent value, and optional trailing delta, caption, and progress bar.
+  - import: `import { Statistic } from '@eidra/react'`
 
 ### Feedback
 

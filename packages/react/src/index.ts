@@ -33,6 +33,7 @@ export * from './components/Separator/index.js';
 export * from './components/Skeleton/index.js';
 export * from './components/Slider/index.js';
 export * from './components/Spinner/index.js';
+export * from './components/Statistic/index.js';
 export * from './components/Switch/index.js';
 export * from './components/Tabs/index.js';
 export * from './components/ThemeProvider/index.js';
