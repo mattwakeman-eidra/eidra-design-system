@@ -12,6 +12,7 @@
       "import": "./dist/index.js"
     },
     "./css": "./dist/eidra-tokens.css",
+    "./tailwind": "./dist/tailwind-preset.cjs",
     "./fonts.css": "./dist/fonts.css",
     "./fonts/*": "./dist/fonts/*"
   },
