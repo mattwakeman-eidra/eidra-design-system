@@ -1,0 +1,52 @@
+.root {
+  display: flex;
+  gap: var(--eidra-space-1);
+  width: 100%;
+}
+
+.cell {
+  --_bg: var(--eidra-bg-muted);
+  --_fg: var(--eidra-fg-muted);
+
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eidra-space-0-5);
+  padding-block: var(--eidra-space-1-5);
+  padding-inline: var(--eidra-space-1);
+  border-radius: var(--eidra-radius-sm);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--eidra-font-family-sans);
+  text-align: center;
+}
+
+.cell[data-status='positive'] {
+  --_bg: var(--eidra-finance-positive-subtle);
+  --_fg: var(--eidra-finance-positive);
+}
+.cell[data-status='caution'] {
+  --_bg: var(--eidra-finance-caution-subtle);
+  --_fg: var(--eidra-finance-caution);
+}
+.cell[data-status='negative'] {
+  --_bg: var(--eidra-finance-negative-subtle);
+  --_fg: var(--eidra-finance-negative);
+}
+
+.label {
+  font-size: calc(var(--eidra-font-size-xs) * 0.85);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
+.value {
+  font-size: var(--eidra-font-size-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

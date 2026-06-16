@@ -82,7 +82,9 @@
       "rev-actuals":    { "$type": "color", "$value": "#1b5e38" },
       "rev-sold":       { "$type": "color", "$value": "#6fb47a" },
       "rev-hi-prob":    { "$type": "color", "$value": "#b2d88a" },
-      "rev-additional": { "$type": "color", "$value": "#f0cc60" }
+      "rev-additional": { "$type": "color", "$value": "#f0cc60" },
+      "rev-budget":     { "$type": "color", "$value": "#2b2b2b" },
+      "comparison":     { "$type": "color", "$value": "#868686" }
     }
   }
 }
