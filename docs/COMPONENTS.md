@@ -65,6 +65,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Meter } from '@eidra/react'` · parts: Meter.Root
 - **Progress** — A progress bar built on Base UI `Progress`.
   - import: `import { Progress } from '@eidra/react'` · parts: Progress.Root
+- **SaveIndicator** — A transient inline confirmation that fades in after a successful save and out again — standardised across inline-edit interactions (pairs with `DataGrid` cell editing).
+  - import: `import { SaveIndicator, useSaveIndicator } from '@eidra/react'`
 - **Skeleton** — A loading placeholder that renders a pulsing shape while content is being fetched.
   - import: `import { Skeleton } from '@eidra/react'`
 - **Spinner** — A loading spinner rendered as an animated bordered circle.
