@@ -13,6 +13,7 @@ export * from './components/Collapsible/index.js';
 export * from './components/Combobox/index.js';
 export * from './components/ContextMenu/index.js';
 export * from './components/Dialog/index.js';
+export * from './components/EmptyState/index.js';
 export * from './components/Field/index.js';
 export * from './components/Fieldset/index.js';
 export * from './components/Form/index.js';

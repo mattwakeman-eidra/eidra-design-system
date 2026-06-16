@@ -26,7 +26,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - Compound components are namespaces: render the listed parts (e.g. `<Dialog.Root><Dialog.Trigger/>…</Dialog.Root>`).
 - `@eidra/react` is a client boundary (`"use client"` baked in) — safe to import from React Server Components.
 
-## Components (41)
+## Components (42)
 
 ### Actions
 
@@ -55,6 +55,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 - **Alert** — Inline callout for feedback messages.
   - import: `import { Alert } from '@eidra/react'`
+- **EmptyState** — A centered placeholder for empty lists, tables, and search results: an optional icon, a title, supporting description, and optional actions.
+  - import: `import { EmptyState } from '@eidra/react'`
 - **Meter** — A meter component built on Base UI `Meter`.
   - import: `import { Meter } from '@eidra/react'` · parts: Meter.Root
 - **Progress** — A progress bar built on Base UI `Progress`.
