@@ -1,5 +1,11 @@
 # @eidra/tokens
 
+## 1.1.0
+
+### Minor Changes
+
+- 2bc90aa: Add two finance data-viz tokens for chart completeness: `--eidra-finance-revenue-budget` (the budget step line) and `--eidra-finance-comparison` (last-year / comparison series).
+
 ## 1.0.0
 
 ### Minor Changes
