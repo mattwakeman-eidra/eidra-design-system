@@ -24,12 +24,12 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
+    "@eidra/icons": "workspace:*",
+    "@eidra/tokens": "workspace:*",
     "clsx": "^2.1.1",
     "recharts": "^3.7.0"
   },
   "peerDependencies": {
-    "@eidra/icons": "workspace:*",
-    "@eidra/tokens": "workspace:*",
     "react": ">=18",
     "react-dom": ">=18"
   },

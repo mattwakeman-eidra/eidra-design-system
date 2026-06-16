@@ -87,6 +87,12 @@ importers:
       '@base-ui/react':
         specifier: ^1.5.0
         version: 1.5.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@eidra/icons':
+        specifier: workspace:*
+        version: link:../icons
+      '@eidra/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -94,12 +100,6 @@ importers:
         specifier: ^3.7.0
         version: 3.8.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@17.0.2)(react@19.2.7)(redux@5.0.1)
     devDependencies:
-      '@eidra/icons':
-        specifier: workspace:*
-        version: link:../icons
-      '@eidra/tokens':
-        specifier: workspace:*
-        version: link:../tokens
       '@types/react':
         specifier: ^19.2.17
         version: 19.2.17
