@@ -1,6 +1,6 @@
 {
   "name": "@eidra/tokens",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Eidra design tokens — colors, type, spacing, themes.",
   "type": "module",
   "sideEffects": [
