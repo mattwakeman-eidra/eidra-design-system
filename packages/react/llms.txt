@@ -59,6 +59,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 - **Alert** — Inline callout for feedback messages.
   - import: `import { Alert } from '@eidra/react'`
+- **EmptyState** — A centered placeholder for empty lists, tables, and search results: an optional icon, a title, supporting description, and optional actions.
+  - import: `import { EmptyState } from '@eidra/react'`
 - **Meter** — A meter component built on Base UI `Meter`.
   - import: `import { Meter } from '@eidra/react'` · parts: Meter.Root
 - **Progress** — A progress bar built on Base UI `Progress`.
