@@ -113,6 +113,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 ### Navigation
 
+- **Breadcrumbs** — A breadcrumb trail showing the path to the current page.
+  - import: `import { Breadcrumbs } from '@eidra/react'`
 - **Menubar** — A menubar that groups a set of drop-down menus, built on Base UI Menubar + Menu primitives.
   - import: `import { Menubar, MenubarRoot, MenubarMenuRoot, MenubarTrigger, MenubarPortal, MenubarPositioner, MenubarPopup, MenubarItem, MenubarSeparator, MenubarGroup, MenubarGroupLabel, MenubarSubmenuRoot, MenubarSubmenuTrigger, MenubarCheckboxItem, MenubarCheckboxItemIndicator, MenubarRadioGroup, MenubarRadioItem, MenubarRadioItemIndicator, MenubarArrow } from '@eidra/react'` · parts: Menubar.Root, Menubar.MenuRoot, Menubar.Trigger, Menubar.Portal, Menubar.Positioner, Menubar.Popup, Menubar.Item, Menubar.Separator, Menubar.Group, Menubar.GroupLabel, Menubar.SubmenuRoot, Menubar.SubmenuTrigger, Menubar.CheckboxItem, Menubar.CheckboxItemIndicator, Menubar.RadioGroup, Menubar.RadioItem, Menubar.RadioItemIndicator, Menubar.Arrow
 - **NavigationMenu** — NavigationMenu — a compound component wrapping Base UI NavigationMenu.
