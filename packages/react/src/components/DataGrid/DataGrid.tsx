@@ -278,9 +278,14 @@ function DataGridInner<Row>(
 
   const firstLeafId = visibleLeaves[0]?.id;
 
+  // Only expose the scroll container as a labelled landmark when a name is
+  // provided; an unnamed `role="region"` fails accessibility checks. `tabIndex`
+  // stays so the scrollable area is always keyboard-reachable.
+  const regionProps = ariaLabel ? { role: 'region' as const, 'aria-label': ariaLabel } : {};
+
   return (
     <div ref={ref} className={cn(styles.root, className)} data-accent={accent}>
-      <div className={styles.scroll} role="region" aria-label={ariaLabel} tabIndex={0}>
+      <div className={styles.scroll} tabIndex={0} {...regionProps}>
         <table className={styles.table}>
           <colgroup>
             {visibleLeaves.map((col) => (
