@@ -218,3 +218,26 @@ export const TextGroup: StoryObj = {
     </ToggleGroup.Root>
   ),
 };
+
+/**
+ * Pill-shaped standalone chips (`shape="pill"`) — the quick-filter pattern: a row
+ * of independently-toggled, fully-rounded chips. Use `solid` for a filled active state.
+ */
+export const QuickFilterChips: StoryObj = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-2)' }}>
+      <Toggle shape="pill" size="sm" variant="solid" defaultPressed>
+        Growing
+      </Toggle>
+      <Toggle shape="pill" size="sm" variant="solid">
+        Declining
+      </Toggle>
+      <Toggle shape="pill" size="sm" variant="solid">
+        At risk
+      </Toggle>
+      <Toggle shape="pill" size="sm" variant="solid">
+        New this year
+      </Toggle>
+    </div>
+  ),
+};

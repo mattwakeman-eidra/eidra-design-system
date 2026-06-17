@@ -182,3 +182,84 @@ export const HeadcountBudget: Story = {
     </Chart.Container>
   ),
 };
+
+// ── Bubble / scatter: client revenue vs growth, bubble size = total revenue ──
+interface ClientPoint {
+  client: string;
+  revenue: number; // €k (x)
+  growth: number; // % YoY (y)
+  total: number; // €k → bubble size (z)
+  tier: 'small' | 'mid' | 'large' | 'pillar';
+}
+
+const CLIENTS: ClientPoint[] = [
+  { client: 'Acme Corp', revenue: 2400, growth: 12, total: 2400, tier: 'large' },
+  { client: 'Globex', revenue: 1800, growth: -5, total: 1800, tier: 'mid' },
+  { client: 'Initech', revenue: 900, growth: 22, total: 900, tier: 'small' },
+  { client: 'Umbrella', revenue: 3200, growth: 4, total: 3200, tier: 'pillar' },
+  { client: 'Soylent', revenue: 1200, growth: 18, total: 1200, tier: 'mid' },
+  { client: 'Hooli', revenue: 600, growth: -12, total: 600, tier: 'small' },
+  { client: 'Stark', revenue: 2800, growth: 9, total: 2800, tier: 'large' },
+  { client: 'Wayne', revenue: 3600, growth: 2, total: 3600, tier: 'pillar' },
+  { client: 'Wonka', revenue: 750, growth: 30, total: 750, tier: 'small' },
+  { client: 'Cyberdyne', revenue: 1500, growth: -3, total: 1500, tier: 'mid' },
+];
+
+const bubbleConfig: ChartConfig = {
+  small: { label: 'Small', color: 'var(--eidra-finance-comparison)' },
+  mid: { label: 'Mid-market', color: 'var(--eidra-finance-revenue-sold)' },
+  large: { label: 'Enterprise', color: 'var(--eidra-finance-accent)' },
+  pillar: { label: 'Pillar', color: 'var(--eidra-finance-revenue-actuals)' },
+};
+
+const TIERS = ['small', 'mid', 'large', 'pillar'] as const;
+
+/**
+ * Bubble (scatter) chart — client revenue (x) vs YoY growth (y) with bubble size
+ * by total revenue (`ZAxis`), one series per size tier. Uses the same themed
+ * `Chart.Container` config, `ReferenceLine`, tooltip, and legend as the other
+ * chart types — the Client Dashboard's portfolio view.
+ */
+export const Bubble: Story = {
+  render: () => (
+    <Chart.Container config={bubbleConfig} style={{ height: 380, maxWidth: 680 }}>
+      <Chart.ScatterChart margin={{ top: 16, right: 16, bottom: 8, left: 4 }}>
+        <Chart.CartesianGrid strokeDasharray="4 4" />
+        <Chart.XAxis
+          type="number"
+          dataKey="revenue"
+          name="Revenue"
+          tickLine={false}
+          axisLine={false}
+          tickFormatter={(v: number) => formatCompactCurrency(v * 1000)}
+        />
+        <Chart.YAxis
+          type="number"
+          dataKey="growth"
+          name="Growth"
+          unit="%"
+          width={44}
+          tickLine={false}
+          axisLine={false}
+        />
+        <Chart.ZAxis type="number" dataKey="total" range={[80, 700]} name="Total" />
+        <Chart.ReferenceLine y={0} stroke="var(--eidra-border-strong)" strokeDasharray="2 2" />
+        <Chart.Tooltip
+          cursor={{ strokeDasharray: '3 3' }}
+          content={<Chart.TooltipContent hideLabel />}
+        />
+        {TIERS.map((tier) => (
+          <Chart.Scatter
+            {...Chart.seriesDefaults}
+            key={tier}
+            name={String(bubbleConfig[tier]?.label ?? tier)}
+            data={CLIENTS.filter((c) => c.tier === tier)}
+            fill={`var(--color-${tier})`}
+            fillOpacity={0.65}
+          />
+        ))}
+        <Chart.Legend content={<Chart.LegendContent />} />
+      </Chart.ScatterChart>
+    </Chart.Container>
+  ),
+};
