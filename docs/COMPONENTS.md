@@ -26,7 +26,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - Compound components are namespaces: render the listed parts (e.g. `<Dialog.Root><Dialog.Trigger/>…</Dialog.Root>`).
 - `@eidra/react` is a client boundary (`"use client"` baked in) — safe to import from React Server Components.
 
-## Components (48)
+## Components (53)
 
 ### Actions
 
@@ -49,11 +49,15 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - **Card** — Compound Card component.
   - import: `import { Card } from '@eidra/react'` · parts: Card.Header, Card.Body, Card.Footer
 - **Chart** — Composable charting kit built on Recharts and themed with Eidra tokens.
-  - import: `import { Chart, formatCompactCurrency } from '@eidra/react'` · parts: Chart.Container, Chart.TooltipContent, Chart.LegendContent, Chart.ResponsiveContainer, Chart.ComposedChart, Chart.BarChart, Chart.LineChart, Chart.AreaChart, Chart.Bar, Chart.Line, Chart.Area, Chart.Cell, Chart.LabelList, Chart.XAxis, Chart.YAxis, Chart.CartesianGrid, Chart.ReferenceLine, Chart.Legend, Chart.Tooltip
+  - import: `import { Chart, formatCompactCurrency } from '@eidra/react'` · parts: Chart.Container, Chart.TooltipContent, Chart.LegendContent
 - **DataGrid** — A generic, config-driven data grid built on a native `<table>`: sticky pinned columns, a multi-tier header from column groups, click-to-sort, global filtering, column visibility, expandable tree rows, and a sticky totals footer.
   - import: `import { DataGrid, EditableNumberCell } from '@eidra/react'`
 - **Kbd** — Keyboard key hint.
   - import: `import { Kbd } from '@eidra/react'`
+- **SegmentBar** — A thin horizontal bar split into proportional, tinted segments — for showing a composition (e.g.
+  - import: `import { SegmentBar } from '@eidra/react'`
+- **StatBar** — An inline strip of labelled metrics separated by thin dividers — a compact KPI header (e.g.
+  - import: `import { StatBar } from '@eidra/react'`
 - **Statistic** — A single labelled metric: an uppercase label, a prominent value, and optional trailing delta, caption, and progress bar.
   - import: `import { Statistic } from '@eidra/react'`
 - **StatusStrip** — Status strip / heat-row.
@@ -65,6 +69,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Alert } from '@eidra/react'`
 - **EmptyState** — A centered placeholder for empty lists, tables, and search results: an optional icon, a title, supporting description, and optional actions.
   - import: `import { EmptyState } from '@eidra/react'`
+- **Freshness** — A freshness / status indicator: a coloured dot, an optional label, and an optional relative timestamp (e.g.
+  - import: `import { Freshness } from '@eidra/react'`
 - **Meter** — A meter component built on Base UI `Meter`.
   - import: `import { Meter } from '@eidra/react'` · parts: Meter.Root
 - **Progress** — A progress bar built on Base UI `Progress`.
@@ -109,6 +115,13 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 - **Typography** — Renders brand-correct text.
   - import: `import { Typography } from '@eidra/react'`
+
+### Inputs
+
+- **FilterSelect** — A compact multi-select filter pill: a trigger that summarises the selection, opening a popover with a searchable checkbox list, a selection count, and a clear-all.
+  - import: `import { FilterSelect } from '@eidra/react'`
+- **SegmentedControl** — A segmented control: a contiguous track of mutually-exclusive options with the active segment filled.
+  - import: `import { SegmentedControl } from '@eidra/react'`
 
 ### Layout
 
