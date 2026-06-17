@@ -14,10 +14,10 @@ export type DataGridAlign = 'start' | 'center' | 'end';
 export type SortDirection = 'asc' | 'desc';
 /**
  * Table sizing strategy. `'auto'` (default) lets the browser size columns from
- * content. `'fixed'` sets `table-layout: fixed` and sizes columns strictly from
- * their `width`, so the rendered widths equal the declared widths — required for
- * multiple pinned columns to keep their sticky offsets aligned during horizontal
- * scroll (see {@link DataGridColumn.pinned}).
+ * content; `'fixed'` sets `table-layout: fixed` and sizes columns strictly from
+ * their `width`. Pinned columns stay aligned in both modes — their sticky offsets
+ * track the *rendered* column widths — so use `'fixed'` only when you want exact,
+ * content-independent column widths (see {@link DataGridColumn.pinned}).
  */
 export type DataGridTableLayout = 'auto' | 'fixed';
 /** Where the totals/aggregate row sits: pinned to the `'bottom'` (default) or `'top'`, below the header. */
@@ -115,8 +115,8 @@ export interface DataGridProps<Row> {
   /** Where the totals row sits. `'bottom'` (default) pins it to the foot; `'top'` stacks it under the header. */
   totalsPlacement?: DataGridTotalsPlacement;
   /**
-   * Column sizing strategy. Defaults to `'auto'`. Use `'fixed'` whenever the grid
-   * has ≥2 pinned columns so their sticky offsets stay aligned during horizontal scroll.
+   * Column sizing strategy. Defaults to `'auto'`. Pinned columns stay aligned in
+   * either mode; choose `'fixed'` only for exact, content-independent column widths.
    */
   tableLayout?: DataGridTableLayout;
   /**
@@ -319,6 +319,45 @@ function DataGridInner<Row>(
     return () => observer.disconnect();
   }, [totalsAtTop, hasGroups, visibleLeaves]);
 
+  // Fallback column width when none is declared (also the fixed-layout default).
+  const DEFAULT_COL_WIDTH = 120;
+
+  // Sticky-left offsets for pinned columns must equal each column's *rendered*
+  // width, not its *declared* width. Under `table-layout: auto` the two diverge
+  // (the browser stretches/shrinks columns to fit the container — most visibly in
+  // a narrow context like the Storybook Docs tab), so declared-width offsets drift
+  // and pinned columns overlap. Measure the rendered `<col>` widths and recompute.
+  const tableRef = useRef<HTMLTableElement>(null);
+  const [measuredPinnedLeft, setMeasuredPinnedLeft] = useState<Map<string, number> | null>(null);
+  const hasPinned = useMemo(() => visibleLeaves.some((c) => c.pinned), [visibleLeaves]);
+  useLayoutEffect(() => {
+    const tableEl = tableRef.current;
+    if (!tableEl || !hasPinned) {
+      setMeasuredPinnedLeft(null);
+      return;
+    }
+    const measure = () => {
+      const cols = tableEl.querySelectorAll<HTMLTableColElement>(':scope > colgroup > col');
+      const next = new Map<string, number>();
+      let offset = 0;
+      visibleLeaves.forEach((col, i) => {
+        if (!col.pinned) return;
+        next.set(col.id, offset);
+        const rendered = cols[i]?.getBoundingClientRect().width || 0;
+        offset += rendered || col.width || DEFAULT_COL_WIDTH;
+      });
+      setMeasuredPinnedLeft(next);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(tableEl);
+    return () => observer.disconnect();
+  }, [hasPinned, visibleLeaves, tableLayout]);
+
+  // Resolved sticky offset: measured rendered widths when available, else declared.
+  const pinnedOffset = (colId: string) =>
+    (measuredPinnedLeft ?? pinnedLeft).get(colId) ?? 0;
+
   const align = (col: DataGridColumn<Row>): DataGridAlign =>
     col.align ?? (col.numeric ? 'end' : 'start');
 
@@ -333,7 +372,7 @@ function DataGridInner<Row>(
     return {
       'data-pinned': '',
       'data-z': zKind,
-      style: { left: pinnedLeft.get(col.id) ?? 0 } as React.CSSProperties,
+      style: { left: pinnedOffset(col.id) } as React.CSSProperties,
     };
   };
 
@@ -346,7 +385,6 @@ function DataGridInner<Row>(
 
   // Under fixed layout, columns size strictly from these widths, so every column
   // needs one for sticky offsets to stay aligned; fall back to a sensible default.
-  const DEFAULT_COL_WIDTH = 120;
   const colWidth = (col: DataGridColumn<Row>) =>
     col.width ?? (tableLayout === 'fixed' ? DEFAULT_COL_WIDTH : undefined);
 
@@ -358,7 +396,7 @@ function DataGridInner<Row>(
       data-density={density}
     >
       <div className={styles.scroll} tabIndex={0} {...regionProps}>
-        <table className={styles.table} data-layout={tableLayout}>
+        <table ref={tableRef} className={styles.table} data-layout={tableLayout}>
           <colgroup>
             {visibleLeaves.map((col) => {
               const w = colWidth(col);
@@ -497,7 +535,7 @@ function DataGridInner<Row>(
       // Top totals stick below the header (top: measured header height) and, when
       // pinned, also stick left; bottom totals reuse the sticky-footer treatment.
       const style: React.CSSProperties = {};
-      if (col.pinned) style.left = pinnedLeft.get(col.id) ?? 0;
+      if (col.pinned) style.left = pinnedOffset(col.id);
       if (placement === 'top') style.top = theadHeight;
       return (
         <td
