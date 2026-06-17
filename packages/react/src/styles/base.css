@@ -28,7 +28,23 @@
   font-synthesis: none;
 }
 
-/* Compact density: remap control sizes; components read these tokens. */
+/*
+ * Compact density. Two mechanisms, by component kind:
+ *  1. Control components (Button, Input, Select, …) size from the
+ *     `--eidra-size-control-*` tokens remapped below, so they shrink for free.
+ *  2. Data-display / layout components (Card, Alert, Tabs, Statistic, …) carry
+ *     fixed spacing and opt in with a `:global([data-density='compact'])` block
+ *     in their own CSS Module.
+ *
+ * Convention for (2) — keep it uniform across the catalogue:
+ *  - Reduce EVERY padding axis the base rule uses: declare BOTH `padding-block`
+ *    and `padding-inline` (one step down: 6→4→3→2→1-5→1→0-5, floored at
+ *    space-0-5; never collapse padding to 0). Don't tighten only one axis.
+ *  - Reduce `gap` one step (may reach 0). Purely inline/gap components
+ *    (Freshness, Breadcrumbs) have a single gap axis and only reduce that.
+ *  - Step down only large fonts (≥ base): 2xl→xl→lg→base→sm; leave sm / xs.
+ *  - Spacing/size/font only — never change colour, border, radius, or layout.
+ */
 .eidra-root[data-density='compact'] {
   --eidra-size-control-sm: 1.75rem;
   --eidra-size-control-md: 2rem;
