@@ -1,18 +1,18 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { cn } from '../../utils/cn.js';
-import styles from './StatBar.module.css';
+import styles from './StatisticBar.module.css';
 
 /** Colour role for a metric's value. Maps to semantic + finance tokens. */
-export type StatBarTone = 'neutral' | 'positive' | 'negative' | 'caution' | 'accent';
+export type StatisticBarTone = 'neutral' | 'positive' | 'negative' | 'caution' | 'accent';
 
-export interface StatBarItem {
+export interface StatisticBarItem {
   /** Short label shown above the value (rendered uppercase). */
   label: ReactNode;
   /** The value — already formatted by the caller (e.g. a currency string). */
   value: ReactNode;
   /** Value colour. Defaults to `neutral`. */
-  tone?: StatBarTone;
+  tone?: StatisticBarTone;
   /** Secondary caption shown below the value. */
   caption?: ReactNode;
   /**
@@ -22,9 +22,9 @@ export interface StatBarItem {
   align?: 'start' | 'end';
 }
 
-export interface StatBarProps extends Omit<ComponentPropsWithoutRef<'div'>, 'children'> {
+export interface StatisticBarProps extends Omit<ComponentPropsWithoutRef<'div'>, 'children'> {
   /** The metrics, laid out inline left-to-right with dividers between them. */
-  items: StatBarItem[];
+  items: StatisticBarItem[];
   /** Value text size. Defaults to `md`. */
   size?: 'sm' | 'md' | 'lg';
   /** Accessible name for the group. */
@@ -39,7 +39,7 @@ export interface StatBarProps extends Omit<ComponentPropsWithoutRef<'div'>, 'chi
  * monospace numeral face so columns of figures line up. For a single rich metric
  * (delta, progress bar, tone) use `Statistic`; for a row of figures, use this.
  */
-export const StatBar = forwardRef<HTMLDivElement, StatBarProps>(function StatBar(
+export const StatisticBar = forwardRef<HTMLDivElement, StatisticBarProps>(function StatisticBar(
   { items, size = 'md', className, ...props },
   ref,
 ) {

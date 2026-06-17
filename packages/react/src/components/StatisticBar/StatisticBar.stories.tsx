@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { StatBar, type StatBarItem } from './StatBar.js';
+import { StatisticBar, type StatisticBarItem } from './StatisticBar.js';
 
 const meta = {
-  title: 'Data Display/StatBar',
-  component: StatBar,
+  title: 'Data Display/StatisticBar',
+  component: StatisticBar,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
   args: { items: [] },
-} satisfies Meta<typeof StatBar>;
+} satisfies Meta<typeof StatisticBar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -40,7 +40,7 @@ export const Tones: Story = {
   },
 };
 
-const SIZED: StatBarItem[] = [
+const SIZED: StatisticBarItem[] = [
   { label: 'Actuals YTD', value: '€11.5M' },
   { label: 'Sold forecast', value: '€18.2M', tone: 'positive' },
   { label: 'Year-end', value: '€21.6M', tone: 'accent' },
@@ -50,9 +50,9 @@ const SIZED: StatBarItem[] = [
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
-      <StatBar size="sm" items={SIZED} />
-      <StatBar size="md" items={SIZED} />
-      <StatBar size="lg" items={SIZED} />
+      <StatisticBar size="sm" items={SIZED} />
+      <StatisticBar size="md" items={SIZED} />
+      <StatisticBar size="lg" items={SIZED} />
     </div>
   ),
 };
@@ -79,7 +79,7 @@ export const InCard: Story = {
         backgroundColor: 'var(--eidra-surface)',
       }}
     >
-      <StatBar
+      <StatisticBar
         aria-label="Forecast summary"
         items={[
           { label: 'Clients', value: '128' },

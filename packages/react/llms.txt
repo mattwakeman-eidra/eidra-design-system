@@ -56,10 +56,10 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Kbd } from '@eidra/react'`
 - **SegmentBar** — A thin horizontal bar split into proportional, tinted segments — for showing a composition (e.g.
   - import: `import { SegmentBar } from '@eidra/react'`
-- **StatBar** — An inline strip of labelled metrics separated by thin dividers — a compact KPI header (e.g.
-  - import: `import { StatBar } from '@eidra/react'`
 - **Statistic** — A single labelled metric: an uppercase label, a prominent value, and optional trailing delta, caption, and progress bar.
   - import: `import { Statistic } from '@eidra/react'`
+- **StatisticBar** — An inline strip of labelled metrics separated by thin dividers — a compact KPI header (e.g.
+  - import: `import { StatisticBar } from '@eidra/react'`
 - **StatusStrip** — Status strip / heat-row.
   - import: `import { StatusStrip } from '@eidra/react'` · parts: StatusStrip.Cell
 
