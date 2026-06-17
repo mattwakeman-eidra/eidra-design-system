@@ -88,3 +88,18 @@
 .root[data-size='sm'] .item:first-child {
   padding-inline-start: 0;
 }
+
+/* Honour the ambient compact-density scope: tighten dividers + value gap. */
+:global([data-density='compact']) .item {
+  padding-inline: var(--eidra-space-3);
+  gap: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .item:first-child {
+  padding-inline-start: 0;
+}
+:global([data-density='compact']) .value {
+  font-size: var(--eidra-font-size-sm);
+}
+:global([data-density='compact']) .root[data-size='lg'] .value {
+  font-size: var(--eidra-font-size-lg);
+}

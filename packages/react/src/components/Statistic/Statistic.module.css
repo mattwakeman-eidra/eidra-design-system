@@ -73,3 +73,14 @@
 .progress {
   margin-block-start: var(--eidra-space-1);
 }
+
+/* Honour the ambient compact-density scope: tighter stack, one step smaller value. */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .root[data-size='md'] .value {
+  font-size: var(--eidra-font-size-base);
+}
+:global([data-density='compact']) .root[data-size='lg'] .value {
+  font-size: var(--eidra-font-size-lg);
+}
