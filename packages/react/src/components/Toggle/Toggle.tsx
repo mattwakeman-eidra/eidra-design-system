@@ -8,6 +8,7 @@ import styles from './Toggle.module.css';
 
 export type ToggleSize = 'sm' | 'md' | 'lg';
 export type ToggleVariant = 'solid' | 'outline' | 'ghost';
+export type ToggleShape = 'rect' | 'pill';
 
 export interface ToggleProps extends Omit<BaseToggle.Props, 'className'> {
   className?: string;
@@ -15,6 +16,8 @@ export interface ToggleProps extends Omit<BaseToggle.Props, 'className'> {
   variant?: ToggleVariant;
   /** Control size. Defaults to `md`. */
   size?: ToggleSize;
+  /** Corner shape. `'rect'` (default) or `'pill'` (fully rounded — e.g. quick-filter chips). */
+  shape?: ToggleShape;
 }
 
 /**
@@ -35,7 +38,7 @@ export interface ToggleProps extends Omit<BaseToggle.Props, 'className'> {
  * </ToggleGroup.Root>
  */
 const ToggleRoot = forwardRef<HTMLButtonElement, ToggleProps>(function Toggle(
-  { variant = 'outline', size = 'md', className, ...props },
+  { variant = 'outline', size = 'md', shape = 'rect', className, ...props },
   ref,
 ) {
   return (
@@ -44,6 +47,7 @@ const ToggleRoot = forwardRef<HTMLButtonElement, ToggleProps>(function Toggle(
       className={cn(styles.toggle, className)}
       data-variant={variant}
       data-size={size}
+      data-shape={shape}
       {...props}
     />
   );

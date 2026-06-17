@@ -25,6 +25,22 @@
   fill: var(--eidra-fg);
 }
 
+/*
+ * Focus. Recharts makes the chart surface focusable (keyboard a11y), and the
+ * browser draws its default blue focus box on click. Suppress that, and show the
+ * token focus ring only for keyboard focus (`:focus-visible`).
+ */
+.container :global(.recharts-wrapper:focus),
+.container :global(.recharts-surface:focus) {
+  outline: none;
+}
+.container :global(.recharts-wrapper:focus-visible),
+.container :global(.recharts-surface:focus-visible) {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--eidra-radius-md);
+}
+
 /* ---- Tooltip ---- */
 .tooltip {
   min-width: 160px;

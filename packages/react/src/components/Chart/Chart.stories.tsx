@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Chart, formatCompactCurrency, type ChartConfig } from './Chart.js';
 
@@ -46,8 +46,11 @@ const config: ChartConfig = {
 
 const fmt = (v: number | string | undefined) => formatCompactCurrency(Number(v) * 1000);
 
-/** Full sold-&-forecast chart: stacked revenue bars + budget step line + dashed LY line, themed tooltip, toggleable legend, dimmed closed months. */
-export const ForecastChart: Story = {
+/**
+ * **Composed** (use case: Sold & Forecast) — stacked revenue bars + budget step line
+ * + dashed LY line, themed tooltip, toggleable legend, dimmed closed months.
+ */
+export const Forecast: Story = {
   render: () => {
     const [hidden, setHidden] = useState<string[]>([]);
     const toggle = (key: string) =>
@@ -113,17 +116,72 @@ export const ForecastChart: Story = {
   },
 };
 
-/** Compact (`size="sm"`) variant for a region/opco breakdown card. */
-export const Mini: Story = {
+// ── A simple two-series dataset for the single-type examples (bars/line/area) ──
+interface TrendDatum {
+  month: string;
+  revenue: number;
+  target: number;
+}
+const TREND: TrendDatum[] = [
+  { month: 'Jan', revenue: 120, target: 110 },
+  { month: 'Feb', revenue: 138, target: 120 },
+  { month: 'Mar', revenue: 131, target: 130 },
+  { month: 'Apr', revenue: 154, target: 140 },
+  { month: 'May', revenue: 149, target: 150 },
+  { month: 'Jun', revenue: 168, target: 160 },
+];
+const trendConfig: ChartConfig = {
+  revenue: { label: 'Revenue', color: 'var(--eidra-finance-revenue-actuals)' },
+  target: { label: 'Target', color: 'var(--eidra-finance-comparison)' },
+};
+
+/** **Bars** (`BarChart`) — grouped bars comparing two series. */
+export const Bars: Story = {
   render: () => (
-    <Chart.Container config={config} size="sm" style={{ maxWidth: 280 }}>
-      <Chart.ComposedChart data={DATA} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+    <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
+      <Chart.BarChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
+        <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
         <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
-        <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" />
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" />
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} />
-      </Chart.ComposedChart>
+        <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
+        <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<Chart.TooltipContent formatter={fmt} />} />
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[3, 3, 0, 0]} />
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="target" fill="var(--color-target)" radius={[3, 3, 0, 0]} />
+        <Chart.Legend content={<Chart.LegendContent />} />
+      </Chart.BarChart>
+    </Chart.Container>
+  ),
+};
+
+/** **Line** (`LineChart`) — a trend line vs target. */
+export const Line: Story = {
+  render: () => (
+    <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
+      <Chart.LineChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
+        <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+        <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
+        <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
+        <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" strokeWidth={2} dot={{ r: 3 }} />
+        <Chart.Line {...Chart.seriesDefaults} dataKey="target" type="monotone" stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+        <Chart.Legend content={<Chart.LegendContent />} />
+      </Chart.LineChart>
+    </Chart.Container>
+  ),
+};
+
+/** **Area** (`AreaChart`) — a filled trend with a target line. */
+export const Area: Story = {
+  render: () => (
+    <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
+      <Chart.AreaChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
+        <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+        <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
+        <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
+        <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={0.2} strokeWidth={2} />
+        <Chart.Line {...Chart.seriesDefaults} dataKey="target" type="monotone" stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+        <Chart.Legend content={<Chart.LegendContent />} />
+      </Chart.AreaChart>
     </Chart.Container>
   ),
 };
@@ -154,10 +212,10 @@ const headcountConfig: ChartConfig = {
 const fte = (v: number | string | undefined) => `${Number(v)} FTE`;
 
 /**
- * Headcount: actual (bars) vs demand (line) against a budget **black step line**.
- * Same kit, different domain — generic tokens, FTE units instead of currency.
+ * **Composed** (use case: Headcount) — actual (bars) vs demand (line) against a
+ * budget **black step line**. Same kit, different domain: generic tokens, FTE units.
  */
-export const HeadcountBudget: Story = {
+export const Headcount: Story = {
   render: () => (
     <Chart.Container config={headcountConfig} style={{ height: 320, maxWidth: 640 }}>
       <Chart.ComposedChart data={HEADCOUNT} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
@@ -180,5 +238,184 @@ export const HeadcountBudget: Story = {
         <Chart.Legend content={<Chart.LegendContent />} />
       </Chart.ComposedChart>
     </Chart.Container>
+  ),
+};
+
+// ── Bubble / scatter: client revenue vs growth, bubble size = total revenue ──
+interface ClientPoint {
+  client: string;
+  revenue: number; // €k (x)
+  growth: number; // % YoY (y)
+  total: number; // €k → bubble size (z)
+  tier: 'small' | 'mid' | 'large' | 'pillar';
+}
+
+const CLIENTS: ClientPoint[] = [
+  { client: 'Acme Corp', revenue: 2400, growth: 12, total: 2400, tier: 'large' },
+  { client: 'Globex', revenue: 1800, growth: -5, total: 1800, tier: 'mid' },
+  { client: 'Initech', revenue: 900, growth: 22, total: 900, tier: 'small' },
+  { client: 'Umbrella', revenue: 3200, growth: 4, total: 3200, tier: 'pillar' },
+  { client: 'Soylent', revenue: 1200, growth: 18, total: 1200, tier: 'mid' },
+  { client: 'Hooli', revenue: 600, growth: -12, total: 600, tier: 'small' },
+  { client: 'Stark', revenue: 2800, growth: 9, total: 2800, tier: 'large' },
+  { client: 'Wayne', revenue: 3600, growth: 2, total: 3600, tier: 'pillar' },
+  { client: 'Wonka', revenue: 750, growth: 30, total: 750, tier: 'small' },
+  { client: 'Cyberdyne', revenue: 1500, growth: -3, total: 1500, tier: 'mid' },
+];
+
+const bubbleConfig: ChartConfig = {
+  small: { label: 'Small', color: 'var(--eidra-finance-comparison)' },
+  mid: { label: 'Mid-market', color: 'var(--eidra-finance-revenue-sold)' },
+  large: { label: 'Enterprise', color: 'var(--eidra-finance-accent)' },
+  pillar: { label: 'Pillar', color: 'var(--eidra-finance-revenue-actuals)' },
+};
+
+const TIERS = ['small', 'mid', 'large', 'pillar'] as const;
+
+/**
+ * **Bubble / Scatter** (use case: Client Dashboard) — client revenue (x) vs YoY
+ * growth (y) with bubble size by total revenue (`ZAxis`), one series per size tier.
+ * Uses the same themed `Chart.Container` config, `ReferenceLine`, tooltip, and legend.
+ */
+export const Bubble: Story = {
+  render: () => (
+    <Chart.Container config={bubbleConfig} style={{ height: 380, maxWidth: 680 }}>
+      <Chart.ScatterChart margin={{ top: 16, right: 16, bottom: 8, left: 4 }}>
+        <Chart.CartesianGrid strokeDasharray="4 4" />
+        <Chart.XAxis
+          type="number"
+          dataKey="revenue"
+          name="Revenue"
+          tickLine={false}
+          axisLine={false}
+          tickFormatter={(v: number) => formatCompactCurrency(v * 1000)}
+        />
+        <Chart.YAxis
+          type="number"
+          dataKey="growth"
+          name="Growth"
+          unit="%"
+          width={44}
+          tickLine={false}
+          axisLine={false}
+        />
+        <Chart.ZAxis type="number" dataKey="total" range={[80, 700]} name="Total" />
+        <Chart.ReferenceLine y={0} stroke="var(--eidra-border-strong)" strokeDasharray="2 2" />
+        <Chart.Tooltip
+          cursor={{ strokeDasharray: '3 3' }}
+          content={<Chart.TooltipContent hideLabel />}
+        />
+        {TIERS.map((tier) => (
+          <Chart.Scatter
+            {...Chart.seriesDefaults}
+            key={tier}
+            name={String(bubbleConfig[tier]?.label ?? tier)}
+            data={CLIENTS.filter((c) => c.tier === tier)}
+            fill={`var(--color-${tier})`}
+            fillOpacity={0.65}
+          />
+        ))}
+        <Chart.Legend content={<Chart.LegendContent />} />
+      </Chart.ScatterChart>
+    </Chart.Container>
+  ),
+};
+
+// A small labelled card wrapper for the mini gallery.
+function MiniCard({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div
+      style={{
+        padding: 'var(--eidra-space-3)',
+        border: '1px solid var(--eidra-border)',
+        borderRadius: 'var(--eidra-radius-lg)',
+        background: 'var(--eidra-surface)',
+      }}
+    >
+      <div
+        style={{
+          marginBottom: 'var(--eidra-space-2)',
+          font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.06em',
+          color: 'var(--eidra-fg-muted)',
+        }}
+      >
+        {title}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+/**
+ * **Minis** — every chart type at `size="sm"` for dashboard summary / sparkline
+ * cards: compact height, trimmed axes, no legend. One mini per type so consumers
+ * can drop any chart into a small card.
+ */
+export const Minis: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+        gap: 'var(--eidra-space-4)',
+        maxWidth: 800,
+      }}
+    >
+      <MiniCard title="Bars">
+        <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
+          <Chart.BarChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+            <Chart.XAxis dataKey="month" hide />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[2, 2, 0, 0]} activeBar={false} />
+          </Chart.BarChart>
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Line">
+        <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
+          <Chart.LineChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+            <Chart.XAxis dataKey="month" hide />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" strokeWidth={2} dot={false} activeDot={false} />
+          </Chart.LineChart>
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Area">
+        <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
+          <Chart.AreaChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+            <Chart.XAxis dataKey="month" hide />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={0.2} strokeWidth={2} activeDot={false} />
+          </Chart.AreaChart>
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Composed (stacked)">
+        <Chart.Container config={config} size="sm" style={{ height: 120 }}>
+          <Chart.ComposedChart data={DATA} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+            <Chart.XAxis dataKey="month" hide />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" activeBar={false} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" activeBar={false} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} activeBar={false} />
+          </Chart.ComposedChart>
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Bubble">
+        <Chart.Container config={bubbleConfig} size="sm" style={{ height: 120 }}>
+          <Chart.ScatterChart margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+            <Chart.XAxis type="number" dataKey="revenue" hide />
+            <Chart.YAxis type="number" dataKey="growth" hide />
+            <Chart.ZAxis type="number" dataKey="total" range={[30, 240]} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
+            <Chart.Scatter {...Chart.seriesDefaults} data={CLIENTS} fill="var(--color-large)" fillOpacity={0.6} />
+          </Chart.ScatterChart>
+        </Chart.Container>
+      </MiniCard>
+    </div>
   ),
 };

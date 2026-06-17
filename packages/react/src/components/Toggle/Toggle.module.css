@@ -105,6 +105,12 @@
   color: var(--eidra-accent-fg);
 }
 
+/* ─── Shape ──────────────────────────────────────────────────────────────── */
+/* Pill: fully-rounded standalone chip (e.g. quick-filter chips). */
+.toggle[data-shape='pill'] {
+  border-radius: var(--eidra-radius-full);
+}
+
 /* ─── ToggleGroup container ──────────────────────────────────────────────── */
 .group {
   display: inline-flex;
