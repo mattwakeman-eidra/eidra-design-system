@@ -241,3 +241,11 @@
   padding: var(--eidra-space-0-5) var(--eidra-space-2);
   margin-top: var(--eidra-space-2);
 }
+
+/* Viewport is the portal root and is stamped with data-density (ThemeProvider scope),
+   so also match the attribute on the element itself, not only an ancestor. */
+.viewport[data-density='compact'] {
+  bottom: var(--eidra-space-4);
+  right: var(--eidra-space-4);
+  gap: var(--eidra-space-1);
+}

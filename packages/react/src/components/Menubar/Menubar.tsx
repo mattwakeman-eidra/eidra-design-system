@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { Menubar as BaseMenubar } from '@base-ui/react/menubar';
 import { Menu } from '@base-ui/react/menu';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Menubar.module.css';
 
 // ─── Re-export Base UI types ─────────────────────────────────────────────────
@@ -40,7 +41,8 @@ const Positioner = forwardRef<HTMLDivElement, Menu.Positioner.Props>(function Po
   { className, ...props },
   ref,
 ) {
-  return <Menu.Positioner ref={ref} className={cn(styles.positioner, className)} {...props} />;
+  const scope = useScopeDataAttrs();
+  return <Menu.Positioner ref={ref} className={cn(styles.positioner, className)} {...scope} {...props} />;
 });
 
 // ─── Popup ────────────────────────────────────────────────────────────────────

@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
 import { ContextMenu as BaseContextMenu } from '@base-ui/react/context-menu';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './ContextMenu.module.css';
 
 // ---- Root ----
@@ -42,10 +43,12 @@ export interface ContextMenuPositionerProps
 
 const Positioner = forwardRef<HTMLDivElement, ContextMenuPositionerProps>(
   function Positioner({ className, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
       <BaseContextMenu.Positioner
         ref={ref}
         className={cn(styles.positioner, className)}
+        {...scope}
         {...props}
       />
     );

@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import { cn } from '../../utils/cn.js';
+import { EidraScopeProvider } from '../../utils/scope.js';
 
 export type Theme = 'light' | 'dark';
 export type Density = 'comfortable' | 'compact';
@@ -21,13 +22,15 @@ export interface ThemeProviderProps extends ComponentPropsWithoutRef<'div'> {
 export const ThemeProvider = forwardRef<HTMLDivElement, ThemeProviderProps>(
   function ThemeProvider({ theme = 'light', density = 'comfortable', className, ...props }, ref) {
     return (
-      <div
-        ref={ref}
-        className={cn('eidra-root', className)}
-        data-theme={theme}
-        data-density={density}
-        {...props}
-      />
+      <EidraScopeProvider value={{ theme, density }}>
+        <div
+          ref={ref}
+          className={cn('eidra-root', className)}
+          data-theme={theme}
+          data-density={density}
+          {...props}
+        />
+      </EidraScopeProvider>
     );
   },
 );

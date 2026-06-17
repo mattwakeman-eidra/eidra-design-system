@@ -10,6 +10,7 @@ import { Popover as BasePopover } from '@base-ui/react/popover';
 import { X } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Popover.module.css';
 import type {
   PopoverTriggerProps,
@@ -63,10 +64,12 @@ const Positioner = forwardRef<
   HTMLDivElement,
   PopoverPositionerProps
 >(function Positioner({ className, children, ...props }, ref) {
+  const scope = useScopeDataAttrs();
   return (
     <BasePopover.Positioner
       ref={ref}
       className={cn(styles.positioner, className)}
+      {...scope}
       {...props}
     >
       {children}

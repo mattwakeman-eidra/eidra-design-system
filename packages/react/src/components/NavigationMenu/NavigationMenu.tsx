@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { NavigationMenu as BaseNavigationMenu } from '@base-ui/react/navigation-menu';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './NavigationMenu.module.css';
 
 // ─── Root ────────────────────────────────────────────────────────────────────
@@ -101,10 +102,12 @@ export type NavigationMenuPositionerProps = BaseNavigationMenu.Positioner.Props 
 
 const Positioner = forwardRef<HTMLDivElement, NavigationMenuPositionerProps>(
   function Positioner({ className, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
       <BaseNavigationMenu.Positioner
         ref={ref}
         className={cn(styles.positioner, className)}
+        {...scope}
         {...props}
       />
     );

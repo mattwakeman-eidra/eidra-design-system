@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Combobox.module.css';
 
 // ---- Root ----
@@ -123,10 +124,12 @@ export interface ComboboxPositionerProps
 
 const ComboboxPositioner = forwardRef<HTMLDivElement, ComboboxPositionerProps>(
   function ComboboxPositioner({ className, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
       <BaseCombobox.Positioner
         ref={ref}
         className={cn(styles.positioner, className)}
+        {...scope}
         {...props}
       />
     );

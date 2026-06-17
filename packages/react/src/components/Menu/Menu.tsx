@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Menu.module.css';
 
 // ─── Root ──────────────────────────────────────────────────────────────────
@@ -49,7 +50,8 @@ const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>(function 
   { className, ...props },
   ref,
 ) {
-  return <BaseMenu.Positioner ref={ref} className={cn(styles.positioner, className)} {...props} />;
+  const scope = useScopeDataAttrs();
+  return <BaseMenu.Positioner ref={ref} className={cn(styles.positioner, className)} {...scope} {...props} />;
 });
 
 // ─── Popup ─────────────────────────────────────────────────────────────────

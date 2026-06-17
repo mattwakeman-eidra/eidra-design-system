@@ -66,3 +66,15 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Portaled popups (menus, dialogs, …) replicate the ambient density as a bare
+ * `data-density` attribute on their positioner/popup — see ThemeProvider's scope
+ * context. Mirror the control-size remap onto that bare attribute so controls
+ * rendered inside a portal shrink in compact too, not only inside an `.eidra-root`.
+ */
+[data-density='compact'] {
+  --eidra-size-control-sm: 1.75rem;
+  --eidra-size-control-md: 2rem;
+  --eidra-size-control-lg: 2.5rem;
+}

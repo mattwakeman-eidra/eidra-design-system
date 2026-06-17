@@ -4,6 +4,7 @@ import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { X } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Dialog.module.css';
 
 // ---- Re-export types from Base UI for external use ----
@@ -48,8 +49,9 @@ Backdrop.displayName = 'Dialog.Backdrop';
 // ---- Popup ----
 const Popup = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BaseDialog.Popup>>(
   function Popup({ className, children, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
-      <BaseDialog.Popup ref={ref} className={cn(styles.popup, className)} {...props}>
+      <BaseDialog.Popup ref={ref} className={cn(styles.popup, className)} {...scope} {...props}>
         {children}
       </BaseDialog.Popup>
     );
