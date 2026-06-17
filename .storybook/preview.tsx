@@ -6,6 +6,12 @@ import '@eidra/tokens/fonts.css';
 const withTheme: Decorator = (Story, context) => {
   const theme = (context.globals.theme as 'light' | 'dark') ?? 'light';
   const density = (context.globals.density as 'comfortable' | 'compact') ?? 'comfortable';
+  // Stories that render their own ThemeProvider scopes (e.g. the density showcase,
+  // which pins comfortable + compact side by side) opt out of the global wrapper so
+  // the toolbar density doesn't conflict with the pinned scopes.
+  if (context.parameters.selfScoped) {
+    return <Story />;
+  }
   return (
     <ThemeProvider
       theme={theme}
