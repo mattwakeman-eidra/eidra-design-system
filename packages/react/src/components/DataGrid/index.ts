@@ -14,4 +14,8 @@ export type {
   SortDirection,
 } from './DataGrid.js';
 export { EditableNumberCell } from './EditableNumberCell.js';
-export type { EditableNumberCellProps } from './EditableNumberCell.js';
+export type { EditableNumberCellProps, EditableNumberCellTone } from './EditableNumberCell.js';
+export { EditableSelectCell } from './EditableSelectCell.js';
+export type { EditableSelectCellProps, EditableSelectOption } from './EditableSelectCell.js';
+export { EditableTextCell } from './EditableTextCell.js';
+export type { EditableTextCellProps } from './EditableTextCell.js';

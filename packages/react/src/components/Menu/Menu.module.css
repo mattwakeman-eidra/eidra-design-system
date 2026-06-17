@@ -129,6 +129,30 @@
   color: var(--eidra-accent);
 }
 
+/* ── RadioGroup / RadioItem ──────────────────────────────────────────────── */
+
+.radioGroup {
+  /* No extra styling — relies on its RadioItems (mirrors Group). */
+}
+
+.radioItem {
+  padding-inline-start: var(--eidra-space-2);
+}
+
+.radioItem[data-checked] {
+  color: var(--eidra-accent-fg);
+}
+
+.radioItemIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  flex-shrink: 0;
+  color: var(--eidra-accent);
+}
+
 /* ── SubmenuTrigger ──────────────────────────────────────────────────────── */
 
 .submenuTrigger {

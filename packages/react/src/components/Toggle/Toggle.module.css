@@ -153,3 +153,70 @@
   outline: 2px solid var(--eidra-focus-ring);
   outline-offset: -2px;
 }
+
+/* ─── Segmented appearance (the former SegmentedControl) ──────────────────────
+   A muted contiguous track whose active segment is filled with the accent.
+   Overrides the default bordered/divided group treatment. Declared after the
+   defaults so its equal-specificity rules win by source order. */
+.group[data-appearance='segmented'] {
+  gap: var(--eidra-space-0-5);
+  padding: var(--eidra-space-0-5);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-bg-muted);
+  overflow: visible;
+}
+
+.group[data-appearance='segmented'] .toggle {
+  height: calc(var(--eidra-size-control-md) - var(--eidra-space-2));
+  padding-inline: var(--eidra-space-3);
+  border: none;
+  border-radius: var(--eidra-radius-sm);
+  background-color: transparent;
+  color: var(--eidra-fg-muted);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+}
+
+/* No divider lines between segments. */
+.group[data-appearance='segmented'][data-orientation='horizontal'] .toggle + .toggle {
+  border-left: none;
+}
+.group[data-appearance='segmented'][data-orientation='vertical'] .toggle + .toggle {
+  border-top: none;
+}
+
+/* Hover (inactive segment). */
+.group[data-appearance='segmented'] .toggle:hover:not([data-pressed]):not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+/* Active segment — filled with the accent. Covers value-driven selection
+   (data-pressed) and link-driven selection (aria-current / data-active). */
+.group[data-appearance='segmented'] .toggle[data-pressed],
+.group[data-appearance='segmented'] .toggle[aria-current='page'],
+.group[data-appearance='segmented'] .toggle[data-active] {
+  background-color: var(--eidra-accent);
+  color: var(--eidra-accent-fg);
+  border-color: transparent;
+}
+
+/* Focus ring matches the standalone control (offset, not inset). */
+.group[data-appearance='segmented'] .toggle:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Sizes — heights derive from the control-size tokens, so they shrink under
+   the ambient compact-density scope automatically. */
+.group[data-appearance='segmented'][data-size='sm'] .toggle {
+  height: calc(var(--eidra-size-control-sm) - var(--eidra-space-1-5));
+  padding-inline: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-xs);
+}
+.group[data-appearance='segmented'][data-size='lg'] .toggle {
+  height: calc(var(--eidra-size-control-lg) - var(--eidra-space-2));
+  padding-inline: var(--eidra-space-4);
+  font-size: var(--eidra-font-size-base);
+}

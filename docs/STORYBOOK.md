@@ -32,8 +32,8 @@ the first segment of its story `title`. So the title is not cosmetic; keep it co
 | Category | Rule — what belongs here | Examples |
 |---|---|---|
 | **Actions** | Controls whose purpose is to trigger an action | Button |
-| **Forms** | Controls that capture user input | Input, Select, Combobox, Autocomplete, Checkbox, Radio, Switch, Slider, NumberField, Toggle, SegmentedControl, FilterSelect, Field, Fieldset, Form |
-| **Navigation** | Move between views or sections | Breadcrumbs, Tabs, Menubar, NavigationMenu, Toolbar |
+| **Forms** | Controls that capture user input | Input, Select, Combobox, Autocomplete, Checkbox, Radio, Switch, Slider, NumberField, Toggle (incl. `appearance="segmented"`), FilterSelect, Field, Fieldset, Form |
+| **Navigation** | Move between views or sections | Breadcrumbs, Tabs, Menubar, NavigationMenu, Toolbar, PeriodNavigator |
 | **Overlays** | Float above the page, usually portaled | Dialog, AlertDialog, Popover, Menu, ContextMenu, Tooltip, PreviewCard |
 | **Layout** | Structure and spacing of content | Accordion, Collapsible, ScrollArea, Separator |
 | **Data Display** | Present persistent data and values | Avatar, Badge, Card, Chart, DataGrid, Kbd, SegmentBar, Statistic, StatisticBar, StatusStrip |

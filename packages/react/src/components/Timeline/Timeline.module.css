@@ -1,0 +1,127 @@
+.root {
+  --_rail: var(--eidra-border);
+  --_marker-size: 0.875rem;
+  --_rail-gap: var(--eidra-space-3);
+
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--eidra-font-family-sans);
+}
+
+.item {
+  --_marker: var(--eidra-fg-subtle);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--_marker-size) 1fr;
+  column-gap: var(--_rail-gap);
+  padding-block-end: var(--eidra-space-5);
+}
+
+/* The connecting rail: a vertical line through the marker column, stopping at the last item. */
+.item::before {
+  content: '';
+  position: absolute;
+  inset-block: calc(var(--_marker-size) + var(--eidra-space-1)) 0;
+  inset-inline-start: calc(var(--_marker-size) / 2 - var(--eidra-space-px));
+  width: 2px;
+  background-color: var(--_rail);
+}
+
+.item:last-child {
+  padding-block-end: 0;
+}
+.item:last-child::before {
+  display: none;
+}
+
+/* ---- Tone (marker colour) ---- */
+.item[data-tone='default'] {
+  --_marker: var(--eidra-fg-subtle);
+}
+.item[data-tone='accent'] {
+  --_marker: var(--eidra-accent);
+}
+.item[data-tone='success'] {
+  --_marker: var(--eidra-success);
+}
+.item[data-tone='warning'] {
+  --_marker: var(--eidra-warning);
+}
+.item[data-tone='danger'] {
+  --_marker: var(--eidra-danger);
+}
+
+.marker {
+  position: relative;
+  z-index: var(--eidra-z-raised);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_marker-size);
+  height: var(--_marker-size);
+  margin-block-start: var(--eidra-space-0-5);
+  color: var(--_marker);
+}
+
+.dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--_marker);
+  box-shadow: 0 0 0 3px var(--eidra-bg);
+}
+
+.content {
+  min-width: 0;
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--eidra-space-2);
+}
+
+.title {
+  color: var(--eidra-fg);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: var(--eidra-font-line-height-snug);
+}
+
+.timestamp {
+  flex: none;
+  color: var(--eidra-fg-muted);
+  font-family: var(--eidra-font-family-mono);
+  font-size: var(--eidra-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.description {
+  margin-block-start: var(--eidra-space-1);
+  color: var(--eidra-fg-muted);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+}
+
+/* Honour the ambient compact-density scope: smaller marker, tighter rail and stacking. */
+:global([data-density='compact']) .root {
+  --_rail-gap: var(--eidra-space-2);
+  --_marker-size: 0.75rem;
+}
+:global([data-density='compact']) .item {
+  padding-block-end: var(--eidra-space-2);
+}
+:global([data-density='compact']) .dot {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+:global([data-density='compact']) .description {
+  margin-block-start: var(--eidra-space-0-5);
+  font-size: var(--eidra-font-size-xs);
+}

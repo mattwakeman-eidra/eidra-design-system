@@ -1,0 +1,58 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-2);
+  font-family: var(--eidra-font-family-sans);
+}
+
+.breadcrumbs {
+  min-width: 0;
+}
+
+.bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--eidra-space-4);
+  flex-wrap: wrap;
+}
+
+.headings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-1);
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-2xl);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: var(--eidra-font-line-height-tight);
+  letter-spacing: var(--eidra-font-letter-spacing-tight);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--eidra-fg-muted);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  flex-wrap: wrap;
+  flex: none;
+}
+
+/* Honour the ambient compact-density scope: smaller title, tighter stack. */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-1);
+}
+:global([data-density='compact']) .title {
+  font-size: var(--eidra-font-size-xl);
+}

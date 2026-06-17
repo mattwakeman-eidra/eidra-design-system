@@ -231,3 +231,68 @@ export const InlineTerm: Story = {
     </p>
   ),
 };
+
+const GLOSSARY: Record<string, string> = {
+  WIP: 'Work In Progress — revenue earned but not yet invoiced to the client.',
+  EBITDA:
+    'Earnings Before Interest, Taxes, Depreciation & Amortization — a measure of operating profitability.',
+  Interco:
+    'Intercompany — transactions between group companies (e.g. one entity invoicing another).',
+};
+
+/**
+ * Reusable glossary `Term`: a dashed-underlined word that reveals its definition on
+ * hover or focus, built on the shipped `Tooltip`. The term-to-definition map lives in
+ * application code; render the `Term` only when a definition exists, otherwise fall
+ * back to plain text. The trigger is a `<span tabIndex={0}>` so it is keyboard-focusable.
+ */
+function Term({ children }: { children: string }) {
+  const definition = GLOSSARY[children];
+  if (!definition) return <>{children}</>;
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger
+        render={asRender(
+          <span
+            tabIndex={0}
+            style={{ borderBottom: '1px dashed var(--eidra-border-strong)', cursor: 'help' }}
+          >
+            {children}
+          </span>,
+        )}
+      />
+      <Tooltip.Portal>
+        <Tooltip.Positioner side="bottom" sideOffset={6}>
+          <Tooltip.Popup>
+            {definition}
+            <Tooltip.Arrow />
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  );
+}
+
+export const GlossaryTerm: Story = {
+  name: 'Glossary term',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A reusable glossary `Term` recipe: a dashed-underlined word backed by a ' +
+          'term-to-definition map kept in application code. Wrap several terms in a ' +
+          'single `Tooltip.Provider` so adjacent definitions open without re-triggering ' +
+          'the delay. Unknown terms render as plain text.',
+      },
+    },
+  },
+  render: () => (
+    <Tooltip.Provider delay={200}>
+      <p style={{ maxWidth: 460, lineHeight: 1.8, color: 'var(--eidra-fg)' }}>
+        Closing the month means reconciling <Term>WIP</Term> against billed revenue,
+        checking the <Term>Interco</Term> balances net to zero, and confirming the{' '}
+        <Term>EBITDA</Term> figure matches the ledger before sign-off.
+      </p>
+    </Tooltip.Provider>
+  ),
+};

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DataGrid, type DataGridColumnDef } from './DataGrid.js';
 import { EditableNumberCell } from './EditableNumberCell.js';
+import { EditableSelectCell } from './EditableSelectCell.js';
+import { EditableTextCell } from './EditableTextCell.js';
 
 const meta = {
   title: 'Data Display/DataGrid',
@@ -556,4 +558,366 @@ export const Simple: Story = {
       getRowId={(r) => r.id}
     />
   ),
+};
+
+// ── Editable select / text cells + drag-fill ─────────────────────────────────
+type ReviewStatus = '' | 'todo' | 'investigating' | 'cleared';
+
+interface ReviewRow {
+  id: string;
+  client: string;
+  amount: number;
+  status: ReviewStatus;
+  note: string;
+}
+
+const STATUS_OPTIONS: { value: ReviewStatus; label: string }[] = [
+  { value: '', label: '—' },
+  { value: 'todo', label: 'To do' },
+  { value: 'investigating', label: 'Investigating' },
+  { value: 'cleared', label: 'Cleared' },
+];
+
+const REVIEW_SAMPLE: ReviewRow[] = [
+  { id: 'r1', client: 'Acme Corp', amount: 120_000, status: 'todo', note: 'Awaiting PO' },
+  { id: 'r2', client: 'Globex', amount: 96_000, status: '', note: '' },
+  { id: 'r3', client: 'Initech', amount: 64_000, status: 'investigating', note: 'Disputed line' },
+  { id: 'r4', client: 'Umbrella', amount: 48_000, status: '', note: '' },
+  { id: 'r5', client: 'Soylent', amount: 32_000, status: 'cleared', note: 'Signed off' },
+];
+
+/**
+ * **`EditableSelectCell`.** Click a status cell to pick from a dropdown; the
+ * choice commits on change (Escape cancels). It mirrors `EditableNumberCell`'s
+ * override/aggregated affordances and theming — here `accent="finance"` repoints
+ * the override marker to the data-viz blue. Uses a native `<select>` for the
+ * inline-cell feel rather than the heavier portal-based `Select` primitive.
+ */
+export const EditableSelect: Story = {
+  render: () => {
+    const [data, setData] = useState(REVIEW_SAMPLE);
+    const setStatus = (id: string, status: ReviewStatus) =>
+      setData((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+    const cols: DataGridColumnDef<ReviewRow>[] = [
+      { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 180 },
+      { id: 'amount', header: 'Amount', numeric: true, width: 130, accessor: (r) => r.amount },
+      {
+        id: 'status',
+        header: 'Status',
+        width: 200,
+        accessor: (r) => r.status,
+        cell: (r) => (
+          <EditableSelectCell
+            value={r.status || null}
+            options={STATUS_OPTIONS}
+            overridden={!!r.status}
+            onCommit={(v) => setStatus(r.id, (v ?? '') as ReviewStatus)}
+            title="Click to set review status"
+          />
+        ),
+      },
+    ];
+    return (
+      <div style={{ height: 320 }}>
+        <DataGrid<ReviewRow>
+          aria-label="Review status (editable select)"
+          accent="finance"
+          columns={cols}
+          data={data}
+          getRowId={(r) => r.id}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * **`EditableTextCell`.** Click a note cell to edit free text. The left column
+ * commits on blur/Enter (`debounceMs={0}`, the default); the right column also
+ * commits while typing after an 800ms pause (`debounceMs={800}`, the shape the
+ * invoicing comment cell uses). Escape reverts either.
+ */
+export const EditableText: Story = {
+  render: () => {
+    const [data, setData] = useState(REVIEW_SAMPLE);
+    const setNote = (id: string, note: string) =>
+      setData((prev) => prev.map((r) => (r.id === id ? { ...r, note } : r)));
+    const cols: DataGridColumnDef<ReviewRow>[] = [
+      { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 180 },
+      {
+        id: 'note',
+        header: 'Note (commit on blur)',
+        width: 260,
+        accessor: (r) => r.note,
+        cell: (r) => (
+          <EditableTextCell
+            value={r.note || null}
+            placeholder="Add a note…"
+            overridden={!!r.note}
+            onCommit={(v) => setNote(r.id, v)}
+          />
+        ),
+      },
+      {
+        id: 'note-debounced',
+        header: 'Note (debounced 800ms)',
+        width: 260,
+        accessor: (r) => r.note,
+        cell: (r) => (
+          <EditableTextCell
+            value={r.note || null}
+            debounceMs={800}
+            placeholder="Type — saves as you pause…"
+            onCommit={(v) => setNote(r.id, v)}
+          />
+        ),
+      },
+    ];
+    return (
+      <div style={{ height: 320 }}>
+        <DataGrid<ReviewRow>
+          aria-label="Review notes (editable text)"
+          columns={cols}
+          data={data}
+          getRowId={(r) => r.id}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * **Drag-fill.** Fillable columns (`fillable: true`) show a small accent handle
+ * in each cell's corner on hover. Press it and drag down (or up) to paint a
+ * contiguous range with that cell's value; release applies it via `onFillRange`
+ * (Escape aborts). Opt-in per column, so non-fillable grids are unchanged. Here
+ * both **Status** and **Note** are fillable — set a status, then drag its handle
+ * down a few rows.
+ */
+export const DragFill: Story = {
+  render: () => {
+    const [data, setData] = useState(REVIEW_SAMPLE);
+    const setStatus = (id: string, status: ReviewStatus) =>
+      setData((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+    const setNote = (id: string, note: string) =>
+      setData((prev) => prev.map((r) => (r.id === id ? { ...r, note } : r)));
+    const cols: DataGridColumnDef<ReviewRow>[] = [
+      { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 180 },
+      { id: 'amount', header: 'Amount', numeric: true, width: 120, accessor: (r) => r.amount },
+      {
+        id: 'status',
+        header: 'Status',
+        width: 200,
+        fillable: true,
+        accessor: (r) => r.status,
+        cell: (r) => (
+          <EditableSelectCell
+            value={r.status || null}
+            options={STATUS_OPTIONS}
+            overridden={!!r.status}
+            onCommit={(v) => setStatus(r.id, (v ?? '') as ReviewStatus)}
+          />
+        ),
+      },
+      {
+        id: 'note',
+        header: 'Note',
+        width: 240,
+        fillable: true,
+        accessor: (r) => r.note,
+        cell: (r) => (
+          <EditableTextCell
+            value={r.note || null}
+            placeholder="Add a note…"
+            overridden={!!r.note}
+            onCommit={(v) => setNote(r.id, v)}
+          />
+        ),
+      },
+    ];
+    // Render order here equals data order (no sort/filter), so the row indices
+    // from onFillRange map straight onto `data`.
+    const onFillRange = (columnId: string, from: number, to: number, value: unknown) => {
+      setData((prev) =>
+        prev.map((r, i) => {
+          if (i < from || i > to) return r;
+          if (columnId === 'status') return { ...r, status: (value ?? '') as ReviewStatus };
+          if (columnId === 'note') return { ...r, note: String(value ?? '') };
+          return r;
+        }),
+      );
+    };
+    return (
+      <div style={{ height: 340 }}>
+        <DataGrid<ReviewRow>
+          aria-label="Drag-fill review status and notes"
+          accent="finance"
+          columns={cols}
+          data={data}
+          getRowId={(r) => r.id}
+          onFillRange={onFillRange}
+        />
+      </div>
+    );
+  },
+};
+
+// ── Editable probability tiers: value tone + editable aggregated rollup ───────
+interface ProbRow {
+  id: string;
+  client: string;
+  hi: number | null;
+  med: number | null;
+  sold: number | null;
+  /** Manual override of the aggregated Sold rollup. */
+  soldOverride?: boolean;
+  children?: ProbRow[];
+}
+
+const PROB_SAMPLE: ProbRow[] = [
+  {
+    id: 'acme',
+    client: 'Acme Corp',
+    hi: 220,
+    med: 90,
+    sold: null,
+    children: [
+      { id: 'acme-web', client: 'Website rebuild', hi: 140, med: 40, sold: 120 },
+      { id: 'acme-app', client: 'Mobile app', hi: 80, med: 50, sold: 70 },
+    ],
+  },
+  {
+    id: 'globex',
+    client: 'Globex',
+    hi: 160,
+    med: 120,
+    sold: 150,
+    soldOverride: true,
+    children: [
+      { id: 'globex-ds', client: 'Design system', hi: 100, med: 60, sold: 90 },
+      { id: 'globex-ai', client: 'AI pilot', hi: 60, med: 60, sold: 55 },
+    ],
+  },
+];
+
+const childSoldSum = (r: ProbRow) =>
+  r.children?.reduce((s, c) => s + (c.sold ?? 0), 0) ?? null;
+/** Resolved Sold: an overridden parent shows its own value, else the rollup. */
+const resolvedSold = (r: ProbRow) => (r.children && !r.soldOverride ? childSoldSum(r) : r.sold);
+
+const eurK = (v: number | null) => (v == null ? '—' : `€ ${v}k`);
+
+/**
+ * **Editable probability tiers — Sold & Forecast parity.** Two gaps from the
+ * invoicing S&F table:
+ *
+ * - **Value tone** — the **Hi Prob** values render in the success token
+ *   (`tone="positive"`) and **Med Prob** in the warning token (`tone="caution"`),
+ *   so the tiers read at the *value* level (cell, edit field, and totals), not
+ *   just the header.
+ * - **Editable aggregated rollup** — a client's **Sold** cell shows the
+ *   project-aggregated rollup with the ◆ "aggregated from projects" affordance
+ *   **and** is editable. Commit a value and it flips to the ● override marker;
+ *   clear it (empty + Enter) to return to the ◆ rollup. Expand a client to edit
+ *   its projects.
+ */
+export const EditableProbabilityTiers: Story = {
+  render: () => {
+    const [data, setData] = useState(PROB_SAMPLE);
+
+    const editTier = (id: string, key: 'hi' | 'med', value: number | null) =>
+      setData((prev) =>
+        prev.map((r) => ({
+          ...r,
+          ...(r.id === id ? { [key]: value } : null),
+          children: r.children?.map((c) => (c.id === id ? { ...c, [key]: value } : c)),
+        })),
+      );
+
+    const editSold = (id: string, value: number | null) =>
+      setData((prev) =>
+        prev.map((r) => {
+          if (r.id === id) {
+            // Parent: a value overrides the rollup; clearing returns to aggregated.
+            if (r.children) return { ...r, sold: value, soldOverride: value != null };
+            return { ...r, sold: value };
+          }
+          return { ...r, children: r.children?.map((c) => (c.id === id ? { ...c, sold: value } : c)) };
+        }),
+      );
+
+    const toned = (tone: 'positive' | 'caution', v: number | null) => (
+      <span
+        style={{
+          color: tone === 'positive' ? 'var(--eidra-success)' : 'var(--eidra-warning)',
+          fontWeight: 600,
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {eurK(v)}
+      </span>
+    );
+
+    const cols: DataGridColumnDef<ProbRow>[] = [
+      { id: 'client', header: 'Client / project', accessor: (r) => r.client, pinned: true, width: 200 },
+      {
+        id: 'hi',
+        header: 'Hi Prob',
+        numeric: true,
+        width: 110,
+        accessor: (r) => r.hi,
+        cell: (r) => (
+          <EditableNumberCell value={r.hi} tone="positive" format={eurK} onCommit={(v) => editTier(r.id, 'hi', v)} />
+        ),
+        footer: (rows) => toned('positive', rows.reduce((s, r) => s + (r.hi ?? 0), 0)),
+      },
+      {
+        id: 'med',
+        header: 'Med Prob',
+        numeric: true,
+        width: 110,
+        accessor: (r) => r.med,
+        cell: (r) => (
+          <EditableNumberCell value={r.med} tone="caution" format={eurK} onCommit={(v) => editTier(r.id, 'med', v)} />
+        ),
+        footer: (rows) => toned('caution', rows.reduce((s, r) => s + (r.med ?? 0), 0)),
+      },
+      {
+        id: 'sold',
+        header: 'Sold',
+        numeric: true,
+        width: 120,
+        highlighted: true,
+        highlightTone: 'finance',
+        accessor: (r) => resolvedSold(r),
+        cell: (r) => (
+          <EditableNumberCell
+            value={resolvedSold(r)}
+            format={eurK}
+            // Parent rows show the editable ◆ rollup until overridden (then ●).
+            aggregated={!!r.children && !r.soldOverride}
+            overridden={!!r.children && r.soldOverride}
+            title={r.children ? 'Aggregated from projects — click to override' : 'Click to edit'}
+            onCommit={(v) => editSold(r.id, v)}
+          />
+        ),
+        footer: (rows) => eurK(rows.reduce((s, r) => s + (resolvedSold(r) ?? 0), 0)),
+      },
+    ];
+
+    return (
+      <div style={{ height: 320 }}>
+        <DataGrid<ProbRow>
+          aria-label="Editable probability tiers with aggregated Sold rollup"
+          accent="finance"
+          totalsPlacement="top"
+          columns={cols}
+          data={data}
+          getRowId={(r) => r.id}
+          getSubRows={(r) => r.children}
+          getRowSearchText={(r) => r.client}
+        />
+      </div>
+    );
+  },
 };

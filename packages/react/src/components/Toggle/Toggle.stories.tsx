@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   AlignCenter,
@@ -240,4 +241,79 @@ export const QuickFilterChips: StoryObj = {
       </Toggle>
     </div>
   ),
+};
+
+// ─── ToggleGroup — segmented appearance (formerly SegmentedControl) ────────────
+
+/**
+ * `appearance="segmented"` renders a contiguous filled-track control — the look
+ * previously shipped as the standalone `SegmentedControl`. A single-select view
+ * switcher built from plain `Toggle` segments and the Base UI group.
+ */
+export const Segmented: StoryObj = {
+  render: () => {
+    const [view, setView] = useState('table');
+    return (
+      <ToggleGroup.Root
+        appearance="segmented"
+        aria-label="View"
+        value={[view]}
+        onValueChange={(v) => v[0] && setView(v[0])}
+      >
+        <Toggle value="table">Table</Toggle>
+        <Toggle value="graphs">Graphs</Toggle>
+        <Toggle value="clients">Clients</Toggle>
+      </ToggleGroup.Root>
+    );
+  },
+};
+
+/** Segmented sizes — heights derive from the control-size tokens, so they also shrink under compact density. */
+export const SegmentedSizes: StoryObj = {
+  render: () => {
+    const [view, setView] = useState('graphs');
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', alignItems: 'flex-start' }}>
+        {(['sm', 'md', 'lg'] as const).map((size) => (
+          <ToggleGroup.Root
+            key={size}
+            appearance="segmented"
+            size={size}
+            aria-label="View"
+            value={[view]}
+            onValueChange={(v) => v[0] && setView(v[0])}
+          >
+            <Toggle value="table">Table</Toggle>
+            <Toggle value="graphs">Graphs</Toggle>
+            <Toggle value="clients">Clients</Toggle>
+          </ToggleGroup.Root>
+        ))}
+      </div>
+    );
+  },
+};
+
+/**
+ * Segmented link mode: segments delegate to anchors via each `Toggle`'s `render`
+ * prop (here plain `<a>`; in an app, a router `Link`) — a view switcher that
+ * preserves navigation. The active segment is marked `aria-current="page"`.
+ */
+export const SegmentedAsLinks: StoryObj = {
+  render: () => {
+    const active = 'graphs';
+    return (
+      <ToggleGroup.Root appearance="segmented" aria-label="View" value={[active]} onValueChange={() => {}}>
+        {(['table', 'graphs', 'clients'] as const).map((v) => (
+          <Toggle
+            key={v}
+            value={v}
+            aria-current={v === active ? 'page' : undefined}
+            render={<a href={`?view=${v}`} />}
+          >
+            {v[0]!.toUpperCase() + v.slice(1)}
+          </Toggle>
+        ))}
+      </ToggleGroup.Root>
+    );
+  },
 };

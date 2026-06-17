@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { cn } from '../../utils/cn.js';
 import styles from './EditableNumberCell.module.css';
 
+/** Semantic colour for an editable cell's value text + edit field. */
+export type EditableNumberCellTone = 'neutral' | 'positive' | 'caution' | 'danger' | 'accent';
+
 export interface EditableNumberCellProps {
   /** Current displayed value (already resolved — e.g. override ?? base). */
   value: number | null;
@@ -9,12 +12,23 @@ export interface EditableNumberCellProps {
   onCommit: (next: number | null) => void;
   /** Format the value for display. Defaults to `String(value)`. */
   format?: (value: number | null) => string;
-  /** Mark the cell as carrying an explicit override (accent left-border + dot marker). */
+  /** Mark the cell as carrying an explicit override (accent left-border + ● marker). Wins over `aggregated`. */
   overridden?: boolean;
-  /** Read-only, value is aggregated from descendants (dashed accent border + ◆ marker). */
+  /**
+   * Show the "aggregated from descendants" resting affordance (dashed accent
+   * border + ◆ marker). Independent of `disabled`: an aggregated cell is still
+   * click-to-edit unless `disabled`, and `overridden` replaces the ◆ with ●.
+   * Combine with `disabled` for a read-only rollup.
+   */
   aggregated?: boolean;
-  /** Disable editing entirely. */
+  /** Disable editing entirely (read-only). */
   disabled?: boolean;
+  /**
+   * Semantic colour for the value text and edit field — theme-aware (e.g.
+   * `positive` → success token). The override (●) and aggregated (◆) markers
+   * keep their accent colour and compose with `tone`. Defaults to `neutral`.
+   */
+  tone?: EditableNumberCellTone;
   /** Tooltip shown on the resting cell. */
   title?: string;
 }
@@ -25,7 +39,8 @@ const formatDefault = (v: number | null) => (v == null ? '—' : String(v));
  * A click-to-edit numeric cell for use inside `DataGrid` cells. Manages its own
  * edit/commit/cancel lifecycle and reflects override / aggregated states via
  * Eidra accent tokens (so they follow the active theme — blue under the finance
- * theme, brand accent otherwise). Pair with `SaveIndicator` for save feedback.
+ * theme, brand accent otherwise). `tone` colours the value semantically (e.g.
+ * probability tiers). Pair with `SaveIndicator` for save feedback.
  */
 export function EditableNumberCell({
   value,
@@ -34,6 +49,7 @@ export function EditableNumberCell({
   overridden = false,
   aggregated = false,
   disabled = false,
+  tone = 'neutral',
   title,
 }: EditableNumberCellProps) {
   const [editing, setEditing] = useState(false);
@@ -48,7 +64,7 @@ export function EditableNumberCell({
   }, [editing]);
 
   function start() {
-    if (disabled || aggregated) return;
+    if (disabled) return;
     setDraft(value == null ? '' : String(value));
     setEditing(true);
   }
@@ -65,6 +81,8 @@ export function EditableNumberCell({
     setEditing(false);
   }
 
+  const toneAttr = tone !== 'neutral' ? tone : undefined;
+
   if (editing) {
     return (
       <input
@@ -72,6 +90,7 @@ export function EditableNumberCell({
         type="number"
         inputMode="decimal"
         className={styles.input}
+        data-tone={toneAttr}
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
         onBlur={commit}
@@ -83,29 +102,18 @@ export function EditableNumberCell({
     );
   }
 
-  if (aggregated) {
-    return (
-      <span className={styles.cell} data-aggregated="" title={title}>
-        {value != null ? (
-          <span className={styles.aggregatedValue}>
-            {format(value)}
-            <span aria-hidden className={styles.marker}>
-              ◆
-            </span>
-          </span>
-        ) : (
-          <span className={styles.empty}>—</span>
-        )}
-      </span>
-    );
-  }
+  // Resting affordance marker: an explicit override (●) wins over the
+  // aggregated rollup (◆); both keep their accent colour regardless of `tone`.
+  const marker = overridden ? '●' : aggregated ? '◆' : null;
 
   return (
     <button
       type="button"
       className={styles.cell}
       data-overridden={overridden ? '' : undefined}
+      data-aggregated={aggregated && !overridden ? '' : undefined}
       data-disabled={disabled ? '' : undefined}
+      data-tone={toneAttr}
       disabled={disabled}
       onClick={start}
       title={title}
@@ -113,9 +121,9 @@ export function EditableNumberCell({
       {value != null ? (
         <span className={styles.value}>
           {format(value)}
-          {overridden && (
+          {marker && (
             <span aria-hidden className={styles.marker}>
-              ●
+              {marker}
             </span>
           )}
         </span>

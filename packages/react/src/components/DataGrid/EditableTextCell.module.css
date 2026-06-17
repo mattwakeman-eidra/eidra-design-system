@@ -1,7 +1,7 @@
 .cell {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: var(--eidra-space-0-5);
   width: 100%;
   min-height: var(--eidra-size-control-sm);
@@ -11,8 +11,8 @@
   background: none;
   font: inherit;
   color: inherit;
-  text-align: end;
-  cursor: pointer;
+  text-align: start;
+  cursor: text;
   border-radius: var(--eidra-radius-sm);
   transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
 }
@@ -43,7 +43,10 @@
 
 .value {
   font-weight: 600;
-  font-variant-numeric: tabular-nums;
+}
+.aggregatedValue {
+  color: var(--eidra-accent);
+  font-weight: 600;
 }
 
 .marker {
@@ -57,39 +60,6 @@
   color: var(--eidra-fg-subtle);
 }
 
-/* ---- Semantic value tone — colours the resting value text + edit field.
-   Markers keep their own accent colour, so tiers read at the value level. ---- */
-.cell[data-tone='positive'] .value {
-  color: var(--eidra-success);
-}
-.cell[data-tone='caution'] .value {
-  color: var(--eidra-warning);
-}
-.cell[data-tone='danger'] .value {
-  color: var(--eidra-danger);
-}
-.cell[data-tone='accent'] .value {
-  color: var(--eidra-accent);
-}
-.input[data-tone='positive'] {
-  color: var(--eidra-success);
-}
-.input[data-tone='caution'] {
-  color: var(--eidra-warning);
-}
-.input[data-tone='danger'] {
-  color: var(--eidra-danger);
-}
-.input[data-tone='accent'] {
-  color: var(--eidra-accent);
-}
-
-/* Disabled greys the value regardless of tone (declared last so it wins). */
-.cell[data-disabled] .value,
-.cell[data-disabled] .empty {
-  color: var(--eidra-fg-disabled);
-}
-
 .input {
   width: 100%;
   min-height: var(--eidra-size-control-sm);
@@ -98,21 +68,13 @@
   border-radius: var(--eidra-radius-sm);
   background-color: var(--eidra-surface);
   color: var(--eidra-fg);
-  font-family: var(--eidra-font-family-mono);
+  font-family: var(--eidra-font-family-sans);
   font-size: var(--eidra-font-size-sm);
-  font-variant-numeric: tabular-nums;
-  text-align: end;
+  text-align: start;
 }
 .input:focus-visible {
   outline: none;
 }
-/* Hide native number spinners — editing is keyboard/blur driven. */
-.input::-webkit-outer-spin-button,
-.input::-webkit-inner-spin-button {
-  appearance: none;
-  margin: 0;
-}
-.input[type='number'] {
-  appearance: textfield;
-  -moz-appearance: textfield;
+.input::placeholder {
+  color: var(--eidra-fg-subtle);
 }

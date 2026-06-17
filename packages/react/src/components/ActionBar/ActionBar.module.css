@@ -1,0 +1,66 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-3);
+  flex-wrap: wrap;
+  padding: var(--eidra-space-3) var(--eidra-space-4);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-surface);
+  font-family: var(--eidra-font-family-sans);
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.message {
+  color: var(--eidra-fg-muted);
+  font-size: var(--eidra-font-size-sm);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  flex-wrap: wrap;
+}
+
+/* ---- Alignment of lead vs actions ---- */
+.root[data-align='between'] .actions {
+  margin-inline-start: auto;
+}
+.root[data-align='end'] {
+  justify-content: flex-end;
+}
+.root[data-align='start'] {
+  justify-content: flex-start;
+}
+
+/* ---- Sticky: pin to an edge with a divider border + raised shadow ---- */
+.root[data-sticky] {
+  position: sticky;
+  z-index: var(--eidra-z-sticky);
+  border: none;
+  border-radius: 0;
+  background-color: var(--eidra-surface-raised);
+  box-shadow: var(--eidra-shadow-lg);
+}
+.root[data-sticky='bottom'] {
+  bottom: 0;
+  border-block-start: 1px solid var(--eidra-border);
+}
+.root[data-sticky='top'] {
+  top: 0;
+  border-block-end: 1px solid var(--eidra-border);
+}
+
+/* Honour the ambient compact-density scope: tighter padding. */
+:global([data-density='compact']) .root {
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  gap: var(--eidra-space-2);
+}

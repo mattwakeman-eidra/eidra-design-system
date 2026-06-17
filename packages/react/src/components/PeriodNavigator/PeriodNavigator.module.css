@@ -1,0 +1,64 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-0-5);
+  padding: var(--eidra-space-0-5);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-surface);
+  font-family: var(--eidra-font-family-sans);
+}
+
+.button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  /* Square control whose size derives from the control-size token, so the ambient
+     data-density="compact" scope shrinks it automatically. */
+  width: calc(var(--eidra-size-control-md) - var(--eidra-space-2));
+  height: calc(var(--eidra-size-control-md) - var(--eidra-space-2));
+  padding: 0;
+  border: none;
+  border-radius: var(--eidra-radius-sm);
+  background-color: transparent;
+  color: var(--eidra-fg-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.button:hover:not(:disabled) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.button:active:not(:disabled) {
+  background-color: var(--eidra-surface-active);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  color: var(--eidra-fg-disabled);
+  cursor: not-allowed;
+}
+
+.value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--eidra-space-20);
+  padding-inline: var(--eidra-space-2);
+  color: var(--eidra-fg);
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  user-select: none;
+}

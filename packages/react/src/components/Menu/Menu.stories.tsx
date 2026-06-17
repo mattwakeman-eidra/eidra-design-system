@@ -102,6 +102,43 @@ export const WithCheckboxItems: Story = {
   ),
 };
 
+// ─── WithRadioItems ───────────────────────────────────────────────────────────
+
+export const WithRadioItems: Story = {
+  render: () => (
+    <Menu.Root>
+      <Menu.Trigger>Sort by</Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner sideOffset={8}>
+          <Menu.Popup>
+            <Menu.RadioGroup defaultValue="recent">
+              <Menu.GroupLabel>Order</Menu.GroupLabel>
+              <Menu.RadioItem value="recent">
+                <Menu.RadioItemIndicator>
+                  <Icon icon={Check} size="sm" />
+                </Menu.RadioItemIndicator>
+                Most recent
+              </Menu.RadioItem>
+              <Menu.RadioItem value="name">
+                <Menu.RadioItemIndicator>
+                  <Icon icon={Check} size="sm" />
+                </Menu.RadioItemIndicator>
+                Name
+              </Menu.RadioItem>
+              <Menu.RadioItem value="size">
+                <Menu.RadioItemIndicator>
+                  <Icon icon={Check} size="sm" />
+                </Menu.RadioItemIndicator>
+                Size
+              </Menu.RadioItem>
+            </Menu.RadioGroup>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
+  ),
+};
+
 // ─── WithSubmenu ──────────────────────────────────────────────────────────────
 
 export const WithSubmenu: Story = {
