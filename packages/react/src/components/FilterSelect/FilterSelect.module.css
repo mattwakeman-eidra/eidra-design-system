@@ -1,0 +1,209 @@
+/* ── Trigger (pill) ───────────────────────────────────────────────────────── */
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  max-width: 100%;
+  height: var(--eidra-size-control-md);
+  padding-inline: var(--eidra-space-3);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger:hover:not([data-disabled]) {
+  background-color: var(--eidra-surface-hover);
+  border-color: var(--eidra-border-strong);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* A pill with an active selection reads as "engaged". */
+.trigger[data-active] {
+  border-color: var(--eidra-accent-border);
+  background-color: var(--eidra-accent-subtle);
+}
+
+.trigger[data-popup-open] {
+  border-color: var(--eidra-accent-border);
+}
+
+.trigger[data-size='sm'] {
+  height: var(--eidra-size-control-sm);
+  padding-inline: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-xs);
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label[data-placeholder] {
+  color: var(--eidra-fg-subtle);
+}
+
+/* Selection count badge. */
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding-inline: var(--eidra-space-1);
+  border-radius: var(--eidra-radius-full);
+  background-color: var(--eidra-accent);
+  color: var(--eidra-accent-fg);
+  font-size: var(--eidra-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--eidra-font-weight-semibold);
+}
+
+.chevron {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  color: var(--eidra-fg-muted);
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.trigger[data-popup-open] .chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Popup ────────────────────────────────────────────────────────────────── */
+
+.positioner {
+  z-index: var(--eidra-z-dropdown);
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  max-width: 320px;
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-lg);
+  background-color: var(--eidra-surface-raised);
+  box-shadow: var(--eidra-shadow-lg);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-sm);
+  transform-origin: var(--transform-origin);
+  outline: none;
+  transition:
+    opacity var(--eidra-duration-fast) var(--eidra-easing-decelerate),
+    transform var(--eidra-duration-fast) var(--eidra-easing-decelerate);
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* ── Search ───────────────────────────────────────────────────────────────── */
+
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--eidra-space-2);
+  border-bottom: 1px solid var(--eidra-border-subtle);
+}
+
+.searchIcon {
+  position: absolute;
+  inset-inline-start: calc(var(--eidra-space-2) + var(--eidra-space-2));
+  display: inline-flex;
+  align-items: center;
+  color: var(--eidra-fg-subtle);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  height: var(--eidra-size-control-sm);
+  padding-inline: calc(var(--eidra-space-2) + var(--eidra-size-icon-sm) + var(--eidra-space-1)) var(--eidra-space-2);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg);
+  font-family: inherit;
+  font-size: var(--eidra-font-size-sm);
+}
+
+.searchInput:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: -1px;
+}
+
+/* ── List ─────────────────────────────────────────────────────────────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 280px;
+  padding: var(--eidra-space-1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Each option is the Checkbox.Root <label>, stretched to a full-width hover row. */
+.option {
+  width: 100%;
+  padding-block: var(--eidra-space-1-5);
+  padding-inline: var(--eidra-space-2);
+  border-radius: var(--eidra-radius-md);
+  cursor: pointer;
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.option:hover {
+  background-color: var(--eidra-surface-hover);
+}
+
+.empty {
+  margin: 0;
+  padding: var(--eidra-space-3) var(--eidra-space-2);
+  color: var(--eidra-fg-subtle);
+  text-align: center;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-1) var(--eidra-space-2);
+  border-top: 1px solid var(--eidra-border-subtle);
+}
+
+.footerCount {
+  font-size: var(--eidra-font-size-xs);
+  color: var(--eidra-fg-muted);
+  font-variant-numeric: tabular-nums;
+}

@@ -19,6 +19,7 @@ export * from './components/Dialog/index.js';
 export * from './components/EmptyState/index.js';
 export * from './components/Field/index.js';
 export * from './components/Fieldset/index.js';
+export * from './components/FilterSelect/index.js';
 export * from './components/Form/index.js';
 export * from './components/Input/index.js';
 export * from './components/Kbd/index.js';
