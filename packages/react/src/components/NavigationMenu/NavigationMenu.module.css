@@ -235,3 +235,18 @@
 .link[data-active]:hover {
   background-color: var(--eidra-accent-subtle);
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces
+ * the content padding and link padding/gap one step (per the base.css convention).
+ */
+:global([data-density='compact']) .list {
+  gap: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .content {
+  padding: var(--eidra-space-3);
+}
+:global([data-density='compact']) .link {
+  gap: var(--eidra-space-1-5);
+  padding: var(--eidra-space-1-5) var(--eidra-space-2);
+}

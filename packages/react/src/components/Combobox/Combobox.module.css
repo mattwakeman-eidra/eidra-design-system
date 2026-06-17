@@ -352,3 +352,33 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces the
+ * popup list/item/group padding and the chip padding one step (per the base.css convention).
+ */
+:global([data-density='compact']) .list {
+  padding: var(--eidra-space-0-5) var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .item {
+  gap: var(--eidra-space-1-5);
+  padding-inline: var(--eidra-space-2);
+  padding-block: var(--eidra-space-1);
+}
+:global([data-density='compact']) .groupLabel {
+  padding-inline: var(--eidra-space-2);
+  padding-block: var(--eidra-space-1) var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .empty {
+  padding: var(--eidra-space-3) var(--eidra-space-2);
+}
+:global([data-density='compact']) .status {
+  padding: var(--eidra-space-1-5) var(--eidra-space-2);
+}
+:global([data-density='compact']) .chips {
+  gap: var(--eidra-space-0-5);
+  padding: var(--eidra-space-1) var(--eidra-space-1-5);
+}
+:global([data-density='compact']) .chip {
+  padding-inline: var(--eidra-space-1-5);
+}

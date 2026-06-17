@@ -302,5 +302,26 @@
   height: 5px;
   fill: var(--eidra-surface);
   stroke: var(--eidra-border);
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
+}
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces
+ * the menubar/popup padding and item padding/gap one step (per the base.css convention).
+ */
+:global([data-density='compact']) .root {
+  padding: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .popup {
+  padding: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .item,
+:global([data-density='compact']) .checkboxItem,
+:global([data-density='compact']) .radioItem,
+:global([data-density='compact']) .submenuTrigger {
+  gap: var(--eidra-space-1-5);
+  padding-inline: var(--eidra-space-1-5);
+}
+:global([data-density='compact']) .groupLabel {
+  padding-inline: var(--eidra-space-1-5);
+  padding-block: var(--eidra-space-0-5);
 }

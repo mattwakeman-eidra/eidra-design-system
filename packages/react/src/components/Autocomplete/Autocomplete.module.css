@@ -258,3 +258,21 @@
   font-size: var(--eidra-font-size-sm);
   color: var(--eidra-fg-subtle);
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces the
+ * popup list/item/group/empty padding and gap one step (per the base.css convention).
+ */
+:global([data-density='compact']) .list {
+  padding: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .item {
+  gap: var(--eidra-space-1-5);
+  padding: var(--eidra-space-1) var(--eidra-space-2);
+}
+:global([data-density='compact']) .groupLabel {
+  padding: var(--eidra-space-1) var(--eidra-space-2);
+}
+:global([data-density='compact']) .empty {
+  padding: var(--eidra-space-4) var(--eidra-space-3);
+}

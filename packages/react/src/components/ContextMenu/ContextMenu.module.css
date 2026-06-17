@@ -184,3 +184,20 @@
   /* Transparent — used only for dismiss-on-click outside */
   background-color: transparent;
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces
+ * the popup padding and item padding/gap one step (per the base.css convention).
+ */
+:global([data-density='compact']) .popup {
+  padding-block: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .item {
+  gap: var(--eidra-space-1-5);
+  padding-inline: var(--eidra-space-2);
+  padding-block: var(--eidra-space-1);
+}
+:global([data-density='compact']) .groupLabel {
+  padding-inline: var(--eidra-space-2);
+  padding-block: var(--eidra-space-0-5);
+}

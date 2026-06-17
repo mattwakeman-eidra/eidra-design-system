@@ -174,3 +174,20 @@
   fill: var(--eidra-surface-raised);
   stroke: var(--eidra-border);
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces
+ * the popup padding and item padding/gap one step (per the base.css convention).
+ */
+:global([data-density='compact']) .popup {
+  padding: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .item {
+  gap: var(--eidra-space-1-5);
+  padding-block: var(--eidra-space-1);
+  padding-inline: var(--eidra-space-1-5);
+}
+:global([data-density='compact']) .groupLabel {
+  padding-block: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-1-5);
+}

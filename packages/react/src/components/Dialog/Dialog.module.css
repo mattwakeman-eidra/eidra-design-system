@@ -173,3 +173,26 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces
+ * both padding axes one step and steps down the title (per the base.css convention).
+ */
+:global([data-density='compact']) .header {
+  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-4) var(--eidra-space-4) 0;
+}
+:global([data-density='compact']) .title {
+  font-size: var(--eidra-font-size-base);
+}
+:global([data-density='compact']) .body {
+  padding: var(--eidra-space-3) var(--eidra-space-4);
+  gap: var(--eidra-space-2);
+}
+:global([data-density='compact']) .footer {
+  gap: var(--eidra-space-2);
+  padding: 0 var(--eidra-space-4) var(--eidra-space-4);
+}
+:global([data-density='compact']) .close {
+  padding: var(--eidra-space-0-5);
+}

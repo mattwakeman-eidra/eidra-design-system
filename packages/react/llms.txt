@@ -35,8 +35,6 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 ### Components
 
-- **Field** — A labelled form field built on Base UI `Field`.
-  - import: `import { Field, FieldPrimitive } from '@eidra/react'`
 - **ThemeProvider** — Establishes the Eidra theme scope: applies `eidra-root`, `data-theme`, and `data-density` so tokens resolve and brand type/colour are inherited.
   - import: `import { ThemeProvider } from '@eidra/react'`
 
@@ -92,6 +90,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Checkbox, CheckboxGroup } from '@eidra/react'` · parts: Checkbox.Root, Checkbox.Indicator
 - **Combobox** — A searchable select built on Base UI Combobox.
   - import: `import { Combobox } from '@eidra/react'` · parts: Combobox.Root, Combobox.Value, Combobox.Input, Combobox.Trigger, Combobox.Icon, Combobox.Portal, Combobox.Positioner, Combobox.Popup, Combobox.List, Combobox.Group, Combobox.GroupLabel, Combobox.Item, Combobox.ItemIndicator, Combobox.Empty, Combobox.Clear, Combobox.Chips, Combobox.Chip, Combobox.ChipRemove, Combobox.Status
+- **Field** — A labelled form field built on Base UI `Field`.
+  - import: `import { Field, FieldPrimitive } from '@eidra/react'`
 - **Fieldset** — A semantic fieldset with an accessible legend.
   - import: `import { Fieldset } from '@eidra/react'` · parts: Fieldset.Root
 - **Form** — A native `<form>` element with consolidated Base UI validation.

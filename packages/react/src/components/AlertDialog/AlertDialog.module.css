@@ -170,3 +170,15 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces the
+ * popup padding/gap one step and steps down the title (per the base.css convention).
+ */
+:global([data-density='compact']) .popup {
+  gap: var(--eidra-space-3);
+  padding: var(--eidra-space-4);
+}
+:global([data-density='compact']) .title {
+  font-size: var(--eidra-font-size-base);
+}

@@ -175,3 +175,21 @@
   margin-inline: 0;
   margin-block: var(--eidra-space-1);
 }
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces
+ * the toolbar padding/gap and control inline padding one step (per the base.css convention).
+ */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-0-5);
+  padding: var(--eidra-space-0-5);
+}
+:global([data-density='compact']) .button,
+:global([data-density='compact']) .link,
+:global([data-density='compact']) .input {
+  padding-inline: var(--eidra-space-2);
+}
+:global([data-density='compact']) .button,
+:global([data-density='compact']) .link {
+  gap: var(--eidra-space-1-5);
+}
