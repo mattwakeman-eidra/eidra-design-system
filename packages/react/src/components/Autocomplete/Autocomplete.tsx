@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import type { HTMLAttributes } from 'react';
 import { Autocomplete as BaseAutocomplete } from '@base-ui/react/autocomplete';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Autocomplete.module.css';
 
 // ---- Public prop types ----
@@ -98,10 +99,12 @@ Clear.displayName = 'Autocomplete.Clear';
 // ---- Positioner ----
 const Positioner = forwardRef<HTMLDivElement, BaseAutocomplete.Positioner.Props>(
   function Positioner({ className, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
       <BaseAutocomplete.Positioner
         ref={ref}
         className={cn(styles.positioner, className)}
+        {...scope}
         {...props}
       />
     );

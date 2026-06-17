@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import { PreviewCard as BasePreviewCard } from '@base-ui/react/preview-card';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './PreviewCard.module.css';
 
 // ---- Re-export types from Base UI for external use ----
@@ -37,10 +38,12 @@ const Positioner = forwardRef<
   HTMLDivElement,
   ComponentPropsWithoutRef<typeof BasePreviewCard.Positioner>
 >(function Positioner({ className, children, ...props }, ref) {
+  const scope = useScopeDataAttrs();
   return (
     <BasePreviewCard.Positioner
       ref={ref}
       className={cn(styles.positioner, className)}
+      {...scope}
       {...props}
     >
       {children}

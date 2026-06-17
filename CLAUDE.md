@@ -8,7 +8,7 @@ React component library on [Base UI](https://base-ui.com/) (headless, accessible
 - `packages/icons/` — `<Icon>` wrapper + Lucide re-export.
 - `packages/react/src/components/<Name>/` — one dir per component: `<Name>.tsx`, `<Name>.module.css`, `<Name>.stories.tsx`, `index.ts`. `src/index.ts` re-exports every component dir.
 - `docs/COMPONENTS.md` — **generated** catalog of all components (run `pnpm catalog`). The agent-readable index of what exists. Don't hand-edit.
-- `docs/adr/` — architecture decisions. `CONTEXT.md` — glossary. `docs/CONSUMING.md` — how apps adopt the DS.
+- `docs/adr/` — architecture decisions. `CONTEXT.md` — glossary. `docs/CONSUMING.md` — how apps adopt the DS. `docs/STORYBOOK.md` — story title taxonomy (Foundations / ‹Function›/‹Component› / Patterns).
 
 ## The component pattern (follow the exemplars exactly)
 
@@ -19,6 +19,7 @@ Canonical references: `Button` (native element), `Input` + `Field` (wrapping Bas
 - Multi-part components export a namespace object (`export const X = { Root, Trigger, … }`); for declaration portability, annotate the object's type explicitly when wrapping Base UI parts (see `Popover.tsx`).
 - ESM: relative imports use `.js` extensions. `forwardRef` for single-element wrappers.
 - Every component ships a `.stories.tsx` (CSF3, `title: 'Category/Name'`, `tags: ['autodocs']`). **Stories are type-checked**, so they catch API misuse — keep them green.
+- **Story title taxonomy is governed by `docs/STORYBOOK.md`** (the category also drives the generated catalog). Three tiers: `Foundations/*` (tokens/system rules, no component), `‹Function›/‹Component›` (one page per component — Actions/Forms/Navigation/Overlays/Layout/Data Display/Feedback), `Patterns/*` (recipes combining ≥2 components). **When a new component's category isn't obvious (fits two, or none), stop and ask the user — don't guess**, since a wrong title mis-files it in the catalog too.
 
 ## Theming
 

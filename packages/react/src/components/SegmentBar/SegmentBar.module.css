@@ -39,12 +39,36 @@
 
 /* ---- The bar ---- */
 .track {
+  position: relative;
   display: flex;
   width: 100%;
   height: var(--eidra-space-3);
   border-radius: var(--eidra-radius-full);
   overflow: hidden;
   background-color: var(--eidra-bg-muted);
+}
+
+/* ---- Threshold markers ---- */
+.marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background-color: var(--_marker, var(--eidra-accent));
+  pointer-events: none;
+}
+.marker[data-tone='accent'] {
+  --_marker: var(--eidra-accent);
+}
+.marker[data-tone='success'] {
+  --_marker: var(--eidra-success);
+}
+.marker[data-tone='danger'] {
+  --_marker: var(--eidra-danger);
+}
+.marker[data-tone='warning'] {
+  --_marker: var(--eidra-warning);
 }
 
 .root[data-size='sm'] .track {

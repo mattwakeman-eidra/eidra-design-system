@@ -6,7 +6,7 @@ const meta = {
   title: 'Data Display/Chart',
   component: Chart.Container,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', controls: { disable: true } },
   // Placeholder required props; every story supplies real content via `render`.
   args: { config: {}, children: null },
 } satisfies Meta<typeof Chart.Container>;
@@ -47,10 +47,11 @@ const config: ChartConfig = {
 const fmt = (v: number | string | undefined) => formatCompactCurrency(Number(v) * 1000);
 
 /**
- * **Composed** (use case: Sold & Forecast) — stacked revenue bars + budget step line
- * + dashed LY line, themed tooltip, toggleable legend, dimmed closed months.
+ * **Composed** (`ComposedChart`) — stacked revenue bars + budget step line + dashed
+ * LY line, themed tooltip, toggleable legend, dimmed closed months. (Used by Sold &
+ * Forecast.)
  */
-export const Forecast: Story = {
+export const Composed: Story = {
   render: () => {
     const [hidden, setHidden] = useState<string[]>([]);
     const toggle = (key: string) =>
@@ -212,10 +213,11 @@ const headcountConfig: ChartConfig = {
 const fte = (v: number | string | undefined) => `${Number(v)} FTE`;
 
 /**
- * **Composed** (use case: Headcount) — actual (bars) vs demand (line) against a
- * budget **black step line**. Same kit, different domain: generic tokens, FTE units.
+ * **Composed — bar + line** (`ComposedChart`) — actual (bars) vs demand (line)
+ * against a budget **black step line**. Same kit, different domain: generic tokens,
+ * FTE units. (Used by Headcount.)
  */
-export const Headcount: Story = {
+export const ComposedBarLine: Story = {
   render: () => (
     <Chart.Container config={headcountConfig} style={{ height: 320, maxWidth: 640 }}>
       <Chart.ComposedChart data={HEADCOUNT} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
@@ -273,9 +275,10 @@ const bubbleConfig: ChartConfig = {
 const TIERS = ['small', 'mid', 'large', 'pillar'] as const;
 
 /**
- * **Bubble / Scatter** (use case: Client Dashboard) — client revenue (x) vs YoY
- * growth (y) with bubble size by total revenue (`ZAxis`), one series per size tier.
- * Uses the same themed `Chart.Container` config, `ReferenceLine`, tooltip, and legend.
+ * **Bubble / Scatter** (`ScatterChart`) — client revenue (x) vs YoY growth (y) with
+ * bubble size by total revenue (`ZAxis`), one series per size tier. Uses the same
+ * themed `Chart.Container` config, `ReferenceLine`, tooltip, and legend. (Used by the
+ * Client Dashboard.)
  */
 export const Bubble: Story = {
   render: () => (

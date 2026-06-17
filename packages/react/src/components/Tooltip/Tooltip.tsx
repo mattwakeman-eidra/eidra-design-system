@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Tooltip.module.css';
 
 // ---- Re-export types from Base UI for external use ----
@@ -39,10 +40,12 @@ const Positioner = forwardRef<
   HTMLDivElement,
   ComponentPropsWithoutRef<typeof BaseTooltip.Positioner>
 >(function Positioner({ className, ...props }, ref) {
+  const scope = useScopeDataAttrs();
   return (
     <BaseTooltip.Positioner
       ref={ref}
       className={cn(styles.positioner, className)}
+      {...scope}
       {...props}
     />
   );

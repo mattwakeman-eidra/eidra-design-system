@@ -312,3 +312,72 @@
 .colHeader[data-highlighted][data-highlight-tone='finance'] {
   border-top-color: var(--eidra-finance-accent);
 }
+
+/* ---- Value/state-driven cell tint ---- */
+/*
+ * Tints an individual cell by its value or state. Placed after the column
+ * highlight so a per-cell tone wins over a highlighted column's flat tint.
+ */
+.cell[data-cell-tone='positive'] {
+  background-color: var(--eidra-success-subtle);
+}
+.cell[data-cell-tone='negative'] {
+  background-color: var(--eidra-danger-subtle);
+}
+.cell[data-cell-tone='caution'] {
+  background-color: var(--eidra-warning-subtle);
+}
+.cell[data-cell-tone='muted'] {
+  background-color: var(--eidra-bg-muted);
+}
+
+/* ---- Drill-down cell trigger ---- */
+.cellDrill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-1);
+  width: 100%;
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  border-radius: var(--eidra-radius-sm);
+}
+.cell[data-align='end'] .cellDrill {
+  justify-content: flex-end;
+}
+.cell[data-align='center'] .cellDrill {
+  justify-content: center;
+}
+.cellDrill:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--eidra-accent);
+  text-underline-offset: 2px;
+}
+.cellDrill:focus-visible {
+  outline: 2px solid var(--eidra-accent);
+  outline-offset: 1px;
+}
+.cellDrill[data-open] {
+  color: var(--eidra-accent);
+  font-weight: 600;
+}
+
+/* ---- Cell detail (full-width drill-down row) ---- */
+.detailRow {
+  background-color: var(--eidra-bg-subtle);
+}
+.detailCell {
+  padding: var(--dg-pad-block) var(--dg-pad-inline);
+  border-bottom: 1px solid var(--eidra-border);
+  border-inline-start: 2px solid var(--eidra-accent-border);
+  white-space: normal;
+  vertical-align: top;
+  color: var(--eidra-fg);
+}

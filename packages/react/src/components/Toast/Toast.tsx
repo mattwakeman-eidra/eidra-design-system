@@ -4,6 +4,7 @@ import { Toast as BaseToast } from '@base-ui/react/toast';
 import { X } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Toast.module.css';
 
 // ---- Re-export types from Base UI for external use ----
@@ -35,8 +36,9 @@ const Provider = BaseToast.Provider;
 // ---- Viewport ----
 const Viewport = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BaseToast.Viewport>>(
   function Viewport({ className, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
-      <BaseToast.Viewport ref={ref} className={cn(styles.viewport, className)} {...props} />
+      <BaseToast.Viewport ref={ref} className={cn(styles.viewport, className)} {...scope} {...props} />
     );
   },
 );

@@ -66,3 +66,33 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Portaled popups (menus, dialogs, …) replicate the ambient density as a bare
+ * `data-density` attribute on their positioner/popup — see ThemeProvider's scope
+ * context. Mirror the control-size remap onto that bare attribute so controls
+ * rendered inside a portal shrink in compact too, not only inside an `.eidra-root`.
+ */
+[data-density='compact'] {
+  --eidra-size-control-sm: 1.75rem;
+  --eidra-size-control-md: 2rem;
+  --eidra-size-control-lg: 2.5rem;
+}
+
+/*
+ * Finance accent. `data-accent="finance"` (via ThemeProvider's `accent` prop, or set
+ * directly on an element) repoints the accent tokens to the financial data-viz blue
+ * for that subtree — no global theme change. Keyed on the bare attribute so it also
+ * applies to portaled popups that carry the stamped `data-accent` (ThemeProvider
+ * scope). Mirrors DataGrid's `accent="finance"`; both consume the same
+ * `--eidra-finance-*` tokens so grid, charts, and chrome share one source of truth.
+ */
+[data-accent='finance'] {
+  --eidra-accent: var(--eidra-finance-accent);
+  --eidra-accent-hover: var(--eidra-finance-accent-hover);
+  --eidra-accent-active: var(--eidra-finance-accent-active);
+  --eidra-accent-subtle: var(--eidra-finance-accent-subtle);
+  --eidra-accent-border: var(--eidra-finance-accent);
+  --eidra-accent-fg: var(--eidra-finance-accent-fg);
+  --eidra-fg-on-accent: var(--eidra-finance-accent-fg);
+}

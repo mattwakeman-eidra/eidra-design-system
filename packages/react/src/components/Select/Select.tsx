@@ -4,6 +4,7 @@ import { Select as BaseSelect } from '@base-ui/react/select';
 import { ChevronsUpDown, Check } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './Select.module.css';
 
 // ─── Root ──────────────────────────────────────────────────────────────────────
@@ -92,10 +93,12 @@ export interface SelectPositionerProps
 
 const SelectPositioner = forwardRef<HTMLDivElement, SelectPositionerProps>(
   function SelectPositioner({ className, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
       <BaseSelect.Positioner
         ref={ref}
         className={cn(styles.positioner, className)}
+        {...scope}
         {...props}
       />
     );

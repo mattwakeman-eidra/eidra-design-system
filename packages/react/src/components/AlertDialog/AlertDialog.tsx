@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog';
 import { cn } from '../../utils/cn.js';
+import { useScopeDataAttrs } from '../../utils/scope.js';
 import styles from './AlertDialog.module.css';
 
 // ── Root ──────────────────────────────────────────────────────────────────────
@@ -71,10 +72,12 @@ export interface AlertDialogPopupProps
  */
 export const AlertDialogPopup = forwardRef<HTMLDivElement, AlertDialogPopupProps>(
   function AlertDialogPopup({ className, ...props }, ref) {
+    const scope = useScopeDataAttrs();
     return (
       <BaseAlertDialog.Popup
         ref={ref}
         className={cn(styles.popup, className)}
+        {...scope}
         {...props}
       />
     );

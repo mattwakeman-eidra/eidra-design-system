@@ -3,10 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FilterSelect, type FilterSelectOption } from './FilterSelect.js';
 
 const meta = {
-  title: 'Inputs/FilterSelect',
+  title: 'Forms/FilterSelect',
   component: FilterSelect,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', controls: { disable: true } },
   // Placeholder required props; every story supplies real state via `render`.
   args: { options: [], value: [], onValueChange: () => {} },
 } satisfies Meta<typeof FilterSelect>;
