@@ -23,7 +23,7 @@ New components and DataGrid extensions distilled from a full sweep of the eidra-
 
 **Overlap-audit follow-ups**
 
-- **`ToggleGroup` gains `appearance="segmented"`** (+ a group-level `size`) — a contiguous filled-track segmented control reproducing the former `SegmentedControl` visuals on Base UI Toggle children. **`SegmentedControl` is now deprecated**: it's a thin wrapper that delegates to `ToggleGroup appearance="segmented"` (no behavioural/visual change for existing callers; migrate to `ToggleGroup` when convenient).
+- **`ToggleGroup` gains `appearance="segmented"`** (+ a group-level `size`) — a contiguous filled-track segmented control reproducing the former `SegmentedControl` visuals on Base UI Toggle children. **`SegmentedControl` has been removed** (breaking) — its capability now lives in `ToggleGroup`. Migrate `<SegmentedControl items value onValueChange />` to `<ToggleGroup.Root appearance="segmented" value={[v]} onValueChange={(v) => v[0] && setV(v[0])}>` with `<Toggle value="…">` segments (use a `Toggle`'s `render` prop for link mode).
 - **`Menu` gains radio items** — `Menu.RadioGroup`, `Menu.RadioItem`, `Menu.RadioItemIndicator` — for parity with `ContextMenu`.
 - **New `Foundations/Choosing Components` Storybook page** — a decision guide for picking between adjacent components (Statistic vs StatisticBar vs StatusStrip, Select vs Combobox vs Autocomplete, etc.).
 

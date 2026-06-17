@@ -14,7 +14,7 @@ There is exactly **one** genuine "two implementations in the same space" case (S
 
 | # | Item | Type | Recommendation | Status |
 |---|------|------|----------------|--------|
-| 1 | SegmentedControl ↔ ToggleGroup | Real overlap (bespoke vs Base UI) | Merged: `ToggleGroup` gained `appearance="segmented"`; `SegmentedControl` is now a deprecated thin wrapper over it (non-breaking) | ✅ Done (v1.4.0) |
+| 1 | SegmentedControl ↔ ToggleGroup | Real overlap (bespoke vs Base UI) | Merged: `ToggleGroup` gained `appearance="segmented"`; `SegmentedControl` **removed** (single consumer migrated) | ✅ Done (v1.4.0) |
 | 2 | Menu lacks ContextMenu's `RadioGroup`/`RadioItem` | API parity | Added `Menu.RadioGroup` / `Menu.RadioItem` / `Menu.RadioItemIndicator` | ✅ Done (v1.4.0) |
 | 3 | Tier-2 "choosing between similar components" guide | Docs | Added `Foundations/Choosing Components` Storybook page | ✅ Done (v1.4.0) |
 
@@ -29,7 +29,7 @@ There is exactly **one** genuine "two implementations in the same space" case (S
 - **Why it's real:** SegmentedControl is **bespoke** (built from scratch); ToggleGroup wraps the Base UI primitive. Both render a row of mutually-exclusive options with roving focus. This is the only "two parallel implementations" case in the library.
 - **Unique to SegmentedControl:** declarative `items` array, router-link delegation via `render`, filled-track visual, density-aware sizing, `role=radiogroup`.
 - **Unique to ToggleGroup:** composition of `Toggle` children (per-item `variant`/`shape`/icon), single **and** multi-select via `multiple`, bordered container with dividers.
-- **Recommendation:** ~~keep both with a sharp boundary, or merge.~~ **Resolved (v1.4.0): merged.** `ToggleGroup` gained `appearance="segmented"` (+ group `size`) reproducing the SegmentedControl visuals on Base UI Toggle children; `SegmentedControl` is now a deprecated thin wrapper that delegates to it. Non-breaking; consumers migrate at their own pace.
+- **Recommendation:** ~~keep both with a sharp boundary, or merge.~~ **Resolved (v1.4.0): merged.** `ToggleGroup` gained `appearance="segmented"` (+ group `size`) reproducing the SegmentedControl visuals on Base UI Toggle children. `SegmentedControl` was **removed** (the only consumer was migrated) — breaking, but managed.
 
 ### 2. Menu ↔ ContextMenu (API parity)
 - **Type:** DISTINCT triggers, but inconsistent API.

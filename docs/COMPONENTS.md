@@ -26,17 +26,12 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - Compound components are namespaces: render the listed parts (e.g. `<Dialog.Root><Dialog.Trigger/>…</Dialog.Root>`).
 - `@eidra/react` is a client boundary (`"use client"` baked in) — safe to import from React Server Components.
 
-## Components (58)
+## Components (57)
 
 ### Actions
 
 - **Button** — The primary action control.
   - import: `import { Button } from '@eidra/react'`
-
-### Components
-
-- **SegmentedControl** — Deprecated — use `ToggleGroup` with `appearance="segmented"`.
-  - import: `import { SegmentedControl } from '@eidra/react'`
 
 ### Data Display
 
