@@ -7,6 +7,10 @@ export type {
   DataGridAlign,
   DataGridAccent,
   DataGridSort,
+  DataGridTableLayout,
+  DataGridTotalsPlacement,
+  DataGridDensity,
+  DataGridHighlightTone,
   SortDirection,
 } from './DataGrid.js';
 export { EditableNumberCell } from './EditableNumberCell.js';
