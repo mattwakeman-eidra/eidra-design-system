@@ -6,7 +6,7 @@ const meta = {
   title: 'Forms/FilterSelect',
   component: FilterSelect,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', controls: { disable: true } },
   // Placeholder required props; every story supplies real state via `render`.
   args: { options: [], value: [], onValueChange: () => {} },
 } satisfies Meta<typeof FilterSelect>;

@@ -48,6 +48,7 @@ const SIZED: StatisticBarItem[] = [
 
 /** Three value sizes. */
 export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
       <StatisticBar size="sm" items={SIZED} />
@@ -70,6 +71,7 @@ export const WithCaptions: Story = {
 
 /** Inside a card surface, as used at the top of the Table view. */
 export const InCard: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div
       style={{

@@ -7,7 +7,7 @@ const meta = {
   title: 'Data Display/DataGrid',
   component: DataGrid,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', controls: { disable: true } },
   // Placeholder required props; every story below supplies real data via `render`.
   args: { columns: [], data: [], getRowId: () => '' },
 } satisfies Meta<typeof DataGrid>;

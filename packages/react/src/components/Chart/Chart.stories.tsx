@@ -6,7 +6,7 @@ const meta = {
   title: 'Data Display/Chart',
   component: Chart.Container,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', controls: { disable: true } },
   // Placeholder required props; every story supplies real content via `render`.
   args: { config: {}, children: null },
 } satisfies Meta<typeof Chart.Container>;

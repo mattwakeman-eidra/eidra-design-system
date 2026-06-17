@@ -20,6 +20,7 @@ const REVENUE = [
 
 /** The Graphs hero KPI: revenue composition with inline labels and a legend. */
 export const RevenueComposition: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ maxWidth: 560 }}>
       <SegmentBar segments={REVENUE} showLabels showLegend size="lg" />
@@ -44,6 +45,7 @@ export const WithLegend: Story = {
 
 /** Three thicknesses. */
 export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
       <SegmentBar segments={REVENUE} size="sm" showLegend />
@@ -75,6 +77,7 @@ export const SingleSegment: Story = {
  * scale as `total`, so the line lands at `value / total` along the bar.
  */
 export const WithMarker: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ maxWidth: 560 }}>
       <SegmentBar
@@ -96,6 +99,7 @@ export const WithMarker: Story = {
  * the budget line across every bar — the budget-burn pattern from Project Economics.
  */
 export const SharedBudgetLine: Story = {
+  parameters: { controls: { disable: true } },
   render: () => {
     const total = 200;
     const budget = [{ value: 180, label: 'Budget', tone: 'warning' as const }];

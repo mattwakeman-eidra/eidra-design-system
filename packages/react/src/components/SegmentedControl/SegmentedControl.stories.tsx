@@ -6,7 +6,7 @@ const meta = {
   title: 'Forms/SegmentedControl',
   component: SegmentedControl,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', controls: { disable: true } },
   args: { items: [], value: '' },
 } satisfies Meta<typeof SegmentedControl>;
 
