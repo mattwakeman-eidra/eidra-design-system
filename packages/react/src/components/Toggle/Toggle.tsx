@@ -55,8 +55,20 @@ const ToggleRoot = forwardRef<HTMLButtonElement, ToggleProps>(function Toggle(
 
 // ─── ToggleGroup ──────────────────────────────────────────────────────────────
 
+export type ToggleGroupAppearance = 'group' | 'segmented';
+
 export interface ToggleGroupRootProps extends Omit<BaseToggleGroup.Props, 'className'> {
   className?: string;
+  /**
+   * Visual treatment. `'group'` (default) is a bordered button cluster with
+   * divider lines between items. `'segmented'` is a contiguous filled-track
+   * segmented control — a muted track whose active segment is filled with the
+   * accent (the look formerly shipped as `SegmentedControl`). For a view
+   * switcher, delegate segments to links via each `Toggle`'s `render` prop.
+   */
+  appearance?: ToggleGroupAppearance;
+  /** Segment size — only affects the `segmented` appearance. Defaults to `md`. */
+  size?: ToggleSize;
 }
 
 /**
@@ -77,15 +89,24 @@ export interface ToggleGroupRootProps extends Omit<BaseToggleGroup.Props, 'class
  *   <Toggle value="bold" aria-label="Bold">B</Toggle>
  *   <Toggle value="italic" aria-label="Italic">I</Toggle>
  * </ToggleGroup.Root>
+ *
+ * @example
+ * // Segmented appearance — a view switcher
+ * <ToggleGroup.Root appearance="segmented" value={[view]} onValueChange={(v) => v[0] && setView(v[0])}>
+ *   <Toggle value="table">Table</Toggle>
+ *   <Toggle value="graphs">Graphs</Toggle>
+ * </ToggleGroup.Root>
  */
 const ToggleGroupRoot = forwardRef<HTMLDivElement, ToggleGroupRootProps>(function ToggleGroupRoot(
-  { className, ...props },
+  { className, appearance = 'group', size = 'md', ...props },
   ref,
 ) {
   return (
     <BaseToggleGroup
       ref={ref}
       className={cn(styles.group, className)}
+      data-appearance={appearance}
+      data-size={size}
       {...props}
     />
   );

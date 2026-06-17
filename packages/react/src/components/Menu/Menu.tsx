@@ -130,6 +130,63 @@ const MenuCheckboxItemIndicator = forwardRef<HTMLSpanElement, MenuCheckboxItemIn
   },
 );
 
+// ─── RadioGroup ────────────────────────────────────────────────────────────
+
+export interface MenuRadioGroupProps extends ComponentPropsWithoutRef<typeof BaseMenu.RadioGroup> {
+  className?: string;
+}
+
+const MenuRadioGroup = forwardRef<HTMLDivElement, MenuRadioGroupProps>(function MenuRadioGroup(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseMenu.RadioGroup
+      ref={ref as Ref<HTMLDivElement>}
+      className={cn(styles.radioGroup, className)}
+      {...props}
+    />
+  );
+});
+
+// ─── RadioItem ─────────────────────────────────────────────────────────────
+
+export interface MenuRadioItemProps extends ComponentPropsWithoutRef<typeof BaseMenu.RadioItem> {
+  className?: string;
+}
+
+const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>(function MenuRadioItem(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseMenu.RadioItem
+      ref={ref as Ref<HTMLElement>}
+      className={cn(styles.item, styles.radioItem, className)}
+      {...props}
+    />
+  );
+});
+
+// ─── RadioItemIndicator ────────────────────────────────────────────────────
+
+export interface MenuRadioItemIndicatorProps
+  extends ComponentPropsWithoutRef<typeof BaseMenu.RadioItemIndicator> {
+  className?: string;
+}
+
+const MenuRadioItemIndicator = forwardRef<HTMLSpanElement, MenuRadioItemIndicatorProps>(
+  function MenuRadioItemIndicator({ className, ...props }, ref) {
+    return (
+      <BaseMenu.RadioItemIndicator
+        ref={ref}
+        className={cn(styles.radioItemIndicator, className)}
+        {...props}
+      />
+    );
+  },
+);
+
 // ─── Group ─────────────────────────────────────────────────────────────────
 
 export interface MenuGroupProps extends ComponentPropsWithoutRef<typeof BaseMenu.Group> {
@@ -259,6 +316,9 @@ export const Menu = {
   Item: MenuItem,
   CheckboxItem: MenuCheckboxItem,
   CheckboxItemIndicator: MenuCheckboxItemIndicator,
+  RadioGroup: MenuRadioGroup,
+  RadioItem: MenuRadioItem,
+  RadioItemIndicator: MenuRadioItemIndicator,
   Group: MenuGroup,
   GroupLabel: MenuGroupLabel,
   Separator: MenuSeparator,

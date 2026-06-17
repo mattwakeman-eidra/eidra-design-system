@@ -11,12 +11,13 @@ import {
   Kbd,
   Progress,
   SegmentBar,
-  SegmentedControl,
   Statistic,
   StatisticBar,
   StatusStrip,
   Switch,
   ThemeProvider,
+  Toggle,
+  ToggleGroup,
 } from '../index.js';
 
 const meta = {
@@ -57,15 +58,11 @@ function Panel() {
         <Freshness label="Data" since={Date.now() - 12 * 60_000} tone="positive" />
       </div>
 
-      <SegmentedControl
-        aria-label="View"
-        value="table"
-        items={[
-          { value: 'table', label: 'Table' },
-          { value: 'graphs', label: 'Graphs' },
-          { value: 'clients', label: 'Clients' },
-        ]}
-      />
+      <ToggleGroup.Root appearance="segmented" aria-label="View" defaultValue={['table']}>
+        <Toggle value="table">Table</Toggle>
+        <Toggle value="graphs">Graphs</Toggle>
+        <Toggle value="clients">Clients</Toggle>
+      </ToggleGroup.Root>
 
       {/* Metrics */}
       <StatisticBar

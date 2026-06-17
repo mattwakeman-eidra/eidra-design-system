@@ -1,7 +1,6 @@
-import { forwardRef, Fragment, useRef } from 'react';
-import type { KeyboardEvent, ReactNode } from 'react';
-import { cn } from '../../utils/cn.js';
-import styles from './SegmentedControl.module.css';
+import { forwardRef } from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import { Toggle, ToggleGroup, type ToggleSize } from '../Toggle/Toggle.js';
 
 export interface SegmentedControlItem {
   /** Stable value for this segment; matched against the control's `value`. */
@@ -15,9 +14,7 @@ export interface SegmentedControlItem {
   /**
    * Render a custom element instead of a `<button>` — e.g. a router `Link` that
    * preserves the query string. Receives the segment's `className`, `children`,
-   * and active markers (`data-active`, `aria-current`). Keeps the design system
-   * free of any router dependency (mirrors `Breadcrumbs`). When any item sets
-   * `render`, the control is treated as navigation rather than a radio group.
+   * and active markers (`data-active`, `aria-current`).
    */
   render?: (props: {
     className: string;
@@ -35,18 +32,20 @@ export interface SegmentedControlProps {
   /** Selection-change callback (button mode). */
   onValueChange?: (value: string) => void;
   /** Control size. Defaults to `md`. */
-  size?: 'sm' | 'md' | 'lg';
+  size?: ToggleSize;
   /** Accessible name for the control. */
   'aria-label'?: string;
   className?: string;
 }
 
 /**
- * A segmented control: a contiguous track of mutually-exclusive options with the
- * active segment filled. In the default button mode it's a `radiogroup` with
- * arrow-key roving focus. Pass an item `render` to delegate segments to router
- * links (a view switcher) without coupling the design system to a router. For
- * multi-select or independent on/off buttons, use `ToggleGroup` instead.
+ * Deprecated — use `ToggleGroup` with `appearance="segmented"`. A contiguous track
+ * of mutually-exclusive options with the active segment filled; now a thin wrapper
+ * over `ToggleGroup`, kept for backwards compatibility.
+ *
+ * @deprecated Use `ToggleGroup` with `appearance="segmented"` instead. Migrate to:
+ * `<ToggleGroup.Root appearance="segmented" value={[v]} onValueChange={(v) => v[0] && setV(v[0])}>`
+ * with `<Toggle value="…">` segments (use a `Toggle`'s `render` prop for link mode).
  */
 export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   function SegmentedControl(
@@ -54,100 +53,64 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
     ref,
   ) {
     const isLinkMode = items.some((it) => it.render);
-    const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-    const moveFocus = (fromIdx: number, dir: 1 | -1) => {
-      const n = items.length;
-      let i = fromIdx;
-      for (let step = 0; step < n; step++) {
-        i = (i + dir + n) % n;
-        if (!items[i]?.disabled) break;
-      }
-      const btn = btnRefs.current[i];
-      if (btn && items[i]) {
-        btn.focus();
-        onValueChange?.(items[i]!.value);
-      }
-    };
-
-    const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, idx: number) => {
-      switch (e.key) {
-        case 'ArrowRight':
-        case 'ArrowDown':
-          e.preventDefault();
-          moveFocus(idx, 1);
-          break;
-        case 'ArrowLeft':
-        case 'ArrowUp':
-          e.preventDefault();
-          moveFocus(idx, -1);
-          break;
-        case 'Home':
-          e.preventDefault();
-          moveFocus(-1, 1);
-          break;
-        case 'End':
-          e.preventDefault();
-          moveFocus(0, -1);
-          break;
-      }
-    };
 
     return (
-      <div
+      <ToggleGroup.Root
         ref={ref}
-        role={isLinkMode ? 'group' : 'radiogroup'}
+        appearance="segmented"
+        size={size}
+        className={className}
         aria-label={ariaLabel}
-        className={cn(styles.root, className)}
-        data-size={size}
+        value={[value]}
+        // Link mode navigates via the rendered anchors; don't also toggle state.
+        onValueChange={
+          isLinkMode
+            ? () => {}
+            : (v) => {
+                const next = v[0];
+                if (next) onValueChange?.(next);
+              }
+        }
       >
-        {items.map((item, idx) => {
+        {items.map((item) => {
           const active = item.value === value;
           const content = (
             <>
               {item.icon != null && (
-                <span className={styles.icon} aria-hidden="true">
+                <span aria-hidden="true" style={{ display: 'inline-flex', flex: 'none', alignItems: 'center' }}>
                   {item.icon}
                 </span>
               )}
-              <span className={styles.label}>{item.label}</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center' }}>{item.label}</span>
             </>
           );
 
           if (item.render) {
+            const renderItem = item.render;
             return (
-              <Fragment key={item.value}>
-                {item.render({
-                  className: cn(styles.segment),
-                  'data-active': active ? '' : undefined,
-                  'aria-current': active ? 'page' : undefined,
-                  children: content,
-                })}
-              </Fragment>
+              <Toggle
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+                render={(props) =>
+                  renderItem({
+                    className: (props.className as string) ?? '',
+                    children: content,
+                    'data-active': active ? '' : undefined,
+                    'aria-current': active ? 'page' : undefined,
+                  }) as ReactElement
+                }
+              />
             );
           }
 
           return (
-            <button
-              key={item.value}
-              ref={(el) => {
-                btnRefs.current[idx] = el;
-              }}
-              type="button"
-              role="radio"
-              aria-checked={active}
-              className={styles.segment}
-              data-active={active || undefined}
-              disabled={item.disabled}
-              tabIndex={active ? 0 : -1}
-              onClick={() => onValueChange?.(item.value)}
-              onKeyDown={(e) => onKeyDown(e, idx)}
-            >
+            <Toggle key={item.value} value={item.value} disabled={item.disabled}>
               {content}
-            </button>
+            </Toggle>
           );
         })}
-      </div>
+      </ToggleGroup.Root>
     );
   },
 );

@@ -33,6 +33,11 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - **Button** — The primary action control.
   - import: `import { Button } from '@eidra/react'`
 
+### Components
+
+- **SegmentedControl** — Deprecated — use `ToggleGroup` with `appearance="segmented"`.
+  - import: `import { SegmentedControl } from '@eidra/react'`
+
 ### Data Display
 
 - **Avatar** — User avatar built on Base UI Avatar.
@@ -103,8 +108,6 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { NumberField } from '@eidra/react'` · parts: NumberField.Root, NumberField.Group, NumberField.Input, NumberField.Increment, NumberField.Decrement, NumberField.ScrubArea, NumberField.ScrubAreaCursor
 - **Radio** — A radio button control built on Base UI `Radio`.
   - import: `import { Radio, RadioGroup } from '@eidra/react'` · parts: Radio.Root, Radio.Indicator
-- **SegmentedControl** — A segmented control: a contiguous track of mutually-exclusive options with the active segment filled.
-  - import: `import { SegmentedControl } from '@eidra/react'`
 - **Select** — A select control built on Base UI `Select`.
   - import: `import { Select } from '@eidra/react'` · parts: Select.Root, Select.Trigger, Select.Value, Select.Portal, Select.Backdrop, Select.Positioner, Select.Popup, Select.List, Select.Item, Select.ItemIndicator, Select.ItemText, Select.Group, Select.GroupLabel
 - **Slider** — A range slider built on Base UI `Slider`.
@@ -160,7 +163,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - **Dialog** — A modal/non-modal dialog built on Base UI `Dialog`.
   - import: `import { Dialog } from '@eidra/react'` · parts: Dialog.Root, Dialog.Trigger, Dialog.Portal, Dialog.Backdrop, Dialog.Popup, Dialog.Header, Dialog.Body, Dialog.Footer, Dialog.Title, Dialog.Description, Dialog.Close, Dialog.CloseButton
 - **Menu** — A dropdown menu built on Base UI `Menu`.
-  - import: `import { Menu } from '@eidra/react'` · parts: Menu.Root, Menu.Trigger, Menu.Portal, Menu.Positioner, Menu.Popup, Menu.Item, Menu.CheckboxItem, Menu.CheckboxItemIndicator, Menu.Group, Menu.GroupLabel, Menu.Separator, Menu.SubmenuRoot, Menu.SubmenuTrigger, Menu.Arrow
+  - import: `import { Menu } from '@eidra/react'` · parts: Menu.Root, Menu.Trigger, Menu.Portal, Menu.Positioner, Menu.Popup, Menu.Item, Menu.CheckboxItem, Menu.CheckboxItemIndicator, Menu.RadioGroup, Menu.RadioItem, Menu.RadioItemIndicator, Menu.Group, Menu.GroupLabel, Menu.Separator, Menu.SubmenuRoot, Menu.SubmenuTrigger, Menu.Arrow
 - **Popover**
   - import: `import { Popover } from '@eidra/react'` · parts: Popover.Root, Popover.Trigger, Popover.Portal, Popover.Positioner, Popover.Popup, Popover.Arrow, Popover.Backdrop, Popover.Title, Popover.Description, Popover.Close, Popover.CloseButton, Popover.Header, Popover.Body, Popover.Footer
 - **PreviewCard** — A hover-triggered popup that shows a rich preview of a linked resource, built on Base UI `PreviewCard`.
