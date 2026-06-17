@@ -95,3 +95,8 @@
   transform: rotate(45deg) translateX(-50%);
   transform-origin: 0 0;
 }
+
+/* Honour the ambient compact-density scope: tighter padding/gaps. */
+:global([data-density='compact']) .popup {
+  padding: var(--eidra-space-1) var(--eidra-space-2);
+}

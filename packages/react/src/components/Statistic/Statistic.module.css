@@ -73,3 +73,20 @@
 .progress {
   margin-block-start: var(--eidra-space-1);
 }
+
+/* Honour the ambient compact-density scope: tight stack, one step smaller value. */
+:global([data-density='compact']) .root {
+  gap: 0;
+}
+:global([data-density='compact']) .label {
+  line-height: 1.1;
+}
+:global([data-density='compact']) .value {
+  line-height: 1.1;
+}
+:global([data-density='compact']) .root[data-size='md'] .value {
+  font-size: var(--eidra-font-size-base);
+}
+:global([data-density='compact']) .root[data-size='lg'] .value {
+  font-size: var(--eidra-font-size-lg);
+}

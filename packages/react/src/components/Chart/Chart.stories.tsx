@@ -69,14 +69,14 @@ export const ForecastChart: Story = {
             cursor={{ fill: 'var(--eidra-surface-hover)' }}
             content={<Chart.TooltipContent formatter={fmt} />}
           />
-          <Chart.Bar dataKey="actuals" stackId="s" fill="var(--color-actuals)" hide={isHidden('actuals')}>
+          <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" hide={isHidden('actuals')}>
             {DATA.map((d, i) => (
               <Chart.Cell key={i} fillOpacity={d.closed ? 1 : 0.55} />
             ))}
           </Chart.Bar>
-          <Chart.Bar dataKey="sold" stackId="s" fill="var(--color-sold)" hide={isHidden('sold')} />
-          <Chart.Bar dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" hide={isHidden('hiProb')} />
-          <Chart.Bar
+          <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" hide={isHidden('sold')} />
+          <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" hide={isHidden('hiProb')} />
+          <Chart.Bar {...Chart.seriesDefaults}
             dataKey="additional"
             stackId="s"
             fill="var(--color-additional)"
@@ -89,7 +89,7 @@ export const ForecastChart: Story = {
               formatter={(v) => formatCompactCurrency(Number(v) * 1000)}
             />
           </Chart.Bar>
-          <Chart.Line
+          <Chart.Line {...Chart.seriesDefaults}
             dataKey="ly"
             type="monotone"
             stroke="var(--color-ly)"
@@ -98,7 +98,7 @@ export const ForecastChart: Story = {
             dot={false}
             hide={isHidden('ly')}
           />
-          <Chart.Line
+          <Chart.Line {...Chart.seriesDefaults}
             dataKey="budget"
             type="step"
             stroke="var(--color-budget)"
@@ -120,9 +120,9 @@ export const Mini: Story = {
       <Chart.ComposedChart data={DATA} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
         <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-        <Chart.Bar dataKey="actuals" stackId="s" fill="var(--color-actuals)" />
-        <Chart.Bar dataKey="sold" stackId="s" fill="var(--color-sold)" />
-        <Chart.Bar dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} />
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" />
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" />
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} />
       </Chart.ComposedChart>
     </Chart.Container>
   ),
@@ -168,15 +168,15 @@ export const HeadcountBudget: Story = {
           cursor={{ fill: 'var(--eidra-surface-hover)' }}
           content={<Chart.TooltipContent formatter={fte} />}
         />
-        <Chart.Bar dataKey="actual" fill="var(--color-actual)" radius={[3, 3, 0, 0]} barSize={28} />
-        <Chart.Line
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="actual" fill="var(--color-actual)" radius={[3, 3, 0, 0]} barSize={28} />
+        <Chart.Line {...Chart.seriesDefaults}
           dataKey="demand"
           type="monotone"
           stroke="var(--color-demand)"
           strokeWidth={2}
           dot={{ r: 3 }}
         />
-        <Chart.Line dataKey="budget" type="step" stroke="var(--color-budget)" strokeWidth={2.5} dot={false} />
+        <Chart.Line {...Chart.seriesDefaults} dataKey="budget" type="step" stroke="var(--color-budget)" strokeWidth={2.5} dot={false} />
         <Chart.Legend content={<Chart.LegendContent />} />
       </Chart.ComposedChart>
     </Chart.Container>

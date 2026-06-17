@@ -1,0 +1,110 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  font-family: var(--eidra-font-family-sans);
+}
+
+.item {
+  --_value-color: var(--eidra-fg);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-1);
+  min-width: 0;
+  padding-inline: var(--eidra-space-4);
+}
+
+/* First item flush left; subsequent items get a thin leading divider. */
+.item:first-child {
+  padding-inline-start: 0;
+}
+.item:not(:first-child) {
+  border-inline-start: 1px solid var(--eidra-border);
+}
+
+/* A trailing metric: push it (and any after it) to the right edge. */
+.item[data-align='end'] {
+  margin-inline-start: auto;
+}
+
+/* ---- Tone (value colour) ---- */
+.item[data-tone='neutral'] {
+  --_value-color: var(--eidra-fg);
+}
+.item[data-tone='positive'] {
+  --_value-color: var(--eidra-finance-positive);
+}
+.item[data-tone='negative'] {
+  --_value-color: var(--eidra-finance-negative);
+}
+.item[data-tone='caution'] {
+  --_value-color: var(--eidra-finance-caution);
+}
+.item[data-tone='accent'] {
+  --_value-color: var(--eidra-accent);
+}
+
+.label {
+  color: var(--eidra-fg-subtle);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--eidra-font-letter-spacing-wide, 0.08em);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.value {
+  color: var(--_value-color);
+  font-family: var(--eidra-font-family-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.caption {
+  color: var(--eidra-fg-muted);
+  font-size: var(--eidra-font-size-xs);
+}
+
+/* ---- Value sizes ---- */
+.root[data-size='sm'] .value {
+  font-size: var(--eidra-font-size-sm);
+}
+.root[data-size='md'] .value {
+  font-size: var(--eidra-font-size-lg);
+}
+.root[data-size='lg'] .value {
+  font-size: var(--eidra-font-size-2xl);
+}
+
+/* Compact strips tighten the inter-metric spacing. */
+.root[data-size='sm'] .item {
+  padding-inline: var(--eidra-space-3);
+}
+.root[data-size='sm'] .item:first-child {
+  padding-inline-start: 0;
+}
+
+/* Honour the ambient compact-density scope: tight dividers, no inter-line gap. */
+:global([data-density='compact']) .item {
+  padding-inline: var(--eidra-space-2);
+  gap: 0;
+}
+:global([data-density='compact']) .item:first-child {
+  padding-inline-start: 0;
+}
+:global([data-density='compact']) .label {
+  font-size: calc(var(--eidra-font-size-xs) * 0.9);
+  line-height: 1.1;
+}
+:global([data-density='compact']) .value {
+  font-size: var(--eidra-font-size-sm);
+  line-height: 1;
+}
+:global([data-density='compact']) .root[data-size='lg'] .value {
+  font-size: var(--eidra-font-size-base);
+}

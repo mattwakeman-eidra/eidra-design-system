@@ -4,6 +4,32 @@
   border-radius: var(--eidra-radius-lg);
   background-color: var(--eidra-surface);
   overflow: hidden;
+
+  /* Density-driven cell metrics. Cells read these; the compact scope remaps them. */
+  --dg-pad-block: var(--eidra-space-2);
+  --dg-pad-inline: var(--eidra-space-3);
+  --dg-font-size: var(--eidra-font-size-sm);
+}
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope (preferred,
+ * via the surrounding eidra-root) and the per-instance `density="compact"` prop,
+ * so one page can mix comfortable and dense grids.
+ */
+:global([data-density='compact']) .root,
+.root[data-density='compact'] {
+  --dg-pad-block: var(--eidra-space-0-5);
+  --dg-pad-inline: var(--eidra-space-2);
+  --dg-font-size: var(--eidra-font-size-xs);
+  /* Shrink the control metric that sets the inline-edit cell's min row height. */
+  --eidra-size-control-sm: 1.5rem;
+}
+
+/* An explicit `density="comfortable"` prop wins back, even inside a compact scope. */
+.root[data-density='comfortable'] {
+  --dg-pad-block: var(--eidra-space-2);
+  --dg-pad-inline: var(--eidra-space-3);
+  --dg-font-size: var(--eidra-font-size-sm);
 }
 
 /*
@@ -40,8 +66,17 @@
   border-spacing: 0;
   width: 100%;
   font-family: var(--eidra-font-family-sans);
-  font-size: var(--eidra-font-size-sm);
+  font-size: var(--dg-font-size);
   color: var(--eidra-fg);
+}
+
+/*
+ * Fixed layout: columns size strictly from their <col> width, so rendered widths
+ * equal declared widths and the sticky offsets of multiple pinned columns stay
+ * aligned during horizontal scroll.
+ */
+.table[data-layout='fixed'] {
+  table-layout: fixed;
 }
 
 /* ---- Header ---- */
@@ -58,7 +93,7 @@
   background-color: var(--eidra-bg-subtle);
   border-bottom: 1px solid var(--eidra-border);
   border-inline-end: 1px solid var(--eidra-border-subtle);
-  padding: var(--eidra-space-2) var(--eidra-space-3);
+  padding: var(--dg-pad-block) var(--dg-pad-inline);
   font-size: var(--eidra-font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -134,7 +169,7 @@
 }
 
 .cell {
-  padding: var(--eidra-space-2) var(--eidra-space-3);
+  padding: var(--dg-pad-block) var(--dg-pad-inline);
   border-bottom: 1px solid var(--eidra-border-subtle);
   border-inline-end: 1px solid var(--eidra-border-subtle);
   white-space: nowrap;
@@ -212,28 +247,68 @@
   position: sticky;
   bottom: 0;
 }
-.footerCell {
-  position: sticky;
-  bottom: 0;
-  z-index: var(--eidra-z-sticky);
-  padding: var(--eidra-space-2) var(--eidra-space-3);
+.totalsRow {
   background-color: var(--eidra-bg-subtle);
-  border-top: 1px solid var(--eidra-border);
+}
+.footerCell,
+.totalsCell {
+  z-index: var(--eidra-z-sticky);
+  padding: var(--dg-pad-block) var(--dg-pad-inline);
+  background-color: var(--eidra-bg-subtle);
   border-inline-end: 1px solid var(--eidra-border-subtle);
   font-weight: 700;
   white-space: nowrap;
   text-align: start;
 }
-.footerCell[data-align='end'] {
+/* Bottom totals stick to the foot; top totals stick under the header (inline `top`). */
+.footerCell {
+  position: sticky;
+  bottom: 0;
+  border-top: 1px solid var(--eidra-border);
+}
+.totalsCell {
+  position: sticky;
+  border-bottom: 1px solid var(--eidra-border);
+}
+.footerCell[data-align='end'],
+.totalsCell[data-align='end'] {
   text-align: end;
 }
-.footerCell[data-align='center'] {
+.footerCell[data-align='center'],
+.totalsCell[data-align='center'] {
   text-align: center;
 }
-.footerCell[data-numeric] {
+.footerCell[data-numeric],
+.totalsCell[data-numeric] {
   font-family: var(--eidra-font-family-mono);
   font-variant-numeric: tabular-nums;
 }
-.footerCell[data-pinned] {
+.footerCell[data-pinned],
+.totalsCell[data-pinned] {
   z-index: calc(var(--eidra-z-sticky) + 1);
+}
+
+/* ---- Column highlight (e.g. the current "NOW" column) ---- */
+/*
+ * Tint header + body + totals of a flagged column. Default tone uses the grid's
+ * accent-subtle (which `accent="finance"` already repoints to the finance tint);
+ * `highlightTone="finance"` forces the finance tint regardless of grid accent.
+ */
+.colHeader[data-highlighted],
+.cell[data-highlighted],
+.footerCell[data-highlighted],
+.totalsCell[data-highlighted] {
+  background-color: var(--eidra-accent-subtle);
+}
+.colHeader[data-highlight-tone='finance'],
+.cell[data-highlight-tone='finance'],
+.footerCell[data-highlight-tone='finance'],
+.totalsCell[data-highlight-tone='finance'] {
+  background-color: var(--eidra-finance-accent-subtle);
+}
+.colHeader[data-highlighted] {
+  border-top: 2px solid var(--eidra-accent-border);
+}
+.colHeader[data-highlighted][data-highlight-tone='finance'] {
+  border-top-color: var(--eidra-finance-accent);
 }

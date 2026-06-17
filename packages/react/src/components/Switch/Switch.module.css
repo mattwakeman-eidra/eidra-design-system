@@ -106,3 +106,24 @@
 .wrapper:has(.root[data-disabled]) .label {
   color: var(--eidra-fg-disabled);
 }
+
+/* Honour the ambient compact-density scope: tighter sizing/gaps. */
+:global([data-density='compact']) .wrapper {
+  gap: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .root {
+  /* Track: 36×20px → ~31×17px (~15% smaller) */
+  width: 1.9375rem;
+  height: 1.0625rem;
+}
+
+:global([data-density='compact']) .thumb {
+  width: 0.75rem; /* 14px → 12px */
+  height: 0.75rem;
+}
+
+/* Checked slide: track(31px) - padding(2×2) - thumb(12) = 15px */
+:global([data-density='compact']) .root[data-checked] .thumb {
+  translate: 0.9375rem;
+}

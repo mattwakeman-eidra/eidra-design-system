@@ -19,7 +19,9 @@ export * from './components/Dialog/index.js';
 export * from './components/EmptyState/index.js';
 export * from './components/Field/index.js';
 export * from './components/Fieldset/index.js';
+export * from './components/FilterSelect/index.js';
 export * from './components/Form/index.js';
+export * from './components/Freshness/index.js';
 export * from './components/Input/index.js';
 export * from './components/Kbd/index.js';
 export * from './components/Menu/index.js';
@@ -33,11 +35,14 @@ export * from './components/Progress/index.js';
 export * from './components/Radio/index.js';
 export * from './components/SaveIndicator/index.js';
 export * from './components/ScrollArea/index.js';
+export * from './components/SegmentBar/index.js';
+export * from './components/SegmentedControl/index.js';
 export * from './components/Select/index.js';
 export * from './components/Separator/index.js';
 export * from './components/Skeleton/index.js';
 export * from './components/Slider/index.js';
 export * from './components/Spinner/index.js';
+export * from './components/StatisticBar/index.js';
 export * from './components/Statistic/index.js';
 export * from './components/StatusStrip/index.js';
 export * from './components/Switch/index.js';
@@ -51,3 +56,7 @@ export * from './components/Typography/index.js';
 
 export { cn } from './utils/cn.js';
 export type { ClassValue } from './utils/cn.js';
+
+// Currency helpers (formatCompactCurrency is also re-exported via Chart).
+export { formatCurrency, formatCurrencyThousands } from './utils/currency.js';
+export type { CurrencyFormatOptions } from './utils/currency.js';

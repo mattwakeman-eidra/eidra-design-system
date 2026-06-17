@@ -128,3 +128,9 @@
   outline: 2px solid var(--eidra-focus-ring);
   outline-offset: 2px;
 }
+
+/* Honour the ambient compact-density scope: tighter padding/gaps. */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-3);
+}

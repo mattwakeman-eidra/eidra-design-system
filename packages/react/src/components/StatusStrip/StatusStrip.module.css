@@ -50,3 +50,21 @@
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
+
+/* Honour the ambient compact-density scope: tight cells. */
+:global([data-density='compact']) .root {
+  gap: 2px;
+}
+:global([data-density='compact']) .cell {
+  padding-block: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-0-5);
+  gap: 0;
+}
+:global([data-density='compact']) .label {
+  font-size: calc(var(--eidra-font-size-xs) * 0.75);
+  line-height: 1.1;
+}
+:global([data-density='compact']) .value {
+  font-size: var(--eidra-font-size-xs);
+  line-height: 1.1;
+}

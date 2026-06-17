@@ -50,3 +50,32 @@
   gap: var(--eidra-space-2);
   margin-block-start: var(--eidra-space-4);
 }
+
+/* Honour the ambient compact-density scope: tighter padding/gaps. */
+:global([data-density='compact']) .root {
+  padding-block: var(--eidra-space-8);
+  padding-inline: var(--eidra-space-3);
+}
+
+:global([data-density='compact']) .root[data-size='sm'] {
+  padding-block: var(--eidra-space-4);
+}
+
+:global([data-density='compact']) .icon {
+  margin-block-end: var(--eidra-space-3);
+  font-size: var(--eidra-font-size-2xl);
+}
+
+:global([data-density='compact']) .root[data-size='sm'] .icon {
+  margin-block-end: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-xl);
+}
+
+:global([data-density='compact']) .description {
+  margin-block-start: var(--eidra-space-0-5);
+}
+
+:global([data-density='compact']) .actions {
+  gap: var(--eidra-space-1);
+  margin-block-start: var(--eidra-space-3);
+}

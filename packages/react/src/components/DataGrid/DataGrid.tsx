@@ -1,7 +1,9 @@
 import {
   forwardRef,
   useCallback,
+  useLayoutEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react';
@@ -10,6 +12,20 @@ import styles from './DataGrid.module.css';
 
 export type DataGridAlign = 'start' | 'center' | 'end';
 export type SortDirection = 'asc' | 'desc';
+/**
+ * Table sizing strategy. `'auto'` (default) lets the browser size columns from
+ * content. `'fixed'` sets `table-layout: fixed` and sizes columns strictly from
+ * their `width`, so the rendered widths equal the declared widths — required for
+ * multiple pinned columns to keep their sticky offsets aligned during horizontal
+ * scroll (see {@link DataGridColumn.pinned}).
+ */
+export type DataGridTableLayout = 'auto' | 'fixed';
+/** Where the totals/aggregate row sits: pinned to the `'bottom'` (default) or `'top'`, below the header. */
+export type DataGridTotalsPlacement = 'bottom' | 'top';
+/** Row density. `'compact'` reduces row padding and numeral size for information-dense tables. */
+export type DataGridDensity = 'comfortable' | 'compact';
+/** Tint family for a {@link DataGridColumn.highlighted} column. */
+export type DataGridHighlightTone = 'accent' | 'finance';
 /**
  * Accent used for interactive affordances inside the grid (sort indicators,
  * focus rings, editable-cell override/aggregate markers). `'brand'` uses the
@@ -47,6 +63,14 @@ export interface DataGridColumn<Row> {
   footer?: (rows: Row[]) => ReactNode;
   /** Render numerals in the monospace numeral face and right-align by default. */
   numeric?: boolean;
+  /**
+   * Tint the entire column — header, every body cell, and the totals cell — to
+   * mark it as the focus column (e.g. the current "NOW" month). Uses a subtle
+   * background token plus a 2px top accent border on the header.
+   */
+  highlighted?: boolean;
+  /** Tint family for {@link highlighted}. Defaults to `'accent'` (the grid's accent). */
+  highlightTone?: DataGridHighlightTone;
 }
 
 /** A header group spanning several leaf columns — drives the multi-tier header. */
@@ -86,8 +110,21 @@ export interface DataGridProps<Row> {
   sort?: DataGridSort | null;
   /** Sort-change callback (required to drive controlled sort). */
   onSortChange?: (sort: DataGridSort | null) => void;
-  /** Render a sticky totals footer from each column's `footer`. Defaults to true when any column defines one. */
+  /** Render a sticky totals row from each column's `footer`. Defaults to true when any column defines one. */
   showFooter?: boolean;
+  /** Where the totals row sits. `'bottom'` (default) pins it to the foot; `'top'` stacks it under the header. */
+  totalsPlacement?: DataGridTotalsPlacement;
+  /**
+   * Column sizing strategy. Defaults to `'auto'`. Use `'fixed'` whenever the grid
+   * has ≥2 pinned columns so their sticky offsets stay aligned during horizontal scroll.
+   */
+  tableLayout?: DataGridTableLayout;
+  /**
+   * Per-instance row density. When omitted, the grid inherits the ambient
+   * `data-density` scope; set it to force a density for this grid regardless of
+   * the surrounding scope (so one page can mix comfortable and dense tables).
+   */
+  density?: DataGridDensity;
   /** Accent for the grid's interactive affordances. Defaults to `brand`. */
   accent?: DataGridAccent;
   /** Accessible label for the grid. */
@@ -150,6 +187,9 @@ function DataGridInner<Row>(
     sort,
     onSortChange,
     showFooter,
+    totalsPlacement = 'bottom',
+    tableLayout = 'auto',
+    density,
     accent = 'brand',
     className,
     'aria-label': ariaLabel,
@@ -261,11 +301,32 @@ function DataGridInner<Row>(
     return out;
   }, [data, globalFilter, getRowSearchText, getSubRows, getRowId, activeSort, colById, expanded]);
 
-  const renderFooter =
-    showFooter ?? leafColumns.some((c) => c.footer !== undefined);
+  const hasFooter = leafColumns.some((c) => c.footer !== undefined);
+  const renderFooter = (showFooter ?? hasFooter) && hasFooter;
+  const totalsAtTop = renderFooter && totalsPlacement === 'top';
+
+  // A top-placed totals row sticks below the header; its `top` offset must equal
+  // the rendered header height, which varies with tier count + content. Measure it.
+  const theadRef = useRef<HTMLTableSectionElement>(null);
+  const [theadHeight, setTheadHeight] = useState(0);
+  useLayoutEffect(() => {
+    const el = theadRef.current;
+    if (!el || !totalsAtTop) return;
+    const measure = () => setTheadHeight(el.offsetHeight);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [totalsAtTop, hasGroups, visibleLeaves]);
 
   const align = (col: DataGridColumn<Row>): DataGridAlign =>
     col.align ?? (col.numeric ? 'end' : 'start');
+
+  // Highlight attributes for a column's header/body/footer cells.
+  const highlightProps = (col: DataGridColumn<Row>) =>
+    col.highlighted
+      ? { 'data-highlighted': '', 'data-highlight-tone': col.highlightTone ?? 'accent' }
+      : {};
 
   const stickyProps = (col: DataGridColumn<Row>, zKind: 'header' | 'body' | 'corner') => {
     if (!col.pinned) return {};
@@ -283,17 +344,29 @@ function DataGridInner<Row>(
   // stays so the scrollable area is always keyboard-reachable.
   const regionProps = ariaLabel ? { role: 'region' as const, 'aria-label': ariaLabel } : {};
 
+  // Under fixed layout, columns size strictly from these widths, so every column
+  // needs one for sticky offsets to stay aligned; fall back to a sensible default.
+  const DEFAULT_COL_WIDTH = 120;
+  const colWidth = (col: DataGridColumn<Row>) =>
+    col.width ?? (tableLayout === 'fixed' ? DEFAULT_COL_WIDTH : undefined);
+
   return (
-    <div ref={ref} className={cn(styles.root, className)} data-accent={accent}>
+    <div
+      ref={ref}
+      className={cn(styles.root, className)}
+      data-accent={accent}
+      data-density={density}
+    >
       <div className={styles.scroll} tabIndex={0} {...regionProps}>
-        <table className={styles.table}>
+        <table className={styles.table} data-layout={tableLayout}>
           <colgroup>
-            {visibleLeaves.map((col) => (
-              <col key={col.id} style={col.width ? { width: col.width } : undefined} />
-            ))}
+            {visibleLeaves.map((col) => {
+              const w = colWidth(col);
+              return <col key={col.id} style={w ? { width: w } : undefined} />;
+            })}
           </colgroup>
 
-          <thead className={styles.thead}>
+          <thead ref={theadRef} className={styles.thead}>
             {hasGroups && (
               <tr>
                 {columns.map((def) => {
@@ -321,6 +394,7 @@ function DataGridInner<Row>(
                       scope="col"
                       className={styles.colHeader}
                       data-align={align(def)}
+                      {...highlightProps(def)}
                       {...stickyProps(def, 'corner')}
                     >
                       {renderColHeaderContent(def)}
@@ -342,6 +416,7 @@ function DataGridInner<Row>(
                     scope="col"
                     className={styles.colHeader}
                     data-align={align(col)}
+                    {...highlightProps(col)}
                     {...stickyProps(col, 'corner')}
                   >
                     {renderColHeaderContent(col)}
@@ -352,6 +427,9 @@ function DataGridInner<Row>(
           </thead>
 
           <tbody>
+            {totalsAtTop && (
+              <tr className={styles.totalsRow}>{renderTotalsCells('top')}</tr>
+            )}
             {flatRows.map((fr) => (
               <tr key={fr.id} className={styles.row} data-depth={fr.depth || undefined}>
                 {visibleLeaves.map((col) => {
@@ -362,6 +440,7 @@ function DataGridInner<Row>(
                       className={styles.cell}
                       data-align={align(col)}
                       data-numeric={col.numeric ? '' : undefined}
+                      {...highlightProps(col)}
                       {...stickyProps(col, 'body')}
                     >
                       <span
@@ -387,21 +466,9 @@ function DataGridInner<Row>(
             ))}
           </tbody>
 
-          {renderFooter && (
+          {renderFooter && !totalsAtTop && (
             <tfoot className={styles.tfoot}>
-              <tr>
-                {visibleLeaves.map((col) => (
-                  <td
-                    key={col.id}
-                    className={styles.footerCell}
-                    data-align={align(col)}
-                    data-numeric={col.numeric ? '' : undefined}
-                    {...stickyProps(col, 'corner')}
-                  >
-                    {col.footer ? col.footer(data) : null}
-                  </td>
-                ))}
-              </tr>
+              <tr>{renderTotalsCells('bottom')}</tr>
             </tfoot>
           )}
         </table>
@@ -423,6 +490,29 @@ function DataGridInner<Row>(
         <SortGlyph direction={dir} />
       </button>
     );
+  }
+
+  function renderTotalsCells(placement: 'top' | 'bottom') {
+    return visibleLeaves.map((col) => {
+      // Top totals stick below the header (top: measured header height) and, when
+      // pinned, also stick left; bottom totals reuse the sticky-footer treatment.
+      const style: React.CSSProperties = {};
+      if (col.pinned) style.left = pinnedLeft.get(col.id) ?? 0;
+      if (placement === 'top') style.top = theadHeight;
+      return (
+        <td
+          key={col.id}
+          className={placement === 'top' ? styles.totalsCell : styles.footerCell}
+          data-align={align(col)}
+          data-numeric={col.numeric ? '' : undefined}
+          {...(col.pinned ? { 'data-pinned': '', 'data-z': 'corner' } : {})}
+          {...highlightProps(col)}
+          style={style}
+        >
+          {col.footer ? col.footer(data) : null}
+        </td>
+      );
+    });
   }
 
   function renderCell(col: DataGridColumn<Row>, row: Row): ReactNode {

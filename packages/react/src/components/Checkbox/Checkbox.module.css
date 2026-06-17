@@ -141,3 +141,27 @@
   text-transform: uppercase;
   margin-bottom: var(--eidra-space-1);
 }
+
+/* Honour the ambient compact-density scope: tighter sizing/gaps. */
+:global([data-density='compact']) .wrapper {
+  gap: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .root {
+  width: 0.9375rem; /* 18px → 15px (~15% smaller) */
+  height: 0.9375rem;
+}
+
+:global([data-density='compact']) .check,
+:global([data-density='compact']) .indeterminate {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+:global([data-density='compact']) .group {
+  gap: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .groupLegend {
+  margin-bottom: var(--eidra-space-0-5);
+}
