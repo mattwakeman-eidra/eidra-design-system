@@ -34,6 +34,7 @@ export * from './components/Progress/index.js';
 export * from './components/Radio/index.js';
 export * from './components/SaveIndicator/index.js';
 export * from './components/ScrollArea/index.js';
+export * from './components/SegmentBar/index.js';
 export * from './components/Select/index.js';
 export * from './components/Separator/index.js';
 export * from './components/Skeleton/index.js';

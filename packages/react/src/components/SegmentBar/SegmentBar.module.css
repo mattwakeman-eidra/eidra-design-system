@@ -1,0 +1,100 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-2);
+  width: 100%;
+  font-family: var(--eidra-font-family-sans);
+}
+
+/* ---- Inline labels above the bar ---- */
+.labels {
+  display: flex;
+  width: 100%;
+}
+
+.labelCell {
+  flex-basis: 0;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--eidra-space-1);
+  padding-inline-end: var(--eidra-space-2);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.labelText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--eidra-font-size-xs);
+  color: var(--eidra-fg-muted);
+}
+
+.labelPct {
+  font-size: var(--eidra-font-size-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--eidra-fg);
+}
+
+/* ---- The bar ---- */
+.track {
+  display: flex;
+  width: 100%;
+  height: var(--eidra-space-3);
+  border-radius: var(--eidra-radius-full);
+  overflow: hidden;
+  background-color: var(--eidra-bg-muted);
+}
+
+.root[data-size='sm'] .track {
+  height: var(--eidra-space-2);
+}
+.root[data-size='lg'] .track {
+  height: var(--eidra-space-4);
+}
+
+.segment {
+  flex-basis: 0;
+  min-width: 2px;
+  height: 100%;
+  /* Hairline between adjacent segments so colours stay legible. */
+  box-shadow: inset 1px 0 0 var(--eidra-surface);
+}
+.segment:first-child {
+  box-shadow: none;
+}
+
+/* ---- Legend below ---- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eidra-space-1) var(--eidra-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-xs);
+}
+
+.swatch {
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--eidra-radius-sm);
+}
+
+.legendLabel {
+  color: var(--eidra-fg-muted);
+}
+
+.legendPct {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--eidra-fg);
+}
