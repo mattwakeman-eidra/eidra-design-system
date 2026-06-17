@@ -307,6 +307,63 @@ export const Density: Story = {
 };
 
 /**
+ * **Finance theme.** `accent="finance"` repoints the grid's accent tokens
+ * (`--eidra-accent*` → `--eidra-finance-accent*`) for that grid subtree only — no
+ * global theme change. Everything that reads the accent follows: sort glyphs, the
+ * focus ring, the `EditableNumberCell` override/aggregate markers, and a
+ * `highlightTone="accent"` column tint. It's scoped because in a financial colour
+ * grammar the brand orange reads as caution/at-risk (RAG), so the action accent
+ * becomes the data-viz blue. Below: the same grid as `brand` (default) vs `finance`.
+ *
+ * Edit a **Sold** cell in each to compare the override marker colour.
+ */
+export const FinanceTheme: Story = {
+  render: () => {
+    const [data, setData] = useState(SAMPLE);
+    const onEdit = (rowId: string, value: number | null) =>
+      setData((prev) =>
+        prev.map((r) =>
+          r.id === rowId
+            ? { ...r, months: { ...r.months, Jan: { ...(r.months.Jan ?? { total: null, sold: null }), sold: value, overridden: true } } }
+            : r,
+        ),
+      );
+    const cols: DataGridColumnDef<ForecastRow>[] = [
+      { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 160, sortable: true },
+      { id: 'owner', header: 'Owner', accessor: (r) => r.owner, sortable: true },
+      {
+        id: 'jan-sold',
+        header: 'Jan sold',
+        numeric: true,
+        width: 130,
+        footer: (rows) => sum(rows, 'Jan', 'sold'),
+        cell: (r) => (
+          <EditableNumberCell
+            value={r.months.Jan?.sold ?? null}
+            overridden={r.months.Jan?.overridden}
+            onCommit={(v) => onEdit(r.id, v)}
+          />
+        ),
+      },
+      { id: 'feb', header: 'Feb · NOW', numeric: true, width: 110, highlighted: true, accessor: (r) => r.months.Feb?.total ?? null, footer: (rows) => sum(rows, 'Feb', 'total') },
+    ];
+    const label = { font: 'var(--eidra-font-size-sm)/1.4 var(--eidra-font-family-sans)', color: 'var(--eidra-fg-muted)', marginBottom: 'var(--eidra-space-2)' } as const;
+    return (
+      <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
+        <div>
+          <p style={label}>accent=&quot;brand&quot; (default) — accent is orange</p>
+          <DataGrid<ForecastRow> aria-label="Brand accent" accent="brand" columns={cols} data={data} getRowId={(r) => r.id} />
+        </div>
+        <div>
+          <p style={label}>accent=&quot;finance&quot; — accent repointed to the data-viz blue</p>
+          <DataGrid<ForecastRow> aria-label="Finance accent" accent="finance" columns={cols} data={data} getRowId={(r) => r.id} />
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
  * Fixed layout with multiple pinned columns. `tableLayout="fixed"` makes rendered
  * widths equal declared widths, so the 3 pinned columns stay flush and opaque with
  * nothing bleeding through as the 12 months scroll horizontally.
