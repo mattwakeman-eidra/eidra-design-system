@@ -1,0 +1,82 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-0-5);
+  padding: var(--eidra-space-0-5);
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-bg-muted);
+  font-family: var(--eidra-font-family-sans);
+}
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eidra-space-1-5);
+  /* Height derives from the control-size token, so the ambient
+     data-density="compact" scope shrinks segments automatically. */
+  height: calc(var(--eidra-size-control-md) - var(--eidra-space-2));
+  padding-inline: var(--eidra-space-3);
+  border: none;
+  border-radius: var(--eidra-radius-sm);
+  background-color: transparent;
+  color: var(--eidra-fg-muted);
+  font-family: inherit;
+  font-size: var(--eidra-font-size-sm);
+  font-weight: var(--eidra-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.segment:hover:not([data-active]):not(:disabled) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.segment:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Active segment is filled with the accent (signal). */
+.segment[data-active] {
+  background-color: var(--eidra-accent);
+  color: var(--eidra-accent-fg);
+}
+
+.segment:disabled,
+.segment[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── Sizes (also density-aware via the control-size tokens) ───────────────── */
+.root[data-size='sm'] .segment {
+  height: calc(var(--eidra-size-control-sm) - var(--eidra-space-1-5));
+  padding-inline: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-xs);
+}
+
+.root[data-size='lg'] .segment {
+  height: calc(var(--eidra-size-control-lg) - var(--eidra-space-2));
+  padding-inline: var(--eidra-space-4);
+  font-size: var(--eidra-font-size-base);
+}
