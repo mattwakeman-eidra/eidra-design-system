@@ -367,8 +367,8 @@ export const Minis: Story = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
           <Chart.BarChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[2, 2, 0, 0]} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[2, 2, 0, 0]} activeBar={false} />
           </Chart.BarChart>
         </Chart.Container>
       </MiniCard>
@@ -377,8 +377,8 @@ export const Minis: Story = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
           <Chart.LineChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" strokeWidth={2} dot={false} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" strokeWidth={2} dot={false} activeDot={false} />
           </Chart.LineChart>
         </Chart.Container>
       </MiniCard>
@@ -387,8 +387,8 @@ export const Minis: Story = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
           <Chart.AreaChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={0.2} strokeWidth={2} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={0.2} strokeWidth={2} activeDot={false} />
           </Chart.AreaChart>
         </Chart.Container>
       </MiniCard>
@@ -397,10 +397,10 @@ export const Minis: Story = {
         <Chart.Container config={config} size="sm" style={{ height: 120 }}>
           <Chart.ComposedChart data={DATA} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" activeBar={false} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" activeBar={false} />
+            <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} activeBar={false} />
           </Chart.ComposedChart>
         </Chart.Container>
       </MiniCard>
@@ -411,7 +411,7 @@ export const Minis: Story = {
             <Chart.XAxis type="number" dataKey="revenue" hide />
             <Chart.YAxis type="number" dataKey="growth" hide />
             <Chart.ZAxis type="number" dataKey="total" range={[30, 240]} />
-            <Chart.Tooltip cursor={{ strokeDasharray: '3 3' }} content={<Chart.TooltipContent hideLabel />} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
             <Chart.Scatter {...Chart.seriesDefaults} data={CLIENTS} fill="var(--color-large)" fillOpacity={0.6} />
           </Chart.ScatterChart>
         </Chart.Container>
