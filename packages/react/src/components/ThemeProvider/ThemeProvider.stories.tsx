@@ -19,6 +19,7 @@ const meta = {
   argTypes: {
     theme: { control: 'inline-radio', options: ['light', 'dark'] },
     density: { control: 'inline-radio', options: ['comfortable', 'compact'] },
+    accent: { control: 'inline-radio', options: ['brand', 'finance'] },
   },
 } satisfies Meta<typeof ThemeProvider>;
 
@@ -43,22 +44,45 @@ function Panel({ label }: { label: ReactNode }) {
   );
 }
 
-/** Drive `theme` and `density` from the controls to see the whole scope respond. */
+/** Drive `theme`, `density`, and `accent` from the controls to see the whole scope respond. */
 export const Playground: Story = {
-  args: { theme: 'light', density: 'comfortable' },
+  args: { theme: 'light', density: 'comfortable', accent: 'brand' },
   render: (args) => (
     <ThemeProvider
       theme={args.theme}
       density={args.density}
+      accent={args.accent}
       style={{ maxWidth: 360, border: '1px solid var(--eidra-border)', borderRadius: 'var(--eidra-radius-lg)' }}
     >
-      <Panel label={`${args.theme} · ${args.density}`} />
+      <Panel label={`${args.theme} · ${args.density} · ${args.accent}`} />
     </ThemeProvider>
+  ),
+};
+
+/**
+ * The two accent palettes side by side — `brand` (Eidra orange) vs `finance` (the
+ * data-viz blue). `accent="finance"` repoints the accent tokens for the whole scope.
+ */
+export const Accent: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))', gap: 'var(--eidra-space-4)', maxWidth: 760 }}>
+      {(['brand', 'finance'] as const).map((accent) => (
+        <ThemeProvider
+          key={accent}
+          accent={accent}
+          style={{ border: '1px solid var(--eidra-border)', borderRadius: 'var(--eidra-radius-lg)' }}
+        >
+          <Panel label={`accent · ${accent}`} />
+        </ThemeProvider>
+      ))}
+    </div>
   ),
 };
 
 /** The four scopes side by side — theme (light/dark) × density (comfortable/compact). */
 export const Matrix: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))', gap: 'var(--eidra-space-4)', maxWidth: 760 }}>
       {(['light', 'dark'] as const).map((theme) =>

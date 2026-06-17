@@ -52,6 +52,8 @@ export const WithDelta: Story = {
  * both its value and its border.
  */
 export const AccentedKpiRow: Story = {
+  // Showcase story — renders a fixed grid and ignores args, so hide the (inapplicable) controls.
+  parameters: { controls: { disable: true } },
   render: () => (
     <div
       style={{

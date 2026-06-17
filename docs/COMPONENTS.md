@@ -112,7 +112,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 ### Foundations
 
-- **ThemeProvider** — Establishes the Eidra theme scope: applies `eidra-root`, `data-theme`, and `data-density` so tokens resolve and brand type/colour are inherited.
+- **ThemeProvider** — Establishes the Eidra theme scope: applies `eidra-root`, `data-theme`, `data-density`, and `data-accent` so tokens resolve and brand type/colour are inherited.
   - import: `import { ThemeProvider } from '@eidra/react'`
 - **Typography** — Renders brand-correct text.
   - import: `import { Typography } from '@eidra/react'`

@@ -9,6 +9,7 @@ import { createContext, useContext } from 'react';
 export interface EidraScope {
   theme?: 'light' | 'dark';
   density?: 'comfortable' | 'compact';
+  accent?: 'brand' | 'finance';
 }
 
 const ScopeContext = createContext<EidraScope | null>(null);
@@ -26,11 +27,16 @@ export function useEidraScope(): EidraScope | null {
  * onto a portaled element (a Positioner/Popup/Viewport). Returns an empty object
  * when there is no scope, so behaviour is unchanged without a `ThemeProvider`.
  */
-export function useScopeDataAttrs(): { 'data-theme'?: string; 'data-density'?: string } {
+export function useScopeDataAttrs(): {
+  'data-theme'?: string;
+  'data-density'?: string;
+  'data-accent'?: string;
+} {
   const scope = useContext(ScopeContext);
   if (!scope) return {};
-  const attrs: { 'data-theme'?: string; 'data-density'?: string } = {};
+  const attrs: { 'data-theme'?: string; 'data-density'?: string; 'data-accent'?: string } = {};
   if (scope.theme) attrs['data-theme'] = scope.theme;
   if (scope.density) attrs['data-density'] = scope.density;
+  if (scope.accent) attrs['data-accent'] = scope.accent;
   return attrs;
 }
