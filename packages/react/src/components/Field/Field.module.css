@@ -32,3 +32,12 @@
   line-height: var(--eidra-font-line-height-normal);
   color: var(--eidra-danger-fg);
 }
+
+/* Honour the ambient compact-density scope: tighter sizing/gaps. */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .label {
+  gap: var(--eidra-space-0-5);
+}

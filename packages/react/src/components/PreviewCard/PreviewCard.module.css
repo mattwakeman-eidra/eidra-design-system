@@ -130,3 +130,8 @@
 .backdrop[data-ending-style] {
   opacity: 0;
 }
+
+/* Honour the ambient compact-density scope: tighter padding/gaps. */
+:global([data-density='compact']) .popup {
+  gap: var(--eidra-space-2);
+}

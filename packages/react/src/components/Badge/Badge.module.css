@@ -115,3 +115,18 @@
 .root[data-tone='neutral'][data-variant='outline'] {
   --_fg: var(--eidra-fg);
 }
+
+/* Honour the ambient compact-density scope: tighter padding/gaps. */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-1-5);
+}
+
+:global([data-density='compact']) .root[data-size='sm'] {
+  padding-inline: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .root[data-size='md'] {
+  padding-inline: var(--eidra-space-1-5);
+  padding-block: var(--eidra-space-0-5);
+}

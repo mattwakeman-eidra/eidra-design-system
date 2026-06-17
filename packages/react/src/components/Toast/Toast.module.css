@@ -216,3 +216,28 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Honour the ambient compact-density scope: tighter padding/gaps. */
+:global([data-density='compact']) .viewport {
+  bottom: var(--eidra-space-4);
+  right: var(--eidra-space-4);
+  gap: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .content {
+  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-3);
+}
+
+:global([data-density='compact']) .description {
+  margin-top: 0;
+}
+
+:global([data-density='compact']) .close {
+  padding: var(--eidra-space-0-5);
+}
+
+:global([data-density='compact']) .action {
+  padding: var(--eidra-space-0-5) var(--eidra-space-2);
+  margin-top: var(--eidra-space-2);
+}

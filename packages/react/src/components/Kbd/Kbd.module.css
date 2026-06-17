@@ -37,3 +37,17 @@
   padding-inline: var(--eidra-space-2);
   font-size: var(--eidra-font-size-base);
 }
+
+/* Honour the ambient compact-density scope: tighter padding/gaps. */
+:global([data-density='compact']) .root {
+  padding-inline: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .root[data-size='sm'] {
+  padding-inline: var(--eidra-space-0-5);
+}
+
+:global([data-density='compact']) .root[data-size='lg'] {
+  padding-block: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-1-5);
+}

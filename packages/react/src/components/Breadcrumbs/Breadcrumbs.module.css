@@ -50,3 +50,11 @@
   color: var(--eidra-fg);
   font-weight: var(--eidra-font-weight-medium);
 }
+
+/* Honour the ambient compact-density scope: tighter sizing/gaps. */
+:global([data-density='compact']) .list {
+  gap: var(--eidra-space-1);
+}
+:global([data-density='compact']) .link {
+  gap: var(--eidra-space-0-5);
+}
