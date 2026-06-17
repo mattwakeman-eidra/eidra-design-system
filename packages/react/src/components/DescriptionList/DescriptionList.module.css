@@ -1,0 +1,69 @@
+.root {
+  --_columns: 1;
+  --_row-gap: var(--eidra-space-4);
+  --_pair-gap: var(--eidra-space-1);
+
+  display: grid;
+  grid-template-columns: repeat(var(--_columns), minmax(0, 1fr));
+  gap: var(--_row-gap) var(--eidra-space-6);
+  margin: 0;
+  font-family: var(--eidra-font-family-sans);
+}
+
+.row {
+  display: flex;
+  min-width: 0;
+}
+
+/* ---- Horizontal: label beside value ---- */
+.root[data-orientation='horizontal'] .row {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--eidra-space-3);
+}
+.root[data-orientation='horizontal'] .term {
+  flex: none;
+  min-width: 7rem;
+}
+
+/* ---- Vertical: label stacked above value ---- */
+.root[data-orientation='vertical'] .row {
+  flex-direction: column;
+  gap: var(--_pair-gap);
+}
+
+/* Mirror the Statistic label treatment. */
+.term {
+  margin: 0;
+  color: var(--eidra-fg-subtle);
+  font-size: var(--eidra-font-size-xs);
+  font-weight: var(--eidra-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--eidra-font-letter-spacing-wide, 0.08em);
+  line-height: var(--eidra-font-line-height-tight);
+}
+
+.details {
+  margin: 0;
+  min-width: 0;
+  color: var(--eidra-fg);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-snug);
+}
+
+/* Collapse multi-column grids to a single column on narrow viewports. */
+@media (max-width: 32rem) {
+  .root {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Honour the ambient compact-density scope: tighter rows. */
+:global([data-density='compact']) .root {
+  --_row-gap: var(--eidra-space-2);
+  --_pair-gap: var(--eidra-space-0-5);
+  gap: var(--_row-gap) var(--eidra-space-4);
+}
+:global([data-density='compact']) .root[data-orientation='horizontal'] .row {
+  gap: var(--eidra-space-2);
+}

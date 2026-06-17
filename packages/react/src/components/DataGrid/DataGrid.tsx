@@ -2,6 +2,7 @@ import {
   Fragment,
   forwardRef,
   useCallback,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -91,6 +92,21 @@ export interface DataGridColumn<Row> {
    * across the whole grid. Receives the row and this column.
    */
   renderCellDetail?: (row: Row, col: DataGridColumn<Row>) => ReactNode;
+  /**
+   * Opt this column into drag-fill: each cell gets a small fill handle the user
+   * can press and drag down (or up) to paint a contiguous range with this cell's
+   * value. On release the grid calls {@link DataGridProps.onFillRange}. The value
+   * dragged is read from `accessor` at the start row; supply `accessor` (or a
+   * custom {@link fillValue}) for fill to carry a value. No-op without
+   * `onFillRange`.
+   */
+  fillable?: boolean;
+  /**
+   * Override the value carried by a drag-fill started on this column's cell.
+   * Defaults to `accessor(row)`. Use when the editable value differs from the
+   * sorting/display accessor.
+   */
+  fillValue?: (row: Row) => unknown;
 }
 
 /** A header group spanning several leaf columns — drives the multi-tier header. */
@@ -147,6 +163,15 @@ export interface DataGridProps<Row> {
   density?: DataGridDensity;
   /** Accent for the grid's interactive affordances. Defaults to `brand`. */
   accent?: DataGridAccent;
+  /**
+   * Apply a drag-fill. Called once on pointer release for a fill started on a
+   * {@link DataGridColumn.fillable} cell. Receives the source column id, the
+   * inclusive start/end row indices (in rendered, post-filter/sort/flatten
+   * order), and the value dragged (from the start cell's `fillValue`/`accessor`).
+   * The grid does not mutate data itself — apply the value to your row state here.
+   * Omit to leave drag-fill disabled even on fillable columns.
+   */
+  onFillRange?: (columnId: string, fromRowIndex: number, toRowIndex: number, value: unknown) => void;
   /** Accessible label for the grid. */
   'aria-label'?: string;
   className?: string;
@@ -211,6 +236,7 @@ function DataGridInner<Row>(
     tableLayout = 'auto',
     density,
     accent = 'brand',
+    onFillRange,
     className,
     'aria-label': ariaLabel,
   }: DataGridProps<Row>,
@@ -223,12 +249,60 @@ function DataGridInner<Row>(
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   // Drill-down: at most one cell detail open at a time, keyed by (row, column).
   const [openDetail, setOpenDetail] = useState<{ rowId: string; colId: string } | null>(null);
+  // Drag-fill: an active gesture started from a fillable cell's handle. Tracks the
+  // source column, the value being dragged, the start row index, and the row the
+  // pointer is currently over (the live range end). Null when no fill is active.
+  const [fill, setFill] = useState<{
+    columnId: string;
+    value: unknown;
+    fromIndex: number;
+    toIndex: number;
+  } | null>(null);
   const activeSort = sort !== undefined ? sort : internalSort;
 
   const toggleDetail = useCallback((rowId: string, colId: string) => {
     setOpenDetail((prev) =>
       prev && prev.rowId === rowId && prev.colId === colId ? null : { rowId, colId },
     );
+  }, []);
+
+  // Drag-fill gesture: global mouseup applies the resolved [lo, hi] range via
+  // `onFillRange`; Escape aborts. Mirrors the invoicing `useFillRange` model.
+  // A ref keeps the listeners stable while reading the live fill state.
+  const fillRef = useRef(fill);
+  fillRef.current = fill;
+  const onFillRangeRef = useRef(onFillRange);
+  onFillRangeRef.current = onFillRange;
+  useEffect(() => {
+    const onUp = () => {
+      const f = fillRef.current;
+      if (!f) return;
+      const lo = Math.min(f.fromIndex, f.toIndex);
+      const hi = Math.max(f.fromIndex, f.toIndex);
+      onFillRangeRef.current?.(f.columnId, lo, hi, f.value);
+      setFill(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && fillRef.current) setFill(null);
+    };
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, []);
+
+  const startFill = useCallback(
+    (columnId: string, fromIndex: number, value: unknown) => {
+      if (!onFillRangeRef.current) return;
+      setFill({ columnId, value, fromIndex, toIndex: fromIndex });
+    },
+    [],
+  );
+
+  const hoverFill = useCallback((rowIndex: number) => {
+    setFill((prev) => (prev && prev.toIndex !== rowIndex ? { ...prev, toIndex: rowIndex } : prev));
   }, []);
 
   const toggleSort = useCallback(
@@ -496,7 +570,7 @@ function DataGridInner<Row>(
             {totalsAtTop && (
               <tr className={styles.totalsRow}>{renderTotalsCells('top')}</tr>
             )}
-            {flatRows.map((fr) => {
+            {flatRows.map((fr, rowIndex) => {
               const detailCol =
                 openDetail?.rowId === fr.id ? colById.get(openDetail.colId) : undefined;
               const showDetail = !!detailCol?.renderCellDetail;
@@ -509,6 +583,15 @@ function DataGridInner<Row>(
                       const canDrill = !!col.renderCellDetail;
                       const isOpen =
                         openDetail?.rowId === fr.id && openDetail?.colId === col.id;
+                      // Drag-fill: a handle is shown only on fillable columns when
+                      // an `onFillRange` is wired. A cell is in-range while a fill
+                      // on this column has the pointer between start and current.
+                      const canFill = !!col.fillable && !!onFillRange;
+                      const inFillRange =
+                        !!fill &&
+                        fill.columnId === col.id &&
+                        rowIndex >= Math.min(fill.fromIndex, fill.toIndex) &&
+                        rowIndex <= Math.max(fill.fromIndex, fill.toIndex);
                       const inner = (
                         <>
                           {isFirst && fr.hasChildren && (
@@ -527,8 +610,14 @@ function DataGridInner<Row>(
                           data-align={align(col)}
                           data-numeric={col.numeric ? '' : undefined}
                           data-cell-tone={tone || undefined}
+                          data-fill-range={inFillRange ? '' : undefined}
                           {...highlightProps(col)}
                           {...stickyProps(col, 'body')}
+                          onMouseEnter={
+                            fill && fill.columnId === col.id
+                              ? () => hoverFill(rowIndex)
+                              : undefined
+                          }
                         >
                           <span
                             className={styles.cellInner}
@@ -550,6 +639,21 @@ function DataGridInner<Row>(
                               </button>
                             ) : (
                               inner
+                            )}
+                            {canFill && (
+                              <span
+                                className={styles.fillHandle}
+                                role="presentation"
+                                title="Drag down to fill the column with this value"
+                                onMouseDown={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  const value = col.fillValue
+                                    ? col.fillValue(fr.row)
+                                    : col.accessor?.(fr.row);
+                                  startFill(col.id, rowIndex, value);
+                                }}
+                              />
                             )}
                           </span>
                         </td>

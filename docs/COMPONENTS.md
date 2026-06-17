@@ -26,7 +26,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - Compound components are namespaces: render the listed parts (e.g. `<Dialog.Root><Dialog.Trigger/>…</Dialog.Root>`).
 - `@eidra/react` is a client boundary (`"use client"` baked in) — safe to import from React Server Components.
 
-## Components (53)
+## Components (58)
 
 ### Actions
 
@@ -44,7 +44,9 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - **Chart** — Composable charting kit built on Recharts and themed with Eidra tokens.
   - import: `import { Chart, formatCompactCurrency } from '@eidra/react'` · parts: Chart.Container, Chart.TooltipContent, Chart.LegendContent
 - **DataGrid** — A generic, config-driven data grid built on a native `<table>`: sticky pinned columns, a multi-tier header from column groups, click-to-sort, global filtering, column visibility, expandable tree rows, and a sticky totals footer.
-  - import: `import { DataGrid, EditableNumberCell } from '@eidra/react'`
+  - import: `import { DataGrid, EditableNumberCell, EditableSelectCell, EditableTextCell } from '@eidra/react'`
+- **DescriptionList** — Compound DescriptionList.
+  - import: `import { DescriptionList } from '@eidra/react'` · parts: DescriptionList.Term, DescriptionList.Details
 - **Kbd** — Keyboard key hint.
   - import: `import { Kbd } from '@eidra/react'`
 - **SegmentBar** — A thin horizontal bar split into proportional, tinted segments — for showing a composition (e.g.
@@ -55,6 +57,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { StatisticBar } from '@eidra/react'`
 - **StatusStrip** — Status strip / heat-row.
   - import: `import { StatusStrip } from '@eidra/react'` · parts: StatusStrip.Cell
+- **Timeline** — A vertical activity feed: a connecting rail with a tone-coloured marker per item, a title, an optional muted timestamp, and optional description.
+  - import: `import { Timeline } from '@eidra/react'`
 
 ### Feedback
 
@@ -121,8 +125,12 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 - **Accordion** — A disclosure component for toggling sections of content.
   - import: `import { Accordion } from '@eidra/react'` · parts: Accordion.Root
+- **ActionBar** — A selection-aware action bar.
+  - import: `import { ActionBar } from '@eidra/react'`
 - **Collapsible** — A vertically collapsible content region built on Base UI Collapsible.
   - import: `import { Collapsible } from '@eidra/react'` · parts: Collapsible.Root, Collapsible.Trigger, Collapsible.Panel
+- **PageHeader** — A generic page title bar: an optional breadcrumb row, a prominent `<h1>` with an optional muted subtitle on the left, and a right-aligned action cluster.
+  - import: `import { PageHeader } from '@eidra/react'`
 - **ScrollArea** — A scrollable container with custom-styled scrollbars, built on Base UI ScrollArea.
   - import: `import { ScrollArea } from '@eidra/react'` · parts: ScrollArea.Root, ScrollArea.Viewport, ScrollArea.Content, ScrollArea.Scrollbar, ScrollArea.Thumb, ScrollArea.Corner
 - **Separator** — A visual and accessible separator.
@@ -136,6 +144,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Menubar, MenubarRoot, MenubarMenuRoot, MenubarTrigger, MenubarPortal, MenubarPositioner, MenubarPopup, MenubarItem, MenubarSeparator, MenubarGroup, MenubarGroupLabel, MenubarSubmenuRoot, MenubarSubmenuTrigger, MenubarCheckboxItem, MenubarCheckboxItemIndicator, MenubarRadioGroup, MenubarRadioItem, MenubarRadioItemIndicator, MenubarArrow } from '@eidra/react'` · parts: Menubar.Root, Menubar.MenuRoot, Menubar.Trigger, Menubar.Portal, Menubar.Positioner, Menubar.Popup, Menubar.Item, Menubar.Separator, Menubar.Group, Menubar.GroupLabel, Menubar.SubmenuRoot, Menubar.SubmenuTrigger, Menubar.CheckboxItem, Menubar.CheckboxItemIndicator, Menubar.RadioGroup, Menubar.RadioItem, Menubar.RadioItemIndicator, Menubar.Arrow
 - **NavigationMenu** — NavigationMenu — a compound component wrapping Base UI NavigationMenu.
   - import: `import { NavigationMenu } from '@eidra/react'` · parts: NavigationMenu.Root, NavigationMenu.List, NavigationMenu.Item, NavigationMenu.Trigger, NavigationMenu.Icon, NavigationMenu.Portal, NavigationMenu.Positioner, NavigationMenu.Viewport, NavigationMenu.Popup, NavigationMenu.Content, NavigationMenu.Arrow, NavigationMenu.Backdrop, NavigationMenu.Link
+- **PeriodNavigator** — A compact prev/next stepper for navigating a discrete value — `‹ [value] ›`.
+  - import: `import { PeriodNavigator } from '@eidra/react'`
 - **Tabs** — A tabbed navigation component built on Base UI `Tabs`.
   - import: `import { Tabs } from '@eidra/react'` · parts: Tabs.Root, Tabs.List, Tabs.Tab, Tabs.Indicator, Tabs.Panel
 - **Toolbar** — A toolbar component built on Base UI `Toolbar`.

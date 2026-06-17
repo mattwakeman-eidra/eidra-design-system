@@ -17,11 +17,40 @@ type Story = StoryObj<typeof meta>;
 
 /* ------------------------------------------------------------------ */
 
-export const Playground: Story = {};
+/**
+ * Drive `orientation` and `label` from the controls. A vertical separator needs
+ * a sized parent, so this demo switches to a fixed-height row when vertical
+ * (`label` applies to horizontal separators only).
+ */
+export const Playground: Story = {
+  render: (args) => {
+    const vertical = args.orientation === 'vertical';
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: vertical ? 'row' : 'column',
+          alignItems: vertical ? 'center' : 'stretch',
+          gap: 'var(--eidra-space-4)',
+          height: vertical ? 48 : undefined,
+          maxWidth: 480,
+          fontFamily: 'var(--eidra-font-family-sans)',
+          fontSize: 'var(--eidra-font-size-sm)',
+          color: 'var(--eidra-fg)',
+        }}
+      >
+        <span>Before</span>
+        <Separator {...args} />
+        <span>After</span>
+      </div>
+    );
+  },
+};
 
 /* ------------------------------------------------------------------ */
 
 export const Horizontal: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 480 }}>
       <p style={{ margin: 0, color: 'var(--eidra-fg)', fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)' }}>
@@ -38,6 +67,7 @@ export const Horizontal: Story = {
 /* ------------------------------------------------------------------ */
 
 export const Vertical: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-4)', height: 32 }}>
       {(['Services', 'Case Studies', 'About', 'Contact'] as const).map((item, idx, arr) => (
@@ -61,6 +91,7 @@ export const Vertical: Story = {
 /* ------------------------------------------------------------------ */
 
 export const WithLabel: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
       <Separator label="or continue with" />
@@ -74,6 +105,7 @@ export const WithLabel: Story = {
 
 export const InCard: Story = {
   name: 'In Card Context',
+  parameters: { controls: { disable: true } },
   render: () => (
     <div
       style={{
@@ -109,5 +141,5 @@ export const InCard: Story = {
         </p>
       </div>
     </div>
-  ),
+  )
 };

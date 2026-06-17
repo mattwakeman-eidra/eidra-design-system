@@ -47,28 +47,27 @@ export const WithDelta: Story = {
 };
 
 /**
- * `accent` draws a tone-coloured left border (with inset) — the accented KPI-card
- * row from the Project Economics accounting summary. Each metric's `tone` colours
- * both its value and its border.
+ * The `accent` prop draws a tone-coloured left border (with inset). It's the one
+ * thing this atom adds over a plain metric — shown here off vs on, and across
+ * tones. For a *row* of figures reach for `StatisticBar` (divider-separated) or
+ * `StatusStrip` (RAG heat cells), not a grid of these.
  */
-export const AccentedKpiRow: Story = {
-  // Showcase story — renders a fixed grid and ignores args, so hide the (inapplicable) controls.
+export const Accent: Story = {
+  // Showcase story — renders a fixed layout and ignores args, so hide the (inapplicable) controls.
   parameters: { controls: { disable: true } },
   render: () => (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-        gap: 'var(--eidra-space-4)',
-        maxWidth: 760,
-      }}
-    >
-      <Statistic accent size="sm" label="Revenue" value="€ 1.21M" tone="accent" />
-      <Statistic accent size="sm" label="WIP" value="€ 84k" tone="warning" />
-      <Statistic accent size="sm" label="Invoiced" value="€ 1.13M" />
-      <Statistic accent size="sm" label="Net revenue" value="€ 1.05M" tone="success" delta="+6%" />
-      <Statistic accent size="sm" label="Float cost" value="€ 0.74M" />
-      <Statistic accent size="sm" label="Margin" value="−2%" tone="danger" />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
+      {/* The prop's effect: same metric, border off vs on */}
+      <div style={{ display: 'flex', gap: 'var(--eidra-space-6)' }}>
+        <Statistic size="sm" label="Net revenue" value="€ 1.05M" tone="success" delta="+6%" />
+        <Statistic accent size="sm" label="Net revenue" value="€ 1.05M" tone="success" delta="+6%" />
+      </div>
+      {/* The border picks up each metric's tone */}
+      <div style={{ display: 'flex', gap: 'var(--eidra-space-6)', flexWrap: 'wrap' }}>
+        <Statistic accent size="sm" label="Revenue" value="€ 1.21M" tone="accent" />
+        <Statistic accent size="sm" label="WIP" value="€ 84k" tone="warning" />
+        <Statistic accent size="sm" label="Margin" value="−2%" tone="danger" />
+      </div>
     </div>
   ),
 };
