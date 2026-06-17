@@ -15,11 +15,32 @@ export interface BarSegment {
   color?: string;
 }
 
+/** Tone of a threshold {@link SegmentMarker}. */
+export type SegmentMarkerTone = 'accent' | 'success' | 'danger' | 'warning';
+
+export interface SegmentMarker {
+  /**
+   * Position of the marker, on the same scale as the segment values (and `total`).
+   * Rendered at `value / total` along the bar — so stacking several bars with the
+   * same `total` and the same marker `value` aligns the line across all of them.
+   */
+  value: number;
+  /** Accessible name for the marker (e.g. `'Budget'`). Folded into the bar's summary. */
+  label?: string;
+  /** Line colour. Defaults to `accent`. */
+  tone?: SegmentMarkerTone;
+}
+
 export interface SegmentBarProps extends Omit<ComponentPropsWithoutRef<'div'>, 'children'> {
   /** The segments, rendered left-to-right in order. */
   segments: BarSegment[];
   /** Total to compute proportions against. Defaults to the sum of segment values. */
   total?: number;
+  /**
+   * Threshold markers drawn as vertical lines over the bar (e.g. a budget line).
+   * Positioned on the same scale as `total`.
+   */
+  markers?: SegmentMarker[];
   /** Show inline labels (label + %) above the bar. */
   showLabels?: boolean;
   /** Show a legend (swatch + label + %) below the bar. */
@@ -50,7 +71,7 @@ const labelText = (seg: BarSegment): string =>
  * single scalar measurement use `Meter` / `Progress` instead.
  */
 export const SegmentBar = forwardRef<HTMLDivElement, SegmentBarProps>(function SegmentBar(
-  { segments, total, showLabels = false, showLegend = false, size = 'md', className, 'aria-label': ariaLabel, ...props },
+  { segments, total, markers, showLabels = false, showLegend = false, size = 'md', className, 'aria-label': ariaLabel, ...props },
   ref,
 ) {
   const sum = total ?? segments.reduce((acc, s) => acc + s.value, 0);
@@ -58,9 +79,12 @@ export const SegmentBar = forwardRef<HTMLDivElement, SegmentBarProps>(function S
   const fmtPct = (v: number) => `${Math.round(pct(v))}%`;
   const colorOf = (seg: BarSegment, i: number) => seg.color ?? PALETTE[i % PALETTE.length];
 
+  const segmentSummary = segments.map((s) => `${labelText(s) || 'Segment'} ${fmtPct(s.value)}`).join(', ');
+  const markerSummary = (markers ?? [])
+    .map((m) => `${m.label ?? 'Marker'} at ${fmtPct(m.value)}`)
+    .join(', ');
   const summary =
-    ariaLabel ??
-    segments.map((s) => `${labelText(s) || 'Segment'} ${fmtPct(s.value)}`).join(', ');
+    ariaLabel ?? [segmentSummary, markerSummary].filter(Boolean).join('; ');
 
   return (
     <div ref={ref} className={cn(styles.root, className)} data-size={size} {...props}>
@@ -81,6 +105,15 @@ export const SegmentBar = forwardRef<HTMLDivElement, SegmentBarProps>(function S
             key={i}
             className={styles.segment}
             style={{ flexGrow: seg.value, backgroundColor: colorOf(seg, i) }}
+          />
+        ))}
+        {markers?.map((m, i) => (
+          <div
+            key={`marker-${i}`}
+            className={styles.marker}
+            data-tone={m.tone ?? 'accent'}
+            style={{ left: `${Math.min(Math.max(pct(m.value), 0), 100)}%` }}
+            aria-hidden="true"
           />
         ))}
       </div>

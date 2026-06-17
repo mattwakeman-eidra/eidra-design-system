@@ -77,6 +77,31 @@ export const KpiBarComposition: Story = {
 };
 
 /**
+ * `accent` draws a tone-coloured left border (with inset) — the accented KPI-card
+ * row from the Project Economics accounting summary. Each metric's `tone` colours
+ * both its value and its border.
+ */
+export const AccentedKpiRow: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+        gap: 'var(--eidra-space-4)',
+        maxWidth: 760,
+      }}
+    >
+      <Statistic accent size="sm" label="Revenue" value="€ 1.21M" tone="accent" />
+      <Statistic accent size="sm" label="WIP" value="€ 84k" tone="warning" />
+      <Statistic accent size="sm" label="Invoiced" value="€ 1.13M" />
+      <Statistic accent size="sm" label="Net revenue" value="€ 1.05M" tone="success" delta="+6%" />
+      <Statistic accent size="sm" label="Float cost" value="€ 0.74M" />
+      <Statistic accent size="sm" label="Margin" value="−2%" tone="danger" />
+    </div>
+  ),
+};
+
+/**
  * Composing a stat-card grid (the `ProjectHealthCard` shape) — statistics inside
  * `Card`s laid out in a grid.
  */

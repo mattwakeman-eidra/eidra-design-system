@@ -423,6 +423,124 @@ export const ColumnHighlight: Story = {
   ),
 };
 
+// ── Cell tone + cell drill-down ──────────────────────────────────────────────
+interface LedgerLine {
+  entry: string;
+  date: string;
+  description: string;
+  amount: number;
+}
+interface LedgerRow {
+  id: string;
+  opco: string;
+  revenue: number;
+  /** Net position: positive = WIP, negative = deferred. */
+  net: number;
+  lines: LedgerLine[];
+}
+
+const LEDGER: LedgerRow[] = [
+  {
+    id: 'fabrique',
+    opco: 'Fabrique',
+    revenue: 120_000,
+    net: 18_000,
+    lines: [
+      { entry: 'INV-1042', date: '2026-05-31', description: 'May retainer', amount: 80_000 },
+      { entry: 'INV-1051', date: '2026-06-14', description: 'Sprint 24 overage', amount: 40_000 },
+    ],
+  },
+  {
+    id: 'q42',
+    opco: 'Q42',
+    revenue: 96_000,
+    net: -12_500,
+    lines: [
+      { entry: 'INV-2210', date: '2026-06-02', description: 'Discovery phase', amount: 96_000 },
+    ],
+  },
+  {
+    id: 'gpnl',
+    opco: 'GP NL',
+    revenue: 64_000,
+    net: 0,
+    lines: [
+      { entry: 'INV-3300', date: '2026-06-10', description: 'Monthly fee', amount: 64_000 },
+    ],
+  },
+];
+
+const eur = (n: number) =>
+  new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+
+/**
+ * **Cell tone + cell drill-down.** `cellTone` tints a cell by its value or state
+ * (here: net position positive → green WIP, negative → red deferred, zero → muted).
+ * `renderCellDetail` makes a column's cells clickable — clicking opens a full-width
+ * detail row beneath (one at a time). Click a **Revenue** cell to see its invoice lines.
+ */
+export const CellTonesAndDrilldown: Story = {
+  render: () => {
+    const cols: DataGridColumnDef<LedgerRow>[] = [
+      { id: 'opco', header: 'Company', accessor: (r) => r.opco, pinned: true, width: 160 },
+      {
+        id: 'revenue',
+        header: 'Revenue',
+        numeric: true,
+        width: 150,
+        accessor: (r) => r.revenue,
+        cell: (r) => eur(r.revenue),
+        footer: (rows) => eur(rows.reduce((s, r) => s + r.revenue, 0)),
+        renderCellDetail: (r) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+            <div style={{ font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--eidra-fg-muted)' }}>
+              {r.opco} — invoice lines
+            </div>
+            <table style={{ width: '100%', fontSize: 'var(--eidra-font-size-xs)', borderCollapse: 'collapse' }}>
+              <tbody>
+                {r.lines.map((l) => (
+                  <tr key={l.entry}>
+                    <td style={{ padding: '2px 12px 2px 0', fontFamily: 'var(--eidra-font-family-mono)', color: 'var(--eidra-fg-muted)' }}>{l.entry}</td>
+                    <td style={{ padding: '2px 12px 2px 0', color: 'var(--eidra-fg-muted)' }}>{l.date}</td>
+                    <td style={{ padding: '2px 12px 2px 0' }}>{l.description}</td>
+                    <td style={{ padding: '2px 0', textAlign: 'right', fontFamily: 'var(--eidra-font-family-mono)' }}>{eur(l.amount)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ),
+      },
+      {
+        id: 'net',
+        header: 'Net position',
+        numeric: true,
+        width: 150,
+        accessor: (r) => r.net,
+        cell: (r) => (r.net === 0 ? 'Balanced' : r.net > 0 ? `${eur(r.net)} WIP` : `${eur(-r.net)} deferred`),
+        cellTone: (value) => {
+          const n = Number(value);
+          if (n > 0) return 'positive';
+          if (n < 0) return 'negative';
+          return 'muted';
+        },
+        footer: (rows) => eur(rows.reduce((s, r) => s + r.net, 0)),
+      },
+    ];
+    return (
+      <div style={{ height: 320 }}>
+        <DataGrid<LedgerRow>
+          aria-label="Ledger with cell tones and drill-down"
+          accent="finance"
+          columns={cols}
+          data={LEDGER}
+          getRowId={(r) => r.id}
+        />
+      </div>
+    );
+  },
+};
+
 /** Minimal flat grid — no groups, no pinning, just sortable columns. */
 export const Simple: Story = {
   render: () => (

@@ -1,4 +1,5 @@
 import {
+  Fragment,
   forwardRef,
   useCallback,
   useLayoutEffect,
@@ -26,6 +27,12 @@ export type DataGridTotalsPlacement = 'bottom' | 'top';
 export type DataGridDensity = 'comfortable' | 'compact';
 /** Tint family for a {@link DataGridColumn.highlighted} column. */
 export type DataGridHighlightTone = 'accent' | 'finance';
+/**
+ * Value/state-driven tint for an individual cell (see {@link DataGridColumn.cellTone}).
+ * `'positive'`/`'negative'` for sign-based tinting, `'caution'` for pending/needs-attention,
+ * `'muted'` for locked/derived values.
+ */
+export type DataGridCellTone = 'positive' | 'negative' | 'caution' | 'muted';
 /**
  * Accent used for interactive affordances inside the grid (sort indicators,
  * focus rings, editable-cell override/aggregate markers). `'brand'` uses the
@@ -71,6 +78,19 @@ export interface DataGridColumn<Row> {
   highlighted?: boolean;
   /** Tint family for {@link highlighted}. Defaults to `'accent'` (the grid's accent). */
   highlightTone?: DataGridHighlightTone;
+  /**
+   * Tint individual body cells by value/state — e.g. positive WIP green, negative
+   * deferred red, pending gold, locked grey. Receives the cell's `accessor` value
+   * and the row; return `undefined` to leave a cell untinted. Composes with
+   * `EditableNumberCell` and overlays a {@link highlighted} column tint.
+   */
+  cellTone?: (value: string | number | null | undefined, row: Row) => DataGridCellTone | undefined;
+  /**
+   * Make this column's cells drill-downable: clicking a cell opens a full-width
+   * detail row beneath it, rendered by this function. One detail is open at a time
+   * across the whole grid. Receives the row and this column.
+   */
+  renderCellDetail?: (row: Row, col: DataGridColumn<Row>) => ReactNode;
 }
 
 /** A header group spanning several leaf columns — drives the multi-tier header. */
@@ -201,7 +221,15 @@ function DataGridInner<Row>(
   // Uncontrolled sort + expansion state.
   const [internalSort, setInternalSort] = useState<DataGridSort | null>(null);
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
+  // Drill-down: at most one cell detail open at a time, keyed by (row, column).
+  const [openDetail, setOpenDetail] = useState<{ rowId: string; colId: string } | null>(null);
   const activeSort = sort !== undefined ? sort : internalSort;
+
+  const toggleDetail = useCallback((rowId: string, colId: string) => {
+    setOpenDetail((prev) =>
+      prev && prev.rowId === rowId && prev.colId === colId ? null : { rowId, colId },
+    );
+  }, []);
 
   const toggleSort = useCallback(
     (columnId: string) => {
@@ -468,40 +496,76 @@ function DataGridInner<Row>(
             {totalsAtTop && (
               <tr className={styles.totalsRow}>{renderTotalsCells('top')}</tr>
             )}
-            {flatRows.map((fr) => (
-              <tr key={fr.id} className={styles.row} data-depth={fr.depth || undefined}>
-                {visibleLeaves.map((col) => {
-                  const isFirst = col.id === firstLeafId;
-                  return (
-                    <td
-                      key={col.id}
-                      className={styles.cell}
-                      data-align={align(col)}
-                      data-numeric={col.numeric ? '' : undefined}
-                      {...highlightProps(col)}
-                      {...stickyProps(col, 'body')}
-                    >
-                      <span
-                        className={styles.cellInner}
-                        style={
-                          isFirst && fr.depth
-                            ? { paddingInlineStart: `calc(${fr.depth} * var(--eidra-space-4))` }
-                            : undefined
-                        }
-                      >
-                        {isFirst && fr.hasChildren && (
-                          <ExpandToggle
-                            expanded={fr.expanded}
-                            onToggle={() => toggleExpand(fr.id)}
-                          />
-                        )}
-                        {renderCell(col, fr.row)}
-                      </span>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
+            {flatRows.map((fr) => {
+              const detailCol =
+                openDetail?.rowId === fr.id ? colById.get(openDetail.colId) : undefined;
+              const showDetail = !!detailCol?.renderCellDetail;
+              return (
+                <Fragment key={fr.id}>
+                  <tr className={styles.row} data-depth={fr.depth || undefined}>
+                    {visibleLeaves.map((col) => {
+                      const isFirst = col.id === firstLeafId;
+                      const tone = col.cellTone?.(col.accessor?.(fr.row), fr.row);
+                      const canDrill = !!col.renderCellDetail;
+                      const isOpen =
+                        openDetail?.rowId === fr.id && openDetail?.colId === col.id;
+                      const inner = (
+                        <>
+                          {isFirst && fr.hasChildren && (
+                            <ExpandToggle
+                              expanded={fr.expanded}
+                              onToggle={() => toggleExpand(fr.id)}
+                            />
+                          )}
+                          {renderCell(col, fr.row)}
+                        </>
+                      );
+                      return (
+                        <td
+                          key={col.id}
+                          className={styles.cell}
+                          data-align={align(col)}
+                          data-numeric={col.numeric ? '' : undefined}
+                          data-cell-tone={tone || undefined}
+                          {...highlightProps(col)}
+                          {...stickyProps(col, 'body')}
+                        >
+                          <span
+                            className={styles.cellInner}
+                            style={
+                              isFirst && fr.depth
+                                ? { paddingInlineStart: `calc(${fr.depth} * var(--eidra-space-4))` }
+                                : undefined
+                            }
+                          >
+                            {canDrill ? (
+                              <button
+                                type="button"
+                                className={styles.cellDrill}
+                                data-open={isOpen ? '' : undefined}
+                                aria-expanded={isOpen}
+                                onClick={() => toggleDetail(fr.id, col.id)}
+                              >
+                                {inner}
+                              </button>
+                            ) : (
+                              inner
+                            )}
+                          </span>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                  {showDetail && (
+                    <tr className={styles.detailRow}>
+                      <td className={styles.detailCell} colSpan={visibleLeaves.length}>
+                        {detailCol!.renderCellDetail!(fr.row, detailCol!)}
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
+              );
+            })}
           </tbody>
 
           {renderFooter && !totalsAtTop && (

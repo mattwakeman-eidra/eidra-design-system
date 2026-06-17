@@ -1,5 +1,6 @@
 .root {
   --_value-color: var(--eidra-fg);
+  --_accent-border: var(--eidra-border-strong);
 
   display: flex;
   flex-direction: column;
@@ -8,21 +9,32 @@
   min-width: 0;
 }
 
-/* ---- Tone (value + delta colour) ---- */
+/* ---- Tone (value + delta colour, accent-border colour) ---- */
 .root[data-tone='neutral'] {
   --_value-color: var(--eidra-fg);
+  --_accent-border: var(--eidra-border-strong);
 }
 .root[data-tone='success'] {
   --_value-color: var(--eidra-success-fg);
+  --_accent-border: var(--eidra-success);
 }
 .root[data-tone='danger'] {
   --_value-color: var(--eidra-danger-fg);
+  --_accent-border: var(--eidra-danger);
 }
 .root[data-tone='warning'] {
   --_value-color: var(--eidra-warning-fg);
+  --_accent-border: var(--eidra-warning);
 }
 .root[data-tone='accent'] {
   --_value-color: var(--eidra-accent);
+  --_accent-border: var(--eidra-accent);
+}
+
+/* ---- Accented KPI-card treatment: a tone-coloured left border ---- */
+.root[data-accent-border] {
+  border-inline-start: 2px solid var(--_accent-border);
+  padding-inline-start: var(--eidra-space-3);
 }
 
 .label {

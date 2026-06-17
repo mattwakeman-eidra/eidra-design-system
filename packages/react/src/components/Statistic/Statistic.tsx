@@ -24,6 +24,11 @@ export interface StatisticProps extends Omit<ComponentPropsWithoutRef<'div'>, 'c
   progress?: number;
   /** Tone of the progress bar. Defaults to `accent`. Independent of `tone` (e.g. neutral value, danger bar). */
   progressTone?: ProgressTone;
+  /**
+   * Draw a coloured left border keyed to `tone` (with inset padding) — the
+   * accented KPI-card treatment used in stat-card rows.
+   */
+  accent?: boolean;
 }
 
 /**
@@ -34,12 +39,19 @@ export interface StatisticProps extends Omit<ComponentPropsWithoutRef<'div'>, 'c
  * renders the `tone` it is given.
  */
 export const Statistic = forwardRef<HTMLDivElement, StatisticProps>(function Statistic(
-  { label, value, tone = 'neutral', size = 'md', caption, delta, progress, progressTone = 'accent', className, ...props },
+  { label, value, tone = 'neutral', size = 'md', caption, delta, progress, progressTone = 'accent', accent = false, className, ...props },
   ref,
 ) {
   const labelId = useId();
   return (
-    <div ref={ref} className={cn(styles.root, className)} data-tone={tone} data-size={size} {...props}>
+    <div
+      ref={ref}
+      className={cn(styles.root, className)}
+      data-tone={tone}
+      data-size={size}
+      data-accent-border={accent ? '' : undefined}
+      {...props}
+    >
       <span id={labelId} className={styles.label}>
         {label}
       </span>
