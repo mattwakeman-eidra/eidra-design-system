@@ -18,13 +18,11 @@
  */
 :global([data-density='compact']) .root,
 .root[data-density='compact'] {
-  --dg-pad-block: var(--eidra-space-1);
+  --dg-pad-block: var(--eidra-space-0-5);
   --dg-pad-inline: var(--eidra-space-2);
   --dg-font-size: var(--eidra-font-size-xs);
-}
-/* Per-instance compact also shrinks the control metric that sizes inline-edit cells. */
-.root[data-density='compact'] {
-  --eidra-size-control-sm: 1.75rem;
+  /* Shrink the control metric that sets the inline-edit cell's min row height. */
+  --eidra-size-control-sm: 1.5rem;
 }
 
 /* An explicit `density="comfortable"` prop wins back, even inside a compact scope. */
