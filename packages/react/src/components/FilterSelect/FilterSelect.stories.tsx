@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FilterSelect, type FilterSelectOption } from './FilterSelect.js';
 
 const meta = {
-  title: 'Inputs/FilterSelect',
+  title: 'Forms/FilterSelect',
   component: FilterSelect,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

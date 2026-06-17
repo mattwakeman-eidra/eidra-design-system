@@ -13,7 +13,7 @@ import {
 } from '../index.js';
 
 const meta = {
-  title: 'Foundations/Data Visualization',
+  title: 'Patterns/Data Visualization',
   parameters: { layout: 'padded' },
 } satisfies Meta;
 

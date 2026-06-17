@@ -33,11 +33,6 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - **Button** — The primary action control.
   - import: `import { Button } from '@eidra/react'`
 
-### Components
-
-- **ThemeProvider** — Establishes the Eidra theme scope: applies `eidra-root`, `data-theme`, and `data-density` so tokens resolve and brand type/colour are inherited.
-  - import: `import { ThemeProvider } from '@eidra/react'`
-
 ### Data Display
 
 - **Avatar** — User avatar built on Base UI Avatar.
@@ -94,6 +89,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Field, FieldPrimitive } from '@eidra/react'`
 - **Fieldset** — A semantic fieldset with an accessible legend.
   - import: `import { Fieldset } from '@eidra/react'` · parts: Fieldset.Root
+- **FilterSelect** — A compact multi-select filter pill: a trigger that summarises the selection, opening a popover with a searchable checkbox list, a selection count, and a clear-all.
+  - import: `import { FilterSelect } from '@eidra/react'`
 - **Form** — A native `<form>` element with consolidated Base UI validation.
   - import: `import { Form } from '@eidra/react'`
 - **Input** — A text input built on Base UI `Input`.
@@ -102,6 +99,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { NumberField } from '@eidra/react'` · parts: NumberField.Root, NumberField.Group, NumberField.Input, NumberField.Increment, NumberField.Decrement, NumberField.ScrubArea, NumberField.ScrubAreaCursor
 - **Radio** — A radio button control built on Base UI `Radio`.
   - import: `import { Radio, RadioGroup } from '@eidra/react'` · parts: Radio.Root, Radio.Indicator
+- **SegmentedControl** — A segmented control: a contiguous track of mutually-exclusive options with the active segment filled.
+  - import: `import { SegmentedControl } from '@eidra/react'`
 - **Select** — A select control built on Base UI `Select`.
   - import: `import { Select } from '@eidra/react'` · parts: Select.Root, Select.Trigger, Select.Value, Select.Portal, Select.Backdrop, Select.Positioner, Select.Popup, Select.List, Select.Item, Select.ItemIndicator, Select.ItemText, Select.Group, Select.GroupLabel
 - **Slider** — A range slider built on Base UI `Slider`.
@@ -113,15 +112,10 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 ### Foundations
 
+- **ThemeProvider** — Establishes the Eidra theme scope: applies `eidra-root`, `data-theme`, and `data-density` so tokens resolve and brand type/colour are inherited.
+  - import: `import { ThemeProvider } from '@eidra/react'`
 - **Typography** — Renders brand-correct text.
   - import: `import { Typography } from '@eidra/react'`
-
-### Inputs
-
-- **FilterSelect** — A compact multi-select filter pill: a trigger that summarises the selection, opening a popover with a searchable checkbox list, a selection count, and a clear-all.
-  - import: `import { FilterSelect } from '@eidra/react'`
-- **SegmentedControl** — A segmented control: a contiguous track of mutually-exclusive options with the active segment filled.
-  - import: `import { SegmentedControl } from '@eidra/react'`
 
 ### Layout
 

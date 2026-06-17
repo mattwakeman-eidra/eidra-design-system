@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SegmentedControl, type SegmentedControlItem } from './SegmentedControl.js';
 
 const meta = {
-  title: 'Inputs/SegmentedControl',
+  title: 'Forms/SegmentedControl',
   component: SegmentedControl,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
