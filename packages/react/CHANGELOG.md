@@ -1,5 +1,46 @@
 # @eidra/react
 
+## 1.3.0
+
+### Minor Changes
+
+- a68b337: Client Dashboard parity — extend two existing components (the dashboard is otherwise covered by the DataGrid, Combobox, SegmentedControl, Input, EmptyState, Spinner, Alert and Statistic primitives already shipped):
+
+  - **`Chart` scatter/bubble support** — re-export Recharts `ScatterChart`, `Scatter`, and `ZAxis` under `Chart.*`, so apps can build scatter and bubble charts (bubble size via `ZAxis`) with the same themed `Chart.Container`/`TooltipContent`/`LegendContent`/`Cell`/`ReferenceLine` as the existing chart types. Adds a `Bubble` story (client revenue vs YoY growth, bubble size by total revenue, one series per size tier).
+  - **`Toggle` `shape` prop** — `shape="pill"` renders a fully-rounded chip (default `'rect'` is unchanged), for the quick-filter chip pattern. Adds a `QuickFilterChips` story.
+  - **`Chart` focus styling** — suppress the browser's default blue focus box on the (keyboard-focusable) chart surface and replace it with the token focus ring shown only for keyboard focus (`:focus-visible`), so clicking a chart no longer draws an unstyled box.
+
+- 42fc45b: Project Economics parity — extend three existing primitives so the invoicing app's project-economics views (budget-burn header, accounting matrix) compose entirely from the design system. No domain components ship; the recipes live in Storybook (`Patterns/Project Economics`).
+
+  - **`SegmentBar` threshold markers** — new `markers` prop (`{ value, label?, tone? }[]`) draws vertical lines over the bar, positioned on the same scale as `total`. Stacking bars with a shared `total` and the same marker `value` aligns the line across all of them — the "budget line" pattern. Adds `WithMarker` and `SharedBudgetLine` stories.
+  - **`DataGrid` value-driven cell tinting** — new per-column `cellTone(value, row)` returning `'positive' | 'negative' | 'caution' | 'muted'` tints individual cells (e.g. positive WIP green, negative deferred red, pending gold, locked grey). Composes with `EditableNumberCell` and overlays a `highlighted` column.
+  - **`DataGrid` cell drill-down** — new per-column `renderCellDetail(row, col)` makes a column's cells clickable: clicking opens a full-width detail row beneath (one open at a time across the grid). Adds a `CellTonesAndDrilldown` story.
+  - **`Statistic` accent border** — new `accent` prop draws a tone-coloured left border (with inset) for the accented KPI-card row. Adds an `AccentedKpiRow` story.
+
+  Also: renamed the `Chart` `ComposedChart` stories to be type-led for consistency (`Forecast` → `Composed`, `Headcount` → `ComposedBarLine`); the use-case is kept in each story's description.
+
+- 9b460a7: `ThemeProvider` gains an **`accent`** prop (`'brand'` | `'finance'`, default `'brand'`). `accent="finance"` repoints the accent tokens to the financial data-viz blue (`--eidra-finance-accent*`) for the whole scope — mirroring `DataGrid`'s `accent` prop but at the theme level — and propagates to portaled components (menus, dialogs, tooltips) via the scope context. Implemented as a `[data-accent='finance']` token repoint in the base layer, so setting `data-accent="finance"` on your own root works too. The `Foundations/Theming` story gains an `accent` control plus an `Accent` showcase.
+
+  Also: showcase stories that ignore args (`Statistic`'s `AccentedKpiRow`, `ThemeProvider`'s `Matrix`/`Accent`) now disable the Controls panel, which previously showed inapplicable controls.
+
+### Patch Changes
+
+- 51c1fed: Component audit follow-ups — consistency fixes from a catalog-wide review:
+
+  - **Theme and density now propagate into portaled popups (bulletproof).** `ThemeProvider` publishes its `{ theme, density }` via context, and every portaled surface — `Dialog`, `AlertDialog`, `Popover`, `Menu`, `ContextMenu`, `Menubar`, `NavigationMenu`, `Select`, `Combobox`, `Autocomplete`, `Tooltip`, `PreviewCard`, `Toast` — stamps `data-theme`/`data-density` onto its positioner/popup. Popups render outside the `eidra-root` subtree (Base UI portals to `document.body`), so they previously missed both the theme (dark popups rendered light) and compact density (the trigger shrank but its menu/dialog/list stayed comfortable). Now they match the scope regardless of where it sits. Without a `ThemeProvider` above, behaviour is unchanged.
+  - **Compact density blocks for overlays/menus/dropdowns.** Added `[data-density='compact']` blocks (documented `base.css` convention — both padding axes one step down) to the components above, and mirrored the control-size compact remap onto the bare `[data-density='compact']` attribute so controls rendered inside a portal shrink too.
+  - **`Menubar` arrow** now uses the shared `fill`/`stroke` token treatment like the other arrows, removing the only hardcoded colour (`rgb(0 0 0 / 0.1)` drop-shadow) in the catalog.
+  - **`Field`** ships its own Storybook story (`Forms/Field`) + autodocs page; previously it was only demonstrated inside the `Input` stories.
+
+- 3afab36: Storybook + catalog taxonomy cleanup, now documented in `docs/STORYBOOK.md` (three tiers: `Foundations/*`, `‹Function›/‹Component›`, `Patterns/*`). No component code changes — story titles and the generated catalog/`llms.txt` categories only:
+
+  - Folded the redundant `Inputs` category into `Forms` (`FilterSelect`, `SegmentedControl`).
+  - Moved the cross-component `Data Visualization` gallery from `Foundations` to `Patterns`.
+  - Moved the `Statistic` KPI compositions (KPI bar, stat-card grid) to a new `Patterns/KPIs` page; `Statistic`'s own page keeps its prop/variant stories.
+  - Added a `Foundations/Theming` page for `ThemeProvider` (was uncategorised).
+  - @eidra/tokens@1.3.0
+  - @eidra/icons@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes
