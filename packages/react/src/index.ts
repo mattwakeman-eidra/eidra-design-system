@@ -56,3 +56,7 @@ export * from './components/Typography/index.js';
 
 export { cn } from './utils/cn.js';
 export type { ClassValue } from './utils/cn.js';
+
+// Currency helpers (formatCompactCurrency is also re-exported via Chart).
+export { formatCurrency, formatCurrencyThousands } from './utils/currency.js';
+export type { CurrencyFormatOptions } from './utils/currency.js';

@@ -177,21 +177,22 @@ function ChartLegendContent({ payload, hidden = [], onToggle, className }: Chart
   );
 }
 
+// Currency helpers live in the shared utils now; re-exported here for back-compat
+// so `import { formatCompactCurrency } from '@eidra/react'` keeps working.
+export { formatCompactCurrency } from '../../utils/currency.js';
+
 /**
- * Format a number as compact currency for axis ticks / labels — e.g. `€1.2M`,
- * `€340K`. Atomic helper reusable outside charts.
+ * Default props for animated series (`Bar` / `Line` / `Area`): turns the entry
+ * animation off. Spread it onto a series — `<Chart.Bar {...Chart.seriesDefaults} />`.
+ *
+ * Why: Recharts' enter animation renders bars/lines blank on the first frame,
+ * which flashes on first paint and produces empty output under SSR/headless
+ * capture (Storybook snapshots, screenshot tests). Recharts requires its own
+ * primitives as direct chart children, so the kit can't wrap them to force a
+ * default — spread this instead. Every series in the Sold & Forecast reference
+ * disables animation.
  */
-export function formatCompactCurrency(
-  value: number,
-  { currency = 'EUR', locale = 'en-US' }: { currency?: string; locale?: string } = {},
-): string {
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    notation: 'compact',
-    maximumFractionDigits: 1,
-  }).format(value);
-}
+const seriesDefaults = { isAnimationActive: false } as const;
 
 /**
  * Composable charting kit built on Recharts and themed with Eidra tokens.
@@ -207,7 +208,7 @@ export function formatCompactCurrency(
  *     <Chart.XAxis dataKey="month" />
  *     <Chart.YAxis tickFormatter={(v) => formatCompactCurrency(v)} />
  *     <Chart.Tooltip content={<Chart.TooltipContent formatter={(v) => formatCompactCurrency(Number(v))} />} />
- *     <Chart.Bar dataKey="actuals" stackId="s" fill="var(--color-actuals)" />
+ *     <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" />
  *   </Chart.ComposedChart>
  * </Chart.Container>
  * ```
@@ -216,6 +217,8 @@ export const Chart = {
   Container: ChartContainer,
   TooltipContent: ChartTooltipContent,
   LegendContent: ChartLegendContent,
+  /** `{ isAnimationActive: false }` — spread onto Bar/Line/Area to disable entry animation. */
+  seriesDefaults,
   // Re-exported Recharts primitives (so consumers never import `recharts` directly):
   ResponsiveContainer,
   ComposedChart,
