@@ -60,10 +60,10 @@
 
 /* Honour the ambient compact-density scope: tighter rows. */
 :global([data-density='compact']) .root {
-  --_row-gap: var(--eidra-space-2);
+  --_row-gap: var(--eidra-space-1-5);
   --_pair-gap: var(--eidra-space-0-5);
-  gap: var(--_row-gap) var(--eidra-space-4);
+  gap: var(--_row-gap) var(--eidra-space-3);
 }
 :global([data-density='compact']) .root[data-orientation='horizontal'] .row {
-  gap: var(--eidra-space-2);
+  gap: var(--eidra-space-1-5);
 }

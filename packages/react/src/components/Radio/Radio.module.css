@@ -131,7 +131,7 @@
 
 /* Honour the ambient compact-density scope: tighter sizing/gaps. */
 :global([data-density='compact']) .wrapper {
-  gap: var(--eidra-space-1);
+  gap: var(--eidra-space-0-5);
 }
 
 :global([data-density='compact']) .root {
@@ -145,7 +145,7 @@
 }
 
 :global([data-density='compact']) .group {
-  gap: var(--eidra-space-1);
+  gap: var(--eidra-space-0-5);
 }
 
 :global([data-density='compact']) .groupLegend {

@@ -99,12 +99,12 @@
 
 /* ─── Density: compact ─────────────────────────────────────────────────────── */
 :global([data-density='compact']) .root {
-  --_indent: var(--eidra-space-4);
+  --_indent: var(--eidra-space-3);
   --_row-min-height: var(--eidra-size-control-sm);
 }
 
 :global([data-density='compact']) .row {
-  gap: var(--eidra-space-1-5);
+  gap: var(--eidra-space-1);
   padding-block: var(--eidra-space-0-5);
   font-size: var(--eidra-font-size-xs);
 }

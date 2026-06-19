@@ -318,10 +318,10 @@
 :global([data-density='compact']) .checkboxItem,
 :global([data-density='compact']) .radioItem,
 :global([data-density='compact']) .submenuTrigger {
-  gap: var(--eidra-space-1-5);
-  padding-inline: var(--eidra-space-1-5);
+  gap: var(--eidra-space-1);
+  padding-inline: var(--eidra-space-1);
 }
 :global([data-density='compact']) .groupLabel {
-  padding-inline: var(--eidra-space-1-5);
+  padding-inline: var(--eidra-space-1);
   padding-block: var(--eidra-space-0-5);
 }

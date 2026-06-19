@@ -38,17 +38,26 @@
  *
  * Convention for (2) — keep it uniform across the catalogue:
  *  - Reduce EVERY padding axis the base rule uses: declare BOTH `padding-block`
- *    and `padding-inline` (one step down: 6→4→3→2→1-5→1→0-5, floored at
- *    space-0-5; never collapse padding to 0). Don't tighten only one axis.
- *  - Reduce `gap` one step (may reach 0). Purely inline/gap components
+ *    and `padding-inline` (TWO steps down on the ladder 6→4→3→2→1-5→1→0-5,
+ *    floored at space-0-5; never collapse padding to 0). Don't tighten only one
+ *    axis. (A base padding already at the bottom of the ladder steps as far as
+ *    the floor allows.)
+ *  - Reduce `gap` two steps (may reach 0). Purely inline/gap components
  *    (Freshness, Breadcrumbs) have a single gap axis and only reduce that.
- *  - Step down only large fonts (≥ base): 2xl→xl→lg→base→sm; leave sm / xs.
+ *  - Step down large fonts (≥ base) two stops: 2xl→lg, xl→base, lg→sm, base→sm;
+ *    leave sm / xs. The base reading size already drops to 14px via the
+ *    `font-size` on the compact root above.
  *  - Spacing/size/font only — never change colour, border, radius, or layout.
  */
 .eidra-root[data-density='compact'] {
-  --eidra-size-control-sm: 1.75rem;
-  --eidra-size-control-md: 2rem;
-  --eidra-size-control-lg: 2.5rem;
+  --eidra-size-control-sm: 1.5rem;
+  --eidra-size-control-md: 1.75rem;
+  --eidra-size-control-lg: 2.25rem;
+  /* Compact also tightens the type ramp: drop the base reading size 16→14px so
+   * text-driven components (which size from `font-size`/`em`, not the control
+   * tokens) get denser too. Headings/large fonts still step down per the
+   * per-component compact blocks below. */
+  font-size: 0.875rem;
 }
 
 /* Numerals use tabular figures, per the brand spec. */
@@ -74,9 +83,10 @@
  * rendered inside a portal shrink in compact too, not only inside an `.eidra-root`.
  */
 [data-density='compact'] {
-  --eidra-size-control-sm: 1.75rem;
-  --eidra-size-control-md: 2rem;
-  --eidra-size-control-lg: 2.5rem;
+  --eidra-size-control-sm: 1.5rem;
+  --eidra-size-control-md: 1.75rem;
+  --eidra-size-control-lg: 2.25rem;
+  font-size: 0.875rem;
 }
 
 /*

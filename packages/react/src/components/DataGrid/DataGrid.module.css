@@ -19,7 +19,7 @@
 :global([data-density='compact']) .root,
 .root[data-density='compact'] {
   --dg-pad-block: var(--eidra-space-0-5);
-  --dg-pad-inline: var(--eidra-space-2);
+  --dg-pad-inline: var(--eidra-space-1-5);
   --dg-font-size: var(--eidra-font-size-xs);
   /* Shrink the control metric that sets the inline-edit cell's min row height. */
   --eidra-size-control-sm: 1.5rem;

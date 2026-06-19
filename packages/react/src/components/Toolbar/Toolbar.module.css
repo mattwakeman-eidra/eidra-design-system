@@ -187,9 +187,9 @@
 :global([data-density='compact']) .button,
 :global([data-density='compact']) .link,
 :global([data-density='compact']) .input {
-  padding-inline: var(--eidra-space-2);
+  padding-inline: var(--eidra-space-1-5);
 }
 :global([data-density='compact']) .button,
 :global([data-density='compact']) .link {
-  gap: var(--eidra-space-1-5);
+  gap: var(--eidra-space-1);
 }

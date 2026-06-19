@@ -267,12 +267,12 @@
   padding: var(--eidra-space-0-5);
 }
 :global([data-density='compact']) .item {
-  gap: var(--eidra-space-1-5);
-  padding: var(--eidra-space-1) var(--eidra-space-2);
+  gap: var(--eidra-space-1);
+  padding: var(--eidra-space-0-5) var(--eidra-space-1-5);
 }
 :global([data-density='compact']) .groupLabel {
-  padding: var(--eidra-space-1) var(--eidra-space-2);
+  padding: var(--eidra-space-0-5) var(--eidra-space-1-5);
 }
 :global([data-density='compact']) .empty {
-  padding: var(--eidra-space-4) var(--eidra-space-3);
+  padding: var(--eidra-space-3) var(--eidra-space-2);
 }

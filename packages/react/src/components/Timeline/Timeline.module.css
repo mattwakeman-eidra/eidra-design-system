@@ -149,11 +149,11 @@
 
 /* Honour the ambient compact-density scope: smaller marker, tighter rail and stacking. */
 :global([data-density='compact']) .root {
-  --_rail-gap: var(--eidra-space-2);
+  --_rail-gap: var(--eidra-space-1-5);
   --_marker-size: 0.75rem;
 }
 :global([data-density='compact']) .item {
-  padding-block-end: var(--eidra-space-2);
+  padding-block-end: var(--eidra-space-1-5);
 }
 :global([data-density='compact']) .dot {
   width: 0.5rem;
