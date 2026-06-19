@@ -182,6 +182,7 @@ module.exports = {
         "eidra-control-sm": "var(--eidra-size-control-sm)",
         "eidra-control-md": "var(--eidra-size-control-md)",
         "eidra-control-lg": "var(--eidra-size-control-lg)",
+        "eidra-icon-xs": "var(--eidra-size-icon-xs)",
         "eidra-icon-sm": "var(--eidra-size-icon-sm)",
         "eidra-icon-md": "var(--eidra-size-icon-md)",
         "eidra-icon-lg": "var(--eidra-size-icon-lg)",

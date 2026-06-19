@@ -111,6 +111,7 @@ export const radiusFull = "var(--eidra-radius-full)" as const;
 export const sizeControlSm = "var(--eidra-size-control-sm)" as const;
 export const sizeControlMd = "var(--eidra-size-control-md)" as const;
 export const sizeControlLg = "var(--eidra-size-control-lg)" as const;
+export const sizeIconXs = "var(--eidra-size-icon-xs)" as const;
 export const sizeIconSm = "var(--eidra-size-icon-sm)" as const;
 export const sizeIconMd = "var(--eidra-size-icon-md)" as const;
 export const sizeIconLg = "var(--eidra-size-icon-lg)" as const;

@@ -1,7 +1,7 @@
 {
   "name": "@eidra/icons",
   "version": "1.4.0",
-  "description": "Eidra icon set — token-aware wrapper around Lucide.",
+  "description": "Eidra icon set — token-aware wrapper around Lucide, plus country flags.",
   "type": "module",
   "sideEffects": false,
   "exports": {
@@ -19,6 +19,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "country-flag-icons": "^1.6.17",
     "lucide-react": "^1.18.0"
   },
   "peerDependencies": {

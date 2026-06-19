@@ -4,9 +4,10 @@ import type { ComponentPropsWithoutRef, ComponentType, SVGProps } from 'react';
 /** A Lucide icon component (or any SVG icon with the same prop shape). */
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>;
 
-export type IconSize = 'sm' | 'md' | 'lg';
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg';
 
 const SIZE_VAR: Record<IconSize, string> = {
+  xs: 'var(--eidra-size-icon-xs)',
   sm: 'var(--eidra-size-icon-sm)',
   md: 'var(--eidra-size-icon-md)',
   lg: 'var(--eidra-size-icon-lg)',
