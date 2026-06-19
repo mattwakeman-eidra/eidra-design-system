@@ -1,5 +1,82 @@
 # @eidra/react
 
+## 1.5.0
+
+### Minor Changes
+
+- d63dca9: Add `Chart.BoxPlot` — a box-and-whisker chart for showing the distribution of a metric across categories. Recharts has no box primitive, so `BoxPlot` is a self-contained chart: drop it inside `Chart.Container` and it owns its `ComposedChart`, axes and value-domain, drawing one box per row at true axis scale (box = Q1–Q3, emphasised median, whiskers to the Tukey 1.5×IQR fences with caps, and outliers as dots). It reads the axis scales via Recharts' v3 hooks and positions each box on its axis tick centre, so boxes stay aligned with the category labels. Supports `orientation` (`vertical` | `horizontal`), per-category `color` (cycles `--eidra-chart-1…16` by default), and a hover tooltip showing the five-number summary (routed through the themed `Chart.TooltipContent` `rows` override). Ships with `Chart.computeBoxStats(values)` (also exported standalone) to derive a `{ min, q1, median, q3, max, outliers }` summary from raw samples using type-7 quartiles + Tukey outlier fences. Additive only.
+- c1878d6: Chart kit gains shared helpers so every chart prepares data, colours, and tooltips the same way:
+
+  - **Colour:** `Chart.chartColors` (the `--eidra-chart-1…16` ramp) + `Chart.categoricalConfig(rows, keyField)` build a `config` for categorical charts (pie/donut/treemap/sunburst/bubble) from the ramp, so their colours flow through `config` like keyed series and into the tooltip/legend. Categorical cells now read the colour from `config` (space-safe) instead of a per-key CSS variable.
+  - **Tooltips:** `Chart.TooltipContent` accepts a `rows` override — composite charts (dumbbell, waterfall, drill sunburst) render derived rows through the same themed shell instead of bespoke tooltips.
+  - **Data prep:** `Chart.toWaterfall`, `Chart.sumHierarchy`, `Chart.dumbbellRange` replace per-chart one-off transforms.
+  - **Axes:** `Chart.margin`, `Chart.gridProps`, `Chart.axisProps` are spreadable defaults so charts stop re-specifying margin/grid/axis styling.
+
+  All additive; existing chart APIs are unchanged.
+
+- 3d4a0ce: Re-export `Chart.Sankey` — the native Recharts Sankey flow diagram — on the charting kit, and add a themed `Sankey` story (Data Display/Chart) showing the Eidra styling recipe: a per-node palette keyed by node name, source-tinted translucent link ribbons that brighten on hover, always-on node labels placed off the ribbons (left-edge nodes label left, sinks right, mid-stage above), and a themed tooltip that shows a node's throughput or a link's `source → target`, value and share of the source's outflow. The story models a monthly P&L flow (region → net revenue → personnel / other cost / EBITDA). `SankeyData` is re-exported for typing the `{ nodes, links }` input. Additive only.
+- 04eb8e7: Add four chart types, a TreeView component, and a categorical colour ramp.
+
+  **New categorical token ramp** — `--eidra-chart-1` … `--eidra-chart-8`: eight meaning-neutral qualitative hues for charts, each with a tuned dark-theme variant (saturated in light, brighter in dark) so series/slice colours stay distinct and legible in both themes. Additive; existing tokens are unchanged.
+
+  **`Chart` — four new chart types** (re-exported Recharts primitives under the `Chart` namespace, themed with tokens, full + mini, light + dark):
+
+  - **Radar** (`Chart.RadarChart` + `Radar`/`PolarGrid`/`PolarAngleAxis`/`PolarRadiusAxis`) — multi-series radar; polar grid/axes themed via new `:global(.recharts-polar-*)` rules.
+  - **Pie & Donut** (`Chart.PieChart` + `Pie`) — categorical breakdown; slices map to `--eidra-chart-N` via `Chart.Cell`, separated by an `--eidra-surface` stroke. Ships a `Pie` and a `Donut` (with a centred total) story.
+  - **Treemap** (`Chart.Treemap`) — hierarchical; a custom node renderer colours leaves by category token and only labels tiles big enough to fit.
+  - **Sunburst** (`Chart.SunburstChart`) — self-contained hierarchical chart (per-node `fill`, children inherit); renders inside the standard responsive `Chart.Container`.
+
+  Each chart gets a full story under `Data Display/Chart`, a `size="sm"` mini in the `Minis` gallery, and a card in `Patterns/Data Visualization`. Also adds a **Magic Quadrant** story (a 2×2 `ScatterChart` with named, tinted quadrants via the newly re-exported `Chart.ReferenceArea`, labelled points, and titled axes). New re-exports: `Chart.ReferenceArea`, and the `TreemapNode` / `SunburstData` types.
+
+  **`TreeView`** (new component, `Data Display/TreeView`) — an interactive hierarchical tree: data-driven `items` API (`{ id, label, icon?, children?, disabled? }`), controlled/uncontrolled expansion (`expandedIds`/`defaultExpandedIds`) and single selection (`selectedId`/`defaultSelectedId`), optional per-node icons, and a rotating chevron. Full ARIA `tree` pattern — `role="tree"`/`treeitem"`/`"group"`, `aria-expanded`/`aria-selected`/`aria-level`/`aria-setsize`/`aria-posinset`, roving tabindex, and keyboard nav (Up/Down, Left/Right to collapse/expand or move to parent/child, Home/End, Enter/Space to select). CSS Module on tokens only, density-aware. Stories cover a file-explorer, controlled selection, compact density, a per-node **right-click `ContextMenu`**, and a **checkbox** multi-select tree (parent tri-state / cascade).
+
+- df84d87: Make `data-density="compact"` noticeably denser (full density pass). Compact now:
+
+  - **Shrinks the base reading size** 16px → 14px (`font-size` on the compact root) and drops control heights another notch (`--eidra-size-control-*`: sm 28→24px, md 32→28px, lg 40→36px).
+  - **Tightens every component's compact block by two spacing steps from comfortable** (previously one). Padding and gap step down the ladder `6→4→3→2→1-5→1→0-5`, floored at `space-0-5` so nothing collapses to 0; large fonts (≥ base) step down two stops, floored at `sm`.
+
+  Applied uniformly across all 41 density-aware components. Comfortable density is unchanged; only the compact scope is affected. The authoring convention in `base.css` is updated to the two-step rule for future components.
+
+- d6b9704: Ship a Tailwind **v4** theme bridge so apps on Tailwind v4 (CSS-first) can use Eidra tokens as utilities.
+
+  The existing `@eidra/tokens/tailwind` export is a **Tailwind v3 JS preset** (`presets: [require('@eidra/tokens/tailwind')]`). Tailwind v4 dropped JS-preset config in favour of a CSS `@theme`, so v4 apps couldn't use it and were hand-maintaining their own token→theme map in `globals.css` — which silently drifts from the tokens.
+
+  **New export — `@eidra/tokens/tailwind.css` (and the same file re-shipped as `@eidra/react/tailwind.css`).** A generated CSS file that maps every `--eidra-*` token onto Tailwind v4's theme namespaces (`--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--font-weight-*`, `--leading-*`, `--tracking-*`, `--ease-*`) inside `@theme inline`, so utilities stay reactive to the live `var(--eidra-*)` values (light / dark / finance). It is generated from the same token walk as the v3 preset, so the two can't diverge.
+
+  ```css
+  /* app globals.css — Tailwind v4 */
+  @import "@eidra/react/styles.css";
+  @import "tailwindcss";
+  @import "@eidra/react/tailwind.css"; /* or @eidra/tokens/tailwind.css */
+  ```
+
+  The shipped file includes the `@layer` order and a `@theme { --*: initial }` reset (Eidra-only utilities); delete that block in your own copy if you want to keep Tailwind's default theme alongside. The v3 preset (`@eidra/tokens/tailwind`) is unchanged and still exported for v3 apps. See `docs/CONSUMING.md` §5.
+
+- f8f1d73: `Timeline` gains an `orientation` prop. The default stays `'vertical'` (the stacked activity feed); `orientation="horizontal"` lays the items left-to-right along a horizontal rail — a step/progress reading for a few stages where width is plentiful (e.g. an approval flow across the top of a page), with the marker above each step and the title/timestamp beneath. Additive and non-breaking.
+- 2b8ed7d: `Toast.Viewport` gains a `position` prop to anchor the toast stack to any corner or edge — `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right` (defaults to `bottom-right`, unchanged). Placement is driven by a `data-position` attribute with a single `--_inset` distance (compact density tightens the inset). The Toast stories expose it as a "Viewport position" control.
+
+### Patch Changes
+
+- a34530d: Fix dark-theme legibility of the finance accent and of toned `EditableNumberCell` values, and stop a hovered editable cell from melting into its row.
+
+  **Tokens** — the `--eidra-finance-accent*` family had no `[data-theme='dark']` entry, so `accent="finance"` repointed the accent to dark steel-blue (`#27567a`/`#1d4060`) that sat illegibly on dark surfaces (the brand orange accent already inverts per theme; finance never did). Adds a dark finance-accent ramp — lighter steel-blue primitives (`finance.blue-bright/-light/-deep`) and a `finance.accent*` group in `dark.json` that mirrors the brand inversion (lighter DEFAULT/active, darker subtle, black on-accent). Flows through every `accent="finance"` surface (DataGrid, `ThemeProvider`, `[data-accent='finance']`).
+
+  **EditableNumberCell** — toned values (`tone`) coloured their text with the base tone token (red/green/orange-500), which dropped below the 4.5:1 AA floor on the hover background; danger-red negatives effectively vanished. Value text and the edit field now use the readable-on-surface tone foregrounds (`--eidra-success-fg`, `--eidra-warning-fg`, `--eidra-danger-fg`; accent uses `--eidra-accent-active`, since `--eidra-accent-fg` is the on-accent colour).
+
+  **Editable-cell hover** — `EditableNumberCell`, `EditableTextCell` and `EditableSelectCell` now take the `--eidra-accent-subtle` wash on hover (the same "cell in play" colour as a committed override/rollup) instead of a neutral grey. The row already hovers to `--eidra-surface-hover`, so a neutral cell hover made the cell indistinguishable from its shaded row; the accent-subtle fill is a distinct colour channel and, being dark, keeps the `-fg` toned values well clear of AA.
+
+  **Highlighted column** — a highlighted ("NOW") column painted a flat `accent-subtle` tint over its cells, which overrode the row background, so the column stayed frozen while the rest of a hovered row lifted to `--eidra-surface-hover`. Hovered-row highlighted cells now blend the column tint over the hover surface (`color-mix`, opaque so pinned cells stay solid) — the column lifts with the row yet still reads as the accent-tinted highlight. Per-cell value tones keep their fixed state tint.
+
+  Untoned cells, override/aggregated affordances, and the markers (●/◆) are unchanged. Adds a dark-theme guard (`pnpm --filter @eidra/react test`) asserting: every toned value clears 4.5:1 on both the cell-hover and row-hover surfaces (brand and finance); the finance accent chrome clears the 3:1 graphical floor; the cell-hover colour stays distinct from the row-hover colour; and the hovered highlighted-column colour differs from both its resting tint and a plain hovered row while keeping body text legible — all parsed from the components' own CSS so none can silently regress.
+
+- Updated dependencies [f5bee87]
+- Updated dependencies [04eb8e7]
+- Updated dependencies [a34530d]
+- Updated dependencies [821004d]
+- Updated dependencies [d6b9704]
+  - @eidra/tokens@1.5.0
+  - @eidra/icons@1.5.0
+
 ## 1.4.0
 
 ### Minor Changes
