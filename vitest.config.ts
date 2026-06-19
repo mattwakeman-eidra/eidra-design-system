@@ -38,6 +38,15 @@ export default defineConfig({
       headless: true,
       instances: [{ browser: 'chromium' }],
     },
+    // Coverage (the Storybook addon UI's panel / `--coverage`) scoped to shippable
+    // component source — not story files, barrels, or config — so the % measures how
+    // well the stories exercise the actual component code. Without this, "All files"
+    // counts the large .stories.tsx files and drags the number down misleadingly.
+    coverage: {
+      provider: 'v8',
+      include: ['packages/react/src/components/**/*.{ts,tsx}'],
+      exclude: ['**/*.stories.tsx', '**/index.ts'],
+    },
     // No setupFiles needed: since Storybook 10.3 the Vitest addon auto-applies the
     // preview.tsx annotations (ThemeProvider decorator, theme/density globals,
     // a11y config) to every story.
