@@ -9,8 +9,22 @@ import { Dialog } from './Dialog.js';
 const meta = {
   title: 'Overlays/Dialog',
   // Point at Root: it carries the meaningful behavior props (open/defaultOpen/
-  // modal). The visual Popup part has almost no props.
+  // modal). Every other part is declared as a subcomponent so each one gets its
+  // own props table in the autodocs page.
   component: Dialog.Root,
+  subcomponents: {
+    'Dialog.Trigger': Dialog.Trigger,
+    'Dialog.Portal': Dialog.Portal,
+    'Dialog.Backdrop': Dialog.Backdrop,
+    'Dialog.Popup': Dialog.Popup,
+    'Dialog.Header': Dialog.Header,
+    'Dialog.Body': Dialog.Body,
+    'Dialog.Footer': Dialog.Footer,
+    'Dialog.Title': Dialog.Title,
+    'Dialog.Description': Dialog.Description,
+    'Dialog.Close': Dialog.Close,
+    'Dialog.CloseButton': Dialog.CloseButton,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
