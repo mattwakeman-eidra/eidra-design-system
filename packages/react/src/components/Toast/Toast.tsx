@@ -9,7 +9,6 @@ import styles from './Toast.module.css';
 
 // ---- Re-export types from Base UI for external use ----
 export type { ToastProviderProps } from '@base-ui/react/toast';
-export type { ToastViewportProps } from '@base-ui/react/toast';
 export type { ToastRootProps } from '@base-ui/react/toast';
 export type { ToastContentProps } from '@base-ui/react/toast';
 export type { ToastTitleProps } from '@base-ui/react/toast';
@@ -34,11 +33,32 @@ export const createToastManager: typeof BaseToast.createToastManager = BaseToast
 const Provider = BaseToast.Provider;
 
 // ---- Viewport ----
-const Viewport = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BaseToast.Viewport>>(
-  function Viewport({ className, ...props }, ref) {
+/** Where toasts appear on screen. */
+export type ToastPosition =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
+
+export interface ToastViewportProps
+  extends ComponentPropsWithoutRef<typeof BaseToast.Viewport> {
+  /** Corner/edge the toast stack is anchored to. Defaults to `bottom-right`. */
+  position?: ToastPosition;
+}
+
+const Viewport = forwardRef<HTMLDivElement, ToastViewportProps>(
+  function Viewport({ className, position = 'bottom-right', ...props }, ref) {
     const scope = useScopeDataAttrs();
     return (
-      <BaseToast.Viewport ref={ref} className={cn(styles.viewport, className)} {...scope} {...props} />
+      <BaseToast.Viewport
+        ref={ref}
+        data-position={position}
+        className={cn(styles.viewport, className)}
+        {...scope}
+        {...props}
+      />
     );
   },
 );

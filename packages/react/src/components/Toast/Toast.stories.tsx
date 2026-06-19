@@ -19,16 +19,33 @@ const meta: Meta = {
     'Toast.Action': Toast.Action,
   },
   tags: ['autodocs'],
+  args: { position: 'bottom-right' },
+  argTypes: {
+    position: {
+      name: 'Viewport position',
+      description: 'Where the toast stack is anchored (Toast.Viewport `position` prop).',
+      control: 'select',
+      options: [
+        'top-left',
+        'top-center',
+        'top-right',
+        'bottom-left',
+        'bottom-center',
+        'bottom-right',
+      ],
+    },
+  },
   parameters: {
     layout: 'centered',
   },
   decorators: [
-    (Story) => (
+    (Story, context) => (
       <Toast.Provider>
         <Story />
-        {/* Toasts render into the fixed Viewport (bottom-right), never the story
-            flow — so adding a toast can't shift the trigger button. */}
-        <Toast.Viewport>
+        {/* Toasts render into the fixed Viewport, never the story flow — so adding
+            a toast can't shift the trigger button. The `position` control drives
+            where the stack is anchored. */}
+        <Toast.Viewport position={context.args.position}>
           <ToastList />
         </Toast.Viewport>
       </Toast.Provider>
