@@ -245,9 +245,7 @@ const seriesDefaults = { isAnimationActive: false } as const;
 // Bar (which forces a band scale and doubles as the hover hit-target for the
 // per-category tooltip) + an SVG layer that reads the axis scales via Recharts'
 // v3 hooks and draws box / median / whiskers / caps / outliers at true scale.
-
-/** Default 16-colour categorical palette (semantic tokens) cycled per box. */
-const CHART_PALETTE = Array.from({ length: 16 }, (_, i) => `var(--eidra-chart-${i + 1})`);
+// Colour cycles the shared `chartColors` ramp (defined below, also exported).
 
 /**
  * Five-number summary for one box. `min`/`max` are the **whisker ends** (the most
@@ -363,7 +361,7 @@ function BoxLayer({ data, categoryKey, orientation, showOutliers, boxRatio, valu
         if (center == null || Number.isNaN(center)) return null;
         const w = Math.max(band * boxRatio, 1);
         const capW = w * 0.5;
-        const color = d.color ?? CHART_PALETTE[i % CHART_PALETTE.length]!;
+        const color = d.color ?? chartColors[i % chartColors.length]!;
         const fill = `color-mix(in srgb, ${color} 18%, transparent)`;
         const vMin = valScale(d.min);
         const vQ1 = valScale(d.q1);
@@ -553,7 +551,7 @@ function BoxPlot({
 // categorical charts derive their `config` from the ramp via `categoricalConfig`.
 
 /** The 16-colour categorical ramp (`--eidra-chart-1..16`) as an array; cycles past 16. */
-const chartColors = CHART_PALETTE;
+const chartColors = Array.from({ length: 16 }, (_, i) => `var(--eidra-chart-${i + 1})`);
 
 /**
  * Build a {@link ChartConfig} for a categorical series by assigning the
