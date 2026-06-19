@@ -3,9 +3,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,
   formatCompactCurrency,
+  computeBoxStats,
   type ChartConfig,
   type TreemapNode,
   type SunburstData,
+  type BoxPlotDatum,
 } from './Chart.js';
 
 const meta = {
@@ -2106,4 +2108,69 @@ export const Minis: StoryObj<MinisArgs> = {
       </MiniCard>
     </div>
   ),
+};
+
+// ── Box plot: distribution of a metric across categories ─────────────────────
+// Raw samples per phase; the story derives the five-number summary with
+// `computeBoxStats` (type-7 quartiles + Tukey 1.5×IQR outliers). "Review" carries
+// two slow outliers above the upper fence to exercise the outlier dots.
+const CYCLE_SAMPLES: Record<string, number[]> = {
+  Discovery: [3, 4, 4, 5, 5, 6, 6, 7, 8, 9],
+  Design: [4, 5, 6, 6, 7, 7, 8, 9, 10, 12],
+  Build: [6, 8, 9, 10, 11, 12, 13, 14, 16, 19],
+  Review: [2, 3, 3, 4, 4, 5, 5, 6, 18, 22],
+  Release: [1, 1, 2, 2, 3, 3, 4, 4, 5, 6],
+};
+
+const days = (v: number) => `${Math.round(v)}d`;
+
+interface BoxPlotArgs {
+  orientation: 'vertical' | 'horizontal';
+  showOutliers: boolean;
+  perCategoryColor: boolean;
+  boxRatio: number;
+}
+
+/**
+ * **Box plot** (`Chart.BoxPlot`) — box-and-whisker distribution of a metric across
+ * categories. Self-contained: drop it inside `Chart.Container` and it owns its
+ * `ComposedChart`, axes and value-domain, drawing one box per row at true axis scale
+ * (box = Q1–Q3, emphasised median, whiskers to the Tukey 1.5×IQR fences with caps,
+ * outliers as dots). Hover a box for its five-number summary. Feed raw samples through
+ * `Chart.computeBoxStats(values)` to get each row's `{ min, q1, median, q3, max, outliers }`.
+ * Use the controls to flip **orientation**, toggle **outliers**, give each box its own
+ * palette **colour**, and set the **box thickness** (fraction of the band).
+ */
+export const BoxPlot: StoryObj<BoxPlotArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    orientation: { control: 'inline-radio', options: ['vertical', 'horizontal'] },
+    showOutliers: { control: 'boolean' },
+    perCategoryColor: { control: 'boolean' },
+    boxRatio: { control: { type: 'range', min: 0.2, max: 0.9, step: 0.1 } },
+  },
+  args: { orientation: 'vertical', showOutliers: true, perCategoryColor: false, boxRatio: 0.6 },
+  render: ({ orientation, showOutliers, perCategoryColor, boxRatio }) => {
+    const data: BoxPlotDatum[] = Object.entries(CYCLE_SAMPLES).map(([phase, samples], i) => ({
+      phase,
+      ...computeBoxStats(samples),
+      // Per-category cycles the palette (the component default); otherwise one
+      // shared series colour so the boxes read as a single distribution.
+      color: perCategoryColor ? `var(--eidra-chart-${i + 1})` : 'var(--eidra-chart-1)',
+    }));
+    return (
+      <div style={{ maxWidth: 640 }}>
+        <Chart.Container config={{}} style={{ height: 360 }} aria-label="Cycle time by phase (days)">
+          <Chart.BoxPlot
+            data={data}
+            categoryKey="phase"
+            orientation={orientation}
+            showOutliers={showOutliers}
+            boxRatio={boxRatio}
+            valueFormatter={days}
+          />
+        </Chart.Container>
+      </div>
+    );
+  },
 };

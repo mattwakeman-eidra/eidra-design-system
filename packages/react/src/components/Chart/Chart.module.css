@@ -53,6 +53,12 @@
   border-radius: var(--eidra-radius-md);
 }
 
+/* ---- Box plot ---- */
+.boxLayer line,
+.boxLayer rect {
+  stroke-linecap: round;
+}
+
 /* ---- Tooltip ---- */
 .tooltip {
   min-width: 160px;
