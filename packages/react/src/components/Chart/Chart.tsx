@@ -81,7 +81,11 @@ const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(function 
         style={{ ...colorVars, ...style }}
         {...props}
       >
-        <ResponsiveContainer width="100%" height="100%">
+        {/* initialDimension seeds the first paint with a valid size; Recharts'
+            default is {-1,-1}, which renders one frame at -1×-1 and logs
+            "width(-1)/height(-1) should be greater than 0" before the
+            ResizeObserver reports the real 100% box. */}
+        <ResponsiveContainer width="100%" height="100%" initialDimension={{ width: 320, height: 200 }}>
           {children as React.ReactElement}
         </ResponsiveContainer>
       </div>
