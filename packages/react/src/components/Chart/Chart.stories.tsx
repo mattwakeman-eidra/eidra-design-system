@@ -856,20 +856,43 @@ const quadrantLabel = (value: string) => ({
  * plotted points are labelled, and both axes carry titles. The classic
  * vendor/competitor positioning map.
  */
-export const MagicQuadrant: Story = {
-  render: () => (
+interface MagicQuadrantArgs {
+  /** Tint + name each quadrant. */
+  showTints: boolean;
+  /** Label each plotted point. */
+  showPointLabels: boolean;
+  /** Show the dashed background grid. */
+  showGrid: boolean;
+  /** Where the axes split into quadrants (0–100). */
+  threshold: number;
+}
+
+export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
+  parameters: { controls: { disable: false } },
+  args: { showTints: true, showPointLabels: true, showGrid: true, threshold: 50 },
+  argTypes: {
+    showTints: { control: 'boolean' },
+    showPointLabels: { control: 'boolean' },
+    showGrid: { control: 'boolean' },
+    threshold: { control: { type: 'range', min: 20, max: 80, step: 5 } },
+  },
+  render: ({ showTints, showPointLabels, showGrid, threshold }) => (
     <Chart.Container
       config={{}}
       style={{ height: 460, maxWidth: 560 }}
       aria-label="Magic quadrant: completeness of vision versus ability to execute"
     >
       <Chart.ScatterChart margin={{ top: 24, right: 28, bottom: 28, left: 16 }}>
-        <Chart.CartesianGrid strokeDasharray="4 4" />
+        {showGrid && <Chart.CartesianGrid strokeDasharray="4 4" />}
         {/* Quadrant tints + names, drawn under the points. */}
-        <Chart.ReferenceArea x1={50} x2={100} y1={50} y2={100} fill="var(--eidra-chart-1)" fillOpacity={0.06} label={quadrantLabel('Leaders')} />
-        <Chart.ReferenceArea x1={0} x2={50} y1={50} y2={100} fill="var(--eidra-chart-2)" fillOpacity={0.06} label={quadrantLabel('Challengers')} />
-        <Chart.ReferenceArea x1={50} x2={100} y1={0} y2={50} fill="var(--eidra-chart-3)" fillOpacity={0.06} label={quadrantLabel('Visionaries')} />
-        <Chart.ReferenceArea x1={0} x2={50} y1={0} y2={50} fill="var(--eidra-chart-4)" fillOpacity={0.06} label={quadrantLabel('Niche Players')} />
+        {showTints && (
+          <>
+            <Chart.ReferenceArea x1={threshold} x2={100} y1={threshold} y2={100} fill="var(--eidra-chart-1)" fillOpacity={0.06} label={quadrantLabel('Leaders')} />
+            <Chart.ReferenceArea x1={0} x2={threshold} y1={threshold} y2={100} fill="var(--eidra-chart-2)" fillOpacity={0.06} label={quadrantLabel('Challengers')} />
+            <Chart.ReferenceArea x1={threshold} x2={100} y1={0} y2={threshold} fill="var(--eidra-chart-3)" fillOpacity={0.06} label={quadrantLabel('Visionaries')} />
+            <Chart.ReferenceArea x1={0} x2={threshold} y1={0} y2={threshold} fill="var(--eidra-chart-4)" fillOpacity={0.06} label={quadrantLabel('Niche Players')} />
+          </>
+        )}
         <Chart.XAxis
           type="number"
           dataKey="vision"
@@ -889,11 +912,11 @@ export const MagicQuadrant: Story = {
           width={28}
           label={{ value: 'Ability to Execute →', angle: -90, position: 'insideLeft', fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
         />
-        <Chart.ReferenceLine x={50} stroke="var(--eidra-border-strong)" />
-        <Chart.ReferenceLine y={50} stroke="var(--eidra-border-strong)" />
+        <Chart.ReferenceLine x={threshold} stroke="var(--eidra-border-strong)" />
+        <Chart.ReferenceLine y={threshold} stroke="var(--eidra-border-strong)" />
         <Chart.Tooltip cursor={{ strokeDasharray: '3 3' }} content={<Chart.TooltipContent hideLabel />} />
         <Chart.Scatter {...Chart.seriesDefaults} data={VENDORS} fill="var(--eidra-chart-1)" name="Vendor">
-          <Chart.LabelList dataKey="name" position="top" fill="var(--eidra-fg)" fontSize={11} />
+          {showPointLabels && <Chart.LabelList dataKey="name" position="top" fill="var(--eidra-fg)" fontSize={11} />}
         </Chart.Scatter>
       </Chart.ScatterChart>
     </Chart.Container>
@@ -928,8 +951,23 @@ interface DumbbellShapeProps {
   width?: number;
   height?: number;
   payload?: DumbbellDatum;
+  /** Endpoint dot radius. */
+  r?: number;
+  /** Connector line thickness. */
+  connectorWidth?: number;
+  /** Draw each value next to its dot. */
+  showValues?: boolean;
 }
-function DumbbellShape({ x = 0, y = 0, width = 0, height = 0, payload }: DumbbellShapeProps) {
+function DumbbellShape({
+  x = 0,
+  y = 0,
+  width = 0,
+  height = 0,
+  payload,
+  r = 5,
+  connectorWidth = 2,
+  showValues = false,
+}: DumbbellShapeProps) {
   if (!payload) return <g />;
   const cy = y + height / 2;
   const left = x;
@@ -938,11 +976,22 @@ function DumbbellShape({ x = 0, y = 0, width = 0, height = 0, payload }: Dumbbel
   const beforeIsLeft = payload.before <= payload.after;
   const beforeX = beforeIsLeft ? left : right;
   const afterX = beforeIsLeft ? right : left;
+  const labelStyle = { fill: 'var(--eidra-fg-muted)', fontSize: 11 } as const;
   return (
     <g>
-      <line x1={left} y1={cy} x2={right} y2={cy} stroke="var(--eidra-border-strong)" strokeWidth={2} />
-      <circle cx={beforeX} cy={cy} r={5} fill="var(--color-before)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
-      <circle cx={afterX} cy={cy} r={5} fill="var(--color-after)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
+      <line x1={left} y1={cy} x2={right} y2={cy} stroke="var(--eidra-border-strong)" strokeWidth={connectorWidth} />
+      <circle cx={beforeX} cy={cy} r={r} fill="var(--color-before)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
+      <circle cx={afterX} cy={cy} r={r} fill="var(--color-after)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
+      {showValues && (
+        <>
+          <text x={left} y={cy - r - 4} textAnchor="middle" {...labelStyle}>
+            {beforeIsLeft ? payload.before : payload.after}
+          </text>
+          <text x={right} y={cy - r - 4} textAnchor="middle" {...labelStyle}>
+            {beforeIsLeft ? payload.after : payload.before}
+          </text>
+        </>
+      )}
     </g>
   );
 }
@@ -1006,14 +1055,31 @@ function DumbbellLegend() {
   );
 }
 
+interface DumbbellArgs {
+  /** Endpoint dot radius (px). */
+  dotRadius: number;
+  /** Connector line thickness (px). */
+  connectorWidth: number;
+  /** Show each value beside its dot. */
+  showValueLabels: boolean;
+}
+
 /**
  * **Dumbbell** — a two-point comparison per category (here last year → this year):
  * a vertical `ComposedChart` with a single range `Bar` whose custom `shape` draws
  * the connector line and an endpoint dot for each value. Reads change at a glance —
  * the gap is the delta, the dot order shows direction (a decline keeps its colours).
+ * Use the controls to tune the dot size, connector thickness, and value labels.
  */
-export const Dumbbell: Story = {
-  render: () => (
+export const Dumbbell: StoryObj<DumbbellArgs> = {
+  parameters: { controls: { disable: false } },
+  args: { dotRadius: 5, connectorWidth: 2, showValueLabels: false },
+  argTypes: {
+    dotRadius: { control: { type: 'range', min: 3, max: 10, step: 1 } },
+    connectorWidth: { control: { type: 'range', min: 1, max: 6, step: 1 } },
+    showValueLabels: { control: 'boolean' },
+  },
+  render: (args) => (
     <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 560 }}>
       <DumbbellLegend />
       <Chart.Container
@@ -1021,7 +1087,7 @@ export const Dumbbell: Story = {
         style={{ height: 320 }}
         aria-label="Revenue by service line, last year versus this year"
       >
-        <Chart.ComposedChart layout="vertical" data={GROWTH} margin={{ top: 4, right: 16, bottom: 4, left: 8 }}>
+        <Chart.ComposedChart layout="vertical" data={GROWTH} margin={{ top: 12, right: 16, bottom: 4, left: 8 }}>
           <Chart.CartesianGrid horizontal={false} />
           <Chart.XAxis type="number" domain={[0, (max: number) => Math.ceil((max + 20) / 20) * 20]} tickFormatter={fmt} />
           <Chart.YAxis type="category" dataKey="category" width={72} tickLine={false} axisLine={false} />
@@ -1029,7 +1095,14 @@ export const Dumbbell: Story = {
           <Chart.Bar
             {...Chart.seriesDefaults}
             dataKey={(d: DumbbellDatum) => [Math.min(d.before, d.after), Math.max(d.before, d.after)]}
-            shape={(props: unknown) => <DumbbellShape {...(props as DumbbellShapeProps)} />}
+            shape={(props: unknown) => (
+              <DumbbellShape
+                {...(props as DumbbellShapeProps)}
+                r={args.dotRadius}
+                connectorWidth={args.connectorWidth}
+                showValues={args.showValueLabels}
+              />
+            )}
             activeBar={false}
           />
         </Chart.ComposedChart>
