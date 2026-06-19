@@ -15,7 +15,10 @@ const meta: Meta = {
     (Story) => (
       <Toast.Provider>
         <Story />
-        <Toast.Viewport />
+        {/* Toasts render into the fixed Viewport (bottom-right), never the story
+            flow — so adding a toast can't shift the trigger button. */}
+        <Toast.Viewport>
+          </Toast.Viewport>
       </Toast.Provider>
     ),
   ],
@@ -66,7 +69,6 @@ export const Playground: Story = {
         >
           Show toast
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -112,7 +114,6 @@ export const Success: Story = {
         >
           Publish project
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -149,7 +150,6 @@ export const ErrorToast: Story = {
         >
           Trigger error
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -184,7 +184,6 @@ export const Warning: Story = {
         >
           Trigger warning
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -210,7 +209,6 @@ export const InfoToast: Story = {
         >
           Show info
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -240,7 +238,6 @@ export const WithAction: Story = {
         >
           Delete deliverable
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -276,7 +273,6 @@ export const Stacked: Story = {
         >
           Trigger 3 toasts
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -315,7 +311,6 @@ export const Persistent: Story = {
         >
           Show persistent toast
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -373,7 +368,6 @@ export const PromiseBased: Story = {
         <Button variant="solid" tone="accent" onClick={simulateSave}>
           Save proposal
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -401,7 +395,6 @@ export const PromiseLifecycle: Story = {
         <Button variant="solid" tone="accent" onClick={run}>
           Upload deliverable
         </Button>
-        <ToastList />
       </>
     );
   },
@@ -448,7 +441,6 @@ export const OnCloseCallback: Story = {
         >
           Autosave draft
         </Button>
-        <ToastList />
       </>
     );
   },
