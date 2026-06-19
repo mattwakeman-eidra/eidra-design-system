@@ -13,6 +13,15 @@ const storybookDir = fileURLToPath(new URL('./.storybook', import.meta.url));
 
 export default defineConfig({
   plugins: [storybookTest({ configDir: storybookDir })],
+  // Pre-bundle the JSX runtimes up front. Vite's initial dep scan walks the
+  // story entry points and misses these — they only surface once a story module
+  // is transformed, so on a cold cache (e.g. a fresh CI runner) Vite re-optimizes
+  // mid-run and reloads the browser, which flakes/duplicates tests
+  // ("Vite unexpectedly reloaded a test"). Listing them here makes the optimize
+  // deterministic on the first pass.
+  optimizeDeps: {
+    include: ['react/jsx-dev-runtime', 'react/jsx-runtime'],
+  },
   test: {
     name: 'storybook',
     // In CI, add the github-actions reporter so a failing assertion is annotated
