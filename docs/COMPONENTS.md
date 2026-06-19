@@ -36,13 +36,13 @@ import { Icon, ChevronDown } from '@eidra/icons'
 ### Data Display
 
 - **Avatar** — User avatar built on Base UI Avatar.
-  - import: `import { Avatar } from '@eidra/react'` · parts: Avatar.Root
+  - import: `import { Avatar } from '@eidra/react'` · parts: Avatar.Root, Avatar.Image, Avatar.Fallback
 - **Badge** — Small status label.
   - import: `import { Badge } from '@eidra/react'`
 - **Card** — Compound Card component.
   - import: `import { Card } from '@eidra/react'` · parts: Card.Header, Card.Body, Card.Footer
 - **Chart** — Composable charting kit built on Recharts and themed with Eidra tokens.
-  - import: `import { Chart, formatCompactCurrency } from '@eidra/react'` · parts: Chart.Container, Chart.TooltipContent, Chart.LegendContent
+  - import: `import { Chart, formatCompactCurrency } from '@eidra/react'` · parts: Chart.Container, Chart.TooltipContent, Chart.LegendContent, Chart.ResponsiveContainer, Chart.ComposedChart, Chart.BarChart, Chart.LineChart, Chart.AreaChart, Chart.ScatterChart, Chart.Bar, Chart.Line, Chart.Area, Chart.Scatter, Chart.Cell, Chart.LabelList, Chart.XAxis, Chart.YAxis, Chart.ZAxis, Chart.CartesianGrid, Chart.ReferenceLine, Chart.ReferenceArea, Chart.Legend, Chart.Tooltip, Chart.RadarChart, Chart.Radar, Chart.PolarGrid, Chart.PolarAngleAxis, Chart.PolarRadiusAxis, Chart.PieChart, Chart.Pie, Chart.Treemap, Chart.SunburstChart
 - **DataGrid** — A generic, config-driven data grid built on a native `<table>`: sticky pinned columns, a multi-tier header from column groups, click-to-sort, global filtering, column visibility, expandable tree rows, and a sticky totals footer.
   - import: `import { DataGrid, EditableNumberCell, EditableSelectCell, EditableTextCell } from '@eidra/react'`
 - **DescriptionList** — Compound DescriptionList.
@@ -71,9 +71,9 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - **Freshness** — A freshness / status indicator: a coloured dot, an optional label, and an optional relative timestamp (e.g.
   - import: `import { Freshness } from '@eidra/react'`
 - **Meter** — A meter component built on Base UI `Meter`.
-  - import: `import { Meter } from '@eidra/react'` · parts: Meter.Root
+  - import: `import { Meter } from '@eidra/react'` · parts: Meter.Root, Meter.Label, Meter.Value, Meter.Track, Meter.Indicator
 - **Progress** — A progress bar built on Base UI `Progress`.
-  - import: `import { Progress } from '@eidra/react'` · parts: Progress.Root
+  - import: `import { Progress } from '@eidra/react'` · parts: Progress.Root, Progress.Label, Progress.Value, Progress.Track, Progress.Indicator
 - **SaveIndicator** — A transient inline confirmation that fades in after a successful save and out again — standardised across inline-edit interactions (pairs with `DataGrid` cell editing).
   - import: `import { SaveIndicator, useSaveIndicator } from '@eidra/react'`
 - **Skeleton** — A loading placeholder that renders a pulsing shape while content is being fetched.
@@ -94,7 +94,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - **Field** — A labelled form field built on Base UI `Field`.
   - import: `import { Field, FieldPrimitive } from '@eidra/react'`
 - **Fieldset** — A semantic fieldset with an accessible legend.
-  - import: `import { Fieldset } from '@eidra/react'` · parts: Fieldset.Root
+  - import: `import { Fieldset } from '@eidra/react'` · parts: Fieldset.Root, Fieldset.Legend
 - **FilterSelect** — A compact multi-select filter pill: a trigger that summarises the selection, opening a popover with a searchable checkbox list, a selection count, and a clear-all.
   - import: `import { FilterSelect } from '@eidra/react'`
 - **Form** — A native `<form>` element with consolidated Base UI validation.
@@ -124,7 +124,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 ### Layout
 
 - **Accordion** — A disclosure component for toggling sections of content.
-  - import: `import { Accordion } from '@eidra/react'` · parts: Accordion.Root
+  - import: `import { Accordion } from '@eidra/react'` · parts: Accordion.Root, Accordion.Item, Accordion.Header, Accordion.Trigger, Accordion.Panel
 - **ActionBar** — A selection-aware action bar.
   - import: `import { ActionBar } from '@eidra/react'`
 - **Collapsible** — A vertically collapsible content region built on Base UI Collapsible.
@@ -179,4 +179,4 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 **Space:** --eidra-space-0 --eidra-space-1 --eidra-space-2 --eidra-space-3 --eidra-space-4 --eidra-space-5 --eidra-space-6 --eidra-space-8 --eidra-space-10 --eidra-space-12 --eidra-space-15 --eidra-space-16 --eidra-space-20 --eidra-space-24 --eidra-space-30 --eidra-space-40 --eidra-space-50 --eidra-space-px --eidra-space-0-5 --eidra-space-1-5
 
-**Radius / size / shadow / motion / z:** --eidra-radius-none --eidra-radius-sm --eidra-radius-md --eidra-radius-lg --eidra-radius-xl --eidra-radius-2xl --eidra-radius-full --eidra-size-control-sm --eidra-size-control-md --eidra-size-control-lg --eidra-size-icon-sm --eidra-size-icon-md --eidra-size-icon-lg --eidra-size-container-sm --eidra-size-container-md --eidra-size-container-lg --eidra-size-container-xl --eidra-shadow-xs --eidra-shadow-sm --eidra-shadow-md --eidra-shadow-lg --eidra-shadow-xl --eidra-duration-instant --eidra-duration-fast --eidra-duration-base --eidra-duration-slow --eidra-easing-standard --eidra-easing-emphasized --eidra-easing-decelerate --eidra-easing-accelerate --eidra-z-base --eidra-z-raised --eidra-z-dropdown --eidra-z-sticky --eidra-z-overlay --eidra-z-modal --eidra-z-popover --eidra-z-toast --eidra-z-tooltip
+**Radius / size / shadow / motion / z:** --eidra-radius-none --eidra-radius-sm --eidra-radius-md --eidra-radius-lg --eidra-radius-xl --eidra-radius-2xl --eidra-radius-full --eidra-size-control-sm --eidra-size-control-md --eidra-size-control-lg --eidra-size-icon-xs --eidra-size-icon-sm --eidra-size-icon-md --eidra-size-icon-lg --eidra-size-container-sm --eidra-size-container-md --eidra-size-container-lg --eidra-size-container-xl --eidra-shadow-xs --eidra-shadow-sm --eidra-shadow-md --eidra-shadow-lg --eidra-shadow-xl --eidra-duration-instant --eidra-duration-fast --eidra-duration-base --eidra-duration-slow --eidra-easing-standard --eidra-easing-emphasized --eidra-easing-decelerate --eidra-easing-accelerate --eidra-z-base --eidra-z-raised --eidra-z-dropdown --eidra-z-sticky --eidra-z-overlay --eidra-z-modal --eidra-z-popover --eidra-z-toast --eidra-z-tooltip

@@ -30,12 +30,22 @@ function jsdocFor(src, name) {
 }
 
 function parts(src, name) {
+  // Strip comments first: a `}` inside a JSDoc/line comment in the namespace body
+  // (e.g. Chart's `{ isAnimationActive: false }` example) would otherwise truncate
+  // the non-greedy brace capture and drop every part after it.
+  const clean = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
   // Keys of a compound export: `export const Name = { A, B }` or `Object.assign(X, { A, B })`.
   const obj =
-    src.match(new RegExp(`export const ${name}\\s*(?::[^=]+)?=\\s*\\{([\\s\\S]*?)\\}`)) ||
-    src.match(new RegExp(`export const ${name}\\s*=\\s*Object\\.assign\\([^,]+,\\s*\\{([\\s\\S]*?)\\}`));
+    clean.match(new RegExp(`export const ${name}\\s*(?::[^=]+)?=\\s*\\{([\\s\\S]*?)\\}`)) ||
+    clean.match(new RegExp(`export const ${name}\\s*=\\s*Object\\.assign\\([^,]+,\\s*\\{([\\s\\S]*?)\\}`));
   if (!obj) return [];
-  return [...obj[1].matchAll(/^\s*([A-Z][A-Za-z0-9]*)\s*[,:]/gm)].map((m) => m[1]);
+  // Parts may be written one-per-line OR inline (`{ Root, Image, Fallback }`),
+  // as shorthand (`Root`) or `Root: Value` — so split on commas and take the
+  // leading PascalCase key of each entry rather than requiring a line start.
+  return obj[1]
+    .split(',')
+    .map((seg) => seg.trim().match(/^([A-Z][A-Za-z0-9]*)\s*:?/)?.[1])
+    .filter(Boolean);
 }
 
 function exportsFrom(indexSrc) {
