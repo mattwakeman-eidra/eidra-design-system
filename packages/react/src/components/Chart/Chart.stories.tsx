@@ -897,7 +897,12 @@ export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
           type="number"
           dataKey="vision"
           domain={[0, 100]}
-          tick={false}
+          // Explicit ticks give CartesianGrid its line positions; transparent tick
+          // text keeps the grid lines (tick={false} drops the tick set entirely, so
+          // the grid only drew its outer border). This is a positioning map, not a
+          // scale, so the numbers stay hidden.
+          ticks={[0, 20, 40, 60, 80, 100]}
+          tick={{ fill: 'transparent' }}
           axisLine={false}
           tickLine={false}
           label={{ value: 'Completeness of Vision →', position: 'insideBottom', offset: -12, fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
@@ -906,7 +911,8 @@ export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
           type="number"
           dataKey="execution"
           domain={[0, 100]}
-          tick={false}
+          ticks={[0, 20, 40, 60, 80, 100]}
+          tick={{ fill: 'transparent' }}
           axisLine={false}
           tickLine={false}
           width={28}
