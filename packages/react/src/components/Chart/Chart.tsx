@@ -1,6 +1,6 @@
 import { createContext, forwardRef, useContext } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { TreemapNode, SunburstData } from 'recharts';
+import type { TreemapNode, SunburstData, SankeyData } from 'recharts';
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -31,6 +31,7 @@ import {
   Pie,
   Treemap,
   SunburstChart,
+  Sankey,
   useXAxisScale,
   useYAxisScale,
   useXAxisTicks,
@@ -222,8 +223,8 @@ function ChartLegendContent({ payload, hidden = [], onToggle, className }: Chart
 // so `import { formatCompactCurrency } from '@eidra/react'` keeps working.
 export { formatCompactCurrency } from '../../utils/currency.js';
 
-/** Recharts data-node types for the hierarchical charts (Treemap / Sunburst). */
-export type { TreemapNode, SunburstData };
+/** Recharts data-node types for the hierarchical / flow charts (Treemap / Sunburst / Sankey). */
+export type { TreemapNode, SunburstData, SankeyData };
 
 /**
  * Default props for animated series (`Bar` / `Line` / `Area`): turns the entry
@@ -726,4 +727,6 @@ export const Chart = {
   // Hierarchical
   Treemap,
   SunburstChart,
+  // Flow
+  Sankey,
 };
