@@ -10,6 +10,9 @@ import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { fileURLToPath } from 'node:url';
 
 const storybookDir = fileURLToPath(new URL('./.storybook', import.meta.url));
+// Istanbul loads custom coverage reporters via require(), resolved from inside its
+// own package — so it needs an absolute path, not a project-relative one.
+const brandedHtmlReporter = fileURLToPath(new URL('./scripts/eidra-html-reporter.cjs', import.meta.url));
 
 export default defineConfig({
   plugins: [storybookTest({ configDir: storybookDir })],
@@ -46,6 +49,9 @@ export default defineConfig({
       provider: 'v8',
       include: ['packages/react/src/components/**/*.{ts,tsx}'],
       exclude: ['**/*.stories.tsx', '**/index.ts'],
+      // `text` prints the console summary; the custom reporter emits the HTML
+      // report branded to match the Storybook workshop (see the script header).
+      reporter: ['text', [brandedHtmlReporter, {}]],
     },
     // No setupFiles needed: since Storybook 10.3 the Vitest addon auto-applies the
     // preview.tsx annotations (ThemeProvider decorator, theme/density globals,
