@@ -5,7 +5,7 @@ const root = process.cwd();
 
 const config: StorybookConfig = {
   stories: ['../packages/*/src/**/*.stories.@(ts|tsx)', '../packages/*/src/**/*.mdx'],
-  addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
+  addons: ['@storybook/addon-a11y', '@storybook/addon-docs', '@storybook/addon-vitest'],
   framework: { name: '@storybook/react-vite', options: {} },
   typescript: { reactDocgen: 'react-docgen' },
   staticDirs: ['../static'],
