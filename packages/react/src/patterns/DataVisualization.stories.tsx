@@ -82,13 +82,7 @@ const SLICES = [
   { key: 'support', name: 'Support', value: 1450 },
   { key: 'training', name: 'Training', value: 780 },
 ];
-const sliceConfig: ChartConfig = {
-  Consulting: { label: 'Consulting', color: 'var(--eidra-chart-1)' },
-  'Managed Services': { label: 'Managed Services', color: 'var(--eidra-chart-2)' },
-  'Product Licences': { label: 'Product Licences', color: 'var(--eidra-chart-3)' },
-  Support: { label: 'Support', color: 'var(--eidra-chart-4)' },
-  Training: { label: 'Training', color: 'var(--eidra-chart-5)' },
-};
+const sliceConfig: ChartConfig = Chart.categoricalConfig(SLICES, 'name');
 
 interface AllocNode {
   name: string;
@@ -304,8 +298,8 @@ export const Gallery: Story = {
               stroke="var(--eidra-surface)"
               strokeWidth={1.5}
             >
-              {SLICES.map((d, i) => (
-                <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+              {SLICES.map((d) => (
+                <Chart.Cell key={d.key} fill={sliceConfig[d.name]?.color} />
               ))}
             </Chart.Pie>
           </Chart.PieChart>

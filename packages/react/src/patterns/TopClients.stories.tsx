@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Chart, formatCompactCurrency, type ChartConfig } from '../index.js';
+import { Chart, formatCompactCurrency } from '../index.js';
 import { Flag } from '@eidra/icons';
 
 /**
@@ -33,6 +33,9 @@ interface OpCo {
   /** Stable data key — also the ChartConfig key, so `var(--color-<key>)` resolves. */
   key: string;
   label: string;
+  // Index signature so `Chart.categoricalConfig` (which takes `Record<string, unknown>`
+  // rows) accepts `OpCo[]` directly.
+  [field: string]: string;
 }
 
 const OPCOS: OpCo[] = [
@@ -44,17 +47,12 @@ const OPCOS: OpCo[] = [
   { key: 'brightStep', label: 'BrightStep' },
 ];
 
-// Cycle the categorical chart tokens across the OpCos (chart-1..16 — chart-9..16
-// are being added by a separate change; reference them by name). Modulo keeps it
-// safe for any number of OpCos.
-const chartToken = (i: number) => `var(--eidra-chart-${(i % 16) + 1})`;
-
 // One ChartConfig shared by every mini: keys the OpCo data keys to their colour,
 // so each `Chart.Bar fill="var(--color-<opco.key>)"` picks up the right token and
-// the tooltip shows the OpCo label.
-const opcoConfig: ChartConfig = Object.fromEntries(
-  OPCOS.map((o, i) => [o.key, { label: o.label, color: chartToken(i) }]),
-);
+// the tooltip shows the OpCo label. `Chart.categoricalConfig` assigns the
+// `--eidra-chart-*` ramp to each OpCo in order (wrapping after 16), the same
+// cycle the shared legend reads back from this config.
+const opcoConfig = Chart.categoricalConfig(OPCOS, 'key', { labelField: 'label' });
 
 // ── Sample data ──────────────────────────────────────────────────────────────
 interface MonthDatum {
@@ -146,7 +144,7 @@ function OpCoLegend() {
         color: 'var(--eidra-fg-muted)',
       }}
     >
-      {OPCOS.map((o, i) => (
+      {OPCOS.map((o) => (
         <span key={o.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
           <span
             aria-hidden
@@ -154,7 +152,7 @@ function OpCoLegend() {
               width: 10,
               height: 10,
               borderRadius: 'var(--eidra-radius-sm)',
-              background: chartToken(i),
+              background: opcoConfig[o.key]?.color,
             }}
           />
           {o.label}
@@ -205,7 +203,7 @@ function ClientCell({ client, monthCount }: { client: Client; monthCount: number
               key={key}
               dataKey={key}
               stackId="net"
-              fill={`var(--color-${key})`}
+              fill={opcoConfig[key]?.color}
               activeBar={false}
               // Round only the top of the topmost segment in each stack.
               radius={i === client.opcos.length - 1 ? [2, 2, 0, 0] : undefined}

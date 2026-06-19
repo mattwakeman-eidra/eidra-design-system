@@ -279,7 +279,7 @@ function ExecSummary() {
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
           <Chart.Container config={trendConfig} style={{ flex: 1 }} aria-label="Monthly revenue">
             <Chart.BarChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
-              <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
+              <Chart.XAxis {...Chart.axisProps} dataKey="month" />
               <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
               <Chart.Bar
                 {...Chart.seriesDefaults}
@@ -431,8 +431,8 @@ export const Deck: StoryObj<DeckArgs> = {
             ]}
           />
           <Chart.Container config={trendConfig} style={{ flex: 1 }} aria-label="Revenue trend">
-            <Chart.LineChart data={TREND} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
-              <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
+            <Chart.LineChart data={TREND} margin={Chart.margin}>
+              <Chart.XAxis {...Chart.axisProps} dataKey="month" />
               <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
               <Chart.Line
                 {...Chart.seriesDefaults}

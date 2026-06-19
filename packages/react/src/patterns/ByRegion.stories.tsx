@@ -184,7 +184,7 @@ function MiniBars({ values, percent = false, showLabels = true }: { values: Trip
   return (
     <Chart.Container config={periodConfig} style={{ height: 116 }}>
       <Chart.BarChart data={data} margin={{ top: 18, right: 4, bottom: 0, left: 4 }}>
-        <Chart.XAxis dataKey="period" tickLine={false} axisLine={false} fontSize={11} />
+        <Chart.XAxis dataKey="period" {...Chart.axisProps} />
         <Chart.Bar {...Chart.seriesDefaults} dataKey="value" radius={[2, 2, 0, 0]}>
           {SERIES.map((s) => (
             <Chart.Cell key={s.key} fill={s.color} />
