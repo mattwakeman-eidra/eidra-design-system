@@ -118,7 +118,24 @@ For a runtime light/dark toggle, use the `ThemeProvider` component (a client com
 
 ## 5. Use the tokens with Tailwind (optional)
 
-If your app uses Tailwind, add the Eidra preset so every token is available as a utility class — no inline `style={{ … var(--eidra-*) }}` just to reach a token. The utilities reference the CSS variables, so they stay theme-reactive (light / dark / finance) automatically.
+If your app uses Tailwind, wire in the Eidra tokens so they're available as utilities — no inline `style={{ … var(--eidra-*) }}` just to reach a token. The utilities reference the CSS variables, so they stay theme-reactive (light / dark / finance) automatically. **Pick the entry that matches your Tailwind major** — v4 dropped JS-preset config, so the two are wired in completely differently.
+
+### Tailwind v4 (CSS-first) — `@eidra/react/tailwind.css`
+
+Tailwind v4 configures the theme in CSS, not a `tailwind.config.js`. Import the generated theme bridge after Tailwind itself:
+
+```css
+/* your globals.css */
+@import '@eidra/react/styles.css';   /* defines the --eidra-* variables + component styles */
+@import 'tailwindcss';
+@import '@eidra/react/tailwind.css';  /* maps the tokens onto Tailwind's v4 @theme */
+```
+
+`@eidra/react/tailwind.css` (identical to `@eidra/tokens/tailwind.css`) is **generated from the tokens**, so it never drifts. It maps each token onto Tailwind v4's theme namespaces — `--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--font-weight-*`, `--leading-*`, `--tracking-*`, `--ease-*` — inside `@theme inline`, so utilities resolve to the live `var(--eidra-*)` value.
+
+It ships with a `@theme { --*: initial }` reset so **only** Eidra tokens generate utilities (`p-4` → `var(--eidra-space-4)`, `rounded-lg`, `shadow-md`, `bg-accent`, `text-fg-muted`, `font-sans`, `text-sm`). If you'd rather keep Tailwind's built-in defaults alongside, copy the file into your repo and delete the `@theme { --*: initial }` block.
+
+### Tailwind v3 (JS preset) — `@eidra/tokens/tailwind`
 
 ```js
 // tailwind.config.js  (Tailwind v3)
@@ -128,9 +145,7 @@ module.exports = {
 }
 ```
 
-You still load the CSS variables once (via `@eidra/react/styles.css` or `@eidra/tokens/css`); the preset only maps utilities onto `var(--eidra-*)`.
-
-Every token becomes an `eidra-`-prefixed utility:
+You still load the CSS variables once (via `@eidra/react/styles.css` or `@eidra/tokens/css`); the preset only maps utilities onto `var(--eidra-*)`. Every token becomes an `eidra-`-prefixed utility:
 
 | Token family | Example utilities | Resolves to |
 | --- | --- | --- |
@@ -141,7 +156,9 @@ Every token becomes an `eidra-`-prefixed utility:
 | Type | `font-eidra-sans`, `text-eidra-sm` | `var(--eidra-font-family-sans)` … |
 | Z-index | `z-eidra-modal` | `var(--eidra-z-modal)` |
 
-The preset uses `theme.extend`, so Tailwind's built-in utilities keep working alongside the Eidra ones. Caveat: because the colours are `var()` references, Tailwind's opacity modifier (`bg-eidra-accent/50`) has no effect — reach for a `-subtle` token variant instead.
+The preset uses `theme.extend`, so Tailwind's built-in utilities keep working alongside the Eidra ones.
+
+> **Caveat (both):** because the colours are `var()` references, Tailwind's opacity modifier (`bg-accent/50`, `bg-eidra-accent/50`) has no effect — reach for a `-subtle` token variant instead.
 
 ---
 
