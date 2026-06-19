@@ -411,10 +411,19 @@ function DataGridInner<Row>(
   // the rendered header height, which varies with tier count + content. Measure it.
   const theadRef = useRef<HTMLTableSectionElement>(null);
   const [theadHeight, setTheadHeight] = useState(0);
+  const lastTheadRef = useRef(0);
   useLayoutEffect(() => {
     const el = theadRef.current;
     if (!el || !totalsAtTop) return;
-    const measure = () => setTheadHeight(el.offsetHeight);
+    // Skip the update when the height is unchanged so the ResizeObserver's async
+    // no-op ticks don't schedule state updates outside act() in tests (and don't
+    // re-render in general). See the pinned-offset observer below for the same pattern.
+    const measure = () => {
+      const h = el.offsetHeight;
+      if (h === lastTheadRef.current) return;
+      lastTheadRef.current = h;
+      setTheadHeight(h);
+    };
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(el);
@@ -431,10 +440,14 @@ function DataGridInner<Row>(
   // and pinned columns overlap. Measure the rendered `<col>` widths and recompute.
   const tableRef = useRef<HTMLTableElement>(null);
   const [measuredPinnedLeft, setMeasuredPinnedLeft] = useState<Map<string, number> | null>(null);
+  // Tracks the last offsets we committed so the ResizeObserver below can skip
+  // calling setState when nothing changed — see `measure`.
+  const lastPinnedRef = useRef<Map<string, number> | null>(null);
   const hasPinned = useMemo(() => visibleLeaves.some((c) => c.pinned), [visibleLeaves]);
   useLayoutEffect(() => {
     const tableEl = tableRef.current;
     if (!tableEl || !hasPinned) {
+      lastPinnedRef.current = null;
       setMeasuredPinnedLeft(null);
       return;
     }
@@ -448,6 +461,23 @@ function DataGridInner<Row>(
         const rendered = cols[i]?.getBoundingClientRect().width || 0;
         offset += rendered || col.width || DEFAULT_COL_WIDTH;
       });
+      // ResizeObserver fires on observe and on every layout tick. Skip the update
+      // entirely when the offsets are unchanged — not just bail inside setState,
+      // but avoid *calling* it — so redundant (usually no-op) ticks don't re-render.
+      // Perf win, and it stops the observer's async no-op ticks from scheduling
+      // state updates outside React's act() scope in tests (the act() warnings).
+      const prev = lastPinnedRef.current;
+      let same = !!prev && prev.size === next.size;
+      if (same && prev) {
+        for (const [id, off] of next) {
+          if (prev.get(id) !== off) {
+            same = false;
+            break;
+          }
+        }
+      }
+      if (same) return;
+      lastPinnedRef.current = next;
       setMeasuredPinnedLeft(next);
     };
     measure();
