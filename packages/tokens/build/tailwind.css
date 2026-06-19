@@ -88,6 +88,14 @@
   --color-categorical-6: var(--eidra-color-categorical-6);
   --color-categorical-7: var(--eidra-color-categorical-7);
   --color-categorical-8: var(--eidra-color-categorical-8);
+  --color-categorical-9: var(--eidra-color-categorical-9);
+  --color-categorical-10: var(--eidra-color-categorical-10);
+  --color-categorical-11: var(--eidra-color-categorical-11);
+  --color-categorical-12: var(--eidra-color-categorical-12);
+  --color-categorical-13: var(--eidra-color-categorical-13);
+  --color-categorical-14: var(--eidra-color-categorical-14);
+  --color-categorical-15: var(--eidra-color-categorical-15);
+  --color-categorical-16: var(--eidra-color-categorical-16);
   --color-categorical-1-bright: var(--eidra-color-categorical-1-bright);
   --color-categorical-2-bright: var(--eidra-color-categorical-2-bright);
   --color-categorical-3-bright: var(--eidra-color-categorical-3-bright);
@@ -96,6 +104,14 @@
   --color-categorical-6-bright: var(--eidra-color-categorical-6-bright);
   --color-categorical-7-bright: var(--eidra-color-categorical-7-bright);
   --color-categorical-8-bright: var(--eidra-color-categorical-8-bright);
+  --color-categorical-9-bright: var(--eidra-color-categorical-9-bright);
+  --color-categorical-10-bright: var(--eidra-color-categorical-10-bright);
+  --color-categorical-11-bright: var(--eidra-color-categorical-11-bright);
+  --color-categorical-12-bright: var(--eidra-color-categorical-12-bright);
+  --color-categorical-13-bright: var(--eidra-color-categorical-13-bright);
+  --color-categorical-14-bright: var(--eidra-color-categorical-14-bright);
+  --color-categorical-15-bright: var(--eidra-color-categorical-15-bright);
+  --color-categorical-16-bright: var(--eidra-color-categorical-16-bright);
   --color-bg: var(--eidra-bg);
   --color-bg-subtle: var(--eidra-bg-subtle);
   --color-bg-muted: var(--eidra-bg-muted);
@@ -168,6 +184,14 @@
   --color-chart-6: var(--eidra-chart-6);
   --color-chart-7: var(--eidra-chart-7);
   --color-chart-8: var(--eidra-chart-8);
+  --color-chart-9: var(--eidra-chart-9);
+  --color-chart-10: var(--eidra-chart-10);
+  --color-chart-11: var(--eidra-chart-11);
+  --color-chart-12: var(--eidra-chart-12);
+  --color-chart-13: var(--eidra-chart-13);
+  --color-chart-14: var(--eidra-chart-14);
+  --color-chart-15: var(--eidra-chart-15);
+  --color-chart-16: var(--eidra-chart-16);
 
   --spacing-0: var(--eidra-space-0);
   --spacing-1: var(--eidra-space-1);

@@ -83,6 +83,14 @@
     "5": { "$type": "color", "$value": "{color.categorical.5-bright}" },
     "6": { "$type": "color", "$value": "{color.categorical.6-bright}" },
     "7": { "$type": "color", "$value": "{color.categorical.7-bright}" },
-    "8": { "$type": "color", "$value": "{color.categorical.8-bright}" }
+    "8": { "$type": "color", "$value": "{color.categorical.8-bright}" },
+    "9": { "$type": "color", "$value": "{color.categorical.9-bright}" },
+    "10": { "$type": "color", "$value": "{color.categorical.10-bright}" },
+    "11": { "$type": "color", "$value": "{color.categorical.11-bright}" },
+    "12": { "$type": "color", "$value": "{color.categorical.12-bright}" },
+    "13": { "$type": "color", "$value": "{color.categorical.13-bright}" },
+    "14": { "$type": "color", "$value": "{color.categorical.14-bright}" },
+    "15": { "$type": "color", "$value": "{color.categorical.15-bright}" },
+    "16": { "$type": "color", "$value": "{color.categorical.16-bright}" }
   }
 }
