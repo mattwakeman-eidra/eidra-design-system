@@ -127,7 +127,7 @@ function ClusterTable({ cluster }: { cluster: Cluster }) {
 
 /**
  * The full decision guide. When two components feel interchangeable, find the
- * cluster and pick by intent. (Maintained alongside `docs/component-overlap-audit.md`.)
+ * cluster and pick by intent. (Maintained alongside `docs/COMPONENT-OVERLAP-AUDIT.md`.)
  */
 export const Guide: Story = {
   render: () => (
