@@ -504,32 +504,22 @@ function BoxPlot({
     return [lo - pad, hi + pad];
   })();
 
+  const valueTick = (v: number | string) => String(valueFormatter(Number(v)));
   const valueAxis = (
-    <YAxis
-      type="number"
-      domain={resolvedDomain}
-      tickFormatter={(v) => String(valueFormatter(Number(v)))}
-      allowDataOverflow
-    />
+    <YAxis {...axisProps} type="number" domain={resolvedDomain} tickFormatter={valueTick} allowDataOverflow />
   );
-  const catAxis = <XAxis dataKey={categoryKey} type="category" />;
+  const catAxis = <XAxis {...axisProps} dataKey={categoryKey} type="category" />;
 
   return (
-    <ComposedChart
-      data={data}
-      layout={isV ? 'horizontal' : 'vertical'}
-      width={width}
-      height={height}
-      margin={{ top: 8, right: 12, bottom: 4, left: 4 }}
-    >
-      {!hideGrid && <CartesianGrid vertical={!isV} horizontal={isV} />}
+    <ComposedChart data={data} layout={isV ? 'horizontal' : 'vertical'} width={width} height={height} margin={margin}>
+      {!hideGrid && <CartesianGrid {...gridProps} vertical={!isV} horizontal={isV} />}
       {isV ? catAxis : (
-        <XAxis type="number" domain={resolvedDomain} tickFormatter={(v) => String(valueFormatter(Number(v)))} allowDataOverflow />
+        <XAxis {...axisProps} type="number" domain={resolvedDomain} tickFormatter={valueTick} allowDataOverflow />
       )}
-      {isV ? valueAxis : <YAxis dataKey={categoryKey} type="category" width={72} />}
+      {isV ? valueAxis : <YAxis {...axisProps} dataKey={categoryKey} type="category" width={72} />}
       {/* Transparent anchor: forces a band scale and provides the per-category
           tooltip hit-target. Its only value (median) never widens the explicit domain. */}
-      <Bar dataKey="median" fill="transparent" isAnimationActive={false} activeBar={false} />
+      <Bar {...seriesDefaults} dataKey="median" fill="transparent" activeBar={false} />
       <BoxLayer
         data={data}
         categoryKey={categoryKey}

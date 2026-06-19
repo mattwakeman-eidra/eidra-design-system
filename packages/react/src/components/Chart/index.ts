@@ -4,6 +4,7 @@ export type {
   ChartContainerProps,
   TreemapNode,
   SunburstData,
+  SankeyData,
   BoxStats,
   BoxPlotDatum,
   BoxPlotProps,

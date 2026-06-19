@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement, type CSSProperties, type SVGProps, type ComponentProps } from 'react';
+import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement, type SVGProps, type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,
@@ -2155,10 +2155,12 @@ const SANKEY_LINKS = [
 ];
 const SANKEY_DATA: SankeyData = { nodes: SANKEY_NODES, links: SANKEY_LINKS };
 
-// Stable per-node palette colour, keyed by node name (so links inherit their
-// source node's hue). Cycles the 16-colour categorical ramp.
-const sankeyColor = (name: string): string =>
-  `var(--eidra-chart-${(Math.max(0, SANKEY_NODES.findIndex((n) => n.name === name)) % 16) + 1})`;
+// Per-node palette built the canonical way — `Chart.categoricalConfig` keys the
+// 16-colour ramp by node name, so links can inherit their source node's hue and
+// the Container gets a real `config` (node names contain spaces, so colour is
+// read from the config value, never a `var(--color-<name>)` custom property).
+const sankeyConfig: ChartConfig = Chart.categoricalConfig(SANKEY_NODES, 'name');
+const sankeyColor = (name: string): string => sankeyConfig[name]?.color ?? 'var(--eidra-chart-1)';
 
 const sankeyMsek = (v: number) => `${Math.round(v)} MSEK`;
 
@@ -2240,41 +2242,15 @@ function renderSankeyLink() {
   };
 }
 
-const sankeyTooltipBox: CSSProperties = {
-  minWidth: 160,
-  padding: 'var(--eidra-space-2) var(--eidra-space-3)',
-  background: 'var(--eidra-surface)',
-  border: '1px solid var(--eidra-border)',
-  borderRadius: 'var(--eidra-radius-md)',
-  boxShadow: 'var(--eidra-shadow-md)',
-  fontSize: 'var(--eidra-font-size-xs)',
-  color: 'var(--eidra-fg)',
-  fontFamily: 'var(--eidra-font-family-sans)',
-};
-const sankeyTipRow: CSSProperties = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  gap: 'var(--eidra-space-3)',
-};
-const sankeyTipName: CSSProperties = { color: 'var(--eidra-fg-muted)' };
-const sankeyTipVal: CSSProperties = {
-  fontFamily: 'var(--eidra-font-family-mono)',
-  fontVariantNumeric: 'tabular-nums',
-  fontWeight: 600,
-};
-
-// Themed tooltip handling both hovers. Recharts wraps the Sankey tooltip entry as
-// `{ name, value, payload: <node|link data> }`, so the node/link object is one level
-// in. A link's `source`/`target` are node objects post-layout; a node has neither.
-function SankeyTooltip(props: {
-  active?: boolean;
-  payload?: Array<{ payload?: any }>;
-}): ReactElement | null {
-  const { active, payload } = props;
-  const top = payload?.[0]?.payload;
-  if (!active || !top) return null;
-  const inner = top.payload ?? top; // the node or link data
-  const value = Number(top.value ?? inner.value);
+// Derive tooltip rows from the hovered datum, routed through the shared
+// `Chart.TooltipContent` shell via its `rows` override (no bespoke tooltip).
+// Recharts wraps the Sankey entry as `{ name, value, payload: <node|link> }`, so
+// the node/link object is one level in. A link's `source`/`target` are node objects
+// post-layout (a node has neither) — that's how we tell them apart.
+function sankeyRows(top: any): Array<{ label?: ReactNode; value?: ReactNode; color?: string }> {
+  if (!top) return [];
+  const inner = top.payload ?? top;
+  const value = Number(top.value ?? inner?.value);
   const isLink = inner && inner.source != null && inner.target != null && typeof inner.source === 'object';
   if (isLink) {
     const srcName: string = inner.source.name;
@@ -2282,33 +2258,13 @@ function SankeyTooltip(props: {
     const srcIdx = SANKEY_NODES.findIndex((n) => n.name === srcName);
     const outTotal = SANKEY_LINKS.filter((l) => l.source === srcIdx).reduce((a, l) => a + l.value, 0);
     const share = outTotal ? Math.round((value / outTotal) * 100) : 0;
-    return (
-      <div style={sankeyTooltipBox}>
-        <div style={{ fontWeight: 600, marginBlockEnd: 'var(--eidra-space-1-5)' }}>
-          {srcName} → {tgtName}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
-          <div style={sankeyTipRow}>
-            <span style={sankeyTipName}>value</span>
-            <span style={sankeyTipVal}>{sankeyMsek(value)}</span>
-          </div>
-          <div style={sankeyTipRow}>
-            <span style={sankeyTipName}>share</span>
-            <span style={sankeyTipVal}>{share}%</span>
-          </div>
-        </div>
-      </div>
-    );
+    return [
+      { label: `${srcName} → ${tgtName}`, value: sankeyMsek(value), color: sankeyColor(srcName) },
+      { label: 'share', value: `${share}%` },
+    ];
   }
-  return (
-    <div style={sankeyTooltipBox}>
-      <div style={{ fontWeight: 600, marginBlockEnd: 'var(--eidra-space-1-5)' }}>{top.name ?? inner.name}</div>
-      <div style={sankeyTipRow}>
-        <span style={sankeyTipName}>throughput</span>
-        <span style={sankeyTipVal}>{sankeyMsek(value)}</span>
-      </div>
-    </div>
-  );
+  const name: string = top.name ?? inner?.name;
+  return [{ label: name, value: sankeyMsek(value), color: sankeyColor(name) }];
 }
 
 interface SankeyArgs {
@@ -2324,9 +2280,9 @@ interface SankeyArgs {
  * → {Personnel, Other cost, EBITDA}**. Recharts owns the layout; the kit re-exports
  * `Chart.Sankey` raw and the theming is composed here — a per-node palette (`sankeyColor`,
  * keyed by node name), source-tinted translucent links (brightening on hover via CSS),
- * always-on node labels placed off the ribbons, and a themed `SankeyTooltip` that shows
- * a node's throughput or a link's `source → target`, value and **% of the source's
- * outflow**. Links reference nodes by array index (`{ source, target, value }`); keep the
+ * always-on node labels placed off the ribbons, and the shared `Chart.TooltipContent`
+ * (via its `rows` override) showing a node's throughput or a link's `source → target`,
+ * value and **% of the source's outflow**. Links reference nodes by array index (`{ source, target, value }`); keep the
  * values conserved per stage. Use the controls for **nodePadding**, **nodeWidth**,
  * **linkCurvature** and to toggle inline **values**.
  */
@@ -2342,7 +2298,7 @@ export const Sankey: StoryObj<SankeyArgs> = {
   render: ({ nodePadding, nodeWidth, linkCurvature, showValues }) => (
     <div style={{ maxWidth: 760 }}>
       <style>{`.eidra-sankey-link{transition:stroke-opacity .15s ease}.eidra-sankey-link:hover{stroke-opacity:.6}`}</style>
-      <Chart.Container config={{}} style={{ height: 420 }} aria-label="Revenue flow: region to net revenue to cost and EBITDA">
+      <Chart.Container config={sankeyConfig} style={{ height: 420 }} aria-label="Revenue flow: region to net revenue to cost and EBITDA">
         <Chart.Sankey
           data={SANKEY_DATA}
           nodePadding={nodePadding}
@@ -2352,7 +2308,7 @@ export const Sankey: StoryObj<SankeyArgs> = {
           link={renderSankeyLink() as ComponentProps<typeof Chart.Sankey>['link']}
           margin={{ top: 16, right: 96, bottom: 16, left: 112 }}
         >
-          <Chart.Tooltip content={<SankeyTooltip />} />
+          <Chart.Tooltip content={<Chart.TooltipContent hideLabel rows={sankeyRows} />} />
         </Chart.Sankey>
       </Chart.Container>
     </div>
