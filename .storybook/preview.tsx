@@ -24,12 +24,17 @@ const withTheme: Decorator = (Story, context) => {
 };
 
 const preview: Preview = {
+  // Default the a11y addon to manual mode: don't auto-run axe (and outline
+  // elements on the canvas) every time a story opens — run it on demand from the
+  // Accessibility panel. `manual` is an addon *global* (not a parameter); users can
+  // still toggle it per session. The Vitest/CI run is unaffected — that's the
+  // separate `parameters.a11y.test` setting below.
+  initialGlobals: { a11y: { manual: true } },
   parameters: {
     layout: 'fullscreen',
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-    // Report accessibility violations as warnings in the test run rather than failing it.
-    // The a11y addon still surfaces every violation in the Storybook UI; 'todo' keeps
-    // them visible without turning each into a hard Vitest failure.
+    // In the Vitest/CI run, report accessibility violations as warnings, not hard
+    // failures (independent of the manual auto-run setting above).
     a11y: { test: 'todo' },
   },
   globalTypes: {
