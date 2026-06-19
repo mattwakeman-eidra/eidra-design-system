@@ -59,6 +59,7 @@ export const WithIconsAndTones: Story = {
         icon: <Icon icon={FileText} size="sm" />,
       },
     ],
+    orientation: 'vertical',
   },
 };
 
