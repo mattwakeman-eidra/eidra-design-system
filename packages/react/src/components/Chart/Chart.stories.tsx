@@ -1214,19 +1214,28 @@ const REGION_COLORS = ['var(--eidra-chart-1)', 'var(--eidra-chart-2)', 'var(--ei
 function enrich(node: OrgRaw, id: string, fill: string): SunburstData {
   const children = node.children?.map((c) => enrich(c, `${id}/${c.name}`, fill));
   const value = children ? children.reduce((sum, c) => sum + (c.value ?? 0), 0) : (node.value ?? 0);
-  return { name: node.name, id, fill, value, ...(children ? { children } : {}) };
+  // `name` is the *unique path id* so SunburstChart's sector `key` (recharts
+  // hardcodes it to `name`) doesn't collide across branches that repeat a
+  // capability (e.g. "Advisory" under every region). The human label is `label`;
+  // arcs show `value` (dataKey), tooltip/detail read `label`.
+  return { name: id, label: node.name, id, fill, value, ...(children ? { children } : {}) };
 }
 
 const ORG_TREE: SunburstData = (() => {
   const regions = ORG_RAW.children!.map((r, i) => enrich(r, `Global/${r.name}`, REGION_COLORS[i % REGION_COLORS.length]!));
   return {
     name: 'Global',
+    label: 'Global',
     id: 'Global',
     fill: 'var(--eidra-fg-subtle)',
     value: regions.reduce((sum, r) => sum + (r.value ?? 0), 0),
     children: regions,
   };
 })();
+
+/** Clean display label for an enriched node (falls back to the path id). */
+const orgLabel = (n: SunburstData): string =>
+  String((n as { label?: string }).label ?? n.name);
 
 function findById(node: SunburstData, id: string): SunburstData | null {
   if (node.id === id) return node;
@@ -1251,7 +1260,7 @@ function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) 
         minWidth: 220,
       }}
     >
-      <div style={{ fontWeight: 700 }}>{node.name}</div>
+      <div style={{ fontWeight: 700 }}>{orgLabel(node)}</div>
       <div style={{ color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-xs)', marginBottom: 'var(--eidra-space-3)' }}>
         {fmt(nodeValue)} · {Math.round((nodeValue / total) * 100)}% of global
       </div>
@@ -1260,7 +1269,7 @@ function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) 
           {node.children.map((c) => (
             <div key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
               <span aria-hidden style={{ width: 10, height: 10, borderRadius: 'var(--eidra-radius-full)', background: c.fill, flex: 'none' }} />
-              <span style={{ flex: 1 }}>{c.name}</span>
+              <span style={{ flex: 1 }}>{orgLabel(c)}</span>
               <span style={{ fontVariantNumeric: 'tabular-nums', color: 'var(--eidra-fg-muted)' }}>{fmt(c.value ?? 0)}</span>
               <span style={{ fontVariantNumeric: 'tabular-nums', width: 40, textAlign: 'right' }}>
                 {Math.round(((c.value ?? 0) / (nodeValue || 1)) * 100)}%
@@ -1316,7 +1325,7 @@ const DrillChart = memo(function DrillChart({
   onHover: (id: string | null) => void;
 }) {
   return (
-    <ResponsiveBox height={320} ariaLabel={`Org breakdown, focused on ${rootData.name}`}>
+    <ResponsiveBox height={320} ariaLabel={`Org breakdown, focused on ${orgLabel(rootData)}`}>
       {(w, h) => (
         <Chart.SunburstChart
           // Remount on drill: SunburstChart leaves stale sectors behind when its
@@ -1326,7 +1335,7 @@ const DrillChart = memo(function DrillChart({
           height={h}
           data={rootData}
           dataKey="value"
-          nameKey="name"
+          nameKey="label"
           stroke="var(--eidra-surface)"
           padding={2}
           ringPadding={2}
@@ -1345,7 +1354,7 @@ const DrillChart = memo(function DrillChart({
             content={
               <Chart.TooltipContent
                 hideLabel
-                rows={(d: SunburstData) => [{ label: d?.name, value: fmt(d?.value ?? 0), color: d?.fill }]}
+                rows={(d: SunburstData) => [{ label: d ? orgLabel(d) : undefined, value: fmt(d?.value ?? 0), color: d?.fill }]}
               />
             }
           />
