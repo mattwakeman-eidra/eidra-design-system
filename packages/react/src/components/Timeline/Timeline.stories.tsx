@@ -1,11 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Icon, CheckCircle, FileText, MessageSquare, XCircle } from '@eidra/icons';
+import { Icon, AlertTriangle, CheckCircle, FileText, MessageSquare, XCircle } from '@eidra/icons';
 import { Timeline } from './Timeline.js';
 
 const meta = {
   title: 'Data Display/Timeline',
   component: Timeline,
   tags: ['autodocs'],
+  argTypes: {
+    orientation: {
+      control: 'inline-radio',
+      options: ['vertical', 'horizontal'],
+      description:
+        'Layout direction — `vertical` stacks the feed; `horizontal` runs items along a rail.',
+    },
+    // Array of objects holding JSX icons — not editable as a control.
+    items: { control: false },
+  },
+  args: {
+    orientation: 'vertical',
+  },
 } satisfies Meta<typeof Timeline>;
 
 export default meta;
@@ -45,6 +58,14 @@ export const WithIconsAndTones: Story = {
       },
       {
         id: 3,
+        title: 'Approval expiring soon',
+        timestamp: '2h ago',
+        tone: 'warning',
+        icon: <Icon icon={AlertTriangle} size="sm" />,
+        description: 'Sign off before end of day to avoid re-review.',
+      },
+      {
+        id: 4,
         title: 'Rejected',
         timestamp: '3h ago',
         tone: 'danger',
@@ -52,7 +73,7 @@ export const WithIconsAndTones: Story = {
         description: 'Missing PO number.',
       },
       {
-        id: 4,
+        id: 5,
         title: 'Draft created',
         timestamp: '12 Jun 2026',
         tone: 'default',

@@ -144,6 +144,58 @@ function buildColumns(
   ];
 }
 
+/**
+ * **Playground.** Exercise the grid's scalar layout/theming props from the
+ * controls panel against a fixed flat fixture (the columns/data/render props are
+ * authored in code, not from controls). Toggle `accent`, `density`,
+ * `totalsPlacement`, `tableLayout`, and `showFooter`.
+ */
+const PLAYGROUND_COLUMNS: DataGridColumnDef<ForecastRow>[] = [
+  { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 180, sortable: true },
+  { id: 'opco', header: 'Opco', accessor: (r) => r.opco, width: 140, sortable: true },
+  { id: 'owner', header: 'Owner', accessor: (r) => r.owner, width: 160 },
+  { id: 'jan', header: 'Jan', numeric: true, width: 100, accessor: (r) => r.months.Jan?.total ?? null, footer: (rows) => sum(rows, 'Jan', 'total') },
+  { id: 'feb', header: 'Feb', numeric: true, width: 100, accessor: (r) => r.months.Feb?.total ?? null, footer: (rows) => sum(rows, 'Feb', 'total') },
+  { id: 'mar', header: 'Mar', numeric: true, width: 100, accessor: (r) => r.months.Mar?.total ?? null, footer: (rows) => sum(rows, 'Mar', 'total') },
+];
+
+export const Playground: Story = {
+  // Whitelist only the scalar layout/theming knobs — re-enabling *all* controls would
+  // expose `columns`/`data`/`getRowId` (arrays + functions) as object editors, which crash.
+  parameters: {
+    controls: {
+      include: ['accent', 'density', 'totalsPlacement', 'tableLayout', 'showFooter'],
+    },
+  },
+  argTypes: {
+    accent: { control: 'inline-radio', options: ['brand', 'finance'] },
+    density: { control: 'inline-radio', options: ['comfortable', 'compact'] },
+    totalsPlacement: { control: 'inline-radio', options: ['bottom', 'top'] },
+    tableLayout: { control: 'inline-radio', options: ['auto', 'fixed'] },
+    showFooter: { control: 'boolean' },
+  },
+  args: {
+    accent: 'brand',
+    density: 'comfortable',
+    totalsPlacement: 'bottom',
+    tableLayout: 'auto',
+    showFooter: true,
+  },
+  render: (args) => (
+    <div style={{ height: 360 }}>
+      <DataGrid<ForecastRow>
+        {...args}
+        aria-label="Playground"
+        columns={PLAYGROUND_COLUMNS}
+        data={SAMPLE}
+        getRowId={(r) => r.id}
+        getSubRows={(r) => r.children}
+        getRowSearchText={(r) => `${r.client} ${r.opco} ${r.owner}`}
+      />
+    </div>
+  ),
+};
+
 /** Full forecast-style grid: grouped header, pinned columns, sort, expandable rows, totals, inline edit. */
 export const ForecastGrid: Story = {
   render: () => {

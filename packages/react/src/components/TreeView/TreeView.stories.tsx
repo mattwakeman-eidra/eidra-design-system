@@ -17,6 +17,12 @@ const meta = {
   args: {
     'aria-label': 'Tree',
   },
+  argTypes: {
+    // Tree of objects holding JSX icons (and menu render fns) — not editable as a control.
+    items: { control: false },
+    defaultExpandedIds: { control: false },
+    expandedIds: { control: false },
+  },
 } satisfies Meta<typeof TreeView>;
 
 export default meta;

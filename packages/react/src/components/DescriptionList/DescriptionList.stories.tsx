@@ -16,6 +16,8 @@ const meta = {
   argTypes: {
     orientation: { control: 'inline-radio', options: ['horizontal', 'vertical'] },
     columns: { control: { type: 'number', min: 1, max: 4 } },
+    // Array of objects — not editable as a control.
+    items: { control: false },
   },
 } satisfies Meta<typeof DescriptionList>;
 

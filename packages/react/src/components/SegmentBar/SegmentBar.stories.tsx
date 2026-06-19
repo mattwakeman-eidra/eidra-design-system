@@ -1,22 +1,44 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SegmentBar } from './SegmentBar.js';
 
-const meta = {
-  title: 'Data Display/SegmentBar',
-  component: SegmentBar,
-  tags: ['autodocs'],
-  parameters: { layout: 'padded' },
-  args: { segments: [] },
-} satisfies Meta<typeof SegmentBar>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
 const REVENUE = [
   { value: 11.5, label: 'Actuals' },
   { value: 6.7, label: 'Sold' },
   { value: 3.4, label: 'Hi-prob' },
 ];
+
+const meta = {
+  title: 'Data Display/SegmentBar',
+  component: SegmentBar,
+  tags: ['autodocs'],
+  parameters: { layout: 'padded' },
+  args: {
+    segments: REVENUE,
+    size: 'md',
+    showLabels: false,
+    showLegend: false,
+  },
+  argTypes: {
+    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    showLabels: { control: 'boolean' },
+    showLegend: { control: 'boolean' },
+    // Arrays of objects — driven by fixtures, not editable as controls.
+    segments: { control: false },
+    markers: { control: false },
+  },
+} satisfies Meta<typeof SegmentBar>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/** Live-editable control. Tweak `size`, `showLabels`, and `showLegend` from the controls. */
+export const Playground: Story = {
+  render: (args) => (
+    <div style={{ maxWidth: 560 }}>
+      <SegmentBar {...args} />
+    </div>
+  ),
+};
 
 /** The Graphs hero KPI: revenue composition with inline labels and a legend. */
 export const RevenueComposition: Story = {
