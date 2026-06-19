@@ -1,7 +1,30 @@
 import React from 'react';
 import type { Preview, Decorator } from '@storybook/react-vite';
+import {
+  Title,
+  Subtitle,
+  Description,
+  Primary,
+  Controls,
+  Stories,
+} from '@storybook/addon-docs/blocks';
 import { ThemeProvider } from '@eidra/react';
 import '@eidra/tokens/fonts.css';
+
+// Custom autodocs page: the default template repeats the first story — once as
+// the top `Primary` preview and again in the `Stories` list — which reads as a
+// duplicate (most obvious on trigger-only components like Dialog/Toast). Render
+// the same blocks but exclude the primary from the Stories list.
+const AutodocsPage = () => (
+  <>
+    <Title />
+    <Subtitle />
+    <Description />
+    <Primary />
+    <Controls />
+    <Stories includePrimary={false} />
+  </>
+);
 
 const withTheme: Decorator = (Story, context) => {
   const theme = (context.globals.theme as 'light' | 'dark') ?? 'light';
@@ -44,6 +67,7 @@ const preview: Preview = {
     // In the Vitest/CI run, report accessibility violations as warnings, not hard
     // failures (independent of the manual auto-run setting above).
     a11y: { test: 'todo' },
+    docs: { page: AutodocsPage },
   },
   globalTypes: {
     theme: {
