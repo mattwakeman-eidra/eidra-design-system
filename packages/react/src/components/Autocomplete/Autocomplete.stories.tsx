@@ -181,7 +181,7 @@ export const TriggerAndKeyboard: Story = {
 
     await step('Escape closes a reopened popup', async () => {
       await userEvent.click(trigger);
-      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'true'));
       await userEvent.keyboard('{Escape}');
       await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
       await waitFor(() => expect(screen.queryByRole('option')).toBeNull());
