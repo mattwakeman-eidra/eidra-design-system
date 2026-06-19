@@ -1333,6 +1333,214 @@ export const Dumbbell: StoryObj<DumbbellArgs> = {
   ),
 };
 
+// ── Waterfall: cumulative build-up to a Total bar (deck p.7) ─────────────────
+// Reproduces "Net Revenue & EBITDA Build-up": four waterfalls where regional
+// contributions stack up cumulatively to a black "Total" bar. The waterfall is a
+// stacked BarChart of two bars sharing one stackId: an invisible `base` (the
+// running cumulative start) and a visible `delta` (the step's contribution). The
+// final "Total" step has base 0 and delta = the full sum, drawn in --eidra-fg
+// (black). `base` is fill="transparent" and excluded from the tooltip.
+interface WaterfallStep {
+  label: string;
+  /** Positive contribution for this step (MSEK). The Total step's value is the running sum. */
+  value: number;
+  /** The black summary bar (base 0, full-height) rather than an incremental step. */
+  isTotal?: boolean;
+}
+
+interface WaterfallBar {
+  label: string;
+  base: number; // transparent riser — the cumulative start of this step
+  delta: number; // visible segment — this step's contribution (or the full total)
+  value: number; // the step's own number, for the label/tooltip
+  isTotal: boolean;
+}
+
+// Turn ordered steps into stacked [base, delta] bars. Each contribution starts
+// where the previous one ended; the Total bar sits on 0 and spans the whole sum.
+function toWaterfall(steps: WaterfallStep[]): WaterfallBar[] {
+  let running = 0;
+  return steps.map((s) => {
+    if (s.isTotal) {
+      return { label: s.label, base: 0, delta: running, value: running, isTotal: true };
+    }
+    const bar: WaterfallBar = { label: s.label, base: running, delta: s.value, value: s.value, isTotal: false };
+    running += s.value;
+    return bar;
+  });
+}
+
+// Each waterfall: regional contributions (+ a Global adjustment for EBITDA),
+// closed by a Total step whose value toWaterfall fills from the running sum.
+const NET_REVENUE_MONTH: WaterfallStep[] = [
+  { label: 'Sweden', value: 42 },
+  { label: 'Norway', value: 18 },
+  { label: 'Netherlands', value: 13 },
+  { label: 'DACH', value: 21 },
+  { label: 'USA', value: 16 },
+  { label: 'Total', value: 0, isTotal: true },
+];
+
+const NET_REVENUE_YTD: WaterfallStep[] = [
+  { label: 'Sweden', value: 248 },
+  { label: 'Norway', value: 104 },
+  { label: 'Netherlands', value: 76 },
+  { label: 'DACH', value: 122 },
+  { label: 'USA', value: 91 },
+  { label: 'Total', value: 0, isTotal: true },
+];
+
+const EBITDA_MONTH: WaterfallStep[] = [
+  { label: 'Sweden', value: 9 },
+  { label: 'Norway', value: 4 },
+  { label: 'Netherlands', value: 2 },
+  { label: 'DACH', value: 5 },
+  { label: 'USA', value: 3 },
+  { label: 'Global', value: 1 },
+  { label: 'Total', value: 0, isTotal: true },
+];
+
+const EBITDA_YTD: WaterfallStep[] = [
+  { label: 'Sweden', value: 54 },
+  { label: 'Norway', value: 22 },
+  { label: 'Netherlands', value: 14 },
+  { label: 'DACH', value: 29 },
+  { label: 'USA', value: 18 },
+  { label: 'Global', value: 6 },
+  { label: 'Total', value: 0, isTotal: true },
+];
+
+// Region → categorical chart token, applied per-bar via <Chart.Cell>; the Total
+// bar uses --eidra-fg (black). The EBITDA "Global" adjustment step is tinted with
+// --eidra-finance-comparison to read as a reconciliation rather than a region.
+const WATERFALL_REGION_COLORS: Record<string, string> = {
+  Sweden: 'var(--eidra-chart-1)',
+  Norway: 'var(--eidra-chart-2)',
+  Netherlands: 'var(--eidra-chart-3)',
+  DACH: 'var(--eidra-chart-4)',
+  USA: 'var(--eidra-chart-5)',
+  Global: 'var(--eidra-finance-comparison)',
+};
+
+const waterfallConfig: ChartConfig = {
+  delta: { label: 'Contribution', color: 'var(--eidra-chart-1)' },
+};
+
+const msek = (v: number | string | undefined) => `${Number(v)} MSEK`;
+
+// Tooltip for a waterfall step. The kit's TooltipContent would also render the
+// transparent `base` riser as a row, so use a tiny dedicated tooltip (cf.
+// DumbbellTooltip) that shows only the step's own value and its cumulative total.
+interface WaterfallTooltipProps {
+  active?: boolean;
+  payload?: Array<{ payload: WaterfallBar }>;
+}
+function WaterfallTooltip({ active, payload }: WaterfallTooltipProps) {
+  if (!active || !payload?.length) return null;
+  const d = payload[0]!.payload;
+  const cumulative = d.isTotal ? d.value : d.base + d.delta;
+  return (
+    <div
+      style={{
+        background: 'var(--eidra-surface)',
+        border: '1px solid var(--eidra-border)',
+        borderRadius: 'var(--eidra-radius-md)',
+        boxShadow: 'var(--eidra-shadow-md)',
+        padding: 'var(--eidra-space-2) var(--eidra-space-3)',
+        font: 'var(--eidra-font-size-xs)/1.5 var(--eidra-font-family-sans)',
+        color: 'var(--eidra-fg)',
+      }}
+    >
+      <div style={{ fontWeight: 600, marginBottom: 'var(--eidra-space-1)' }}>{d.label}</div>
+      <div style={{ fontVariantNumeric: 'tabular-nums' }}>
+        {d.isTotal ? 'Total' : 'Contribution'}: {msek(d.value)}
+      </div>
+      {!d.isTotal && (
+        <div style={{ color: 'var(--eidra-fg-muted)', fontVariantNumeric: 'tabular-nums' }}>
+          Cumulative: {msek(cumulative)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// One waterfall panel. The transparent `base` bar is rendered first (so the
+// visible `delta` floats on top of it); WaterfallTooltip reads the shared row
+// payload, so only the step's own contribution + cumulative show on hover.
+function WaterfallPanel({ title, steps }: { title: string; steps: WaterfallStep[] }) {
+  const data = toWaterfall(steps);
+  return (
+    <div
+      style={{
+        padding: 'var(--eidra-space-3)',
+        border: '1px solid var(--eidra-border)',
+        borderRadius: 'var(--eidra-radius-lg)',
+        background: 'var(--eidra-surface)',
+      }}
+    >
+      <div
+        style={{
+          marginBottom: 'var(--eidra-space-2)',
+          font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.06em',
+          color: 'var(--eidra-fg-muted)',
+        }}
+      >
+        {title}
+      </div>
+      <Chart.Container config={waterfallConfig} style={{ height: 240 }} aria-label={title}>
+        <Chart.BarChart data={data} margin={{ top: 20, right: 8, bottom: 0, left: 0 }}>
+          <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+          <Chart.XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} interval={0} />
+          <Chart.YAxis tickLine={false} axisLine={false} width={40} tick={{ fontSize: 11 }} />
+          <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<WaterfallTooltip />} />
+          {/* Invisible riser: lifts each delta to its cumulative start. The
+              dedicated WaterfallTooltip reads the row's payload, so the base
+              never shows as its own tooltip row. */}
+          <Chart.Bar {...Chart.seriesDefaults} dataKey="base" stackId="wf" fill="transparent" />
+          <Chart.Bar {...Chart.seriesDefaults} dataKey="delta" stackId="wf" radius={[3, 3, 0, 0]}>
+            {data.map((d) => (
+              <Chart.Cell
+                key={d.label}
+                fill={d.isTotal ? 'var(--eidra-fg)' : (WATERFALL_REGION_COLORS[d.label] ?? 'var(--eidra-chart-1)')}
+              />
+            ))}
+            <Chart.LabelList dataKey="value" position="top" fontSize={11} formatter={(v) => String(Number(v))} />
+          </Chart.Bar>
+        </Chart.BarChart>
+      </Chart.Container>
+    </div>
+  );
+}
+
+/**
+ * **Waterfall** — cumulative build-up to a Total bar, the canonical monthly-deck
+ * "Net Revenue & EBITDA Build-up" (a 2×2 grid of four waterfalls). Each regional
+ * contribution stacks onto the running cumulative total; the final black `--eidra-fg`
+ * bar is the sum. Built from a stacked `BarChart` of two bars sharing one `stackId`:
+ * a transparent `base` riser (the cumulative start) and a visible `delta` segment
+ * (the step's value, or the full total). Per-step colour via `<Chart.Cell>`, value
+ * labels via `<Chart.LabelList>`.
+ */
+export const Waterfall: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gap: 'var(--eidra-space-4)',
+        maxWidth: 880,
+      }}
+    >
+      <WaterfallPanel title="Net Revenue — Month (MSEK)" steps={NET_REVENUE_MONTH} />
+      <WaterfallPanel title="Net Revenue — YTD (MSEK)" steps={NET_REVENUE_YTD} />
+      <WaterfallPanel title="EBITDA — Month (MSEK)" steps={EBITDA_MONTH} />
+      <WaterfallPanel title="EBITDA — YTD (MSEK)" steps={EBITDA_YTD} />
+    </div>
+  ),
+};
+
 // A small labelled card wrapper for the mini gallery.
 function MiniCard({ title, children }: { title: string; children: ReactNode }) {
   return (
