@@ -18,7 +18,6 @@ const meta = {
 } satisfies Meta<typeof Chart.Container>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
 // ── Synthetic forecast data (no real invoicing data) ────────────────────────
 interface MonthDatum {
@@ -55,10 +54,27 @@ const fmt = (v: number | string | undefined) => formatCompactCurrency(Number(v) 
 /**
  * **Composed** (`ComposedChart`) — stacked revenue bars + budget step line + dashed
  * LY line, themed tooltip, toggleable legend, dimmed closed months. (Used by Sold &
- * Forecast.)
+ * Forecast.) Use the controls to toggle the grid, the legend, the budget step line,
+ * and the dashed last-year line. (The interactive legend still toggles each stacked
+ * series on click.)
  */
-export const Composed: Story = {
-  render: () => {
+interface ComposedArgs {
+  showGrid: boolean;
+  showLegend: boolean;
+  showBudgetLine: boolean;
+  showLastYearLine: boolean;
+}
+
+export const Composed: StoryObj<ComposedArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showGrid: { control: 'boolean' },
+    showLegend: { control: 'boolean' },
+    showBudgetLine: { control: 'boolean' },
+    showLastYearLine: { control: 'boolean' },
+  },
+  args: { showGrid: true, showLegend: true, showBudgetLine: true, showLastYearLine: true },
+  render: ({ showGrid, showLegend, showBudgetLine, showLastYearLine }) => {
     const [hidden, setHidden] = useState<string[]>([]);
     const toggle = (key: string) =>
       setHidden((h) => (h.includes(key) ? h.filter((k) => k !== key) : [...h, key]));
@@ -67,7 +83,7 @@ export const Composed: Story = {
     return (
       <Chart.Container config={config} style={{ height: 360, maxWidth: 760 }}>
         <Chart.ComposedChart data={DATA} margin={{ top: 20, right: 12, bottom: 0, left: 4 }}>
-          <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+          {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
           <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
           <Chart.YAxis
             tickLine={false}
@@ -99,24 +115,28 @@ export const Composed: Story = {
               formatter={(v) => formatCompactCurrency(Number(v) * 1000)}
             />
           </Chart.Bar>
-          <Chart.Line {...Chart.seriesDefaults}
-            dataKey="ly"
-            type="monotone"
-            stroke="var(--color-ly)"
-            strokeWidth={1.5}
-            strokeDasharray="4 3"
-            dot={false}
-            hide={isHidden('ly')}
-          />
-          <Chart.Line {...Chart.seriesDefaults}
-            dataKey="budget"
-            type="step"
-            stroke="var(--color-budget)"
-            strokeWidth={2.5}
-            dot={false}
-            hide={isHidden('budget')}
-          />
-          <Chart.Legend content={<Chart.LegendContent hidden={hidden} onToggle={toggle} />} />
+          {showLastYearLine && (
+            <Chart.Line {...Chart.seriesDefaults}
+              dataKey="ly"
+              type="monotone"
+              stroke="var(--color-ly)"
+              strokeWidth={1.5}
+              strokeDasharray="4 3"
+              dot={false}
+              hide={isHidden('ly')}
+            />
+          )}
+          {showBudgetLine && (
+            <Chart.Line {...Chart.seriesDefaults}
+              dataKey="budget"
+              type="step"
+              stroke="var(--color-budget)"
+              strokeWidth={2.5}
+              dot={false}
+              hide={isHidden('budget')}
+            />
+          )}
+          {showLegend && <Chart.Legend content={<Chart.LegendContent hidden={hidden} onToggle={toggle} />} />}
         </Chart.ComposedChart>
       </Chart.Container>
     );
@@ -142,51 +162,115 @@ const trendConfig: ChartConfig = {
   target: { label: 'Target', color: 'var(--eidra-finance-comparison)' },
 };
 
-/** **Bars** (`BarChart`) — grouped bars comparing two series. */
-export const Bars: Story = {
-  render: () => (
+/**
+ * **Bars** (`BarChart`) — grouped bars comparing two series. Use the controls to
+ * toggle the grid, per-bar value labels (`LabelList`), and the legend.
+ */
+interface BarsArgs {
+  showGrid: boolean;
+  showLabels: boolean;
+  showLegend: boolean;
+}
+
+export const Bars: StoryObj<BarsArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showGrid: { control: 'boolean' },
+    showLabels: { control: 'boolean' },
+    showLegend: { control: 'boolean' },
+  },
+  args: { showGrid: true, showLabels: false, showLegend: true },
+  render: ({ showGrid, showLabels, showLegend }) => (
     <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
       <Chart.BarChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
         <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
         <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
         <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<Chart.TooltipContent formatter={fmt} />} />
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[3, 3, 0, 0]} />
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="target" fill="var(--color-target)" radius={[3, 3, 0, 0]} />
-        <Chart.Legend content={<Chart.LegendContent />} />
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[3, 3, 0, 0]}>
+          {showLabels && <Chart.LabelList dataKey="revenue" position="top" fontSize={11} formatter={(v) => fmt(Number(v))} />}
+        </Chart.Bar>
+        <Chart.Bar {...Chart.seriesDefaults} dataKey="target" fill="var(--color-target)" radius={[3, 3, 0, 0]}>
+          {showLabels && <Chart.LabelList dataKey="target" position="top" fontSize={11} formatter={(v) => fmt(Number(v))} />}
+        </Chart.Bar>
+        {showLegend && <Chart.Legend content={<Chart.LegendContent />} />}
       </Chart.BarChart>
     </Chart.Container>
   ),
 };
 
-/** **Line** (`LineChart`) — a trend line vs target. */
-export const Line: Story = {
-  render: () => (
+/**
+ * **Line** (`LineChart`) — a trend line vs target. Use the controls to switch the
+ * interpolation **curve** (monotone / linear / step), toggle the dots on the revenue
+ * line, toggle the grid, and show/hide the dashed target line.
+ */
+type Curve = 'monotone' | 'linear' | 'step';
+
+interface LineArgs {
+  curve: Curve;
+  showDots: boolean;
+  showGrid: boolean;
+  showTarget: boolean;
+}
+
+export const Line: StoryObj<LineArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    curve: { control: 'inline-radio', options: ['monotone', 'linear', 'step'] },
+    showDots: { control: 'boolean' },
+    showGrid: { control: 'boolean' },
+    showTarget: { control: 'boolean' },
+  },
+  args: { curve: 'monotone', showDots: true, showGrid: true, showTarget: true },
+  render: ({ curve, showDots, showGrid, showTarget }) => (
     <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
       <Chart.LineChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
         <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
         <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
-        <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" strokeWidth={2} dot={{ r: 3 }} />
-        <Chart.Line {...Chart.seriesDefaults} dataKey="target" type="monotone" stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+        <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type={curve} stroke="var(--color-revenue)" strokeWidth={2} dot={showDots ? { r: 3 } : false} />
+        {showTarget && (
+          <Chart.Line {...Chart.seriesDefaults} dataKey="target" type={curve} stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+        )}
         <Chart.Legend content={<Chart.LegendContent />} />
       </Chart.LineChart>
     </Chart.Container>
   ),
 };
 
-/** **Area** (`AreaChart`) — a filled trend with a target line. */
-export const Area: Story = {
-  render: () => (
+/**
+ * **Area** (`AreaChart`) — a filled trend with a target line. Use the controls to
+ * switch the interpolation **curve**, tune the area **fillOpacity**, toggle the grid,
+ * and show/hide the dashed target line.
+ */
+interface AreaArgs {
+  curve: Curve;
+  fillOpacity: number;
+  showGrid: boolean;
+  showTarget: boolean;
+}
+
+export const Area: StoryObj<AreaArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    curve: { control: 'inline-radio', options: ['monotone', 'linear', 'step'] },
+    fillOpacity: { control: { type: 'range', min: 0, max: 1, step: 0.05 } },
+    showGrid: { control: 'boolean' },
+    showTarget: { control: 'boolean' },
+  },
+  args: { curve: 'monotone', fillOpacity: 0.2, showGrid: true, showTarget: true },
+  render: ({ curve, fillOpacity, showGrid, showTarget }) => (
     <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
       <Chart.AreaChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
         <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
         <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
-        <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={0.2} strokeWidth={2} />
-        <Chart.Line {...Chart.seriesDefaults} dataKey="target" type="monotone" stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+        <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type={curve} stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={fillOpacity} strokeWidth={2} />
+        {showTarget && (
+          <Chart.Line {...Chart.seriesDefaults} dataKey="target" type={curve} stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+        )}
         <Chart.Legend content={<Chart.LegendContent />} />
       </Chart.AreaChart>
     </Chart.Container>
@@ -221,13 +305,29 @@ const fte = (v: number | string | undefined) => `${Number(v)} FTE`;
 /**
  * **Composed — bar + line** (`ComposedChart`) — actual (bars) vs demand (line)
  * against a budget **black step line**. Same kit, different domain: generic tokens,
- * FTE units. (Used by Headcount.)
+ * FTE units. (Used by Headcount.) Use the controls to toggle the grid, legend, the
+ * demand line, and the budget step line.
  */
-export const ComposedBarLine: Story = {
-  render: () => (
+interface ComposedBarLineArgs {
+  showGrid: boolean;
+  showLegend: boolean;
+  showDemandLine: boolean;
+  showBudgetLine: boolean;
+}
+
+export const ComposedBarLine: StoryObj<ComposedBarLineArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showGrid: { control: 'boolean' },
+    showLegend: { control: 'boolean' },
+    showDemandLine: { control: 'boolean' },
+    showBudgetLine: { control: 'boolean' },
+  },
+  args: { showGrid: true, showLegend: true, showDemandLine: true, showBudgetLine: true },
+  render: ({ showGrid, showLegend, showDemandLine, showBudgetLine }) => (
     <Chart.Container config={headcountConfig} style={{ height: 320, maxWidth: 640 }}>
       <Chart.ComposedChart data={HEADCOUNT} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
+        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
         <Chart.XAxis dataKey="period" tickLine={false} axisLine={false} />
         <Chart.YAxis tickLine={false} axisLine={false} width={40} />
         <Chart.Tooltip
@@ -235,15 +335,19 @@ export const ComposedBarLine: Story = {
           content={<Chart.TooltipContent formatter={fte} />}
         />
         <Chart.Bar {...Chart.seriesDefaults} dataKey="actual" fill="var(--color-actual)" radius={[3, 3, 0, 0]} barSize={28} />
-        <Chart.Line {...Chart.seriesDefaults}
-          dataKey="demand"
-          type="monotone"
-          stroke="var(--color-demand)"
-          strokeWidth={2}
-          dot={{ r: 3 }}
-        />
-        <Chart.Line {...Chart.seriesDefaults} dataKey="budget" type="step" stroke="var(--color-budget)" strokeWidth={2.5} dot={false} />
-        <Chart.Legend content={<Chart.LegendContent />} />
+        {showDemandLine && (
+          <Chart.Line {...Chart.seriesDefaults}
+            dataKey="demand"
+            type="monotone"
+            stroke="var(--color-demand)"
+            strokeWidth={2}
+            dot={{ r: 3 }}
+          />
+        )}
+        {showBudgetLine && (
+          <Chart.Line {...Chart.seriesDefaults} dataKey="budget" type="step" stroke="var(--color-budget)" strokeWidth={2.5} dot={false} />
+        )}
+        {showLegend && <Chart.Legend content={<Chart.LegendContent />} />}
       </Chart.ComposedChart>
     </Chart.Container>
   ),
@@ -434,13 +538,27 @@ const TIERS = ['small', 'mid', 'large', 'pillar'] as const;
  * **Bubble / Scatter** (`ScatterChart`) — client revenue (x) vs YoY growth (y) with
  * bubble size by total revenue (`ZAxis`), one series per size tier. Uses the same
  * themed `Chart.Container` config, `ReferenceLine`, tooltip, and legend. (Used by the
- * Client Dashboard.)
+ * Client Dashboard.) Use the controls to toggle the grid, toggle the zero-growth
+ * `ReferenceLine`, and scale the maximum bubble size (`ZAxis` range).
  */
-export const Bubble: Story = {
-  render: () => (
+interface BubbleArgs {
+  showGrid: boolean;
+  showZeroLine: boolean;
+  maxBubbleSize: number;
+}
+
+export const Bubble: StoryObj<BubbleArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showGrid: { control: 'boolean' },
+    showZeroLine: { control: 'boolean' },
+    maxBubbleSize: { control: { type: 'range', min: 300, max: 1200, step: 50 } },
+  },
+  args: { showGrid: true, showZeroLine: true, maxBubbleSize: 700 },
+  render: ({ showGrid, showZeroLine, maxBubbleSize }) => (
     <Chart.Container config={bubbleConfig} style={{ height: 380, maxWidth: 680 }}>
       <Chart.ScatterChart margin={{ top: 16, right: 16, bottom: 8, left: 4 }}>
-        <Chart.CartesianGrid strokeDasharray="4 4" />
+        {showGrid && <Chart.CartesianGrid strokeDasharray="4 4" />}
         <Chart.XAxis
           type="number"
           dataKey="revenue"
@@ -458,8 +576,8 @@ export const Bubble: Story = {
           tickLine={false}
           axisLine={false}
         />
-        <Chart.ZAxis type="number" dataKey="total" range={[80, 700]} name="Total" />
-        <Chart.ReferenceLine y={0} stroke="var(--eidra-border-strong)" strokeDasharray="2 2" />
+        <Chart.ZAxis type="number" dataKey="total" range={[80, maxBubbleSize]} name="Total" />
+        {showZeroLine && <Chart.ReferenceLine y={0} stroke="var(--eidra-border-strong)" strokeDasharray="2 2" />}
         <Chart.Tooltip
           cursor={{ strokeDasharray: '3 3' }}
           content={<Chart.TooltipContent hideLabel />}
@@ -508,17 +626,32 @@ const score = (v: number | string | undefined) => `${Number(v)} / 100`;
 /**
  * **Radar** (`RadarChart`) — multi-series radar comparing two teams across six
  * capability axes. Polar grid + angle/radius axes are themed via tokens; each
- * `Radar` uses a categorical chart colour with a translucent fill.
+ * `Radar` uses a categorical chart colour with a translucent fill. Use the controls
+ * to toggle the polar grid, tune the area **fillOpacity**, and show/hide the Product
+ * team series.
  */
-export const Radar: Story = {
-  render: () => (
+interface RadarArgs {
+  showGrid: boolean;
+  fillOpacity: number;
+  showProduct: boolean;
+}
+
+export const Radar: StoryObj<RadarArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showGrid: { control: 'boolean' },
+    fillOpacity: { control: { type: 'range', min: 0, max: 1, step: 0.05 } },
+    showProduct: { control: 'boolean' },
+  },
+  args: { showGrid: true, fillOpacity: 0.25, showProduct: true },
+  render: ({ showGrid, fillOpacity, showProduct }) => (
     <Chart.Container
       config={radarConfig}
       style={{ height: 360, maxWidth: 560 }}
       aria-label="Team capability assessment across six skills, comparing the Platform and Product teams"
     >
       <Chart.RadarChart data={CAPABILITY} margin={{ top: 16, right: 24, bottom: 16, left: 24 }}>
-        <Chart.PolarGrid />
+        {showGrid && <Chart.PolarGrid />}
         <Chart.PolarAngleAxis dataKey="skill" />
         {/* Keep the 0–100 scale numbers, but place them on the upper-right gap
             (angle 60°) between the Frontend and Backend spokes instead of straight
@@ -536,17 +669,19 @@ export const Radar: Story = {
           dataKey="platform"
           stroke="var(--color-platform)"
           fill="var(--color-platform)"
-          fillOpacity={0.25}
+          fillOpacity={fillOpacity}
           strokeWidth={2}
         />
-        <Chart.Radar
-          {...Chart.seriesDefaults}
-          dataKey="product"
-          stroke="var(--color-product)"
-          fill="var(--color-product)"
-          fillOpacity={0.25}
-          strokeWidth={2}
-        />
+        {showProduct && (
+          <Chart.Radar
+            {...Chart.seriesDefaults}
+            dataKey="product"
+            stroke="var(--color-product)"
+            fill="var(--color-product)"
+            fillOpacity={fillOpacity}
+            strokeWidth={2}
+          />
+        )}
         <Chart.Legend content={<Chart.LegendContent />} />
       </Chart.RadarChart>
     </Chart.Container>
@@ -587,9 +722,24 @@ const TOTAL_REVENUE = REVENUE_BY_LINE.reduce((sum, d) => sum + d.value, 0);
  * **Pie** (`PieChart`) — a categorical breakdown (revenue by business line). Each
  * slice maps to a theme-reactive categorical token (`--eidra-chart-N`) via
  * `<Chart.Cell>`; a thin `--eidra-surface` stroke separates slices in both themes.
+ * Use the controls to toggle per-slice labels, toggle the legend, and tune the
+ * **paddingAngle** gap between slices.
  */
-export const Pie: Story = {
-  render: () => (
+interface PieArgs {
+  showLabels: boolean;
+  showLegend: boolean;
+  paddingAngle: number;
+}
+
+export const Pie: StoryObj<PieArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showLabels: { control: 'boolean' },
+    showLegend: { control: 'boolean' },
+    paddingAngle: { control: { type: 'range', min: 0, max: 8, step: 1 } },
+  },
+  args: { showLabels: true, showLegend: true, paddingAngle: 2 },
+  render: ({ showLabels, showLegend, paddingAngle }) => (
     <Chart.Container
       config={pieConfig}
       style={{ height: 360, maxWidth: 520 }}
@@ -603,11 +753,14 @@ export const Pie: Story = {
           dataKey="value"
           nameKey="name"
           outerRadius="80%"
-          paddingAngle={2}
+          paddingAngle={paddingAngle}
           stroke="var(--eidra-surface)"
           strokeWidth={2}
-          label={({ name, percent }: { name?: string; percent?: number }) =>
-            `${name} · ${((percent ?? 0) * 100).toFixed(0)}%`
+          label={
+            showLabels
+              ? ({ name, percent }: { name?: string; percent?: number }) =>
+                  `${name} · ${((percent ?? 0) * 100).toFixed(0)}%`
+              : false
           }
           labelLine={false}
         >
@@ -615,7 +768,7 @@ export const Pie: Story = {
             <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
           ))}
         </Chart.Pie>
-        <Chart.Legend content={<Chart.LegendContent />} />
+        {showLegend && <Chart.Legend content={<Chart.LegendContent />} />}
       </Chart.PieChart>
     </Chart.Container>
   ),
@@ -624,10 +777,25 @@ export const Pie: Story = {
 /**
  * **Donut** (`PieChart` with `innerRadius`) — same breakdown as a donut with a
  * centred total. The centre label is an overlay (Recharts has no native one),
- * `aria-hidden` + `pointer-events:none` so it never blocks slice hover.
+ * `aria-hidden` + `pointer-events:none` so it never blocks slice hover. Use the
+ * controls to tune the donut **innerRadius** (hole size), the **paddingAngle** gap,
+ * and toggle the legend below the chart.
  */
-export const Donut: Story = {
-  render: () => (
+interface DonutArgs {
+  innerRadius: number;
+  paddingAngle: number;
+  showLegend: boolean;
+}
+
+export const Donut: StoryObj<DonutArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    innerRadius: { control: { type: 'range', min: 30, max: 75, step: 1 } },
+    paddingAngle: { control: { type: 'range', min: 0, max: 8, step: 1 } },
+    showLegend: { control: 'boolean' },
+  },
+  args: { innerRadius: 58, paddingAngle: 2, showLegend: true },
+  render: ({ innerRadius, paddingAngle, showLegend }) => (
     <div style={{ display: 'grid', gap: 'var(--eidra-space-4)', maxWidth: 520 }}>
       {/* Chart + centred total. The legend lives below (not inside the chart) so it
           no longer reserves space at the bottom and pushes the donut — and its
@@ -643,9 +811,9 @@ export const Donut: Story = {
               nameKey="name"
               cx="50%"
               cy="50%"
-              innerRadius="58%"
+              innerRadius={`${innerRadius}%`}
               outerRadius="82%"
-              paddingAngle={2}
+              paddingAngle={paddingAngle}
               cornerRadius={3}
               stroke="var(--eidra-surface)"
               strokeWidth={2}
@@ -689,31 +857,33 @@ export const Donut: Story = {
           </span>
         </div>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 'var(--eidra-space-3)',
-          justifyContent: 'center',
-          font: 'var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
-          color: 'var(--eidra-fg-muted)',
-        }}
-      >
-        {REVENUE_BY_LINE.map((d, i) => (
-          <span key={d.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
-            <span
-              aria-hidden
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 'var(--eidra-radius-full)',
-                background: `var(--eidra-chart-${i + 1})`,
-              }}
-            />
-            {d.name}
-          </span>
-        ))}
-      </div>
+      {showLegend && (
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 'var(--eidra-space-3)',
+            justifyContent: 'center',
+            font: 'var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+            color: 'var(--eidra-fg-muted)',
+          }}
+        >
+          {REVENUE_BY_LINE.map((d, i) => (
+            <span key={d.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+              <span
+                aria-hidden
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 'var(--eidra-radius-full)',
+                  background: `var(--eidra-chart-${i + 1})`,
+                }}
+              />
+              {d.name}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   ),
 };
@@ -827,10 +997,22 @@ const fmtSpend = (v: number | string | undefined) => formatCompactCurrency(Numbe
  * **Treemap** (`Treemap`) — hierarchical cloud spend (service category → service).
  * Each top-level category is coloured with an `--eidra-chart-N` token via a custom
  * node renderer; leaves inherit their category colour, tiles are separated by an
- * `--eidra-surface` stroke, and only large leaves are labelled.
+ * `--eidra-surface` stroke, and only large leaves are labelled. Use the controls to
+ * toggle leaf labels and tune the tile **aspectRatio** (tile proportions).
  */
-export const Treemap: Story = {
-  render: () => (
+interface TreemapArgs {
+  showLabels: boolean;
+  aspectRatio: number;
+}
+
+export const Treemap: StoryObj<TreemapArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showLabels: { control: 'boolean' },
+    aspectRatio: { control: { type: 'range', min: 0.5, max: 3, step: 0.1 } },
+  },
+  args: { showLabels: true, aspectRatio: 1.5 },
+  render: ({ showLabels, aspectRatio }) => (
     <Chart.Container
       config={spendConfig}
       style={{ height: 360, maxWidth: 680 }}
@@ -840,10 +1022,10 @@ export const Treemap: Story = {
         data={SPEND}
         dataKey="value"
         nameKey="name"
-        aspectRatio={1.5}
+        aspectRatio={aspectRatio}
         stroke="var(--eidra-surface)"
         {...Chart.seriesDefaults}
-        content={renderSpendNode(true)}
+        content={renderSpendNode(showLabels)}
       >
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmtSpend} />} />
       </Chart.Treemap>
@@ -947,9 +1129,24 @@ const BUDGET_TREE: SunburstData = {
  * `data` root, coloured per top-level branch with `--eidra-chart-N` (children
  * inherit), `--eidra-surface` segment separators, and `--eidra-fg` value labels.
  * The accessible name lives on the container (the chart takes no `aria-label`).
+ * Use the controls to toggle the value labels, tune the centre **innerRadius**, and
+ * adjust the **ringPadding** gap between rings.
  */
-export const Sunburst: Story = {
-  render: () => (
+interface SunburstArgs {
+  showLabels: boolean;
+  innerRadius: number;
+  ringPadding: number;
+}
+
+export const Sunburst: StoryObj<SunburstArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showLabels: { control: 'boolean' },
+    innerRadius: { control: { type: 'range', min: 0, max: 80, step: 2 } },
+    ringPadding: { control: { type: 'range', min: 0, max: 8, step: 1 } },
+  },
+  args: { showLabels: true, innerRadius: 36, ringPadding: 2 },
+  render: ({ showLabels, innerRadius, ringPadding }) => (
     // Sized via ResponsiveBox (numeric width/height) — SunburstChart needs real
     // pixels, not '100%' or ResponsiveContainer. Node fills are --eidra-chart-*
     // tokens from the ThemeProvider scope, so it doesn't need Chart.Container.
@@ -964,9 +1161,9 @@ export const Sunburst: Story = {
             nameKey="name"
             stroke="var(--eidra-surface)"
             padding={2}
-            ringPadding={2}
-            innerRadius={36}
-            textOptions={{ fill: 'var(--eidra-fg)', stroke: 'none', fontSize: 11 }}
+            ringPadding={ringPadding}
+            innerRadius={innerRadius}
+            textOptions={{ fill: showLabels ? 'var(--eidra-fg)' : 'transparent', stroke: 'none', fontSize: 11 }}
           >
             <Chart.Tooltip content={<Chart.TooltipContent hideLabel />} />
           </Chart.SunburstChart>
@@ -1084,10 +1281,24 @@ function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) 
  * slice to zoom into it (it becomes the centre); the breadcrumb navigates back up.
  * Hovering a slice updates the detail panel with that node's value, share, and
  * child breakdown — so the chart reveals more data on interaction without losing
- * the overview.
+ * the overview. Use the controls to toggle the breadcrumb (drill-path navigation)
+ * and the hover detail panel, while keeping the click-to-drill interaction.
  */
-export const Interactive: Story = {
-  render: () => <InteractiveSunburst />,
+interface InteractiveArgs {
+  showBreadcrumb: boolean;
+  showDetailPanel: boolean;
+}
+
+export const Interactive: StoryObj<InteractiveArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showBreadcrumb: { control: 'boolean' },
+    showDetailPanel: { control: 'boolean' },
+  },
+  args: { showBreadcrumb: true, showDetailPanel: true },
+  render: ({ showBreadcrumb, showDetailPanel }) => (
+    <InteractiveSunburst showBreadcrumb={showBreadcrumb} showDetailPanel={showDetailPanel} />
+  ),
 };
 
 // Memoised so hovering (which updates the detail panel via parent state) doesn't
@@ -1134,7 +1345,13 @@ const DrillChart = memo(function DrillChart({
   );
 });
 
-function InteractiveSunburst() {
+function InteractiveSunburst({
+  showBreadcrumb = true,
+  showDetailPanel = true,
+}: {
+  showBreadcrumb?: boolean;
+  showDetailPanel?: boolean;
+}) {
   const [rootId, setRootId] = useState('Global');
   const [hoverId, setHoverId] = useState<string | null>(null);
   // findById returns the same node object for a given id, so displayRoot is a stable
@@ -1151,6 +1368,7 @@ function InteractiveSunburst() {
   return (
     <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 720 }}>
       {/* Breadcrumb — each crumb zooms back to that level. */}
+      {showBreadcrumb && (
       <nav
         aria-label="Drill path"
         style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)', font: 'var(--eidra-font-size-sm)/1 var(--eidra-font-family-sans)' }}
@@ -1182,11 +1400,19 @@ function InteractiveSunburst() {
           );
         })}
       </nav>
+      )}
 
       {/* align-items: start so the detail panel resizing per hover doesn't shift the chart. */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 260px', gap: 'var(--eidra-space-4)', alignItems: 'start' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: showDetailPanel ? 'minmax(0, 1fr) 260px' : 'minmax(0, 1fr)',
+          gap: 'var(--eidra-space-4)',
+          alignItems: 'start',
+        }}
+      >
         <DrillChart rootData={displayRoot} rootId={rootId} onDrill={onDrill} onHover={onHover} />
-        <OrgDetailPanel node={focused} total={ORG_TREE.value ?? 1} />
+        {showDetailPanel && <OrgDetailPanel node={focused} total={ORG_TREE.value ?? 1} />}
       </div>
     </div>
   );
@@ -1732,14 +1958,28 @@ function MiniCard({ title, children }: { title: string; children: ReactNode }) {
 /**
  * **Minis** — every chart type at `size="sm"` for dashboard summary / sparkline
  * cards: compact height, trimmed axes, no legend. One mini per type so consumers
- * can drop any chart into a small card.
+ * can drop any chart into a small card. Use the controls to set the minimum card
+ * width (which drives how many columns the gallery wraps into) and to toggle leaf
+ * labels on the Treemap mini. (The other minis are deliberately label-free
+ * sparklines, so the label toggle only affects the Treemap.)
  */
-export const Minis: Story = {
-  render: () => (
+interface MinisArgs {
+  minCardWidth: number;
+  showTreemapLabels: boolean;
+}
+
+export const Minis: StoryObj<MinisArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    minCardWidth: { control: { type: 'range', min: 160, max: 360, step: 20 } },
+    showTreemapLabels: { control: 'boolean' },
+  },
+  args: { minCardWidth: 240, showTreemapLabels: false },
+  render: ({ minCardWidth, showTreemapLabels }) => (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+        gridTemplateColumns: `repeat(auto-fill, minmax(${minCardWidth}px, 1fr))`,
         gap: 'var(--eidra-space-4)',
         maxWidth: 800,
       }}
@@ -1842,7 +2082,7 @@ export const Minis: Story = {
             aspectRatio={1.6}
             stroke="var(--eidra-surface)"
             {...Chart.seriesDefaults}
-            content={renderSpendNode(false)}
+            content={renderSpendNode(showTreemapLabels)}
           />
         </Chart.Container>
       </MiniCard>
