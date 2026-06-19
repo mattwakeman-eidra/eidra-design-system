@@ -1,4 +1,4 @@
-import { useState, type ReactNode, type ReactElement } from 'react';
+import { useState, useRef, useLayoutEffect, type ReactNode, type ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,
@@ -370,7 +370,16 @@ export const Radar: Story = {
       <Chart.RadarChart data={CAPABILITY} margin={{ top: 16, right: 24, bottom: 16, left: 24 }}>
         <Chart.PolarGrid />
         <Chart.PolarAngleAxis dataKey="skill" />
-        <Chart.PolarRadiusAxis angle={90} domain={[0, 100]} tickCount={5} axisLine={false} />
+        {/* Keep the 0–100 scale numbers, but place them on the upper-right gap
+            (angle 60°) between the Frontend and Backend spokes instead of straight
+            up — at 90° the "100" tick collided with the "Frontend" axis label. */}
+        <Chart.PolarRadiusAxis
+          angle={60}
+          domain={[0, 100]}
+          tickCount={5}
+          axisLine={false}
+          tick={{ fill: 'var(--eidra-fg-muted)', fontSize: 11 }}
+        />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={score} />} />
         <Chart.Radar
           {...Chart.seriesDefaults}
@@ -469,64 +478,91 @@ export const Pie: Story = {
  */
 export const Donut: Story = {
   render: () => (
-    <div style={{ position: 'relative', maxWidth: 520 }}>
-      <Chart.Container config={pieConfig} style={{ height: 360 }} aria-label="Revenue by business line">
-        <Chart.PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
-          <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-          <Chart.Pie
-            {...Chart.seriesDefaults}
-            data={REVENUE_BY_LINE}
-            dataKey="value"
-            nameKey="name"
-            innerRadius="58%"
-            outerRadius="82%"
-            paddingAngle={2}
-            cornerRadius={3}
-            stroke="var(--eidra-surface)"
-            strokeWidth={2}
+    <div style={{ display: 'grid', gap: 'var(--eidra-space-4)', maxWidth: 520 }}>
+      {/* Chart + centred total. The legend lives below (not inside the chart) so it
+          no longer reserves space at the bottom and pushes the donut — and its
+          centred total — off-centre. */}
+      <div style={{ position: 'relative' }}>
+        <Chart.Container config={pieConfig} style={{ height: 320 }} aria-label="Revenue by business line">
+          <Chart.PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+            <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Pie
+              {...Chart.seriesDefaults}
+              data={REVENUE_BY_LINE}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              innerRadius="58%"
+              outerRadius="82%"
+              paddingAngle={2}
+              cornerRadius={3}
+              stroke="var(--eidra-surface)"
+              strokeWidth={2}
+            >
+              {REVENUE_BY_LINE.map((d, i) => (
+                <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+              ))}
+            </Chart.Pie>
+          </Chart.PieChart>
+        </Chart.Container>
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none',
+          }}
+        >
+          <span
+            style={{
+              font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em',
+              color: 'var(--eidra-fg-muted)',
+            }}
           >
-            {REVENUE_BY_LINE.map((d, i) => (
-              <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
-            ))}
-          </Chart.Pie>
-          <Chart.Legend content={<Chart.LegendContent />} />
-        </Chart.PieChart>
-      </Chart.Container>
+            Total
+          </span>
+          <span
+            style={{
+              font: '700 var(--eidra-font-size-xl)/1.1 var(--eidra-font-family-sans)',
+              fontVariantNumeric: 'tabular-nums',
+              color: 'var(--eidra-fg)',
+            }}
+          >
+            {fmt(TOTAL_REVENUE)}
+          </span>
+        </div>
+      </div>
       <div
-        aria-hidden
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 360,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 'var(--eidra-space-3)',
           justifyContent: 'center',
-          paddingBottom: 'var(--eidra-space-6)',
-          pointerEvents: 'none',
+          font: 'var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+          color: 'var(--eidra-fg-muted)',
         }}
       >
-        <span
-          style={{
-            font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            color: 'var(--eidra-fg-muted)',
-          }}
-        >
-          Total
-        </span>
-        <span
-          style={{
-            font: '700 var(--eidra-font-size-xl)/1.1 var(--eidra-font-family-sans)',
-            fontVariantNumeric: 'tabular-nums',
-            color: 'var(--eidra-fg)',
-          }}
-        >
-          {fmt(TOTAL_REVENUE)}
-        </span>
+        {REVENUE_BY_LINE.map((d, i) => (
+          <span key={d.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+            <span
+              aria-hidden
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 'var(--eidra-radius-full)',
+                background: `var(--eidra-chart-${i + 1})`,
+              }}
+            />
+            {d.name}
+          </span>
+        ))}
       </div>
     </div>
   ),
@@ -665,14 +701,59 @@ export const Treemap: Story = {
   ),
 };
 
+// Recharts 3.8 SunburstChart computes its centre from the numeric `width`/`height`
+// props — it does NOT read ResponsiveContainer's size, and `width="100%"` yields
+// cx = NaN (blank chart). So measure the box ourselves and hand it real pixel
+// numbers. The ref-dedupe stops the ResizeObserver's no-op ticks from re-rendering
+// (and from scheduling updates outside act() in tests).
+function ResponsiveBox({
+  height,
+  ariaLabel,
+  children,
+}: {
+  height: number;
+  ariaLabel: string;
+  children: (width: number, height: number) => ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState<{ w: number; h: number } | null>(null);
+  const last = useRef<{ w: number; h: number } | null>(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      const w = Math.round(el.clientWidth);
+      const h = Math.round(el.clientHeight);
+      if (last.current && last.current.w === w && last.current.h === h) return;
+      last.current = { w, h };
+      setSize({ w, h });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <div ref={ref} role="img" aria-label={ariaLabel} style={{ height, width: '100%' }}>
+      {size && size.w > 0 ? children(size.w, size.h) : null}
+    </div>
+  );
+}
+
 // ── Sunburst: annual budget allocation (department → team) ───────────────────
 // SunburstChart is self-contained (no child series): one hierarchical root with
 // per-node `fill`. Top-level nodes carry the categorical colour; children inherit.
+// recharts 3.8 SunburstChart does NOT auto-sum child values (unlike Treemap), so
+// every node — including the root and each department — needs an explicit `value`
+// equal to the sum of its children; otherwise the parent rings' angular spans come
+// out NaN and the chart renders blank.
 const BUDGET_TREE: SunburstData = {
   name: 'Budget',
+  value: 165,
   children: [
     {
       name: 'Engineering',
+      value: 72,
       fill: 'var(--eidra-chart-1)',
       children: [
         { name: 'Platform', value: 32, fill: 'var(--eidra-chart-1)' },
@@ -682,6 +763,7 @@ const BUDGET_TREE: SunburstData = {
     },
     {
       name: 'Sales',
+      value: 46,
       fill: 'var(--eidra-chart-2)',
       children: [
         { name: 'Enterprise', value: 28, fill: 'var(--eidra-chart-2)' },
@@ -690,6 +772,7 @@ const BUDGET_TREE: SunburstData = {
     },
     {
       name: 'Marketing',
+      value: 28,
       fill: 'var(--eidra-chart-3)',
       children: [
         { name: 'Brand', value: 12, fill: 'var(--eidra-chart-3)' },
@@ -698,6 +781,7 @@ const BUDGET_TREE: SunburstData = {
     },
     {
       name: 'Operations',
+      value: 19,
       fill: 'var(--eidra-chart-4)',
       children: [
         { name: 'Finance', value: 10, fill: 'var(--eidra-chart-4)' },
@@ -716,25 +800,29 @@ const BUDGET_TREE: SunburstData = {
  */
 export const Sunburst: Story = {
   render: () => (
-    <Chart.Container
-      config={{}}
-      role="img"
-      aria-label="Annual budget allocation by department and team"
-      style={{ height: 360, maxWidth: 420 }}
-    >
-      <Chart.SunburstChart
-        data={BUDGET_TREE}
-        dataKey="value"
-        nameKey="name"
-        stroke="var(--eidra-surface)"
-        padding={2}
-        ringPadding={2}
-        innerRadius={36}
-        textOptions={{ fill: 'var(--eidra-fg)', stroke: 'none', fontSize: 11 }}
-      >
-        <Chart.Tooltip content={<Chart.TooltipContent hideLabel />} />
-      </Chart.SunburstChart>
-    </Chart.Container>
+    // Sized via ResponsiveBox (numeric width/height) — SunburstChart needs real
+    // pixels, not '100%' or ResponsiveContainer. Node fills are --eidra-chart-*
+    // tokens from the ThemeProvider scope, so it doesn't need Chart.Container.
+    <div style={{ maxWidth: 420 }}>
+      <ResponsiveBox height={360} ariaLabel="Annual budget allocation by department and team">
+        {(w, h) => (
+          <Chart.SunburstChart
+            width={w}
+            height={h}
+            data={BUDGET_TREE}
+            dataKey="value"
+            nameKey="name"
+            stroke="var(--eidra-surface)"
+            padding={2}
+            ringPadding={2}
+            innerRadius={36}
+            textOptions={{ fill: 'var(--eidra-fg)', stroke: 'none', fontSize: 11 }}
+          >
+            <Chart.Tooltip content={<Chart.TooltipContent hideLabel />} />
+          </Chart.SunburstChart>
+        )}
+      </ResponsiveBox>
+    </div>
   ),
 };
 
@@ -809,6 +897,144 @@ export const MagicQuadrant: Story = {
         </Chart.Scatter>
       </Chart.ScatterChart>
     </Chart.Container>
+  ),
+};
+
+// ── Dumbbell: two-point comparison per category (last year → this year) ──────
+interface DumbbellDatum {
+  category: string;
+  before: number; // e.g. last year
+  after: number; // e.g. this year
+}
+
+const GROWTH: DumbbellDatum[] = [
+  { category: 'Advisory', before: 82, after: 110 },
+  { category: 'Data', before: 64, after: 96 },
+  { category: 'Design', before: 90, after: 84 }, // a decline — exercises direction-agnostic colouring
+  { category: 'Platform', before: 48, after: 72 },
+  { category: 'Brand', before: 70, after: 83 },
+];
+
+const dumbbellConfig: ChartConfig = {
+  before: { label: 'Last year', color: 'var(--eidra-chart-3)' },
+  after: { label: 'This year', color: 'var(--eidra-chart-1)' },
+};
+
+// Custom Bar shape: Recharts gives the floating bar's geometry (x/width span the
+// [min,max] range); draw the connector line + an endpoint dot for each value.
+interface DumbbellShapeProps {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  payload?: DumbbellDatum;
+}
+function DumbbellShape({ x = 0, y = 0, width = 0, height = 0, payload }: DumbbellShapeProps) {
+  if (!payload) return <g />;
+  const cy = y + height / 2;
+  const left = x;
+  const right = x + width;
+  // The range is rendered low→high, so the left end is the smaller value.
+  const beforeIsLeft = payload.before <= payload.after;
+  const beforeX = beforeIsLeft ? left : right;
+  const afterX = beforeIsLeft ? right : left;
+  return (
+    <g>
+      <line x1={left} y1={cy} x2={right} y2={cy} stroke="var(--eidra-border-strong)" strokeWidth={2} />
+      <circle cx={beforeX} cy={cy} r={5} fill="var(--color-before)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
+      <circle cx={afterX} cy={cy} r={5} fill="var(--color-after)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
+    </g>
+  );
+}
+
+interface DumbbellTooltipProps {
+  active?: boolean;
+  payload?: Array<{ payload: DumbbellDatum }>;
+}
+function DumbbellTooltip({ active, payload }: DumbbellTooltipProps) {
+  if (!active || !payload?.length) return null;
+  const d = payload[0]!.payload;
+  const delta = d.after - d.before;
+  const up = delta >= 0;
+  return (
+    <div
+      style={{
+        background: 'var(--eidra-surface)',
+        border: '1px solid var(--eidra-border)',
+        borderRadius: 'var(--eidra-radius-md)',
+        boxShadow: 'var(--eidra-shadow-md)',
+        padding: 'var(--eidra-space-2) var(--eidra-space-3)',
+        font: 'var(--eidra-font-size-xs)/1.5 var(--eidra-font-family-sans)',
+        color: 'var(--eidra-fg)',
+      }}
+    >
+      <div style={{ fontWeight: 600, marginBottom: 'var(--eidra-space-1)' }}>{d.category}</div>
+      <div>Last year: {fmt(d.before)}</div>
+      <div>This year: {fmt(d.after)}</div>
+      <div style={{ color: up ? 'var(--eidra-success-fg)' : 'var(--eidra-danger-fg)' }}>
+        {up ? '▲' : '▼'} {fmt(Math.abs(delta))}
+      </div>
+    </div>
+  );
+}
+
+function DumbbellLegend() {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: 'var(--eidra-space-4)',
+        font: 'var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+        color: 'var(--eidra-fg-muted)',
+      }}
+    >
+      {(['before', 'after'] as const).map((key) => (
+        <span key={key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+          <span
+            aria-hidden
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: 'var(--eidra-radius-full)',
+              background: dumbbellConfig[key]!.color,
+            }}
+          />
+          {dumbbellConfig[key]!.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * **Dumbbell** — a two-point comparison per category (here last year → this year):
+ * a vertical `ComposedChart` with a single range `Bar` whose custom `shape` draws
+ * the connector line and an endpoint dot for each value. Reads change at a glance —
+ * the gap is the delta, the dot order shows direction (a decline keeps its colours).
+ */
+export const Dumbbell: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 560 }}>
+      <DumbbellLegend />
+      <Chart.Container
+        config={dumbbellConfig}
+        style={{ height: 320 }}
+        aria-label="Revenue by service line, last year versus this year"
+      >
+        <Chart.ComposedChart layout="vertical" data={GROWTH} margin={{ top: 4, right: 16, bottom: 4, left: 8 }}>
+          <Chart.CartesianGrid horizontal={false} />
+          <Chart.XAxis type="number" domain={[0, (max: number) => Math.ceil((max + 20) / 20) * 20]} tickFormatter={fmt} />
+          <Chart.YAxis type="category" dataKey="category" width={72} tickLine={false} axisLine={false} />
+          <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)', fillOpacity: 0.5 }} content={<DumbbellTooltip />} />
+          <Chart.Bar
+            {...Chart.seriesDefaults}
+            dataKey={(d: DumbbellDatum) => [Math.min(d.before, d.after), Math.max(d.before, d.after)]}
+            shape={(props: unknown) => <DumbbellShape {...(props as DumbbellShapeProps)} />}
+            activeBar={false}
+          />
+        </Chart.ComposedChart>
+      </Chart.Container>
+    </div>
   ),
 };
 
@@ -958,16 +1184,21 @@ export const Minis: Story = {
       </MiniCard>
 
       <MiniCard title="Sunburst">
-        <Chart.Container config={{}} size="sm" role="img" aria-label="Budget allocation breakdown" style={{ height: 120 }}>
-          <Chart.SunburstChart
-            data={BUDGET_TREE}
-            dataKey="value"
-            stroke="var(--eidra-surface)"
-            padding={2}
-            innerRadius={16}
-            textOptions={{ fill: 'transparent', stroke: 'none' }}
-          />
-        </Chart.Container>
+        <ResponsiveBox height={120} ariaLabel="Budget allocation breakdown">
+          {(w, h) => (
+            <Chart.SunburstChart
+              width={w}
+              height={h}
+              data={BUDGET_TREE}
+              dataKey="value"
+              stroke="var(--eidra-surface)"
+              padding={2}
+              ringPadding={1}
+              innerRadius={14}
+              textOptions={{ fill: 'transparent', stroke: 'none' }}
+            />
+          )}
+        </ResponsiveBox>
       </MiniCard>
     </div>
   ),
