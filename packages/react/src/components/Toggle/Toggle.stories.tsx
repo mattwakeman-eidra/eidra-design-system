@@ -667,37 +667,3 @@ export const SegmentedSizes: StoryObj = {
     );
   },
 };
-
-/**
- * Segmented link mode: segments delegate to anchors via each `Toggle`'s `render`
- * prop (here plain `<a>`; in an app, a router `Link`) — a view switcher that
- * preserves navigation. The active segment is marked `aria-current="page"`.
- */
-export const SegmentedAsLinks: StoryObj = {
-  render: () => {
-    const active = 'graphs';
-    return (
-      <ToggleGroup.Root appearance="segmented" aria-label="View" value={[active]} onValueChange={() => {}}>
-        {(['table', 'graphs', 'clients'] as const).map((v) => (
-          <Toggle
-            key={v}
-            value={v}
-            aria-current={v === active ? 'page' : undefined}
-            render={<a href={`?view=${v}`} />}
-          >
-            {v[0]!.toUpperCase() + v.slice(1)}
-          </Toggle>
-        ))}
-      </ToggleGroup.Root>
-    );
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    // Segments delegate to anchors; the active one is marked aria-current="page".
-    const graphs = canvas.getByRole('link', { name: /graphs/i });
-    await expect(graphs).toHaveAttribute('aria-current', 'page');
-    await expect(graphs).toHaveAttribute('href', '?view=graphs');
-    const table = canvas.getByRole('link', { name: /table/i });
-    await expect(table).not.toHaveAttribute('aria-current');
-  },
-};

@@ -63,8 +63,7 @@ export interface ToggleGroupRootProps extends Omit<BaseToggleGroup.Props, 'class
    * Visual treatment. `'group'` (default) is a bordered button cluster with
    * divider lines between items. `'segmented'` is a contiguous filled-track
    * segmented control — a muted track whose active segment is filled with the
-   * accent (the look formerly shipped as `SegmentedControl`). For a view
-   * switcher, delegate segments to links via each `Toggle`'s `render` prop.
+   * accent (the look formerly shipped as `SegmentedControl`).
    */
   appearance?: ToggleGroupAppearance;
   /** Segment size — only affects the `segmented` appearance. Defaults to `md`. */
