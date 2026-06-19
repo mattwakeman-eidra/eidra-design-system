@@ -5,7 +5,37 @@ const meta = {
   title: 'Foundations/Typography',
   component: Typography,
   tags: ['autodocs'],
-  args: { children: 'We help leaders create great change', variant: 'body' },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: [
+        'display-2xl',
+        'display-xl',
+        'display-lg',
+        'display-md',
+        'heading-1',
+        'heading-2',
+        'heading-3',
+        'heading-4',
+        'heading-5',
+        'heading-6',
+        'body-lg',
+        'body',
+        'body-sm',
+        'label',
+        'caption',
+        'code',
+      ],
+    },
+    tone: {
+      control: 'select',
+      options: ['default', 'muted', 'subtle', 'accent', 'danger', 'inverse'],
+    },
+    tabular: { control: 'boolean' },
+    truncate: { control: 'boolean' },
+    children: { control: 'text' },
+  },
+  args: { children: 'We help leaders create great change', variant: 'body', tone: 'default', tabular: false, truncate: false },
 } satisfies Meta<typeof Typography>;
 
 export default meta;
@@ -46,6 +76,15 @@ export const Tones: Story = {
       <Typography tone="subtle">Subtle</Typography>
       <Typography tone="accent">Accent</Typography>
       <Typography tone="danger">Danger</Typography>
+      <div
+        style={{
+          background: 'var(--eidra-bg-inverse, #111827)',
+          padding: 'var(--eidra-space-3)',
+          borderRadius: 'var(--eidra-radius-md, 6px)',
+        }}
+      >
+        <Typography tone="inverse">Inverse — on a contrasting surface</Typography>
+      </div>
     </div>
   ),
 };
