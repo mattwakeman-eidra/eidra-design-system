@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ExternalLink, Building2, Users, Calendar } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
@@ -7,27 +8,53 @@ import { PreviewCard } from './PreviewCard.js';
 
 const meta = {
   title: 'Overlays/PreviewCard',
-  component: PreviewCard.Popup,
+  // Point at Root: it carries the meaningful behavior props (open/defaultOpen).
+  // The visual Popup part has almost no props.
+  component: PreviewCard.Root,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof PreviewCard.Popup>;
+} satisfies Meta<typeof PreviewCard.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const SIDES = ['top', 'bottom', 'left', 'right'] as const;
+const ALIGNS = ['start', 'center', 'end'] as const;
+
 // ---- Playground ----
-export const Playground: Story = {
-  render: () => (
+// Flat controls: Root behavior (defaultOpen) plus Positioner placement
+// (side/align/sideOffset).
+type PreviewCardPlaygroundArgs = ComponentProps<typeof PreviewCard.Root> & {
+  side: (typeof SIDES)[number];
+  align: (typeof ALIGNS)[number];
+  sideOffset: number;
+};
+
+export const Playground: StoryObj<PreviewCardPlaygroundArgs> = {
+  args: {
+    side: 'bottom',
+    align: 'start',
+    sideOffset: 8,
+    defaultOpen: false,
+  },
+  argTypes: {
+    side: { control: 'inline-radio', options: SIDES },
+    align: { control: 'inline-radio', options: ALIGNS },
+    sideOffset: { control: 'number' },
+    defaultOpen: { control: 'boolean' },
+    open: { control: 'boolean' },
+  },
+  render: ({ side, align, sideOffset, ...rootProps }) => (
     <p style={{ fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-base)' }}>
       Hover over{' '}
-      <PreviewCard.Root>
+      <PreviewCard.Root {...rootProps}>
         <PreviewCard.Trigger href="#" onClick={(e) => e.preventDefault()}>
           Nordic Identity Refresh
         </PreviewCard.Trigger>
         <PreviewCard.Portal>
-          <PreviewCard.Positioner side="bottom" align="start" sideOffset={8}>
+          <PreviewCard.Positioner side={side} align={align} sideOffset={sideOffset}>
             <PreviewCard.Popup>
               <div
                 style={{

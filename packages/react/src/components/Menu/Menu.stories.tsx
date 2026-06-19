@@ -12,6 +12,18 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  // Dropped invisible controls: `modal` (no backdrop/scrim is rendered, so
+  // toggling shows nothing) and `orientation` (keyboard roving direction only —
+  // no layout/direction rule in the CSS module).
+  argTypes: {
+    defaultOpen: {
+      control: 'boolean',
+      description: 'Whether the menu is open on first render (uncontrolled).',
+    },
+  },
+  args: {
+    defaultOpen: false,
+  },
 } satisfies Meta<typeof Menu.Root>;
 
 export default meta;
@@ -20,8 +32,8 @@ type Story = StoryObj<typeof meta>;
 // ─── Playground ──────────────────────────────────────────────────────────────
 
 export const Playground: Story = {
-  render: () => (
-    <Menu.Root>
+  render: (args) => (
+    <Menu.Root {...args}>
       <Menu.Trigger>Options</Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner sideOffset={8}>

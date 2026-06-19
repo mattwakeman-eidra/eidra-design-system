@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { ComponentProps, ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Info, Save, Trash2, Settings } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
@@ -14,7 +14,9 @@ function asRender(el: ReactElement): ReactElement<Record<string, unknown>> {
 
 const meta = {
   title: 'Overlays/Tooltip',
-  component: Tooltip.Popup,
+  // Point at Root: it carries the meaningful behavior props (open/defaultOpen/
+  // disabled/trackCursorAxis). The visual Popup part has almost no props.
+  component: Tooltip.Root,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -26,10 +28,13 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof Tooltip.Popup>;
+} satisfies Meta<typeof Tooltip.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const SIDES = ['top', 'bottom', 'left', 'right'] as const;
+const ALIGNS = ['start', 'center', 'end'] as const;
 
 // Convenience wrapper that renders a complete tooltip
 function TooltipExample({
@@ -56,11 +61,44 @@ function TooltipExample({
   );
 }
 
-export const Playground: Story = {
-  render: () => (
-    <TooltipExample label="Save your changes">
-      <Button>Save</Button>
-    </TooltipExample>
+// Playground exposes flat, controllable knobs: Root behavior (open/defaultOpen/
+// disabled/trackCursorAxis) plus Positioner placement (side/align/sideOffset).
+type TooltipPlaygroundArgs = ComponentProps<typeof Tooltip.Root> & {
+  side: (typeof SIDES)[number];
+  align: (typeof ALIGNS)[number];
+  sideOffset: number;
+};
+
+export const Playground: StoryObj<TooltipPlaygroundArgs> = {
+  args: {
+    side: 'top',
+    align: 'center',
+    sideOffset: 0,
+    defaultOpen: false,
+    disabled: false,
+  },
+  // Dropped invisible controls: `open` (controlled toggle without host wiring shows
+  // nothing here — defaultOpen already covers visible open-on-load) and
+  // `trackCursorAxis` (pure pointer-tracking timing, no static visual change).
+  argTypes: {
+    side: { control: 'inline-radio', options: SIDES },
+    align: { control: 'inline-radio', options: ALIGNS },
+    sideOffset: { control: 'number' },
+    defaultOpen: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+  },
+  render: ({ side, align, sideOffset, ...rootProps }) => (
+    <Tooltip.Root {...rootProps}>
+      <Tooltip.Trigger render={asRender(<Button>Save</Button>)} />
+      <Tooltip.Portal>
+        <Tooltip.Positioner side={side} align={align} sideOffset={sideOffset}>
+          <Tooltip.Popup>
+            Save your changes
+            <Tooltip.Arrow />
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);

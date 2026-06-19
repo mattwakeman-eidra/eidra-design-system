@@ -8,20 +8,33 @@ import { Dialog } from './Dialog.js';
 
 const meta = {
   title: 'Overlays/Dialog',
-  component: Dialog.Popup,
+  // Point at Root: it carries the meaningful behavior props (open/defaultOpen/
+  // modal). The visual Popup part has almost no props.
+  component: Dialog.Root,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof Dialog.Popup>;
+  argTypes: {
+    modal: { control: 'inline-radio', options: [true, false, 'trap-focus'] },
+    open: { control: 'boolean' },
+    defaultOpen: { control: 'boolean' },
+  },
+} satisfies Meta<typeof Dialog.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ---- Playground ----
+// Root args (modal/defaultOpen) are flat controls; the dialog is opened from its
+// own trigger inside the story.
 export const Playground: Story = {
-  render: () => (
-    <Dialog.Root>
+  args: {
+    modal: true,
+    defaultOpen: false,
+  },
+  render: (args) => (
+    <Dialog.Root {...args}>
       <Dialog.Trigger render={<Button variant="solid" tone="accent">Open dialog</Button>} />
       <Dialog.Portal>
         <Dialog.Backdrop />
@@ -163,12 +176,13 @@ export const NonModal: Story = {
 };
 
 // ---- Controlled ----
-// Module-scoped spy: `meta` types args against Dialog.Popup, so onOpenChange
-// can't live in `args`. The play function reads this directly.
-const controlledOnOpenChange = fn();
-
+// `meta` now types args against Dialog.Root, so onOpenChange lives in `args`
+// directly (no module-scoped spy workaround needed).
 export const Controlled: Story = {
-  render: function ControlledStory() {
+  args: {
+    onOpenChange: fn(),
+  },
+  render: function ControlledStory(args) {
     const [open, setOpen] = useState(false);
     return (
       <>
@@ -179,7 +193,7 @@ export const Controlled: Story = {
           open={open}
           onOpenChange={(next, details) => {
             setOpen(next);
-            controlledOnOpenChange(next, details);
+            args.onOpenChange?.(next, details);
           }}
         >
           <Dialog.Portal>
@@ -206,9 +220,10 @@ export const Controlled: Story = {
       </>
     );
   },
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, args, step }) => {
     const canvas = within(canvasElement);
-    controlledOnOpenChange.mockClear();
+    const onOpenChange = args.onOpenChange as ReturnType<typeof fn>;
+    onOpenChange.mockClear();
     const trigger = canvas.getByRole('button', { name: /open \(controlled\)/i });
 
     await step('host-driven trigger opens the controlled dialog (no Dialog.Trigger)', async () => {
@@ -220,19 +235,19 @@ export const Controlled: Story = {
     await step('closing via the X fires onOpenChange(false, …)', async () => {
       await userEvent.click(screen.getByRole('button', { name: /close dialog/i }));
       await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
-      await expect(controlledOnOpenChange).toHaveBeenCalled();
+      await expect(onOpenChange).toHaveBeenCalled();
       // Base UI 1.x calls onOpenChange(open, eventDetails) — two args.
-      await expect(controlledOnOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
+      await expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
     });
 
     await step('reopening then Escape also drives onOpenChange to false', async () => {
       await userEvent.click(trigger);
       const dialog = await screen.findByRole('dialog');
       await waitFor(() => expect(dialog).toBeVisible());
-      controlledOnOpenChange.mockClear();
+      onOpenChange.mockClear();
       await userEvent.keyboard('{Escape}');
       await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
-      await expect(controlledOnOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
+      await expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
     });
   },
 };

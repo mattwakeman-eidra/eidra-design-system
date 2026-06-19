@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import {
   Check,
   ChevronRight,
@@ -18,15 +18,26 @@ import { ContextMenu } from './ContextMenu.js';
 
 const meta = {
   title: 'Overlays/ContextMenu',
-  component: ContextMenu.Popup,
+  // Point at Root: it carries the meaningful behavior props (open/defaultOpen).
+  // The visual Popup part has almost no props.
+  component: ContextMenu.Root,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof ContextMenu.Popup>;
+} satisfies Meta<typeof ContextMenu.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const SIDES = ['top', 'bottom', 'left', 'right'] as const;
+const ALIGNS = ['start', 'center', 'end'] as const;
+
+// Several stories pass a spy to a menu item / checkbox / radio handler. Since
+// `meta` is now typed against Root (which has no such prop), these stories carry
+// the spy in their own args type rather than the Root args.
+type MenuSpyArgs = ComponentProps<typeof ContextMenu.Root> & { onClick: () => void };
+type MenuSpyStory = StoryObj<MenuSpyArgs>;
 
 // ---------------------------------------------------------------------------
 // Shared trigger area
@@ -55,19 +66,34 @@ const TriggerArea = ({ children }: { children: ReactNode }) => (
 // Playground
 // ---------------------------------------------------------------------------
 
-export const Playground: Story = {
+// Flat controls: Positioner placement (side/align). Right-click interaction is
+// preserved. `onClick` is a menu-item spy (not a Root prop), exposed as an action.
+type ContextMenuPlaygroundArgs = ComponentProps<typeof ContextMenu.Root> & {
+  side: (typeof SIDES)[number];
+  align: (typeof ALIGNS)[number];
+  onClick: () => void;
+};
+
+export const Playground: StoryObj<ContextMenuPlaygroundArgs> = {
   args: {
+    side: 'bottom',
+    align: 'start',
     onClick: fn(),
   },
-  render: (args) => (
+  argTypes: {
+    side: { control: 'inline-radio', options: SIDES },
+    align: { control: 'inline-radio', options: ALIGNS },
+    onClick: { table: { category: 'Menu item' } },
+  },
+  render: ({ side, align, onClick }) => (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
         <TriggerArea>Right-click or long-press here</TriggerArea>
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner>
+        <ContextMenu.Positioner side={side} align={align}>
           <ContextMenu.Popup>
-            <ContextMenu.Item onClick={args.onClick}>
+            <ContextMenu.Item onClick={onClick}>
               <Icon icon={Copy} size="sm" />
               Copy
             </ContextMenu.Item>
@@ -122,7 +148,7 @@ export const Playground: Story = {
 // Keyboard navigation
 // ---------------------------------------------------------------------------
 
-export const KeyboardNavigation: Story = {
+export const KeyboardNavigation: MenuSpyStory = {
   name: 'Keyboard navigation',
   args: {
     onClick: fn(),
@@ -272,7 +298,7 @@ export const WithGroups: Story = {
 // With checkbox items
 // ---------------------------------------------------------------------------
 
-export const WithCheckboxItems: Story = {
+export const WithCheckboxItems: MenuSpyStory = {
   args: {
     onClick: fn(),
   },
@@ -372,7 +398,7 @@ export const WithCheckboxItems: Story = {
 // With radio items
 // ---------------------------------------------------------------------------
 
-export const WithRadioItems: Story = {
+export const WithRadioItems: MenuSpyStory = {
   args: {
     onClick: fn(),
   },

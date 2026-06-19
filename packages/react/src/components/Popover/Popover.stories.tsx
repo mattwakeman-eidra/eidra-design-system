@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { ComponentProps } from 'react';
 import { useRef, useState } from 'react';
 import { Info, Settings, User, Bell } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
@@ -8,23 +9,51 @@ import { Popover } from './Popover.js';
 
 const meta = {
   title: 'Overlays/Popover',
-  component: Popover.Popup,
+  // Point at Root: it carries the meaningful behavior props (open/defaultOpen/
+  // modal). The visual Popup part has almost no props.
+  component: Popover.Root,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof Popover.Popup>;
+} satisfies Meta<typeof Popover.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const SIDES = ['top', 'bottom', 'left', 'right'] as const;
+const ALIGNS = ['start', 'center', 'end'] as const;
+
 // ---- Playground ----
-export const Playground: Story = {
-  render: () => (
-    <Popover.Root>
+// Flat controls: Root behavior (defaultOpen/open) plus Positioner placement
+// (side/align/sideOffset).
+type PopoverPlaygroundArgs = ComponentProps<typeof Popover.Root> & {
+  side: (typeof SIDES)[number];
+  align: (typeof ALIGNS)[number];
+  sideOffset: number;
+};
+
+export const Playground: StoryObj<PopoverPlaygroundArgs> = {
+  args: {
+    side: 'bottom',
+    align: 'start',
+    sideOffset: 8,
+    defaultOpen: false,
+  },
+  argTypes: {
+    side: { control: 'inline-radio', options: SIDES },
+    align: { control: 'inline-radio', options: ALIGNS },
+    sideOffset: { control: 'number' },
+    // Dropped `modal`: this story renders no Popover.Backdrop, so toggling modal
+    // (focus-trap/interaction-blocking only) produces no visible change.
+    defaultOpen: { control: 'boolean' },
+    open: { control: 'boolean' },
+  },
+  render: ({ side, align, sideOffset, ...rootProps }) => (
+    <Popover.Root {...rootProps}>
       <Popover.Trigger render={<Button variant="outline" tone="neutral">Open popover</Button>} />
       <Popover.Portal>
-        <Popover.Positioner side="bottom" align="start" sideOffset={8}>
+        <Popover.Positioner side={side} align={align} sideOffset={sideOffset}>
           <Popover.Popup>
             <Popover.Header>
               <Popover.Title>Project details</Popover.Title>
