@@ -13,6 +13,10 @@ const meta = {
     variant: { control: 'inline-radio', options: ['solid', 'outline', 'ghost', 'subtle'] },
     tone: { control: 'inline-radio', options: ['accent', 'neutral', 'coral', 'danger'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    loading: { control: 'boolean' },
+    iconOnly: { control: 'boolean' },
+    fullWidth: { control: 'boolean' },
+    disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Button>;
 
