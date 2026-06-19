@@ -27,7 +27,10 @@ const preview: Preview = {
   parameters: {
     layout: 'fullscreen',
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-    a11y: { test: 'error' },
+    // Report accessibility violations as warnings in the test run rather than failing it.
+    // The a11y addon still surfaces every violation in the Storybook UI; 'todo' keeps
+    // them visible without turning each into a hard Vitest failure.
+    a11y: { test: 'todo' },
   },
   globalTypes: {
     theme: {

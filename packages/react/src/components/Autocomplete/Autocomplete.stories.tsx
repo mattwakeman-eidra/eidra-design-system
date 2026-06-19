@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ChevronDown, X, Search, MapPin, Briefcase, Users } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
+import { within, userEvent, screen, expect, waitFor, fn } from 'storybook/test';
 import { Autocomplete } from './Autocomplete.js';
 
 // ---- Demo data ----
@@ -95,6 +97,256 @@ export const Playground: Story = {
       </Autocomplete.Portal>
     </Autocomplete.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Search cities…');
+
+    await step('typing filters the list (portaled options match the query)', async () => {
+      await userEvent.click(input);
+      await userEvent.type(input, 'oslo');
+      const option = await screen.findByRole('option', { name: /^Oslo$/ });
+      await waitFor(() => expect(option).toBeVisible());
+      // Non-matching cities are filtered out.
+      await expect(screen.queryByRole('option', { name: /^Helsinki$/ })).toBeNull();
+    });
+
+    await step('a query with no matches shows the Empty state', async () => {
+      await userEvent.clear(input);
+      await userEvent.type(input, 'zzz');
+      await waitFor(async () => expect(await screen.findByText('No cities found')).toBeVisible());
+    });
+
+    await step('clearing the query restores all options', async () => {
+      await userEvent.clear(input);
+      const helsinki = await screen.findByRole('option', { name: /^Helsinki$/ });
+      await waitFor(() => expect(helsinki).toBeVisible());
+    });
+  },
+};
+
+// ---- Open via trigger / keyboard selection ----
+
+export const TriggerAndKeyboard: Story = {
+  name: 'Trigger + Keyboard',
+  render: () => (
+    <Autocomplete.Root items={NORDIC_CITIES}>
+      <Autocomplete.Control>
+        <Autocomplete.Input placeholder="Search cities…" />
+        <Autocomplete.Trigger aria-label="Open city list">
+          <Autocomplete.Icon>
+            <Icon icon={ChevronDown} size="sm" />
+          </Autocomplete.Icon>
+        </Autocomplete.Trigger>
+      </Autocomplete.Control>
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner sideOffset={4}>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {(city: string) => (
+                <Autocomplete.Item key={city} value={city}>
+                  {city}
+                </Autocomplete.Item>
+              )}
+            </Autocomplete.List>
+            <Autocomplete.Empty>No cities found</Autocomplete.Empty>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Search cities…');
+    const trigger = canvas.getByRole('button', { name: /open city list/i });
+
+    await step('the trigger opens the popup (aria-expanded flips true)', async () => {
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await userEvent.click(trigger);
+      await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'true'));
+      const copenhagen = await screen.findByRole('option', { name: /^Copenhagen$/ });
+      await waitFor(() => expect(copenhagen).toBeVisible());
+    });
+
+    await step('ArrowDown highlights an option, Enter selects it into the input', async () => {
+      await userEvent.keyboard('{ArrowDown}');
+      const first = await screen.findByRole('option', { name: /^Copenhagen$/ });
+      await waitFor(() => expect(first).toHaveAttribute('data-highlighted'));
+      await userEvent.keyboard('{Enter}');
+      await expect(input).toHaveValue('Copenhagen');
+    });
+
+    await step('the popup closes after selection', async () => {
+      await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+    });
+
+    await step('Escape closes a reopened popup', async () => {
+      await userEvent.click(trigger);
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+      await waitFor(() => expect(screen.queryByRole('option')).toBeNull());
+    });
+  },
+};
+
+// ---- onOpenChange callback ----
+
+export const OpenChangeCallback: Story = {
+  name: 'onOpenChange (callback)',
+  parameters: { controls: { disable: true } },
+  args: { onOpenChange: fn() },
+  render: (args) => (
+    <Autocomplete.Root items={NORDIC_CITIES} onOpenChange={args.onOpenChange}>
+      <Autocomplete.Control>
+        <Autocomplete.Input placeholder="Search cities…" />
+        <Autocomplete.Trigger aria-label="Open city list">
+          <Autocomplete.Icon>
+            <Icon icon={ChevronDown} size="sm" />
+          </Autocomplete.Icon>
+        </Autocomplete.Trigger>
+      </Autocomplete.Control>
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner sideOffset={4}>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {(city: string) => (
+                <Autocomplete.Item key={city} value={city}>
+                  {city}
+                </Autocomplete.Item>
+              )}
+            </Autocomplete.List>
+            <Autocomplete.Empty>No cities found</Autocomplete.Empty>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  ),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /open city list/i });
+
+    await step('opening via the trigger fires onOpenChange(true)', async () => {
+      await userEvent.click(trigger);
+      await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledWith(true, expect.anything()));
+    });
+
+    await step('Escape fires onOpenChange(false)', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledWith(false, expect.anything()));
+    });
+  },
+};
+
+// ---- onValueChange callback (uncontrolled input text) ----
+
+export const ValueChangeCallback: Story = {
+  name: 'onValueChange (callback)',
+  parameters: { controls: { disable: true } },
+  args: { onValueChange: fn() },
+  render: (args) => (
+    <Autocomplete.Root items={NORDIC_CITIES} onValueChange={args.onValueChange}>
+      <Autocomplete.Control>
+        <Autocomplete.Input placeholder="Search cities…" />
+        <Autocomplete.Trigger aria-label="Open city list">
+          <Autocomplete.Icon>
+            <Icon icon={ChevronDown} size="sm" />
+          </Autocomplete.Icon>
+        </Autocomplete.Trigger>
+      </Autocomplete.Control>
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner sideOffset={4}>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {(city: string) => (
+                <Autocomplete.Item key={city} value={city}>
+                  {city}
+                </Autocomplete.Item>
+              )}
+            </Autocomplete.List>
+            <Autocomplete.Empty>No cities found</Autocomplete.Empty>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  ),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Search cities…');
+
+    await step('typing fires onValueChange with the typed text', async () => {
+      await userEvent.click(input);
+      await userEvent.type(input, 'Bergen');
+      await waitFor(() => expect(args.onValueChange).toHaveBeenCalledWith('Bergen', expect.anything()));
+    });
+
+    await step('selecting an option fires onValueChange with the option value', async () => {
+      await userEvent.clear(input);
+      await userEvent.type(input, 'Tro');
+      const option = await screen.findByRole('option', { name: /^Tromsø$/ });
+      await userEvent.click(option);
+      await waitFor(() => expect(args.onValueChange).toHaveBeenCalledWith('Tromsø', expect.anything()));
+    });
+  },
+};
+
+// ---- Controlled input value ----
+
+export const ControlledValue: Story = {
+  name: 'Controlled Value',
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <Stack>
+        <p style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)', margin: 0 }}>
+          Input value: <strong style={{ color: 'var(--eidra-fg)' }}>{value || '—'}</strong>
+        </p>
+        <Autocomplete.Root items={NORDIC_CITIES} value={value} onValueChange={setValue}>
+          <Autocomplete.Control>
+            <Autocomplete.Input placeholder="Search cities…" />
+            <Autocomplete.Trigger aria-label="Open city list">
+              <Autocomplete.Icon>
+                <Icon icon={ChevronDown} size="sm" />
+              </Autocomplete.Icon>
+            </Autocomplete.Trigger>
+          </Autocomplete.Control>
+          <Autocomplete.Portal>
+            <Autocomplete.Positioner sideOffset={4}>
+              <Autocomplete.Popup>
+                <Autocomplete.List>
+                  {(city: string) => (
+                    <Autocomplete.Item key={city} value={city}>
+                      {city}
+                    </Autocomplete.Item>
+                  )}
+                </Autocomplete.List>
+                <Autocomplete.Empty>No cities found</Autocomplete.Empty>
+              </Autocomplete.Popup>
+            </Autocomplete.Positioner>
+          </Autocomplete.Portal>
+        </Autocomplete.Root>
+      </Stack>
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Search cities…');
+
+    await step('the host-owned value drives the input and the readout', async () => {
+      await userEvent.click(input);
+      await userEvent.type(input, 'Malmö');
+      await expect(input).toHaveValue('Malmö');
+      await expect(canvas.getByText('Malmö', { selector: 'strong' })).toBeInTheDocument();
+    });
+
+    await step('selecting an option updates the controlled value', async () => {
+      await userEvent.clear(input);
+      await userEvent.type(input, 'Aar');
+      const option = await screen.findByRole('option', { name: /^Aarhus$/ });
+      await userEvent.click(option);
+      await waitFor(() => expect(input).toHaveValue('Aarhus'));
+    });
+  },
 };
 
 // ---- With clear button ----
@@ -130,6 +382,32 @@ export const WithClearButton: Story = {
       </Autocomplete.Portal>
     </Autocomplete.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Search services…');
+
+    await step('the Clear button empties the input', async () => {
+      await userEvent.click(input);
+      await userEvent.type(input, 'Cloud');
+      await expect(input).toHaveValue('Cloud');
+      // Autocomplete.Clear mounts (through a transition) once the input has a
+      // value, but Base UI renders it aria-hidden/tabindex=-1 — out of the
+      // accessibility tree — so it can't be queried by role. Grab the real button.
+      const clear = await waitFor(() => {
+        const b = document.querySelector<HTMLButtonElement>('button[aria-label="Clear selection"]');
+        if (!b) throw new Error('clear button not mounted yet');
+        return b;
+      });
+      await userEvent.click(clear, { pointerEventsCheck: 0 });
+      await waitFor(() => expect(input).toHaveValue(''));
+    });
+
+    await step('after clearing, typing surfaces options again', async () => {
+      await userEvent.type(input, 'Strategy');
+      const productStrategy = await screen.findByRole('option', { name: /Product Strategy/ });
+      await waitFor(() => expect(productStrategy).toBeVisible());
+    });
+  },
 };
 
 // ---- With search icon ----
@@ -175,18 +453,21 @@ export const WithSearchIcon: Story = {
 export const GroupedOptions: Story = {
   name: 'Grouped Options',
   render: () => {
-    const techItems = GROUPED_OPTIONS.filter((o) => o.region === 'Technology');
-    const strategyItems = GROUPED_OPTIONS.filter((o) => o.region === 'Strategy');
-    const designItems = GROUPED_OPTIONS.filter((o) => o.region === 'Design');
-
-    const groups = [
-      { label: 'Technology', icon: Briefcase, items: techItems },
-      { label: 'Strategy', icon: Users, items: strategyItems },
-      { label: 'Design', icon: Search, items: designItems },
-    ];
+    // Base UI only filters (and unmounts) grouped options when it owns the data:
+    // pass *grouped* items to Root, then render via the function-child Collection
+    // pattern so non-matching items leave the DOM as the query narrows.
+    const groupIcons: Record<string, typeof Briefcase> = {
+      Technology: Briefcase,
+      Strategy: Users,
+      Design: Search,
+    };
+    const groupedItems = ['Technology', 'Strategy', 'Design'].map((region) => ({
+      value: region,
+      items: GROUPED_OPTIONS.filter((o) => o.region === region),
+    }));
 
     return (
-      <Autocomplete.Root items={GROUPED_OPTIONS} itemToStringValue={(item) => item.label}>
+      <Autocomplete.Root items={groupedItems} itemToStringValue={(item) => item.label}>
         <Autocomplete.Control>
           <Autocomplete.Input placeholder="Search services…" />
           <Autocomplete.Trigger aria-label="Open services list">
@@ -199,21 +480,27 @@ export const GroupedOptions: Story = {
           <Autocomplete.Positioner sideOffset={4}>
             <Autocomplete.Popup>
               <Autocomplete.List>
-                {groups.map(({ label, icon: LucideIcon, items }) => (
-                  <Autocomplete.Group key={label} items={items}>
-                    <Autocomplete.GroupLabel>
-                      <span style={{ display: 'inline-flex', gap: 'var(--eidra-space-1)', alignItems: 'center' }}>
-                        <Icon icon={LucideIcon} size="sm" />
-                        {label}
-                      </span>
-                    </Autocomplete.GroupLabel>
-                    {items.map((item) => (
-                      <Autocomplete.Item key={item.value} value={item}>
-                        {item.label}
-                      </Autocomplete.Item>
-                    ))}
-                  </Autocomplete.Group>
-                ))}
+                {(group: { value: string; items: ServiceOption[] }) => {
+                  const LucideIcon = groupIcons[group.value] ?? Briefcase;
+                  // Root owns the grouped filtering, so each surviving group's
+                  // `items` is already the matched subset — non-matching options
+                  // are absent here, not merely hidden.
+                  return (
+                    <Autocomplete.Group key={group.value} items={group.items}>
+                      <Autocomplete.GroupLabel>
+                        <span style={{ display: 'inline-flex', gap: 'var(--eidra-space-1)', alignItems: 'center' }}>
+                          <Icon icon={LucideIcon} size="sm" />
+                          {group.value}
+                        </span>
+                      </Autocomplete.GroupLabel>
+                      {group.items.map((item) => (
+                        <Autocomplete.Item key={item.value} value={item}>
+                          {item.label}
+                        </Autocomplete.Item>
+                      ))}
+                    </Autocomplete.Group>
+                  );
+                }}
               </Autocomplete.List>
               <Autocomplete.Empty>No services match your search</Autocomplete.Empty>
             </Autocomplete.Popup>
@@ -221,6 +508,32 @@ export const GroupedOptions: Story = {
         </Autocomplete.Portal>
       </Autocomplete.Root>
     );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Search services…');
+
+    await step('typing surfaces matching grouped options (object items via itemToStringValue)', async () => {
+      await userEvent.click(input);
+      await userEvent.type(input, 'a');
+      const cloud = await screen.findByRole('option', { name: /Cloud Architecture/ });
+      await waitFor(() => expect(cloud).toBeVisible());
+    });
+
+    await step('a more specific query narrows results across groups', async () => {
+      await userEvent.clear(input);
+      await userEvent.type(input, 'Design');
+      const designSystems = await screen.findByRole('option', { name: /Design Systems/ });
+      await waitFor(() => expect(designSystems).toBeVisible());
+      await waitFor(() =>
+        expect(screen.queryByRole('option', { name: /Cloud Architecture/ })).toBeNull(),
+      );
+    });
+
+    await step('selecting an object option fills its label into the input', async () => {
+      await userEvent.click(await screen.findByRole('option', { name: /Design Systems/ }));
+      await waitFor(() => expect(input).toHaveValue('Design Systems'));
+    });
   },
 };
 
@@ -259,6 +572,22 @@ export const AutoHighlight: Story = {
       </Autocomplete.Root>
     </Stack>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Start typing…');
+
+    await step('the first match is auto-highlighted as you type', async () => {
+      await userEvent.click(input);
+      await userEvent.type(input, 'sto');
+      const stockholm = await screen.findByRole('option', { name: /^Stockholm$/ });
+      await waitFor(() => expect(stockholm).toHaveAttribute('data-highlighted'));
+    });
+
+    await step('Enter selects the auto-highlighted match', async () => {
+      await userEvent.keyboard('{Enter}');
+      await expect(input).toHaveValue('Stockholm');
+    });
+  },
 };
 
 // ---- Inline completion mode ----
@@ -296,4 +625,22 @@ export const InlineCompletion: Story = {
       </Autocomplete.Root>
     </Stack>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Start typing…');
+
+    await step('typing filters the list (mode="both")', async () => {
+      await userEvent.click(input);
+      await userEvent.type(input, 'Rey');
+      const reykjavik = await screen.findByRole('option', { name: /^Reykjavik$/ });
+      await waitFor(() => expect(reykjavik).toBeVisible());
+      await expect(screen.queryByRole('option', { name: /^Oslo$/ })).toBeNull();
+    });
+
+    await step('ArrowDown then Enter completes the input', async () => {
+      await userEvent.keyboard('{ArrowDown}');
+      await userEvent.keyboard('{Enter}');
+      await expect(input).toHaveValue('Reykjavik');
+    });
+  },
 };

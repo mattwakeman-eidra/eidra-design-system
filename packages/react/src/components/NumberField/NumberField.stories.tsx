@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
+import { within, userEvent, expect, waitFor, fn } from 'storybook/test';
 import { NumberField } from './NumberField.js';
 
 const meta = {
   title: 'Forms/NumberField',
   component: NumberField.Root,
   tags: ['autodocs'],
+  parameters: {
+  },
   args: {
     defaultValue: 0,
     step: 1,
@@ -42,6 +46,9 @@ const DefaultField = (props: ComponentPropsWithoutRef<typeof NumberField.Root>) 
 );
 
 export const Playground: Story = {
+  args: {
+    onValueChange: fn(),
+  },
   render: (args) => (
     <NumberField.Root {...args}>
       <NumberField.Group>
@@ -51,6 +58,34 @@ export const Playground: Story = {
       </NumberField.Group>
     </NumberField.Root>
   ),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    const increment = canvas.getByRole('button', { name: /increment/i });
+    const decrement = canvas.getByRole('button', { name: /decrement/i });
+
+    await step('starts at the uncontrolled default value', async () => {
+      await expect(input).toHaveValue('0');
+    });
+
+    await step('Increment button steps the value up and fires onValueChange', async () => {
+      await userEvent.click(increment);
+      await expect(input).toHaveValue('1');
+      await expect(args.onValueChange).toHaveBeenCalledWith(
+        1,
+        expect.objectContaining({ reason: 'increment-press' }),
+      );
+    });
+
+    await step('Decrement button steps the value back down', async () => {
+      await userEvent.click(decrement);
+      await expect(input).toHaveValue('0');
+      await expect(args.onValueChange).toHaveBeenLastCalledWith(
+        0,
+        expect.objectContaining({ reason: 'decrement-press' }),
+      );
+    });
+  },
 };
 
 export const Sizes: Story = {
@@ -66,8 +101,160 @@ export const Sizes: Story = {
 export const WithMinMax: Story = {
   name: 'With min/max constraints',
   render: () => (
-    <DefaultField min={0} max={10} defaultValue={5} step={1} />
+    <DefaultField min={0} max={10} defaultValue={9} step={1} />
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    const increment = canvas.getByRole('button', { name: /increment/i });
+
+    await step('Incrementing clamps at max and disables the button', async () => {
+      await userEvent.click(increment);
+      await expect(input).toHaveValue('10');
+      await userEvent.click(increment);
+      // Held at max — does not exceed.
+      await expect(input).toHaveValue('10');
+      await expect(increment).toBeDisabled();
+    });
+  },
+};
+
+/** Arrow keys step the value; Shift uses `largeStep`, Home/End jump to min/max. */
+export const KeyboardStepping: Story = {
+  name: 'Keyboard stepping (arrows / shift / Home·End)',
+  parameters: { controls: { disable: true } },
+  args: { onValueChange: fn() },
+  render: (args) => (
+    <NumberField.Root
+      defaultValue={5}
+      step={1}
+      largeStep={10}
+      min={0}
+      max={100}
+      onValueChange={args.onValueChange}
+    >
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
+      </NumberField.Group>
+    </NumberField.Root>
+  ),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+
+    await step('ArrowUp / ArrowDown step by `step`', async () => {
+      input.focus();
+      await expect(input).toHaveFocus();
+      await userEvent.keyboard('{ArrowUp}');
+      await expect(input).toHaveValue('6');
+      await userEvent.keyboard('{ArrowDown}');
+      await expect(input).toHaveValue('5');
+      await expect(args.onValueChange).toHaveBeenCalledWith(
+        6,
+        expect.objectContaining({ reason: 'keyboard' }),
+      );
+    });
+
+    await step('Shift+ArrowUp steps by `largeStep`', async () => {
+      await userEvent.keyboard('{Shift>}{ArrowUp}{/Shift}');
+      await expect(input).toHaveValue('15');
+    });
+
+    await step('Home / End jump to min / max', async () => {
+      await userEvent.keyboard('{End}');
+      await expect(input).toHaveValue('100');
+      await userEvent.keyboard('{Home}');
+      await expect(input).toHaveValue('0');
+    });
+  },
+};
+
+/** Typing a value into the input parses and commits it on blur. */
+export const TypeAndCommit: Story = {
+  name: 'Type a value, commit on blur',
+  parameters: { controls: { disable: true } },
+  args: { onValueChange: fn(), onValueCommitted: fn() },
+  render: (args) => (
+    <NumberField.Root
+      defaultValue={0}
+      step={1}
+      min={0}
+      max={100}
+      onValueChange={args.onValueChange}
+      onValueCommitted={args.onValueCommitted}
+    >
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
+      </NumberField.Group>
+    </NumberField.Root>
+  ),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+
+    await step('typing a number updates the value', async () => {
+      await userEvent.clear(input);
+      await userEvent.type(input, '42');
+      await expect(input).toHaveValue('42');
+      await expect(args.onValueChange).toHaveBeenCalledWith(
+        42,
+        expect.objectContaining({ reason: 'input-change' }),
+      );
+    });
+
+    await step('blur commits the value via onValueCommitted', async () => {
+      await userEvent.tab();
+      await waitFor(() =>
+        expect(args.onValueCommitted).toHaveBeenCalledWith(42, expect.anything()),
+      );
+    });
+  },
+};
+
+/**
+ * Controlled value: the host owns `value` and updates it from `onValueChange`.
+ * The field only reflects what the parent passes back.
+ */
+export const Controlled: Story = {
+  name: 'Controlled value',
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const [value, setValue] = useState<number | null>(20);
+    return (
+      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+        <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
+          Value: <strong style={{ color: 'var(--eidra-fg)' }}>{String(value)}</strong>
+        </p>
+        <NumberField.Root value={value} onValueChange={setValue} step={5} min={0} max={100}>
+          <NumberField.Group>
+            <NumberField.Decrement />
+            <NumberField.Input />
+            <NumberField.Increment />
+          </NumberField.Group>
+        </NumberField.Root>
+      </div>
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    const increment = canvas.getByRole('button', { name: /increment/i });
+
+    await step('reflects the host-supplied value', async () => {
+      await expect(input).toHaveValue('20');
+    });
+
+    await step('incrementing routes through the host and updates the display', async () => {
+      await userEvent.click(increment);
+      await expect(input).toHaveValue('25');
+      // The host's live readout reflects the same value (value flows parent → field).
+      await expect(canvas.getByText('25')).toBeInTheDocument();
+    });
+  },
 };
 
 export const WithDecimalStep: Story = {
@@ -115,12 +302,31 @@ export const Disabled: Story = {
   render: () => (
     <DefaultField disabled defaultValue={42} />
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    const increment = canvas.getByRole('button', { name: /increment/i });
+    // Disabled fields ignore interaction: input + steppers are disabled and value holds.
+    await expect(input).toBeDisabled();
+    await expect(increment).toBeDisabled();
+    await userEvent.click(increment);
+    await expect(input).toHaveValue('42');
+  },
 };
 
 export const ReadOnly: Story = {
   render: () => (
     <DefaultField readOnly defaultValue={99} />
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    // Read-only: focusable and not disabled, but keyboard stepping does not change it.
+    await expect(input).toHaveAttribute('readonly');
+    input.focus();
+    await userEvent.keyboard('{ArrowUp}');
+    await expect(input).toHaveValue('99');
+  },
 };
 
 export const WithScrubArea: Story = {

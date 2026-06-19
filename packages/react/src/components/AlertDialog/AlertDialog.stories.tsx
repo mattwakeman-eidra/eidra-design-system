@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Trash2, AlertTriangle, LogOut } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
+import { within, userEvent, screen, expect, waitFor, fn } from 'storybook/test';
 import { AlertDialog } from './AlertDialog.js';
 
 const meta = {
@@ -52,6 +53,19 @@ export const Playground: Story = {
       </AlertDialog.Portal>
     </AlertDialog.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    await step('clicking the trigger opens the dialog (portaled to body)', async () => {
+      await userEvent.click(canvas.getByRole('button', { name: /open alert dialog/i }));
+      const dialog = await screen.findByRole('alertdialog');
+      await waitFor(() => expect(dialog).toBeVisible());
+      await expect(await screen.findByText(/are you sure\?/i)).toBeVisible();
+    });
+    await step('Escape dismisses the dialog', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
+    });
+  },
 };
 
 // ── Delete account ────────────────────────────────────────────────────────────
@@ -93,6 +107,17 @@ export const DeleteAccount: Story = {
       </AlertDialog.Portal>
     </AlertDialog.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    await step('opening the dialog reveals both Close actions', async () => {
+      await userEvent.click(canvas.getByRole('button', { name: /delete account/i }));
+      await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeVisible());
+    });
+    await step('clicking a Close button dismisses the dialog', async () => {
+      await userEvent.click(await screen.findByRole('button', { name: /keep account/i }));
+      await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
+    });
+  },
 };
 
 // ── Sign out ──────────────────────────────────────────────────────────────────
@@ -203,5 +228,64 @@ export const Controlled: Story = {
         </AlertDialog.Root>
       </div>
     );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    await step('opening drives onOpenChange, which flips the host state to "open"', async () => {
+      await expect(canvas.getByText(/^closed$/i)).toBeInTheDocument();
+      await userEvent.click(canvas.getByRole('button', { name: /open controlled dialog/i }));
+      await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeVisible());
+      await expect(canvas.getByText(/^open$/i)).toBeInTheDocument();
+    });
+    await step('Dismiss drives onOpenChange back to "closed"', async () => {
+      await userEvent.click(await screen.findByRole('button', { name: /dismiss/i }));
+      await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
+      await expect(canvas.getByText(/^closed$/i)).toBeInTheDocument();
+    });
+  },
+};
+
+// ── onOpenChange callback (uncontrolled) ───────────────────────────────────────
+
+/**
+ * **`onOpenChange` callback.** An uncontrolled dialog still reports every
+ * open/close transition through `onOpenChange`. The handler is a spy here, so
+ * the play function can assert it fires with the new open state on open and on
+ * a `Close` click.
+ */
+export const OnOpenChangeCallback: Story = {
+  parameters: { controls: { disable: true } },
+  args: { onOpenChange: fn() },
+  render: (args) => (
+    <AlertDialog.Root onOpenChange={args.onOpenChange}>
+      <AlertDialog.Trigger>Discard changes</AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Title>Discard unsaved changes?</AlertDialog.Title>
+          <AlertDialog.Description>
+            Your edits to this invoice will be lost. This cannot be undone.
+          </AlertDialog.Description>
+          <ActionRow>
+            <AlertDialog.Close>Keep editing</AlertDialog.Close>
+            <AlertDialog.Close>Discard</AlertDialog.Close>
+          </ActionRow>
+        </AlertDialog.Popup>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
+  ),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    await step('opening fires onOpenChange(true)', async () => {
+      await userEvent.click(canvas.getByRole('button', { name: /discard changes/i }));
+      await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeVisible());
+      await expect(args.onOpenChange).toHaveBeenCalled();
+      await expect(args.onOpenChange).toHaveBeenLastCalledWith(true, expect.anything());
+    });
+    await step('clicking a Close fires onOpenChange(false) and dismisses', async () => {
+      await userEvent.click(await screen.findByRole('button', { name: /keep editing/i }));
+      await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
+      await expect(args.onOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
+    });
   },
 };

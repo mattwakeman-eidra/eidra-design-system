@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Info, Save, Trash2, Settings } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
+import { within, userEvent, screen, expect, waitFor } from 'storybook/test';
 import { Button } from '../Button/Button.js';
 import { Tooltip } from './Tooltip.js';
 
@@ -61,6 +62,61 @@ export const Playground: Story = {
       <Button>Save</Button>
     </TooltipExample>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /save/i });
+
+    await step('hovering the trigger opens the tooltip (portaled to body)', async () => {
+      await userEvent.hover(trigger);
+      const tip = await screen.findByText(/save your changes/i);
+      await waitFor(() => expect(tip).toBeVisible());
+      // Trigger is described by the open tooltip.
+      await expect(trigger).toHaveAttribute('data-popup-open');
+    });
+
+    await step('unhovering closes the tooltip', async () => {
+      await userEvent.unhover(trigger);
+      await waitFor(() => expect(screen.queryByText(/save your changes/i)).toBeNull());
+    });
+  },
+};
+
+/**
+ * The tooltip opens on keyboard focus (not just hover) and dismisses on Escape — the
+ * keyboard-equivalent of hovering. Built on the same `TooltipExample` recipe.
+ */
+export const FocusAndEscape: Story = {
+  name: 'Focus & Escape',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Focusing the trigger opens the tooltip and pressing Escape dismisses it, ' +
+          'so the tooltip is reachable and dismissable by keyboard alone.',
+      },
+    },
+  },
+  render: () => (
+    <TooltipExample label="Save your changes">
+      <Button>Save</Button>
+    </TooltipExample>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /save/i });
+
+    await step('focusing the trigger opens the tooltip', async () => {
+      trigger.focus();
+      await expect(trigger).toHaveFocus();
+      const tip = await screen.findByText(/save your changes/i);
+      await waitFor(() => expect(tip).toBeVisible());
+    });
+
+    await step('Escape dismisses the tooltip', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByText(/save your changes/i)).toBeNull());
+    });
+  },
 };
 
 export const Sides: Story = {
@@ -145,6 +201,31 @@ export const SharedDelay: Story = {
       </div>
     </Tooltip.Provider>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const proposals = canvas.getByRole('button', { name: /proposals/i });
+    const clients = canvas.getByRole('button', { name: /clients/i });
+
+    await step('the first tooltip opens after its delay', async () => {
+      await userEvent.hover(proposals);
+      const tip = await screen.findByText(/go to proposals/i);
+      await waitFor(() => expect(tip).toBeVisible());
+    });
+
+    await step('moving to an adjacent trigger opens its tooltip instantly', async () => {
+      await userEvent.unhover(proposals);
+      await userEvent.hover(clients);
+      // Inside the Provider window the adjacent tooltip opens with no delay.
+      const tip = await screen.findByText(/go to clients/i);
+      await waitFor(() => expect(tip).toBeVisible());
+      // The previous tooltip closes (closeDelay 0). Its popup can linger in the DOM
+      // at opacity 0 rather than unmounting, so assert it's no longer visible.
+      await waitFor(() => {
+        const prev = screen.queryByText(/go to proposals/i);
+        if (prev) expect(prev).not.toBeVisible();
+      });
+    });
+  },
 };
 
 export const LongLabel: Story = {
@@ -174,7 +255,7 @@ export const Disabled: Story = {
   },
   render: () => (
     <Tooltip.Root disabled>
-      <Tooltip.Trigger render={asRender(<Button disabled>Disabled</Button>)}></Tooltip.Trigger>
+      <Tooltip.Trigger render={asRender(<Button>Disabled</Button>)}></Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Positioner side="top">
           <Tooltip.Popup>
@@ -185,6 +266,18 @@ export const Disabled: Story = {
       </Tooltip.Portal>
     </Tooltip.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /disabled/i });
+
+    await step('hovering a disabled-Root trigger never opens the tooltip', async () => {
+      await userEvent.hover(trigger);
+      // Give the open delay a window to (not) fire, then assert it stayed closed.
+      await waitFor(() =>
+        expect(screen.queryByText(/you will never see this/i)).toBeNull(),
+      );
+    });
+  },
 };
 
 export const InlineTerm: Story = {
@@ -230,6 +323,31 @@ export const InlineTerm: Story = {
       is up 12% on last quarter.
     </p>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const term = canvas.getByText('WIP');
+
+    await step('hovering the inline term reveals its definition', async () => {
+      await userEvent.hover(term);
+      const def = await screen.findByText(/work in progress/i);
+      await waitFor(() => expect(def).toBeVisible());
+    });
+
+    await step('moving the pointer away hides the definition', async () => {
+      await userEvent.unhover(term);
+      await waitFor(() => expect(screen.queryByText(/work in progress/i)).toBeNull());
+    });
+
+    await step('the span trigger is keyboard-focusable and opens on focus', async () => {
+      term.focus();
+      await expect(term).toHaveFocus();
+      const def = await screen.findByText(/work in progress/i);
+      await waitFor(() => expect(def).toBeVisible());
+      // Escape dismisses it again.
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByText(/work in progress/i)).toBeNull());
+    });
+  },
 };
 
 const GLOSSARY: Record<string, string> = {

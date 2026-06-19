@@ -2,12 +2,15 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Users, FileText, Settings } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
+import { within, userEvent, expect, waitFor, fn } from 'storybook/test';
 import { Collapsible } from './Collapsible.js';
 
 const meta = {
   title: 'Layout/Collapsible',
   component: Collapsible.Root,
   tags: ['autodocs'],
+  parameters: {
+  },
   args: {
     defaultOpen: false,
     disabled: false,
@@ -58,6 +61,27 @@ export const DefaultClosed: Story = {
       </Collapsible.Root>
     </div>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /Project details/ });
+
+    await step('starts collapsed', async () => {
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    await step('clicking the trigger expands the panel (uncontrolled)', async () => {
+      await userEvent.click(trigger);
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(
+        await canvas.findByText(/reveal additional project information/),
+      ).toBeVisible();
+    });
+
+    await step('clicking again collapses it', async () => {
+      await userEvent.click(trigger);
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
 };
 
 // ─── Default open ──────────────────────────────────────────────────────────────
@@ -78,6 +102,22 @@ export const DefaultOpen: Story = {
       </Collapsible.Root>
     </div>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /Engagement scope/ });
+
+    await step('starts expanded', async () => {
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(
+        await canvas.findByText(/Discovery and research/),
+      ).toBeVisible();
+    });
+
+    await step('clicking the trigger collapses the panel', async () => {
+      await userEvent.click(trigger);
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
 };
 
 // ─── Disabled ─────────────────────────────────────────────────────────────────
@@ -95,6 +135,17 @@ export const Disabled: Story = {
       </Collapsible.Root>
     </div>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /Restricted section/ });
+
+    await step('trigger is disabled and clicking does not expand', async () => {
+      await expect(trigger).toHaveAttribute('aria-disabled', 'true');
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await userEvent.click(trigger);
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
 };
 
 // ─── Stacked FAQ ──────────────────────────────────────────────────────────────
@@ -198,14 +249,23 @@ export const WithIconInTrigger: Story = {
 // ─── Controlled ───────────────────────────────────────────────────────────────
 
 export const Controlled: Story = {
-  render: function ControlledCollapsible() {
+  args: {
+    onOpenChange: fn(),
+  },
+  render: function ControlledCollapsible(args) {
     const [open, setOpen] = React.useState(false);
     return (
       <div style={{ maxWidth: 480, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
         <p style={{ margin: 0, fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>
           Panel is: <strong style={{ color: 'var(--eidra-fg)' }}>{open ? 'open' : 'closed'}</strong>
         </p>
-        <Collapsible.Root open={open} onOpenChange={setOpen}>
+        <Collapsible.Root
+          open={open}
+          onOpenChange={(nextOpen, eventDetails) => {
+            setOpen(nextOpen);
+            args.onOpenChange?.(nextOpen, eventDetails);
+          }}
+        >
           <Collapsible.Trigger>Controlled collapsible</Collapsible.Trigger>
           <Collapsible.Panel>
             <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
@@ -217,5 +277,69 @@ export const Controlled: Story = {
         </Collapsible.Root>
       </div>
     );
+  },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /Controlled collapsible/ });
+
+    await step('reflects the externally-owned closed state', async () => {
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await expect(canvas.getByText('closed')).toBeInTheDocument();
+    });
+
+    await step('clicking fires onOpenChange and the host opens it', async () => {
+      await userEvent.click(trigger);
+      await expect(args.onOpenChange).toHaveBeenCalledWith(true, expect.anything());
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(canvas.getByText('open')).toBeInTheDocument();
+    });
+
+    await step('clicking again fires onOpenChange(false) and the host closes it', async () => {
+      await userEvent.click(trigger);
+      await expect(args.onOpenChange).toHaveBeenCalledWith(false, expect.anything());
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
+};
+
+// ─── Keyboard ───────────────────────────────────────────────────────────────────
+
+/** The trigger is a native button: it toggles on Enter and Space and shows a focus ring. */
+export const Keyboard: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={{ maxWidth: 480 }}>
+      <Collapsible.Root>
+        <Collapsible.Trigger>Keyboard toggle</Collapsible.Trigger>
+        <Collapsible.Panel>
+          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+            <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)' }}>
+              Toggled entirely from the keyboard.
+            </p>
+          </div>
+        </Collapsible.Panel>
+      </Collapsible.Root>
+    </div>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /Keyboard toggle/ });
+
+    await step('Tab moves focus to the trigger', async () => {
+      await userEvent.tab();
+      await expect(trigger).toHaveFocus();
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    await step('Enter expands the panel', async () => {
+      await userEvent.keyboard('{Enter}');
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(await canvas.findByText(/Toggled entirely from the keyboard/)).toBeVisible();
+    });
+
+    await step('Space collapses it again', async () => {
+      await userEvent.keyboard(' ');
+      await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+    });
   },
 };

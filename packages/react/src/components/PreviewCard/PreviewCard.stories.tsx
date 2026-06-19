@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ExternalLink, Building2, Users, Calendar } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
+import { within, userEvent, screen, expect, waitFor, fn } from 'storybook/test';
 import { PreviewCard } from './PreviewCard.js';
 
 const meta = {
@@ -91,6 +93,23 @@ export const Playground: Story = {
       {' '}to see the preview card.
     </p>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('link', { name: /Nordic Identity Refresh/i });
+
+    await step('hovering the trigger opens the preview popup (portaled to body)', async () => {
+      await userEvent.hover(trigger);
+      const heading = await screen.findByRole('heading', { name: /Nordic Identity Refresh/i });
+      await waitFor(() => expect(heading).toBeVisible());
+    });
+
+    await step('Escape dismisses the popup', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() =>
+        expect(screen.queryByRole('heading', { name: /Nordic Identity Refresh/i })).toBeNull(),
+      );
+    });
+  },
 };
 
 // ---- Person / contact card ----
@@ -169,6 +188,22 @@ export const PersonCard: Story = {
       {' '}in this sprint.
     </p>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('link', { name: /Ingrid Halvorsen/i });
+
+    await step('focusing the trigger via keyboard opens the preview', async () => {
+      trigger.focus();
+      await expect(trigger).toHaveFocus();
+      const name = await screen.findByText(/Lead Designer/i);
+      await waitFor(() => expect(name).toBeVisible());
+    });
+
+    await step('Escape closes the focus-opened preview', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByText(/Lead Designer/i)).toBeNull());
+    });
+  },
 };
 
 // ---- Simple link preview ----
@@ -278,5 +313,147 @@ export const Controlled: Story = {
         {' '}that starts open.
       </p>
     );
+  },
+  play: async ({ step }) => {
+    await step('defaultOpen renders the popup open on mount', async () => {
+      const heading = await screen.findByText(/Default open/i);
+      await waitFor(() => expect(heading).toBeVisible());
+    });
+  },
+};
+
+// ---- onOpenChange callback ----
+/**
+ * Hover/focus open and close both fire `onOpenChange(open, eventDetails)`. The
+ * host passes a spy to observe each transition.
+ */
+const onOpenChangeSpy = fn();
+
+export const OpenChangeCallback: Story = {
+  name: 'onOpenChange callback',
+  parameters: { controls: { disable: true } },
+  render: function OpenChangeStory() {
+    return (
+      <p style={{ fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-base)' }}>
+        Hover{' '}
+        <PreviewCard.Root onOpenChange={onOpenChangeSpy}>
+          <PreviewCard.Trigger href="#" onClick={(e) => e.preventDefault()} aria-label="Open change demo">
+            Eidra Copenhagen
+          </PreviewCard.Trigger>
+          <PreviewCard.Portal>
+            <PreviewCard.Positioner side="bottom" align="start" sideOffset={8}>
+              <PreviewCard.Popup>
+                <div style={{ padding: 'var(--eidra-space-4)' }}>
+                  <div
+                    style={{
+                      fontWeight: 'var(--eidra-font-weight-semibold)',
+                      fontSize: 'var(--eidra-font-size-sm)',
+                      color: 'var(--eidra-fg)',
+                    }}
+                  >
+                    Eidra Copenhagen
+                  </div>
+                  <p
+                    style={{
+                      margin: 'var(--eidra-space-1) 0 0',
+                      fontSize: 'var(--eidra-font-size-xs)',
+                      color: 'var(--eidra-fg-muted)',
+                    }}
+                  >
+                    Strategy &amp; design studio.
+                  </p>
+                </div>
+              </PreviewCard.Popup>
+              <PreviewCard.Arrow />
+            </PreviewCard.Positioner>
+          </PreviewCard.Portal>
+        </PreviewCard.Root>{' '}
+        to fire the callback.
+      </p>
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('link', { name: /Open change demo/i });
+    onOpenChangeSpy.mockClear();
+
+    await step('hover fires onOpenChange(true)', async () => {
+      await userEvent.hover(trigger);
+      await screen.findByText(/Strategy & design studio/i);
+      await waitFor(() => expect(onOpenChangeSpy).toHaveBeenCalledWith(true, expect.anything()));
+    });
+
+    await step('Escape fires onOpenChange(false) and removes the popup', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByText(/Strategy & design studio/i)).toBeNull());
+      await expect(onOpenChangeSpy).toHaveBeenCalledWith(false, expect.anything());
+    });
+  },
+};
+
+// ---- Fully controlled open state ----
+/**
+ * The host owns `open` and only flips it from `onOpenChange`. A reset button
+ * drives state from outside the trigger to prove the popup tracks the prop.
+ */
+export const ControlledOpen: Story = {
+  name: 'Controlled open',
+  parameters: { controls: { disable: true } },
+  render: function ControlledOpenStory() {
+    const [open, setOpen] = useState(false);
+    return (
+      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', fontFamily: 'var(--eidra-font-family-sans)' }}>
+        <p style={{ margin: 0, fontSize: 'var(--eidra-font-size-base)' }}>
+          Open:{' '}
+          <strong>{String(open)}</strong>
+        </p>
+        <button type="button" onClick={() => setOpen(true)}>
+          Open from outside
+        </button>
+        <p style={{ margin: 0, fontSize: 'var(--eidra-font-size-base)' }}>
+          Hover{' '}
+          <PreviewCard.Root open={open} onOpenChange={setOpen}>
+            <PreviewCard.Trigger href="#" onClick={(e) => e.preventDefault()} aria-label="Controlled trigger">
+              Eidra Helsinki
+            </PreviewCard.Trigger>
+            <PreviewCard.Portal>
+              <PreviewCard.Positioner side="bottom" align="start" sideOffset={8}>
+                <PreviewCard.Popup>
+                  <div style={{ padding: 'var(--eidra-space-4)' }}>
+                    <div
+                      style={{
+                        fontWeight: 'var(--eidra-font-weight-semibold)',
+                        fontSize: 'var(--eidra-font-size-sm)',
+                        color: 'var(--eidra-fg)',
+                      }}
+                    >
+                      Controlled card
+                    </div>
+                  </div>
+                </PreviewCard.Popup>
+                <PreviewCard.Arrow />
+              </PreviewCard.Positioner>
+            </PreviewCard.Portal>
+          </PreviewCard.Root>{' '}
+          or use the button.
+        </p>
+      </div>
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('host button opens the controlled popup via the open prop', async () => {
+      await userEvent.click(canvas.getByRole('button', { name: /Open from outside/i }));
+      const card = await screen.findByText(/Controlled card/i);
+      await waitFor(() => expect(card).toBeVisible());
+      await expect(canvas.getByText(/Open:/).querySelector('strong')).toHaveTextContent('true');
+    });
+
+    await step('Escape drives onOpenChange(false), host closes the popup', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByText(/Controlled card/i)).toBeNull());
+      await expect(canvas.getByText(/Open:/).querySelector('strong')).toHaveTextContent('false');
+    });
   },
 };
