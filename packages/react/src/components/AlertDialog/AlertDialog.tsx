@@ -166,7 +166,7 @@ export const AlertDialogPortal = BaseAlertDialog.Portal;
 // ── Compound namespace export ─────────────────────────────────────────────────
 
 /**
- * Alert Dialog compound component.
+ * An interruptive modal confirmation (Base UI `AlertDialog`, role `alertdialog`) for destructive or critical decisions — the backdrop does not dismiss it (Esc still closes), so a stray outside-click can't lose the choice; use `Dialog` for freely-dismissible content or forms.
  *
  * @example
  * ```tsx

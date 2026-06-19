@@ -153,11 +153,11 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 ### Overlays
 
-- **AlertDialog** — Alert Dialog compound component.
+- **AlertDialog** — An interruptive modal confirmation (Base UI `AlertDialog`, role `alertdialog`) for destructive or critical decisions — the backdrop does not dismiss it (Esc still closes), so a stray outside-click can't lose the choice; use `Dialog` for freely-dismissible content or forms.
   - import: `import { AlertDialog, AlertDialogRoot, AlertDialogTrigger, AlertDialogBackdrop, AlertDialogPortal, AlertDialogPopup, AlertDialogTitle, AlertDialogDescription, AlertDialogClose } from '@eidra/react'` · parts: AlertDialog.Root, AlertDialog.Trigger, AlertDialog.Backdrop, AlertDialog.Portal, AlertDialog.Popup, AlertDialog.Title, AlertDialog.Description, AlertDialog.Close
 - **ContextMenu** — A context menu activated by right-clicking or long pressing on the trigger area.
   - import: `import { ContextMenu } from '@eidra/react'` · parts: ContextMenu.Root, ContextMenu.Trigger, ContextMenu.Portal, ContextMenu.Positioner, ContextMenu.Popup, ContextMenu.Item, ContextMenu.CheckboxItem, ContextMenu.CheckboxItemIndicator, ContextMenu.RadioGroup, ContextMenu.RadioItem, ContextMenu.RadioItemIndicator, ContextMenu.Group, ContextMenu.GroupLabel, ContextMenu.Separator, ContextMenu.SubmenuRoot, ContextMenu.SubmenuTrigger, ContextMenu.Arrow, ContextMenu.Backdrop
-- **Dialog** — A modal/non-modal dialog built on Base UI `Dialog`.
+- **Dialog** — A general-purpose modal/non-modal dialog (Base UI `Dialog`) for content, forms and detail panels — dismissible by outside-click or Esc; use `AlertDialog` instead when an outside-click must not discard a destructive or critical choice.
   - import: `import { Dialog } from '@eidra/react'` · parts: Dialog.Root, Dialog.Trigger, Dialog.Portal, Dialog.Backdrop, Dialog.Popup, Dialog.Header, Dialog.Body, Dialog.Footer, Dialog.Title, Dialog.Description, Dialog.Close, Dialog.CloseButton
 - **Menu** — A dropdown menu built on Base UI `Menu`.
   - import: `import { Menu } from '@eidra/react'` · parts: Menu.Root, Menu.Trigger, Menu.Portal, Menu.Positioner, Menu.Popup, Menu.Item, Menu.CheckboxItem, Menu.CheckboxItemIndicator, Menu.RadioGroup, Menu.RadioItem, Menu.RadioItemIndicator, Menu.Group, Menu.GroupLabel, Menu.Separator, Menu.SubmenuRoot, Menu.SubmenuTrigger, Menu.Arrow
