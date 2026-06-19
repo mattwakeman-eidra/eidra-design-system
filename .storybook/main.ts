@@ -8,7 +8,21 @@ const config: StorybookConfig = {
   stories: ['../packages/*/src/**/*.stories.@(ts|tsx)'],
   addons: ['@storybook/addon-a11y', '@storybook/addon-docs', '@storybook/addon-vitest'],
   framework: { name: '@storybook/react-vite', options: {} },
-  typescript: { reactDocgen: 'react-docgen' },
+  typescript: {
+    // Resolve props through the TypeScript type graph (not the AST-only
+    // `react-docgen`), so each wrapper's inherited Base UI props — `checked`,
+    // `onValueChange`, … — surface in the autodocs table with their own JSDoc,
+    // uniformly across every component. The propFilter keeps the table to the
+    // meaningful surface: Eidra + Base UI props, dropping the hundreds of raw
+    // DOM/aria props that come from `@types/react`.
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      propFilter: (prop) =>
+        prop.parent ? !/node_modules\/@types\/react\//.test(prop.parent.fileName) : true,
+    },
+  },
   staticDirs: ['../static'],
   managerHead: (head) => `${head}<link rel="icon" href="./favicon.ico" />`,
   viteFinal: async (cfg) => {
