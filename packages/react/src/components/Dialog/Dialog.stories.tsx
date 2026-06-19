@@ -28,6 +28,17 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'A general-purpose **dialog** (Base UI `Dialog`, `role="dialog"`) for content, ' +
+          'forms, and detail panels.\n\n' +
+          '**It dismisses on outside-click and `Esc`** — the user can freely close it. ' +
+          'If you need an interruptive confirmation that must *not* be lost to a stray click ' +
+          'outside (e.g. “Delete this project?”), use **AlertDialog** instead — its backdrop ' +
+          'is non-dismissing.',
+      },
+    },
   },
   argTypes: {
     modal: { control: 'inline-radio', options: [true, false, 'trap-focus'] },

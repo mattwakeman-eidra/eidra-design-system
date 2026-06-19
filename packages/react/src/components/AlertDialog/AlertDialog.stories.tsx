@@ -20,6 +20,17 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'An interruptive, modal **alert dialog** (Base UI `AlertDialog`, ' +
+          '`role="alertdialog"`) for destructive or critical decisions.\n\n' +
+          '**Clicking the backdrop does *not* dismiss it** — the user must choose an explicit ' +
+          'action (e.g. Cancel / Delete), so a stray outside-click can’t lose the decision ' +
+          '(`Esc` still closes). Screen readers announce it more assertively than a plain ' +
+          'dialog. For freely-dismissible content or forms, use **Dialog** instead.',
+      },
+    },
   },
 } satisfies Meta<typeof AlertDialog.Root>;
 
