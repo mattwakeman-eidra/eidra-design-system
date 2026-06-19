@@ -21,7 +21,6 @@ const meta = {
 } satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
 
 // ── Money formatting ─────────────────────────────────────────────────────────
 // Sample revenue figures are in €k; multiply back up for the compact formatter.
@@ -218,11 +217,17 @@ function ClientCell({ client, monthCount }: { client: Client; monthCount: number
   );
 }
 
-/** Ranked "Top clients" panel: flag + name + revenue, sorted descending. */
-function TopClientsList({ monthCount }: { monthCount: number }) {
-  const ranked = [...CLIENTS]
+// Clients ranked by net revenue over the trailing window, limited to the top N.
+function rankedClients(monthCount: number, topN: number) {
+  return [...CLIENTS]
     .map((c) => ({ client: c, total: clientTotal(c, monthCount) }))
-    .sort((a, b) => b.total - a.total);
+    .sort((a, b) => b.total - a.total)
+    .slice(0, topN);
+}
+
+/** Ranked "Top clients" panel: flag + name + revenue, sorted descending. */
+function TopClientsList({ monthCount, topN }: { monthCount: number; topN: number }) {
+  const ranked = rankedClients(monthCount, topN);
   return (
     <div
       style={{
@@ -263,11 +268,20 @@ function TopClientsList({ monthCount }: { monthCount: number }) {
 }
 
 /** The full page: legend, small-multiples grid, and ranked list side by side. */
-function TopClientsPage({ monthCount }: { monthCount: number }) {
+function TopClientsPage({ monthCount, topN, showRankedList }: { monthCount: number; topN: number; showRankedList: boolean }) {
+  // Show the top-N clients for the window in both the mini grid and the list.
+  const shown = rankedClients(monthCount, topN).map((r) => r.client);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
       <OpCoLegend />
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 'var(--eidra-space-4)', alignItems: 'start' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: showRankedList ? 'minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
+          gap: 'var(--eidra-space-4)',
+          alignItems: 'start',
+        }}
+      >
         <div
           style={{
             display: 'grid',
@@ -275,29 +289,60 @@ function TopClientsPage({ monthCount }: { monthCount: number }) {
             gap: 'var(--eidra-space-4)',
           }}
         >
-          {CLIENTS.map((c) => (
+          {shown.map((c) => (
             <ClientCell key={c.name} client={c} monthCount={monthCount} />
           ))}
         </div>
-        <TopClientsList monthCount={monthCount} />
+        {showRankedList && <TopClientsList monthCount={monthCount} topN={topN} />}
       </div>
     </div>
   );
 }
 
 /**
- * **Last 12 months** — twelve monthly stacked bars per client. The wide view from
- * the deck: every client's full-year net-revenue shape, stacked by OpCo.
+ * Shared controls for both windows: `months` slices the trailing window (the only
+ * default that differs between the two stories — 12 vs 3), `topN` limits how many
+ * clients render in both the mini grid and the ranked list, and `showRankedList`
+ * toggles the side panel.
  */
-export const LastTwelveMonths: Story = {
-  render: () => <TopClientsPage monthCount={12} />,
+interface TopClientsArgs {
+  months: number;
+  topN: number;
+  showRankedList: boolean;
+}
+
+const topClientsArgTypes = {
+  months: { control: { type: 'range', min: 1, max: 12, step: 1 } },
+  topN: { control: { type: 'range', min: 1, max: 16, step: 1 } },
+  showRankedList: { control: 'boolean' },
+} as const;
+
+/**
+ * **Last 12 months** — twelve monthly stacked bars per client. The wide view from
+ * the deck: every client's full-year net-revenue shape, stacked by OpCo. Use the
+ * controls to change the trailing window (`months`), limit the client count
+ * (`topN`), and toggle the ranked list.
+ */
+export const LastTwelveMonths: StoryObj<TopClientsArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: topClientsArgTypes,
+  args: { months: 12, topN: 16, showRankedList: true },
+  render: ({ months, topN, showRankedList }) => (
+    <TopClientsPage monthCount={months} topN={topN} showRankedList={showRankedList} />
+  ),
 };
 
 /**
  * **Last 3 months** — the same grid trimmed to the trailing quarter (three bars per
  * mini), for a recent-activity snapshot. Totals and the ranked list recompute for
- * the shorter window.
+ * the shorter window. Use the controls to widen the window (`months`), limit the
+ * client count (`topN`), and toggle the ranked list.
  */
-export const LastThreeMonths: Story = {
-  render: () => <TopClientsPage monthCount={3} />,
+export const LastThreeMonths: StoryObj<TopClientsArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: topClientsArgTypes,
+  args: { months: 3, topN: 16, showRankedList: true },
+  render: ({ months, topN, showRankedList }) => (
+    <TopClientsPage monthCount={months} topN={topN} showRankedList={showRankedList} />
+  ),
 };

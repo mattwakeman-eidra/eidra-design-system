@@ -7,6 +7,7 @@ import {
   Chart,
   DataGrid,
   type ChartConfig,
+  type DataGridAccent,
   type DataGridColumnDef,
 } from '../index.js';
 
@@ -23,7 +24,6 @@ const meta = {
 } satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
 
 // Swedish-style figures: comma decimal, space thousands — matches the deck.
 const num = (n: number, dp = 1) =>
@@ -56,57 +56,84 @@ const regionCell = (r: RegionRow) => (
   </span>
 );
 
-const REGION_COLUMNS: DataGridColumnDef<RegionRow>[] = [
-  { id: 'region', header: 'Region', pinned: true, width: 168, accessor: (r) => r.name, cell: regionCell },
-  {
-    id: 'month',
-    header: 'Month',
-    columns: [
-      { id: 'monthNr', header: 'NR', numeric: true, accessor: (r) => r.monthNr, cell: (r) => num(r.monthNr) },
-      {
-        id: 'monthMg',
-        header: 'MG %',
-        numeric: true,
-        accessor: (r) => r.monthMg,
-        cell: (r) => pct(r.monthMg),
-        cellTone: () => 'muted',
-      },
-    ],
-  },
-  {
-    id: 'ytd',
-    header: 'YTD',
-    columns: [
-      { id: 'ytdNr', header: 'NR', numeric: true, accessor: (r) => r.ytdNr, cell: (r) => num(r.ytdNr) },
-      {
-        id: 'ytdMg',
-        header: 'MG %',
-        numeric: true,
-        accessor: (r) => r.ytdMg,
-        cell: (r) => pct(r.ytdMg),
-        cellTone: () => 'muted',
-      },
-    ],
-  },
-];
+const REGION_COLUMN: DataGridColumnDef<RegionRow> = {
+  id: 'region',
+  header: 'Region',
+  pinned: true,
+  width: 168,
+  accessor: (r) => r.name,
+  cell: regionCell,
+};
+
+const MONTH_GROUP: DataGridColumnDef<RegionRow> = {
+  id: 'month',
+  header: 'Month',
+  columns: [
+    { id: 'monthNr', header: 'NR', numeric: true, accessor: (r) => r.monthNr, cell: (r) => num(r.monthNr) },
+    {
+      id: 'monthMg',
+      header: 'MG %',
+      numeric: true,
+      accessor: (r) => r.monthMg,
+      cell: (r) => pct(r.monthMg),
+      cellTone: () => 'muted',
+    },
+  ],
+};
+
+const YTD_GROUP: DataGridColumnDef<RegionRow> = {
+  id: 'ytd',
+  header: 'YTD',
+  columns: [
+    { id: 'ytdNr', header: 'NR', numeric: true, accessor: (r) => r.ytdNr, cell: (r) => num(r.ytdNr) },
+    {
+      id: 'ytdMg',
+      header: 'MG %',
+      numeric: true,
+      accessor: (r) => r.ytdMg,
+      cell: (r) => pct(r.ytdMg),
+      cellTone: () => 'muted',
+    },
+  ],
+};
 
 /**
  * The compact **By Region** panel: a `DataGrid` with a two-tier header (Month / YTD,
  * each Net Revenue + Margin %), a pinned region column rendering a `Flag`, and muted
- * margin cells via `cellTone`. `accent="finance"` themes the focus/sort affordances.
+ * margin cells via `cellTone`. Use the controls to choose which period column groups
+ * show (`period`: both / month / ytd) and to switch the grid's `accent` between the
+ * finance data-viz palette and the brand accent.
  */
-export const SummaryTable: Story = {
-  render: () => (
-    <div style={{ maxWidth: 560 }}>
-      <DataGrid<RegionRow>
-        aria-label="Net revenue and margin by region"
-        accent="finance"
-        columns={REGION_COLUMNS}
-        data={REGION_ROWS}
-        getRowId={(r) => r.code}
-      />
-    </div>
-  ),
+interface SummaryTableArgs {
+  period: 'both' | 'month' | 'ytd';
+  accent: DataGridAccent;
+}
+
+export const SummaryTable: StoryObj<SummaryTableArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    period: { control: 'inline-radio', options: ['both', 'month', 'ytd'] },
+    accent: { control: 'inline-radio', options: ['finance', 'brand'] },
+  },
+  args: { period: 'both', accent: 'finance' },
+  render: ({ period, accent }) => {
+    const columns: DataGridColumnDef<RegionRow>[] = [
+      REGION_COLUMN,
+      ...(period !== 'ytd' ? [MONTH_GROUP] : []),
+      ...(period !== 'month' ? [YTD_GROUP] : []),
+    ];
+    return (
+      <div style={{ maxWidth: 560 }}>
+        <DataGrid<RegionRow>
+          aria-label="Net revenue and margin by region"
+          accent={accent}
+          columns={columns}
+          data={REGION_ROWS}
+          getRowId={(r) => r.code}
+        />
+      </div>
+    );
+  },
 };
 
 // ── Recipe 2: "Regional Overview" cards (deck pages 5–6) ─────────────────────
@@ -152,7 +179,7 @@ const miniTitle = (text: string) => (
   </div>
 );
 
-function MiniBars({ values, percent = false }: { values: Triple; percent?: boolean }) {
+function MiniBars({ values, percent = false, showLabels = true }: { values: Triple; percent?: boolean; showLabels?: boolean }) {
   const data = SERIES.map((s, i) => ({ period: s.key, value: values[i] }));
   return (
     <Chart.Container config={periodConfig} style={{ height: 116 }}>
@@ -162,19 +189,21 @@ function MiniBars({ values, percent = false }: { values: Triple; percent?: boole
           {SERIES.map((s) => (
             <Chart.Cell key={s.key} fill={s.color} />
           ))}
-          <Chart.LabelList
-            dataKey="value"
-            position="top"
-            fontSize={11}
-            formatter={(v) => (percent ? pct(Number(v)) : num(Number(v)))}
-          />
+          {showLabels && (
+            <Chart.LabelList
+              dataKey="value"
+              position="top"
+              fontSize={11}
+              formatter={(v) => (percent ? pct(Number(v)) : num(Number(v)))}
+            />
+          )}
         </Chart.Bar>
       </Chart.BarChart>
     </Chart.Container>
   );
 }
 
-function RegionOverviewCard({ region }: { region: RegionCard }) {
+function RegionOverviewCard({ region, showLabels = true, showMargin = true }: { region: RegionCard; showLabels?: boolean; showMargin?: boolean }) {
   return (
     <Card variant="outline" padding="none">
       <Card.Header
@@ -184,14 +213,14 @@ function RegionOverviewCard({ region }: { region: RegionCard }) {
           <Flag code={region.code} size="md" label={region.name} />
           {region.name}
         </span>
-        <Badge tone="neutral" variant="subtle">{pct(region.ebitdaMargin)}</Badge>
+        {showMargin && <Badge tone="neutral" variant="subtle">{pct(region.ebitdaMargin)}</Badge>}
       </Card.Header>
       <Card.Body>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--eidra-space-4)' }}>
-          <div>{miniTitle('Net Revenue (MSEK)')}<MiniBars values={region.netRevenue} /></div>
-          <div>{miniTitle('OP EBITDA %')}<MiniBars values={region.opEbitda} percent /></div>
-          <div>{miniTitle('Regional Contribution (MSEK)')}<MiniBars values={region.regionalContribution} /></div>
-          <div>{miniTitle('Legal Contribution (MSEK)')}<MiniBars values={region.legalContribution} /></div>
+          <div>{miniTitle('Net Revenue (MSEK)')}<MiniBars values={region.netRevenue} showLabels={showLabels} /></div>
+          <div>{miniTitle('OP EBITDA %')}<MiniBars values={region.opEbitda} percent showLabels={showLabels} /></div>
+          <div>{miniTitle('Regional Contribution (MSEK)')}<MiniBars values={region.regionalContribution} showLabels={showLabels} /></div>
+          <div>{miniTitle('Legal Contribution (MSEK)')}<MiniBars values={region.legalContribution} showLabels={showLabels} /></div>
         </div>
       </Card.Body>
     </Card>
@@ -201,13 +230,37 @@ function RegionOverviewCard({ region }: { region: RegionCard }) {
 /**
  * The **Regional Overview** card grid: one `Card` per region with a `Flag` + name
  * header, an EBITDA-margin `Badge`, and a 2×2 grid of mini `Chart.BarChart`s comparing
- * 2025 / FC1 / 2026 (prior / forecast / current) with value labels.
+ * 2025 / FC1 / 2026 (prior / forecast / current) with value labels. Use the controls
+ * to toggle the mini-bar value labels (`showLabels`) and the EBITDA-margin `Badge`
+ * (`showMargin`), and to lay out the grid — `columns` fixes the column count while
+ * `minCardWidth` sets each card's minimum width.
  */
-export const RegionalOverview: Story = {
-  render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 'var(--eidra-space-4)' }}>
+interface RegionalOverviewArgs {
+  showLabels: boolean;
+  showMargin: boolean;
+  columns: number;
+  minCardWidth: number;
+}
+
+export const RegionalOverview: StoryObj<RegionalOverviewArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showLabels: { control: 'boolean' },
+    showMargin: { control: 'boolean' },
+    columns: { control: { type: 'range', min: 1, max: 5, step: 1 } },
+    minCardWidth: { control: { type: 'range', min: 240, max: 480, step: 20 } },
+  },
+  args: { showLabels: true, showMargin: true, columns: 2, minCardWidth: 340 },
+  render: ({ showLabels, showMargin, columns, minCardWidth }) => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columns}, minmax(${minCardWidth}px, 1fr))`,
+        gap: 'var(--eidra-space-4)',
+      }}
+    >
       {REGION_CARDS.map((r) => (
-        <RegionOverviewCard key={r.code} region={r} />
+        <RegionOverviewCard key={r.code} region={r} showLabels={showLabels} showMargin={showMargin} />
       ))}
     </div>
   ),

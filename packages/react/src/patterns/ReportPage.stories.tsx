@@ -28,7 +28,6 @@ const meta = {
 } satisfies Meta;
 
 export default meta;
-type Story = StoryObj;
 
 const eur = (n: number) =>
   new Intl.NumberFormat('en-IE', {
@@ -299,11 +298,28 @@ function ExecSummary() {
 
 // ── Stories ──────────────────────────────────────────────────────────────────
 
-/** The deck's title/cover slide (p1): coral eyebrow, big title, coral rule, wordmark. */
-export const Cover: Story = {
-  render: () => (
+/**
+ * The deck's title/cover slide (p1): coral eyebrow, big title, coral rule, wordmark.
+ * Use the controls to edit the `eyebrow`, `title`, and `confidential` lines wired
+ * into `CoverPage`.
+ */
+interface CoverArgs {
+  eyebrow: string;
+  title: string;
+  confidential: string;
+}
+
+export const Cover: StoryObj<CoverArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    eyebrow: { control: 'text' },
+    title: { control: 'text' },
+    confidential: { control: 'text' },
+  },
+  args: { eyebrow: 'Monthly Financial Deck', title: 'Financial update May 2026', confidential: 'Confidential' },
+  render: ({ eyebrow, title, confidential }) => (
     <div style={{ padding: 'var(--eidra-space-6)' }}>
-      <CoverPage eyebrow="Monthly Financial Deck" title="Financial update May 2026" />
+      <CoverPage eyebrow={eyebrow} title={title} confidential={confidential} />
     </div>
   ),
 };
@@ -311,18 +327,46 @@ export const Cover: Story = {
 /**
  * A content slide: `ReportPage` chrome wrapping a real exec-summary body
  * (a `StatisticBar` headline, two `Statistic`s, and a revenue `Chart`) — the
- * template a report fills per section.
+ * template a report fills per section. Use the controls to edit the `ReportPage`
+ * shell props — the header `index` badge, `title`/`subtitle`, and the footer's
+ * `pageNumber` / `totalPages` / `generated` date.
  */
-export const ContentSlide: Story = {
-  render: () => (
+interface ContentSlideArgs {
+  index: number;
+  title: string;
+  subtitle: string;
+  pageNumber: number;
+  totalPages: number;
+  generated: string;
+}
+
+export const ContentSlide: StoryObj<ContentSlideArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    index: { control: 'number' },
+    title: { control: 'text' },
+    subtitle: { control: 'text' },
+    pageNumber: { control: 'number' },
+    totalPages: { control: 'number' },
+    generated: { control: 'text' },
+  },
+  args: {
+    index: 2,
+    title: 'Executive summary',
+    subtitle: 'Month — May 2026',
+    pageNumber: 2,
+    totalPages: 18,
+    generated: '19 Jun 2026',
+  },
+  render: ({ index, title, subtitle, pageNumber, totalPages, generated }) => (
     <div style={{ padding: 'var(--eidra-space-6)' }}>
       <ReportPage
-        index={2}
-        title="Executive summary"
-        subtitle="Month — May 2026"
-        pageNumber={2}
-        totalPages={18}
-        generated="19 Jun 2026"
+        index={index}
+        title={title}
+        subtitle={subtitle}
+        pageNumber={pageNumber}
+        totalPages={totalPages}
+        generated={generated}
       >
         <ExecSummary />
       </ReportPage>
@@ -332,10 +376,22 @@ export const ContentSlide: Story = {
 
 /**
  * The whole system: a cover plus two content slides stacked, showing how the
- * shared chrome carries different bodies through a deck.
+ * shared chrome carries different bodies through a deck. Use the `showCover` control
+ * to include or omit the cover slide — the multi-page composition is otherwise a
+ * fixed showcase, so the per-page props aren't exposed here (edit them on the
+ * `Cover` and `ContentSlide` stories instead).
  */
-export const Deck: Story = {
-  render: () => (
+interface DeckArgs {
+  showCover: boolean;
+}
+
+export const Deck: StoryObj<DeckArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    showCover: { control: 'boolean' },
+  },
+  args: { showCover: true },
+  render: ({ showCover }) => (
     <div
       style={{
         display: 'flex',
@@ -345,7 +401,7 @@ export const Deck: Story = {
         background: 'var(--eidra-bg-muted)',
       }}
     >
-      <CoverPage eyebrow="Monthly Financial Deck" title="Financial update May 2026" />
+      {showCover && <CoverPage eyebrow="Monthly Financial Deck" title="Financial update May 2026" />}
       <ReportPage
         index={2}
         title="Executive summary"
