@@ -56,6 +56,7 @@ export * from './components/Toast/index.js';
 export * from './components/Toggle/index.js';
 export * from './components/Toolbar/index.js';
 export * from './components/Tooltip/index.js';
+export * from './components/TreeView/index.js';
 export * from './components/Typography/index.js';
 
 export { cn } from './utils/cn.js';

@@ -1,0 +1,110 @@
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+.root {
+  --_indent: var(--eidra-space-5);
+  --_row-min-height: var(--eidra-size-control-md);
+
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: var(--eidra-space-1);
+  list-style: none;
+  font-family: var(--eidra-font-family-sans);
+  color: var(--eidra-fg);
+}
+
+/* ─── Item (treeitem) ──────────────────────────────────────────────────────── */
+.item {
+  display: block;
+  border-radius: var(--eidra-radius-sm);
+  outline: none;
+  cursor: pointer;
+}
+
+.item[data-disabled] {
+  cursor: not-allowed;
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: -2px;
+}
+
+/* The visual row inside the treeitem. Padding-inline-start is set inline per level. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  min-height: var(--_row-min-height);
+  padding-block: var(--eidra-space-1);
+  padding-inline-end: var(--eidra-space-2);
+  border-radius: var(--eidra-radius-sm);
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-snug);
+  transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.item:hover:not([data-disabled]) > .row {
+  background-color: var(--eidra-surface-hover);
+}
+
+.item[data-selected] > .row {
+  background-color: var(--eidra-accent-subtle);
+  color: var(--eidra-accent);
+  font-weight: var(--eidra-font-weight-medium);
+}
+
+.item[data-disabled] > .row {
+  color: var(--eidra-fg-disabled);
+}
+
+/* ─── Chevron ──────────────────────────────────────────────────────────────── */
+.chevron {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--eidra-size-icon-sm);
+  height: var(--eidra-size-icon-sm);
+  color: var(--eidra-fg-muted);
+}
+
+.chevronSvg {
+  transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.chevron[data-open] .chevronSvg {
+  transform: rotate(90deg);
+}
+
+/* ─── Per-node icon ────────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--eidra-fg-muted);
+}
+
+.item[data-selected] > .row .icon {
+  color: var(--eidra-accent);
+}
+
+/* ─── Label ────────────────────────────────────────────────────────────────── */
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Density: compact ─────────────────────────────────────────────────────── */
+:global([data-density='compact']) .root {
+  --_indent: var(--eidra-space-4);
+  --_row-min-height: var(--eidra-size-control-sm);
+}
+
+:global([data-density='compact']) .row {
+  gap: var(--eidra-space-1-5);
+  padding-block: var(--eidra-space-0-5);
+  font-size: var(--eidra-font-size-xs);
+}
