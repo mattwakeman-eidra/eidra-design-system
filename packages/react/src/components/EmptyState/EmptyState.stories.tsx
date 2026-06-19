@@ -14,6 +14,9 @@ const meta = {
   },
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md'] },
+    // ReactNode (JSX) — not editable as controls.
+    icon: { control: false },
+    actions: { control: false },
   },
 } satisfies Meta<typeof EmptyState>;
 

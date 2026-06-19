@@ -10,14 +10,43 @@ const meta = {
   component: SaveIndicator,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
-  args: { saved: false, duration: 2000 },
+  argTypes: {
+    saved: {
+      control: 'boolean',
+      description: 'Set `true` when a save just completed; the indicator appears, then fades out.',
+    },
+    duration: {
+      control: { type: 'number', min: 0, step: 100 },
+      description: 'Milliseconds the indicator stays visible before fading.',
+    },
+    label: {
+      control: 'text',
+      description: 'Visible text beside the checkmark. Leave empty for an icon-only indicator.',
+    },
+  },
+  args: { saved: false, duration: 2000, label: 'Saved' },
 } satisfies Meta<typeof SaveIndicator>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Driven by `useSaveIndicator` — click Save to replay the confirmation. */
+/**
+ * Live controls — toggle `saved` to show the confirmation, adjust `duration` to
+ * change how long it stays before fading, and edit `label` (clear it for the
+ * icon-only form). The component fades itself out after `duration`, so flip
+ * `saved` off and on again to replay it.
+ */
 export const Playground: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-3)' }}>
+      <SaveIndicator {...args} />
+    </div>
+  ),
+};
+
+/** Driven by `useSaveIndicator` — click Save to replay the confirmation. */
+export const HookDriven: Story = {
+  parameters: { controls: { disable: true } },
   render: () => {
     const [saved, markSaved] = useSaveIndicator();
     return (

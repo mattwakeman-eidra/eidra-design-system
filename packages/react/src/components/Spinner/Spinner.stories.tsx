@@ -5,11 +5,11 @@ const meta = {
   title: 'Feedback/Spinner',
   component: Spinner,
   tags: ['autodocs'],
+  // `label` only sets aria-label (no visible text) — dropped as a control (invisible).
   args: { size: 'md', tone: 'accent', label: 'Loading…' },
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     tone: { control: 'inline-radio', options: ['accent', 'neutral', 'coral', 'danger', 'success'] },
-    label: { control: 'text' },
   },
 } satisfies Meta<typeof Spinner>;
 

@@ -18,6 +18,8 @@ const meta = {
     },
     dismissible: { control: 'boolean' },
     title: { control: 'text' },
+    // ReactNode (JSX in some stories) — not editable as a control.
+    icon: { control: false },
   },
 } satisfies Meta<typeof Alert>;
 
