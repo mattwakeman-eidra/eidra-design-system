@@ -12,6 +12,14 @@ const meta = {
   parameters: {
     layout: 'padded',
   },
+  // Dropped from controls (props remain real, and dedicated stories cover them):
+  // `multiple` (only shows once you select 2+ — see the MultiSelect story),
+  // `autoHighlight` (keyboard-only highlight, only after typing — see AutoHighlight),
+  // `readOnly`/`required` (the CSS has no [data-readonly]/[data-required] rule, so
+  // toggling either changes nothing on screen). `disabled` stays — visibly dims.
+  argTypes: {
+    disabled: { control: 'boolean' },
+  },
 } satisfies Meta<typeof Combobox.Root>;
 
 export default meta;
@@ -93,22 +101,22 @@ const ComboboxControl = ({
 
 export const Playground: Story = {
   args: {
+    disabled: false,
     onValueChange: fn(),
     onOpenChange: fn(),
     onInputValueChange: fn(),
   },
-  render: (args) => {
+  render: ({ disabled, ...args }) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState<string | null>(null);
-    const filter = Combobox.Root as unknown as { useFilter?: () => unknown };
-    void filter;
 
     return (
       <ComboboxField label="Country">
         <Combobox.Root
+          disabled={disabled}
           value={value}
           onValueChange={(v, details) => {
-            setValue(v);
+            setValue(typeof v === 'string' ? v : null);
             args.onValueChange?.(v, details);
           }}
           onOpenChange={args.onOpenChange}
@@ -135,6 +143,83 @@ export const Playground: Story = {
                   non-matching options as the input value changes. Static <Item>
                   children would render every option unfiltered.
                 */}
+                <Combobox.List>
+                  {(item) => {
+                    const country = item as (typeof COUNTRIES)[number];
+                    return (
+                    <Combobox.Item key={country.value} value={country.value}>
+                      {country.label}
+                      <Combobox.ItemIndicator>
+                        <Icon icon={Check} size="sm" />
+                      </Combobox.ItemIndicator>
+                    </Combobox.Item>
+                    );
+                  }}
+                </Combobox.List>
+                <Combobox.Empty>No countries found.</Combobox.Empty>
+              </Combobox.Popup>
+            </Combobox.Positioner>
+          </Combobox.Portal>
+        </Combobox.Root>
+      </ComboboxField>
+    );
+  },
+};
+
+/**
+ * Interaction coverage for the single-select combobox: opening via the trigger,
+ * type-ahead filtering, and committing a filtered option. Fixed args (no
+ * controls) so the assertions stay deterministic — this is the coverage the
+ * Playground used to carry before it became purely control-driven.
+ */
+export const Behaviour: Story = {
+  name: 'Combobox behaviour',
+  parameters: { controls: { disable: true } },
+  args: {
+    multiple: false,
+    disabled: false,
+    autoHighlight: false,
+    readOnly: false,
+    required: false,
+    onValueChange: fn(),
+    onOpenChange: fn(),
+    onInputValueChange: fn(),
+  },
+  render: ({ multiple, disabled, autoHighlight, readOnly, required, ...args }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [value, setValue] = useState<string | null>(null);
+
+    return (
+      <ComboboxField label="Country">
+        <Combobox.Root
+          multiple={multiple}
+          disabled={disabled}
+          autoHighlight={autoHighlight}
+          readOnly={readOnly}
+          required={required}
+          value={value}
+          onValueChange={(v, details) => {
+            setValue(typeof v === 'string' ? v : null);
+            args.onValueChange?.(v, details);
+          }}
+          onOpenChange={args.onOpenChange}
+          onInputValueChange={args.onInputValueChange}
+          items={COUNTRIES}
+        >
+          <ComboboxControl>
+            <Combobox.Input
+              placeholder="Search countries…"
+              style={{ borderRadius: 'var(--eidra-radius-md) 0 0 var(--eidra-radius-md)' }}
+            />
+            <Combobox.Trigger aria-label="Open countries">
+              <Combobox.Icon>
+                <Icon icon={ChevronDown} size="sm" />
+              </Combobox.Icon>
+            </Combobox.Trigger>
+          </ComboboxControl>
+          <Combobox.Portal>
+            <Combobox.Positioner sideOffset={4} align="start">
+              <Combobox.Popup>
                 <Combobox.List>
                   {(item) => {
                     const country = item as (typeof COUNTRIES)[number];

@@ -15,13 +15,16 @@ const meta = {
     step: 1,
     min: 0,
     max: 100,
+    size: 'md',
   },
+  // Dropped `readOnly` control: its only style is `cursor: default`, no visible
+  // resting change — the dedicated ReadOnly story demonstrates the behaviour.
   argTypes: {
+    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     min: { control: 'number' },
     max: { control: 'number' },
     step: { control: 'number' },
     disabled: { control: 'boolean' },
-    readOnly: { control: 'boolean' },
   },
   decorators: [
     (Story) => (
@@ -47,6 +50,29 @@ const DefaultField = (props: ComponentPropsWithoutRef<typeof NumberField.Root>) 
 
 export const Playground: Story = {
   args: {
+    onValueChange: fn(),
+  },
+  render: (args) => (
+    <NumberField.Root {...args}>
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
+      </NumberField.Group>
+    </NumberField.Root>
+  ),
+};
+
+/** Stepper buttons step the value and fire `onValueChange`. */
+export const StepperButtons: Story = {
+  name: 'Stepper buttons (increment / decrement)',
+  parameters: { controls: { disable: true } },
+  args: {
+    defaultValue: 0,
+    step: 1,
+    min: 0,
+    max: 100,
+    size: 'md',
     onValueChange: fn(),
   },
   render: (args) => (

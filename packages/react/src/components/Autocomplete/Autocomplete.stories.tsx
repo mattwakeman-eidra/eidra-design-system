@@ -63,6 +63,18 @@ const meta = {
   parameters: {
     layout: 'padded',
   },
+  argTypes: {
+    mode: {
+      control: 'inline-radio',
+      options: ['list', 'both', 'inline', 'none'],
+    },
+    autoHighlight: { control: 'boolean' },
+    openOnInputClick: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    // Dropped controls (toggling shows nothing in the rendered story):
+    //   readOnly, required — no visual state (no asterisk, no read-only/invalid
+    //   styling in Autocomplete.module.css; only [data-disabled] is styled).
+  },
 } satisfies Meta<typeof Autocomplete.Root>;
 
 export default meta;
@@ -71,8 +83,60 @@ type Story = StoryObj<typeof meta>;
 // ---- Playground ----
 
 export const Playground: Story = {
+  args: {
+    mode: 'list',
+    autoHighlight: false,
+    openOnInputClick: false,
+    disabled: false,
+  },
+  render: ({ mode, autoHighlight, openOnInputClick, disabled }) => (
+    <Autocomplete.Root
+      items={NORDIC_CITIES}
+      mode={mode}
+      autoHighlight={autoHighlight}
+      openOnInputClick={openOnInputClick}
+      disabled={disabled}
+    >
+      <Autocomplete.Control>
+        <Autocomplete.Input placeholder="Search cities…" />
+        <Autocomplete.Trigger aria-label="Open city list">
+          <Autocomplete.Icon>
+            <Icon icon={ChevronDown} size="sm" />
+          </Autocomplete.Icon>
+        </Autocomplete.Trigger>
+      </Autocomplete.Control>
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner sideOffset={4}>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {(city: string) => (
+                <Autocomplete.Item key={city} value={city}>
+                  {city}
+                </Autocomplete.Item>
+              )}
+            </Autocomplete.List>
+            <Autocomplete.Empty>No cities found</Autocomplete.Empty>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  ),
+};
+
+// ---- Filtering behaviour (fixed args, no controls) ----
+
+/**
+ * Interaction coverage for query filtering: matching options surface,
+ * non-matches unmount, an unmatched query shows the Empty state, and clearing
+ * restores the list. Fixed args (controls disabled) so the assertions stay
+ * deterministic — this is the coverage the Playground used to carry before it
+ * became purely control-driven.
+ */
+export const Behaviour: Story = {
+  name: 'Autocomplete behaviour',
+  parameters: { controls: { disable: true } },
   render: () => (
-    <Autocomplete.Root items={NORDIC_CITIES}>
+    <Autocomplete.Root items={NORDIC_CITIES} mode="list">
       <Autocomplete.Control>
         <Autocomplete.Input placeholder="Search cities…" />
         <Autocomplete.Trigger aria-label="Open city list">

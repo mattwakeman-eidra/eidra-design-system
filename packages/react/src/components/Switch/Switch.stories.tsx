@@ -9,9 +9,9 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
   },
+  // `name` is form-wiring (invisible) — dropped as a control.
   args: {
     label: 'Enable feature',
-    name: 'feature',
     defaultChecked: false,
   },
   argTypes: {

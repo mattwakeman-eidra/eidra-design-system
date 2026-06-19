@@ -35,6 +35,49 @@ const OWNERS: FilterSelectOption[] = [
   { value: 'sf', label: 'S. Fischer' },
 ];
 
+/**
+ * **Playground.** Drive the scalar/text props from the controls panel against a
+ * fixed option list (selection stays controlled via host state; `options`,
+ * `value`, `onValueChange`, and `summary` are authored in code).
+ */
+export const Playground: Story = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    size: { control: 'inline-radio', options: ['sm', 'md'] },
+    placeholder: { control: 'text' },
+    noun: { control: 'text' },
+    searchPlaceholder: { control: 'text' },
+    searchable: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    // Authored in code, not from the controls panel.
+    options: { control: false },
+    value: { control: false },
+    onValueChange: { control: false },
+    summary: { control: false },
+  },
+  args: {
+    size: 'md',
+    placeholder: 'Owner',
+    noun: 'owner',
+    searchPlaceholder: 'Search…',
+    searchable: true,
+    disabled: false,
+  },
+  render: (args) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [value, setValue] = useState<string[]>([]);
+    return (
+      <FilterSelect
+        {...args}
+        aria-label="Account owner"
+        options={OWNERS}
+        value={value}
+        onValueChange={setValue}
+      />
+    );
+  },
+};
+
 /** Basic single filter — selecting keeps the popup open and updates the count. */
 export const Default: Story = {
   render: () => {

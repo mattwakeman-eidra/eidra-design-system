@@ -28,6 +28,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
+  // Dropped `validationMode` control: behavioural (controls *when* validation
+  // runs), not visible from a static toggle — dedicated stories below demonstrate
+  // each mode via interaction.
   args: {
     onFormSubmit: fn(),
   },

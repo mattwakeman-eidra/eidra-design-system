@@ -47,6 +47,12 @@ const inputStyle: React.CSSProperties = {
 };
 
 export const Playground: Story = {
+  argTypes: {
+    disabled: { control: 'boolean' },
+  },
+  args: {
+    disabled: false,
+  },
   render: (args) => (
     <form style={{ maxWidth: 480 }}>
       <Fieldset.Root {...args}>

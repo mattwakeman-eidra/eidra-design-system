@@ -18,10 +18,24 @@ const meta = {
     label: 'Email',
     children: <Input placeholder="you@example.com" />,
   },
+  argTypes: {
+    label: { control: 'text' },
+    hint: { control: 'text' },
+    error: { control: 'text' },
+    required: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    // The wrapped control element (JSX) — not editable as a control.
+    children: { control: false },
+  },
 } satisfies Meta<typeof Field>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/** Interactive playground — tweak label, hint, error, required, and disabled from the controls. */
+export const Playground: Story = {
+  render: (args) => <Field {...args} />,
+};
 
 /** Label + control. `Field` wires up the label/description/error ARIA for whatever control you nest. */
 export const Default: Story = {

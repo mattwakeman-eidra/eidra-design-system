@@ -17,6 +17,20 @@ type Story = StoryObj<typeof meta>;
 // `onValueChange` lives on RadioGroup (not on Radio.Root, the meta component).
 type GroupStory = StoryObj<{ onValueChange: (value: unknown) => void }>;
 
+// The Playground drives a whole RadioGroup, so it owns a wider arg set than the
+// meta component (Radio.Root): group-level props plus the leading radio's props.
+// A lone, ungrouped Radio.Root renders inert, so the Playground must wrap it.
+type PlaygroundArgs = {
+  // Group-level (RadioGroup)
+  disabled?: boolean;
+  onValueChange?: (value: unknown) => void;
+  // Per-radio (first item)
+  label?: string;
+  value?: string;
+  radioDisabled?: boolean;
+};
+type PlaygroundStory = StoryObj<PlaygroundArgs>;
+
 const Col = ({ children }: { children: React.ReactNode }) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
     {children}
@@ -25,7 +39,87 @@ const Col = ({ children }: { children: React.ReactNode }) => (
 
 // ─── Playground ────────────────────────────────────────────────────────────────
 
-export const Playground: Story = {};
+/**
+ * A live, grouped radio. The controls drive the wrapping `RadioGroup` (disabled /
+ * readOnly / required) and the first radio (label / value / disabled); pick any
+ * option to see selection move and `onValueChange` fire.
+ */
+export const Playground: PlaygroundStory = {
+  args: {
+    label: 'Email',
+    value: 'email',
+    disabled: false,
+    radioDisabled: false,
+    onValueChange: fn(),
+  },
+  argTypes: {
+    label: { control: 'text', description: "The first radio's label." },
+    value: { control: 'text', description: "The first radio's submitted value." },
+    radioDisabled: {
+      control: 'boolean',
+      description: 'Whether the first radio individually ignores interaction.',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the whole group ignores user interaction.',
+    },
+    // Dropped readOnly/required controls: neither changes the rendered radios
+    // visibly (readOnly only blocks selection changes, required only gates form
+    // submission). Dedicated stories cover read-only behaviour.
+    onValueChange: {
+      control: false,
+      description: 'Callback fired with the newly selected value.',
+    },
+  },
+  render: ({ label, value, radioDisabled, ...group }) => (
+    <RadioGroup
+      legend="Preferred contact"
+      name="playground-contact"
+      aria-label="Preferred contact"
+      disabled={group.disabled}
+      onValueChange={group.onValueChange}
+    >
+      <Radio.Root label={label} value={value ?? 'email'} disabled={radioDisabled} />
+      <Radio.Root label="Phone" value="phone" />
+      <Radio.Root label="Post" value="post" />
+    </RadioGroup>
+  ),
+};
+
+// ─── Behaviour (interaction coverage, no controls) ──────────────────────────────
+
+/** Picking an option moves selection and fires onValueChange. */
+export const Behaviour: GroupStory = {
+  name: 'Radio behaviour',
+  parameters: { controls: { disable: true } },
+  args: { onValueChange: fn() },
+  render: (args) => (
+    <RadioGroup
+      legend="Preferred contact"
+      name="behaviour-contact"
+      aria-label="Preferred contact"
+      disabled={false}
+      readOnly={false}
+      required={false}
+      onValueChange={args.onValueChange}
+    >
+      <Radio.Root label="Email" value="email" disabled={false} />
+      <Radio.Root label="Phone" value="phone" />
+      <Radio.Root label="Post" value="post" />
+    </RadioGroup>
+  ),
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const phone = canvas.getByRole('radio', { name: /Phone/ });
+
+    await step('selecting an option checks it and fires onValueChange', async () => {
+      await expect(phone).not.toBeChecked();
+      await userEvent.click(phone);
+      await expect(phone).toBeChecked();
+      await expect(args.onValueChange).toHaveBeenCalledWith('phone', expect.anything());
+    });
+  },
+};
 
 // ─── States ────────────────────────────────────────────────────────────────────
 

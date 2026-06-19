@@ -11,6 +11,21 @@ const meta = {
   title: 'Forms/Input',
   component: Input,
   tags: ['autodocs'],
+  args: {
+    size: 'md',
+    disabled: false,
+    placeholder: 'you@eidra.com',
+    type: 'text',
+  },
+  argTypes: {
+    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    disabled: { control: 'boolean' },
+    placeholder: { control: 'text' },
+    type: {
+      control: 'select',
+      options: ['text', 'email', 'password', 'number', 'search', 'tel', 'url'],
+    },
+  },
   decorators: [
     (Story) => (
       <div style={{ width: 320 }}>
@@ -22,6 +37,15 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/** Live-editable control. Tweak `size`, `type`, `placeholder`, and `disabled` from the controls. */
+export const Playground: Story = {
+  render: (args) => (
+    <Field label="Email" hint="We’ll never share it.">
+      <Input {...args} />
+    </Field>
+  ),
+};
 
 export const Basic: Story = {
   render: () => (

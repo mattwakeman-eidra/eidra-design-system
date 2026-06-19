@@ -25,6 +25,7 @@ const meta = {
   argTypes: {
     variant: { control: 'inline-radio', options: ['outline', 'solid', 'ghost'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    shape: { control: 'inline-radio', options: ['rect', 'pill'] },
     disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Toggle>;

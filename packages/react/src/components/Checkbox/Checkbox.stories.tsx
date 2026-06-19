@@ -7,7 +7,30 @@ const meta = {
   title: 'Forms/Checkbox',
   component: Checkbox.Root,
   tags: ['autodocs'],
-  args: { label: 'Accept terms and conditions', name: 'terms' },
+  args: {
+    label: 'Accept terms and conditions',
+    disabled: false,
+    indeterminate: false,
+    defaultChecked: false,
+  },
+  // Dropped from controls (props remain real): `name` (form-wiring identity, no
+  // visual), `readOnly` and `required` (the CSS has no [data-readonly]/[data-required]
+  // rule, so toggling either changes nothing on screen).
+  argTypes: {
+    label: { control: 'text', description: 'Label rendered alongside the checkbox.' },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the component should ignore user interaction.',
+    },
+    indeterminate: {
+      control: 'boolean',
+      description: 'Whether the checkbox is in a mixed state — neither ticked nor unticked.',
+    },
+    defaultChecked: {
+      control: 'boolean',
+      description: 'Whether the checkbox is initially ticked (uncontrolled).',
+    },
+  },
 } satisfies Meta<typeof Checkbox.Root>;
 
 export default meta;
@@ -23,6 +46,20 @@ const Col = ({ children }: { children: React.ReactNode }) => (
 
 export const Playground: Story = {
   args: { onCheckedChange: fn() },
+};
+
+// ─── Behaviour (interaction coverage, no controls) ──────────────────────────────
+
+export const Behaviour: Story = {
+  name: 'Checkbox behaviour',
+  parameters: { controls: { disable: true } },
+  args: {
+    onCheckedChange: fn(),
+    disabled: false,
+    defaultChecked: false,
+    readOnly: false,
+    indeterminate: false,
+  },
   play: async ({ canvasElement, args, step }) => {
     const canvas = within(canvasElement);
     const box = canvas.getByRole('checkbox', { name: /accept terms/i });

@@ -17,7 +17,70 @@ type Story = StoryObj<typeof meta>;
 
 // ─── Playground ───────────────────────────────────────────────────────────────
 
-export const Playground: Story = {
+/** Args exposed by the Playground: real `Select.Root` knobs plus the `Select.Trigger` `size`. */
+interface PlaygroundArgs {
+  /** Disable the whole control (`Select.Root`). */
+  disabled?: boolean;
+  /** Uncontrolled initial selection (`Select.Root`). */
+  defaultValue?: string;
+  /** Trigger control size (`Select.Trigger`). */
+  size?: 'sm' | 'md' | 'lg';
+}
+
+export const Playground: StoryObj<PlaygroundArgs> = {
+  args: {
+    disabled: false,
+    defaultValue: undefined,
+    size: 'md',
+  },
+  argTypes: {
+    disabled: { control: 'boolean', description: 'Disable the whole control (Select.Root).' },
+    // Dropped `multiple`: toggling it shows nothing until the listbox is opened and
+    // options are clicked. The dedicated "Multiple Selection" story demonstrates it.
+    defaultValue: {
+      control: 'select',
+      // `undefined` as a select option breaks the controls panel — start unselected by
+      // leaving the arg undefined; these are the selectable cities.
+      options: ['oslo', 'bergen', 'trondheim', 'stavanger'],
+      description: 'Uncontrolled initial selection (Select.Root).',
+    },
+    size: {
+      control: 'inline-radio',
+      options: ['sm', 'md', 'lg'],
+      description: 'Trigger control size (Select.Trigger).',
+    },
+  },
+  render: ({ disabled, defaultValue, size }) => (
+    <div style={{ width: 240 }}>
+      <Select.Root disabled={disabled} defaultValue={defaultValue}>
+        <Select.Trigger aria-label="City" size={size} />
+        <Select.Portal>
+          <Select.Positioner sideOffset={8}>
+            <Select.Popup>
+              <Select.List>
+                <Select.Item value="oslo">Oslo</Select.Item>
+                <Select.Item value="bergen">Bergen</Select.Item>
+                <Select.Item value="trondheim">Trondheim</Select.Item>
+                <Select.Item value="stavanger">Stavanger</Select.Item>
+              </Select.List>
+            </Select.Popup>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select.Root>
+    </div>
+  ),
+};
+
+// ─── Behaviour ──────────────────────────────────────────────────────────────────
+
+/**
+ * **Behaviour.** Interaction coverage relocated from the Playground so the controls
+ * panel can drive the Playground without a `play` re-running on every change. Fixed
+ * args (no controls) keep this deterministic.
+ */
+export const Behaviour: Story = {
+  name: 'Select behaviour',
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ width: 240 }}>
       <Select.Root>
