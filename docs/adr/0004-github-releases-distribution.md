@@ -1,5 +1,7 @@
 # Distribute tarballs via GitHub Releases
 
+> **Status: Accepted.** Supersedes [ADR-0006 — Publish to GitHub Packages](./0006-github-packages-release-flow.md).
+
 The design system is **not** published to an npm-style registry. Instead, each release attaches the packed tarballs (`eidra-*-<version>.tgz`) and `manifest.json` as assets to a **GitHub Release**, driven by Changesets + GitHub Actions:
 
 1. A feature PR that changes a package includes a changeset (`.changeset/*.md`); CI fails the PR if one is missing.

@@ -1,5 +1,7 @@
 # Publish to GitHub Packages via a Changesets release PR
 
+> **Status: Superseded by [ADR-0004 — Distribute tarballs via GitHub Releases](./0004-github-releases-distribution.md).** GitHub Packages' npm registry requires the package scope to equal the repo owner; we kept the `@eidra/*` scope and ship tarballs attached to GitHub Releases instead. Retained for history. (This ADR was originally also numbered 0004 — the collision is the reason for the renumber.)
+
 The design system publishes `@eidra/*` to **GitHub Packages** (the npm registry at `npm.pkg.github.com`). Releases are driven by **Changesets** and GitHub Actions:
 
 1. Every feature PR that changes a package includes a changeset (`.changeset/*.md`). CI fails the PR if one is missing.
