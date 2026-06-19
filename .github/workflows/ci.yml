@@ -31,3 +31,21 @@ jobs:
       - run: pnpm typecheck
       # Fail the PR if it changes a package without a changeset describing the bump.
       - run: pnpm changeset status --since=origin/main
+
+  # Render every story in a real (headless Chromium) browser via the Storybook
+  # Vitest addon. Catches runtime render/serializer throws and a11y violations
+  # that typecheck + build cannot see, plus runs each story's `play` function.
+  storybook-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Stories consume the built @eidra/tokens dist + generated token sources.
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test-storybook
