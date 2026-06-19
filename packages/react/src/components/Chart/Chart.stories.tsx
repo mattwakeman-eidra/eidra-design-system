@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement } from 'react';
+import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement, type CSSProperties, type SVGProps, type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,
@@ -7,7 +7,9 @@ import {
   type ChartConfig,
   type TreemapNode,
   type SunburstData,
+  type SankeyData,
   type BoxPlotDatum,
+  type WaterfallStep,
 } from './Chart.js';
 
 const meta = {
@@ -84,12 +86,12 @@ export const Composed: StoryObj<ComposedArgs> = {
 
     return (
       <Chart.Container config={config} style={{ height: 360, maxWidth: 760 }}>
+        {/* Custom margin kept: top space reserves room for the budget LabelList above the bars. */}
         <Chart.ComposedChart data={DATA} margin={{ top: 20, right: 12, bottom: 0, left: 4 }}>
-          {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
-          <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
+          {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
+          <Chart.XAxis {...Chart.axisProps} dataKey="month" />
           <Chart.YAxis
-            tickLine={false}
-            axisLine={false}
+            {...Chart.axisProps}
             width={56}
             tickFormatter={(v: number) => formatCompactCurrency(v * 1000)}
           />
@@ -184,10 +186,11 @@ export const Bars: StoryObj<BarsArgs> = {
   args: { showGrid: true, showLabels: false, showLegend: true },
   render: ({ showGrid, showLabels, showLegend }) => (
     <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
+      {/* Custom margin kept: top space reserves room for the per-bar value LabelLists. */}
       <Chart.BarChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
-        <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
-        <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
+        {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
+        <Chart.XAxis {...Chart.axisProps} dataKey="month" />
+        <Chart.YAxis {...Chart.axisProps} width={48} tickFormatter={fmt} />
         <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<Chart.TooltipContent formatter={fmt} />} />
         <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[3, 3, 0, 0]}>
           {showLabels && <Chart.LabelList dataKey="revenue" position="top" fontSize={11} formatter={(v) => fmt(Number(v))} />}
@@ -226,10 +229,10 @@ export const Line: StoryObj<LineArgs> = {
   args: { curve: 'monotone', showDots: true, showGrid: true, showTarget: true },
   render: ({ curve, showDots, showGrid, showTarget }) => (
     <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
-      <Chart.LineChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
-        <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
-        <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
+      <Chart.LineChart data={TREND} margin={Chart.margin}>
+        {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
+        <Chart.XAxis {...Chart.axisProps} dataKey="month" />
+        <Chart.YAxis {...Chart.axisProps} width={48} tickFormatter={fmt} />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
         <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type={curve} stroke="var(--color-revenue)" strokeWidth={2} dot={showDots ? { r: 3 } : false} />
         {showTarget && (
@@ -264,10 +267,10 @@ export const Area: StoryObj<AreaArgs> = {
   args: { curve: 'monotone', fillOpacity: 0.2, showGrid: true, showTarget: true },
   render: ({ curve, fillOpacity, showGrid, showTarget }) => (
     <Chart.Container config={trendConfig} style={{ height: 300, maxWidth: 640 }}>
-      <Chart.AreaChart data={TREND} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
-        <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} />
-        <Chart.YAxis tickLine={false} axisLine={false} width={48} tickFormatter={fmt} />
+      <Chart.AreaChart data={TREND} margin={Chart.margin}>
+        {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
+        <Chart.XAxis {...Chart.axisProps} dataKey="month" />
+        <Chart.YAxis {...Chart.axisProps} width={48} tickFormatter={fmt} />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
         <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type={curve} stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={fillOpacity} strokeWidth={2} />
         {showTarget && (
@@ -283,17 +286,17 @@ export const Area: StoryObj<AreaArgs> = {
 // Proves the kit is domain-agnostic — generic tokens, plain (non-currency) units,
 // budget as a black step line ("blackline"), demand as a line, actual as bars.
 interface HeadcountDatum {
-  period: string;
+  month: string;
   actual: number;
   demand: number;
   budget: number;
 }
 
 const HEADCOUNT: HeadcountDatum[] = [
-  { period: 'Q1', actual: 42, demand: 45, budget: 48 },
-  { period: 'Q2', actual: 46, demand: 50, budget: 48 },
-  { period: 'Q3', actual: 49, demand: 54, budget: 52 },
-  { period: 'Q4', actual: 53, demand: 58, budget: 52 },
+  { month: 'Q1', actual: 42, demand: 45, budget: 48 },
+  { month: 'Q2', actual: 46, demand: 50, budget: 48 },
+  { month: 'Q3', actual: 49, demand: 54, budget: 52 },
+  { month: 'Q4', actual: 53, demand: 58, budget: 52 },
 ];
 
 const headcountConfig: ChartConfig = {
@@ -328,10 +331,10 @@ export const ComposedBarLine: StoryObj<ComposedBarLineArgs> = {
   args: { showGrid: true, showLegend: true, showDemandLine: true, showBudgetLine: true },
   render: ({ showGrid, showLegend, showDemandLine, showBudgetLine }) => (
     <Chart.Container config={headcountConfig} style={{ height: 320, maxWidth: 640 }}>
-      <Chart.ComposedChart data={HEADCOUNT} margin={{ top: 16, right: 12, bottom: 0, left: 4 }}>
-        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
-        <Chart.XAxis dataKey="period" tickLine={false} axisLine={false} />
-        <Chart.YAxis tickLine={false} axisLine={false} width={40} />
+      <Chart.ComposedChart data={HEADCOUNT} margin={Chart.margin}>
+        {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
+        <Chart.XAxis {...Chart.axisProps} dataKey="month" />
+        <Chart.YAxis {...Chart.axisProps} width={40} />
         <Chart.Tooltip
           cursor={{ fill: 'var(--eidra-surface-hover)' }}
           content={<Chart.TooltipContent formatter={fte} />}
@@ -438,24 +441,22 @@ export const DualAxis: StoryObj<DualAxisArgs> = {
   args: { showFc1Margin: true, showGrid: true, showLegend: true },
   render: ({ showFc1Margin, showGrid, showLegend }) => (
     <Chart.Container config={dualAxisConfig} style={{ height: 380, maxWidth: 820 }}>
-      <Chart.ComposedChart data={DUAL_AXIS} margin={{ top: 20, right: 12, bottom: 0, left: 4 }}>
-        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
-        <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} interval={0} fontSize={11} />
+      <Chart.ComposedChart data={DUAL_AXIS} margin={Chart.margin}>
+        {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
+        <Chart.XAxis {...Chart.axisProps} dataKey="month" interval={0} />
         {/* Left axis: revenue in MSEK. */}
         <Chart.YAxis
+          {...Chart.axisProps}
           yAxisId="left"
-          tickLine={false}
-          axisLine={false}
           width={56}
           tickFormatter={msekAxis}
         />
         {/* Right axis: EBITDA margin in percent, fixed 0–25 so the line sits mid-plot. */}
         <Chart.YAxis
+          {...Chart.axisProps}
           yAxisId="right"
           orientation="right"
           domain={[0, 25]}
-          tickLine={false}
-          axisLine={false}
           width={44}
           tickFormatter={pctAxis}
         />
@@ -527,14 +528,18 @@ const CLIENTS: ClientPoint[] = [
   { client: 'Cyberdyne', revenue: 1500, growth: -3, total: 1500, tier: 'mid' },
 ];
 
-const bubbleConfig: ChartConfig = {
-  small: { label: 'Small', color: 'var(--eidra-finance-comparison)' },
-  mid: { label: 'Mid-market', color: 'var(--eidra-finance-revenue-sold)' },
-  large: { label: 'Enterprise', color: 'var(--eidra-finance-accent)' },
-  pillar: { label: 'Pillar', color: 'var(--eidra-finance-revenue-actuals)' },
-};
-
 const TIERS = ['small', 'mid', 'large', 'pillar'] as const;
+
+// Categorical chart → colours flow from the ramp through `config` → `--color-<tier>`,
+// via `Chart.categoricalConfig`, instead of hardcoded per-tier tokens.
+const TIER_META = [
+  { tier: 'small', label: 'Small' },
+  { tier: 'mid', label: 'Mid-market' },
+  { tier: 'large', label: 'Enterprise' },
+  { tier: 'pillar', label: 'Pillar' },
+] as const;
+
+const bubbleConfig: ChartConfig = Chart.categoricalConfig(TIER_META, 'tier', { labelField: 'label' });
 
 /**
  * **Bubble / Scatter** (`ScatterChart`) — client revenue (x) vs YoY growth (y) with
@@ -559,24 +564,22 @@ export const Bubble: StoryObj<BubbleArgs> = {
   args: { showGrid: true, showZeroLine: true, maxBubbleSize: 700 },
   render: ({ showGrid, showZeroLine, maxBubbleSize }) => (
     <Chart.Container config={bubbleConfig} style={{ height: 380, maxWidth: 680 }}>
-      <Chart.ScatterChart margin={{ top: 16, right: 16, bottom: 8, left: 4 }}>
-        {showGrid && <Chart.CartesianGrid strokeDasharray="4 4" />}
+      <Chart.ScatterChart margin={Chart.margin}>
+        {showGrid && <Chart.CartesianGrid {...Chart.gridProps} />}
         <Chart.XAxis
+          {...Chart.axisProps}
           type="number"
           dataKey="revenue"
           name="Revenue"
-          tickLine={false}
-          axisLine={false}
           tickFormatter={(v: number) => formatCompactCurrency(v * 1000)}
         />
         <Chart.YAxis
+          {...Chart.axisProps}
           type="number"
           dataKey="growth"
           name="Growth"
           unit="%"
           width={44}
-          tickLine={false}
-          axisLine={false}
         />
         <Chart.ZAxis type="number" dataKey="total" range={[80, maxBubbleSize]} name="Total" />
         {showZeroLine && <Chart.ReferenceLine y={0} stroke="var(--eidra-border-strong)" strokeDasharray="2 2" />}
@@ -590,7 +593,7 @@ export const Bubble: StoryObj<BubbleArgs> = {
             key={tier}
             name={String(bubbleConfig[tier]?.label ?? tier)}
             data={CLIENTS.filter((c) => c.tier === tier)}
-            fill={`var(--color-${tier})`}
+            fill={bubbleConfig[tier]?.color}
             fillOpacity={0.65}
           />
         ))}
@@ -698,6 +701,8 @@ interface SliceDatum {
   key: string;
   name: string;
   value: number; // €k
+  // Index signature so the row satisfies `Chart.categoricalConfig`'s constraint.
+  [k: string]: unknown;
 }
 
 const REVENUE_BY_LINE: SliceDatum[] = [
@@ -709,14 +714,9 @@ const REVENUE_BY_LINE: SliceDatum[] = [
   { key: 'other', name: 'Other', value: 420 },
 ];
 
-const pieConfig: ChartConfig = {
-  Consulting: { label: 'Consulting', color: 'var(--eidra-chart-1)' },
-  'Managed Services': { label: 'Managed Services', color: 'var(--eidra-chart-2)' },
-  'Product Licences': { label: 'Product Licences', color: 'var(--eidra-chart-3)' },
-  Support: { label: 'Support', color: 'var(--eidra-chart-4)' },
-  Training: { label: 'Training', color: 'var(--eidra-chart-5)' },
-  Other: { label: 'Other', color: 'var(--eidra-chart-6)' },
-};
+// Categorical: colours flow from the ramp through `config` → `--color-<name>`.
+// Keyed by slice `name` (the pie tooltip/legend payload uses `name` from `nameKey`).
+const pieConfig: ChartConfig = Chart.categoricalConfig(REVENUE_BY_LINE, 'name');
 
 const TOTAL_REVENUE = REVENUE_BY_LINE.reduce((sum, d) => sum + d.value, 0);
 
@@ -766,8 +766,8 @@ export const Pie: StoryObj<PieArgs> = {
           }
           labelLine={false}
         >
-          {REVENUE_BY_LINE.map((d, i) => (
-            <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+          {REVENUE_BY_LINE.map((d) => (
+            <Chart.Cell key={d.key} fill={pieConfig[d.name]?.color} />
           ))}
         </Chart.Pie>
         {showLegend && <Chart.Legend content={<Chart.LegendContent />} />}
@@ -820,8 +820,8 @@ export const Donut: StoryObj<DonutArgs> = {
               stroke="var(--eidra-surface)"
               strokeWidth={2}
             >
-              {REVENUE_BY_LINE.map((d, i) => (
-                <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+              {REVENUE_BY_LINE.map((d) => (
+                <Chart.Cell key={d.key} fill={pieConfig[d.name]?.color} />
               ))}
             </Chart.Pie>
           </Chart.PieChart>
@@ -875,10 +875,12 @@ export const Donut: StoryObj<DonutArgs> = {
               <span
                 aria-hidden
                 style={{
+                  // This legend lives outside Chart.Container, so --color-* isn't in
+                  // scope here; reference the ramp directly (same colour as the slice).
                   width: 10,
                   height: 10,
                   borderRadius: 'var(--eidra-radius-full)',
-                  background: `var(--eidra-chart-${i + 1})`,
+                  background: Chart.chartColors[i % Chart.chartColors.length],
                 }}
               />
               {d.name}
@@ -943,13 +945,9 @@ const SPEND: SpendNode[] = [
   },
 ];
 
-const spendConfig: ChartConfig = {
-  compute: { label: 'Compute', color: 'var(--eidra-chart-1)' },
-  storage: { label: 'Storage', color: 'var(--eidra-chart-2)' },
-  database: { label: 'Database', color: 'var(--eidra-chart-3)' },
-  networking: { label: 'Networking', color: 'var(--eidra-chart-4)' },
-  analytics: { label: 'Analytics', color: 'var(--eidra-chart-5)' },
-};
+// Categorical: each top-level category keyed by its `colorKey` flows the ramp
+// through `config` → `--color-<colorKey>` (the node renderer reads that var).
+const spendConfig: ChartConfig = Chart.categoricalConfig(SPEND, 'colorKey', { labelField: 'name' });
 
 // Custom Treemap node renderer: colour each leaf by its category's
 // --color-<colorKey> token, separate tiles with an --eidra-surface stroke, and
@@ -971,7 +969,7 @@ function renderSpendNode(showLabels: boolean) {
           y={y}
           width={width}
           height={height}
-          fill={isLeaf ? `var(--color-${colorKey})` : 'transparent'}
+          fill={isLeaf ? spendConfig[colorKey]?.color : 'transparent'}
           stroke="var(--eidra-surface)"
           strokeWidth={2}
           strokeOpacity={isLeaf ? 1 : 0}
@@ -1081,13 +1079,15 @@ function ResponsiveBox({
 // every node — including the root and each department — needs an explicit `value`
 // equal to the sum of its children; otherwise the parent rings' angular spans come
 // out NaN and the chart renders blank.
-const BUDGET_TREE: SunburstData = {
+// Leaf values only; `Chart.sumHierarchy` fills each parent's `value` with the sum
+// of its descendants (recharts SunburstChart needs a value on every node). Fills are
+// inline --eidra-chart-* tokens because this chart renders without Chart.Container
+// (no --color-* scope) — the colour comes from the ThemeProvider tokens directly.
+const BUDGET_TREE: SunburstData = Chart.sumHierarchy<SunburstData>({
   name: 'Budget',
-  value: 165,
   children: [
     {
       name: 'Engineering',
-      value: 72,
       fill: 'var(--eidra-chart-1)',
       children: [
         { name: 'Platform', value: 32, fill: 'var(--eidra-chart-1)' },
@@ -1097,7 +1097,6 @@ const BUDGET_TREE: SunburstData = {
     },
     {
       name: 'Sales',
-      value: 46,
       fill: 'var(--eidra-chart-2)',
       children: [
         { name: 'Enterprise', value: 28, fill: 'var(--eidra-chart-2)' },
@@ -1106,7 +1105,6 @@ const BUDGET_TREE: SunburstData = {
     },
     {
       name: 'Marketing',
-      value: 28,
       fill: 'var(--eidra-chart-3)',
       children: [
         { name: 'Brand', value: 12, fill: 'var(--eidra-chart-3)' },
@@ -1115,7 +1113,6 @@ const BUDGET_TREE: SunburstData = {
     },
     {
       name: 'Operations',
-      value: 19,
       fill: 'var(--eidra-chart-4)',
       children: [
         { name: 'Finance', value: 10, fill: 'var(--eidra-chart-4)' },
@@ -1123,7 +1120,7 @@ const BUDGET_TREE: SunburstData = {
       ],
     },
   ],
-};
+});
 
 /**
  * **Sunburst** (`SunburstChart`) — a 2-level hierarchy (budget → department → team)
@@ -1341,7 +1338,18 @@ const DrillChart = memo(function DrillChart({
           }}
           onMouseEnter={(node: SunburstData) => onHover((node as { id?: string }).id ?? null)}
           onMouseLeave={() => onHover(null)}
-        />
+        >
+          {/* Composite chart: derive the row from the hovered node (name + value),
+              colouring the swatch with the node's own fill. */}
+          <Chart.Tooltip
+            content={
+              <Chart.TooltipContent
+                hideLabel
+                rows={(d: SunburstData) => [{ label: d?.name, value: fmt(d?.value ?? 0), color: d?.fill }]}
+              />
+            }
+          />
+        </Chart.SunburstChart>
       )}
     </ResponsiveBox>
   );
@@ -1476,8 +1484,9 @@ export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
       style={{ height: 460, maxWidth: 560 }}
       aria-label="Magic quadrant: completeness of vision versus ability to execute"
     >
+      {/* Custom margin kept: extra room on all sides for the axis titles + quadrant labels. */}
       <Chart.ScatterChart margin={{ top: 24, right: 28, bottom: 28, left: 16 }}>
-        {showGrid && <Chart.CartesianGrid strokeDasharray="4 4" />}
+        {showGrid && <Chart.CartesianGrid {...Chart.gridProps} />}
         {/* Quadrant tints + names, drawn under the points. */}
         {showTints && (
           <>
@@ -1488,27 +1497,25 @@ export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
           </>
         )}
         <Chart.XAxis
+          {...Chart.axisProps}
           type="number"
           dataKey="vision"
           domain={[0, 100]}
           // Explicit ticks give CartesianGrid its line positions; transparent tick
           // text keeps the grid lines (tick={false} drops the tick set entirely, so
           // the grid only drew its outer border). This is a positioning map, not a
-          // scale, so the numbers stay hidden.
+          // scale, so the numbers stay hidden — intentional non-default tick.
           ticks={[0, 20, 40, 60, 80, 100]}
           tick={{ fill: 'transparent' }}
-          axisLine={false}
-          tickLine={false}
           label={{ value: 'Completeness of Vision →', position: 'insideBottom', offset: -12, fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
         />
         <Chart.YAxis
+          {...Chart.axisProps}
           type="number"
           dataKey="execution"
           domain={[0, 100]}
           ticks={[0, 20, 40, 60, 80, 100]}
           tick={{ fill: 'transparent' }}
-          axisLine={false}
-          tickLine={false}
           width={28}
           label={{ value: 'Ability to Execute →', angle: -90, position: 'insideLeft', fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
         />
@@ -1596,35 +1603,21 @@ function DumbbellShape({
   );
 }
 
-interface DumbbellTooltipProps {
-  active?: boolean;
-  payload?: Array<{ payload: DumbbellDatum }>;
-}
-function DumbbellTooltip({ active, payload }: DumbbellTooltipProps) {
-  if (!active || !payload?.length) return null;
-  const d = payload[0]!.payload;
+// Composite tooltip rows for a dumbbell datum: the two endpoints (coloured by the
+// before/after ramp tokens) and the signed delta. Rendered through the themed
+// `Chart.TooltipContent` shell via its `rows` prop.
+function dumbbellRows(d: DumbbellDatum) {
   const delta = d.after - d.before;
   const up = delta >= 0;
-  return (
-    <div
-      style={{
-        background: 'var(--eidra-surface)',
-        border: '1px solid var(--eidra-border)',
-        borderRadius: 'var(--eidra-radius-md)',
-        boxShadow: 'var(--eidra-shadow-md)',
-        padding: 'var(--eidra-space-2) var(--eidra-space-3)',
-        font: 'var(--eidra-font-size-xs)/1.5 var(--eidra-font-family-sans)',
-        color: 'var(--eidra-fg)',
-      }}
-    >
-      <div style={{ fontWeight: 600, marginBottom: 'var(--eidra-space-1)' }}>{d.category}</div>
-      <div>Last year: {fmt(d.before)}</div>
-      <div>This year: {fmt(d.after)}</div>
-      <div style={{ color: up ? 'var(--eidra-success-fg)' : 'var(--eidra-danger-fg)' }}>
-        {up ? '▲' : '▼'} {fmt(Math.abs(delta))}
-      </div>
-    </div>
-  );
+  return [
+    { label: dumbbellConfig.before!.label, value: fmt(d.before), color: dumbbellConfig.before!.color },
+    { label: dumbbellConfig.after!.label, value: fmt(d.after), color: dumbbellConfig.after!.color },
+    {
+      label: up ? '▲ Change' : '▼ Change',
+      value: fmt(Math.abs(delta)),
+      color: up ? 'var(--eidra-success-fg)' : 'var(--eidra-danger-fg)',
+    },
+  ];
 }
 
 function DumbbellLegend() {
@@ -1687,14 +1680,18 @@ export const Dumbbell: StoryObj<DumbbellArgs> = {
         style={{ height: 320 }}
         aria-label="Revenue by service line, last year versus this year"
       >
+        {/* Custom margin kept: left space for the category labels on the Y axis. */}
         <Chart.ComposedChart layout="vertical" data={GROWTH} margin={{ top: 12, right: 16, bottom: 4, left: 8 }}>
-          <Chart.CartesianGrid horizontal={false} />
-          <Chart.XAxis type="number" domain={[0, (max: number) => Math.ceil((max + 20) / 20) * 20]} tickFormatter={fmt} />
-          <Chart.YAxis type="category" dataKey="category" width={72} tickLine={false} axisLine={false} />
-          <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)', fillOpacity: 0.5 }} content={<DumbbellTooltip />} />
+          <Chart.CartesianGrid {...Chart.gridProps} horizontal={false} />
+          <Chart.XAxis {...Chart.axisProps} type="number" domain={[0, (max: number) => Math.ceil((max + 20) / 20) * 20]} tickFormatter={fmt} />
+          <Chart.YAxis {...Chart.axisProps} type="category" dataKey="category" width={72} />
+          <Chart.Tooltip
+            cursor={{ fill: 'var(--eidra-surface-hover)', fillOpacity: 0.5 }}
+            content={<Chart.TooltipContent rows={dumbbellRows} />}
+          />
           <Chart.Bar
             {...Chart.seriesDefaults}
-            dataKey={(d: DumbbellDatum) => [Math.min(d.before, d.after), Math.max(d.before, d.after)]}
+            dataKey={(d: DumbbellDatum) => Chart.dumbbellRange(d.before, d.after)}
             shape={(props: unknown) => (
               <DumbbellShape
                 {...(props as DumbbellShapeProps)}
@@ -1718,45 +1715,19 @@ export const Dumbbell: StoryObj<DumbbellArgs> = {
 // running cumulative start) and a visible `delta` (the step's contribution). The
 // final "Total" step has base 0 and delta = the full sum, drawn in --eidra-fg
 // (black). `base` is fill="transparent" and excluded from the tooltip.
-interface WaterfallStep {
-  label: string;
-  /** Positive contribution for this step (MSEK). The Total step's value is the running sum. */
-  value: number;
-  /** The black summary bar (base 0, full-height) rather than an incremental step. */
-  isTotal?: boolean;
-}
-
-interface WaterfallBar {
-  label: string;
-  base: number; // transparent riser — the cumulative start of this step
-  delta: number; // visible segment — this step's contribution (or the full total)
-  value: number; // the step's own number, for the label/tooltip
-  isTotal: boolean;
-}
-
-// Turn ordered steps into stacked [base, delta] bars. Each contribution starts
-// where the previous one ended; the Total bar sits on 0 and spans the whole sum.
-function toWaterfall(steps: WaterfallStep[]): WaterfallBar[] {
-  let running = 0;
-  return steps.map((s) => {
-    if (s.isTotal) {
-      return { label: s.label, base: 0, delta: running, value: running, isTotal: true };
-    }
-    const bar: WaterfallBar = { label: s.label, base: running, delta: s.value, value: s.value, isTotal: false };
-    running += s.value;
-    return bar;
-  });
-}
+// `WaterfallStep` and the `Chart.toWaterfall` transform now live in the kit; the
+// step datasets below are typed with the imported `WaterfallStep`.
 
 // Each waterfall: regional contributions (+ a Global adjustment for EBITDA),
-// closed by a Total step whose value toWaterfall fills from the running sum.
+// closed by a Total step. The Total step carries the full sum of the contributions above it — the kit's
+// `Chart.toWaterfall` draws an `isTotal` bar from 0 up to that value.
 const NET_REVENUE_MONTH: WaterfallStep[] = [
   { label: 'Sweden', value: 42 },
   { label: 'Norway', value: 18 },
   { label: 'Netherlands', value: 13 },
   { label: 'DACH', value: 21 },
   { label: 'USA', value: 16 },
-  { label: 'Total', value: 0, isTotal: true },
+  { label: 'Total', value: 110, isTotal: true },
 ];
 
 const NET_REVENUE_YTD: WaterfallStep[] = [
@@ -1765,7 +1736,7 @@ const NET_REVENUE_YTD: WaterfallStep[] = [
   { label: 'Netherlands', value: 76 },
   { label: 'DACH', value: 122 },
   { label: 'USA', value: 91 },
-  { label: 'Total', value: 0, isTotal: true },
+  { label: 'Total', value: 641, isTotal: true },
 ];
 
 const EBITDA_MONTH: WaterfallStep[] = [
@@ -1775,7 +1746,7 @@ const EBITDA_MONTH: WaterfallStep[] = [
   { label: 'DACH', value: 5 },
   { label: 'USA', value: 3 },
   { label: 'Global', value: 1 },
-  { label: 'Total', value: 0, isTotal: true },
+  { label: 'Total', value: 24, isTotal: true },
 ];
 
 const EBITDA_YTD: WaterfallStep[] = [
@@ -1785,7 +1756,7 @@ const EBITDA_YTD: WaterfallStep[] = [
   { label: 'DACH', value: 29 },
   { label: 'USA', value: 18 },
   { label: 'Global', value: 6 },
-  { label: 'Total', value: 0, isTotal: true },
+  { label: 'Total', value: 143, isTotal: true },
 ];
 
 // Region → categorical chart token, applied per-bar via <Chart.Cell>; the Total
@@ -1804,49 +1775,25 @@ const waterfallConfig: ChartConfig = {
   delta: { label: 'Contribution', color: 'var(--eidra-chart-1)' },
 };
 
-const msek = (v: number | string | undefined) => `${Number(v)} MSEK`;
+const wfMsek = (v: number | string | undefined) => `${Number(v)} MSEK`;
 
-// Tooltip for a waterfall step. The kit's TooltipContent would also render the
-// transparent `base` riser as a row, so use a tiny dedicated tooltip (cf.
-// DumbbellTooltip) that shows only the step's own value and its cumulative total.
-interface WaterfallTooltipProps {
-  active?: boolean;
-  payload?: Array<{ payload: WaterfallBar }>;
-}
-function WaterfallTooltip({ active, payload }: WaterfallTooltipProps) {
-  if (!active || !payload?.length) return null;
-  const d = payload[0]!.payload;
-  const cumulative = d.isTotal ? d.value : d.base + d.delta;
-  return (
-    <div
-      style={{
-        background: 'var(--eidra-surface)',
-        border: '1px solid var(--eidra-border)',
-        borderRadius: 'var(--eidra-radius-md)',
-        boxShadow: 'var(--eidra-shadow-md)',
-        padding: 'var(--eidra-space-2) var(--eidra-space-3)',
-        font: 'var(--eidra-font-size-xs)/1.5 var(--eidra-font-family-sans)',
-        color: 'var(--eidra-fg)',
-      }}
-    >
-      <div style={{ fontWeight: 600, marginBottom: 'var(--eidra-space-1)' }}>{d.label}</div>
-      <div style={{ fontVariantNumeric: 'tabular-nums' }}>
-        {d.isTotal ? 'Total' : 'Contribution'}: {msek(d.value)}
-      </div>
-      {!d.isTotal && (
-        <div style={{ color: 'var(--eidra-fg-muted)', fontVariantNumeric: 'tabular-nums' }}>
-          Cumulative: {msek(cumulative)}
-        </div>
-      )}
-    </div>
-  );
+// Composite tooltip rows for a waterfall bar. `Chart.toWaterfall` gives each bar a
+// `delta` (this step's contribution, or the full total) and a cumulative `value` —
+// so the rows show the step's own number and (for non-total steps) the running
+// cumulative, without surfacing the transparent `base` riser as its own row.
+type WaterfallBar = ReturnType<typeof Chart.toWaterfall>[number];
+function waterfallRows(d: WaterfallBar) {
+  return [
+    { label: d.isTotal ? 'Total' : 'Contribution', value: wfMsek(d.delta) },
+    ...(d.isTotal ? [] : [{ label: 'Cumulative', value: wfMsek(d.value) }]),
+  ];
 }
 
 // One waterfall panel. The transparent `base` bar is rendered first (so the
-// visible `delta` floats on top of it); WaterfallTooltip reads the shared row
-// payload, so only the step's own contribution + cumulative show on hover.
+// visible `delta` floats on top of it); the composite `rows` tooltip reads the
+// row payload, so only the step's own contribution + cumulative show on hover.
 function WaterfallPanel({ title, steps, showLabels = true }: { title: string; steps: WaterfallStep[]; showLabels?: boolean }) {
-  const data = toWaterfall(steps);
+  const data = Chart.toWaterfall(steps);
   return (
     <div
       style={{
@@ -1868,13 +1815,14 @@ function WaterfallPanel({ title, steps, showLabels = true }: { title: string; st
         {title}
       </div>
       <Chart.Container config={waterfallConfig} style={{ height: 240 }} aria-label={title}>
+        {/* Custom margin kept: top space reserves room for the value LabelList above the bars. */}
         <Chart.BarChart data={data} margin={{ top: 20, right: 8, bottom: 0, left: 0 }}>
-          <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />
-          <Chart.XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} interval={0} />
-          <Chart.YAxis tickLine={false} axisLine={false} width={40} tick={{ fontSize: 11 }} />
-          <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<WaterfallTooltip />} />
+          <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />
+          <Chart.XAxis {...Chart.axisProps} dataKey="label" interval={0} />
+          <Chart.YAxis {...Chart.axisProps} width={40} />
+          <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<Chart.TooltipContent rows={waterfallRows} />} />
           {/* Invisible riser: lifts each delta to its cumulative start. The
-              dedicated WaterfallTooltip reads the row's payload, so the base
+              composite `rows` tooltip reads the row's payload, so the base
               never shows as its own tooltip row. */}
           <Chart.Bar {...Chart.seriesDefaults} dataKey="base" stackId="wf" fill="transparent" />
           <Chart.Bar {...Chart.seriesDefaults} dataKey="delta" stackId="wf" radius={[3, 3, 0, 0]}>
@@ -1885,7 +1833,9 @@ function WaterfallPanel({ title, steps, showLabels = true }: { title: string; st
               />
             ))}
             {showLabels && (
-              <Chart.LabelList dataKey="value" position="top" fontSize={11} formatter={(v) => String(Number(v))} />
+              // `delta` is the step's own contribution (the Total bar's delta is the
+              // full sum); the kit's `value` is the running cumulative, not the label.
+              <Chart.LabelList dataKey="delta" position="top" fontSize={11} formatter={(v) => String(Number(v))} />
             )}
           </Chart.Bar>
         </Chart.BarChart>
@@ -2067,8 +2017,8 @@ export const Minis: StoryObj<MinisArgs> = {
               stroke="var(--eidra-surface)"
               strokeWidth={1.5}
             >
-              {REVENUE_BY_LINE.map((d, i) => (
-                <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+              {REVENUE_BY_LINE.map((d) => (
+                <Chart.Cell key={d.key} fill={pieConfig[d.name]?.color} />
               ))}
             </Chart.Pie>
           </Chart.PieChart>
@@ -2173,4 +2123,238 @@ export const BoxPlot: StoryObj<BoxPlotArgs> = {
       </div>
     );
   },
+};
+
+// ── Sankey: revenue flow (region → net revenue → cost / EBITDA) ───────────────
+// Recharts ships a native Sankey; the kit re-exports it raw (`Chart.Sankey`) and
+// the theming lives here — per-node palette, source-tinted links, always-on
+// labels and a themed node/link tooltip. Links reference nodes by array index;
+// values are conserved (Σ region revenue = Σ cost+EBITDA), as a real P&L flow is.
+const SANKEY_NODES: Array<{ name: string }> = [
+  { name: 'Sweden' }, // 0
+  { name: 'Norway' }, // 1
+  { name: 'Netherlands' }, // 2
+  { name: 'Germany' }, // 3
+  { name: 'US' }, // 4
+  { name: 'UK' }, // 5
+  { name: 'Net Revenue' }, // 6
+  { name: 'Personnel' }, // 7
+  { name: 'Other cost' }, // 8
+  { name: 'EBITDA' }, // 9
+];
+const SANKEY_LINKS = [
+  { source: 0, target: 6, value: 72 },
+  { source: 1, target: 6, value: 48 },
+  { source: 2, target: 6, value: 40 },
+  { source: 3, target: 6, value: 34 },
+  { source: 4, target: 6, value: 28 },
+  { source: 5, target: 6, value: 15 },
+  { source: 6, target: 7, value: 130 },
+  { source: 6, target: 8, value: 50 },
+  { source: 6, target: 9, value: 57 },
+];
+const SANKEY_DATA: SankeyData = { nodes: SANKEY_NODES, links: SANKEY_LINKS };
+
+// Stable per-node palette colour, keyed by node name (so links inherit their
+// source node's hue). Cycles the 16-colour categorical ramp.
+const sankeyColor = (name: string): string =>
+  `var(--eidra-chart-${(Math.max(0, SANKEY_NODES.findIndex((n) => n.name === name)) % 16) + 1})`;
+
+const sankeyMsek = (v: number) => `${Math.round(v)} MSEK`;
+
+// Node: coloured rect + always-on label. Source-edge nodes (no incoming links)
+// label to the left, sink-edge nodes (no outgoing) to the right, middle nodes
+// above — so labels never sit on top of the ribbons.
+function renderSankeyNode(showValues: boolean) {
+  return (props: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    payload: { name: string; value: number; sourceLinks?: unknown[]; targetLinks?: unknown[] };
+  }): ReactElement => {
+    const { x, y, width, height, payload } = props;
+    const color = sankeyColor(payload.name);
+    // Recharts names the link arrays opposite to d3: a left-edge node (no
+    // incoming flow) has empty `sourceLinks`; a right-edge node empty `targetLinks`.
+    const isLeftEdge = (payload.sourceLinks?.length ?? 0) === 0;
+    const isRightEdge = (payload.targetLinks?.length ?? 0) === 0;
+    const label = showValues ? `${payload.name} · ${Math.round(payload.value)}` : payload.name;
+    let tx = x + width / 2;
+    let ty = y + height / 2;
+    let anchor: 'start' | 'middle' | 'end' = 'middle';
+    if (isLeftEdge) {
+      tx = x - 6;
+      anchor = 'end';
+    } else if (isRightEdge) {
+      tx = x + width + 6;
+      anchor = 'start';
+    } else {
+      ty = y - 6;
+    }
+    return (
+      <g>
+        <rect x={x} y={y} width={width} height={height} rx={2} fill={color} />
+        <text
+          x={tx}
+          y={ty}
+          textAnchor={anchor}
+          dominantBaseline="middle"
+          fontSize={11}
+          fontFamily="var(--eidra-font-family-sans)"
+          fill="var(--eidra-fg)"
+        >
+          {label}
+        </text>
+      </g>
+    );
+  };
+}
+
+// Link: a stroked bezier ribbon tinted from its source node's hue. Hover
+// brightening is pure CSS (see the injected <style>), so no React state.
+function renderSankeyLink() {
+  return (props: {
+    sourceX: number;
+    targetX: number;
+    sourceY: number;
+    targetY: number;
+    sourceControlX: number;
+    targetControlX: number;
+    linkWidth: number;
+    payload: { source: { name: string } };
+  }): ReactElement => {
+    const { sourceX, targetX, sourceY, targetY, sourceControlX, targetControlX, linkWidth, payload } = props;
+    const color = sankeyColor(payload.source.name);
+    const d = `M${sourceX},${sourceY}C${sourceControlX},${sourceY} ${targetControlX},${targetY} ${targetX},${targetY}`;
+    return (
+      <path
+        className="eidra-sankey-link"
+        d={d}
+        fill="none"
+        stroke={color}
+        strokeWidth={Math.max(linkWidth, 1)}
+        strokeOpacity={0.35}
+      />
+    );
+  };
+}
+
+const sankeyTooltipBox: CSSProperties = {
+  minWidth: 160,
+  padding: 'var(--eidra-space-2) var(--eidra-space-3)',
+  background: 'var(--eidra-surface)',
+  border: '1px solid var(--eidra-border)',
+  borderRadius: 'var(--eidra-radius-md)',
+  boxShadow: 'var(--eidra-shadow-md)',
+  fontSize: 'var(--eidra-font-size-xs)',
+  color: 'var(--eidra-fg)',
+  fontFamily: 'var(--eidra-font-family-sans)',
+};
+const sankeyTipRow: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: 'var(--eidra-space-3)',
+};
+const sankeyTipName: CSSProperties = { color: 'var(--eidra-fg-muted)' };
+const sankeyTipVal: CSSProperties = {
+  fontFamily: 'var(--eidra-font-family-mono)',
+  fontVariantNumeric: 'tabular-nums',
+  fontWeight: 600,
+};
+
+// Themed tooltip handling both hovers. Recharts wraps the Sankey tooltip entry as
+// `{ name, value, payload: <node|link data> }`, so the node/link object is one level
+// in. A link's `source`/`target` are node objects post-layout; a node has neither.
+function SankeyTooltip(props: {
+  active?: boolean;
+  payload?: Array<{ payload?: any }>;
+}): ReactElement | null {
+  const { active, payload } = props;
+  const top = payload?.[0]?.payload;
+  if (!active || !top) return null;
+  const inner = top.payload ?? top; // the node or link data
+  const value = Number(top.value ?? inner.value);
+  const isLink = inner && inner.source != null && inner.target != null && typeof inner.source === 'object';
+  if (isLink) {
+    const srcName: string = inner.source.name;
+    const tgtName: string = inner.target.name;
+    const srcIdx = SANKEY_NODES.findIndex((n) => n.name === srcName);
+    const outTotal = SANKEY_LINKS.filter((l) => l.source === srcIdx).reduce((a, l) => a + l.value, 0);
+    const share = outTotal ? Math.round((value / outTotal) * 100) : 0;
+    return (
+      <div style={sankeyTooltipBox}>
+        <div style={{ fontWeight: 600, marginBlockEnd: 'var(--eidra-space-1-5)' }}>
+          {srcName} → {tgtName}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+          <div style={sankeyTipRow}>
+            <span style={sankeyTipName}>value</span>
+            <span style={sankeyTipVal}>{sankeyMsek(value)}</span>
+          </div>
+          <div style={sankeyTipRow}>
+            <span style={sankeyTipName}>share</span>
+            <span style={sankeyTipVal}>{share}%</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div style={sankeyTooltipBox}>
+      <div style={{ fontWeight: 600, marginBlockEnd: 'var(--eidra-space-1-5)' }}>{top.name ?? inner.name}</div>
+      <div style={sankeyTipRow}>
+        <span style={sankeyTipName}>throughput</span>
+        <span style={sankeyTipVal}>{sankeyMsek(value)}</span>
+      </div>
+    </div>
+  );
+}
+
+interface SankeyArgs {
+  nodePadding: number;
+  nodeWidth: number;
+  linkCurvature: number;
+  showValues: boolean;
+}
+
+/**
+ * **Sankey** (`Chart.Sankey`) — a flow diagram: width-proportional ribbons carry a
+ * conserved quantity through stages. Here a monthly P&L flow: **Region → Net Revenue
+ * → {Personnel, Other cost, EBITDA}**. Recharts owns the layout; the kit re-exports
+ * `Chart.Sankey` raw and the theming is composed here — a per-node palette (`sankeyColor`,
+ * keyed by node name), source-tinted translucent links (brightening on hover via CSS),
+ * always-on node labels placed off the ribbons, and a themed `SankeyTooltip` that shows
+ * a node's throughput or a link's `source → target`, value and **% of the source's
+ * outflow**. Links reference nodes by array index (`{ source, target, value }`); keep the
+ * values conserved per stage. Use the controls for **nodePadding**, **nodeWidth**,
+ * **linkCurvature** and to toggle inline **values**.
+ */
+export const Sankey: StoryObj<SankeyArgs> = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    nodePadding: { control: { type: 'range', min: 4, max: 40, step: 2 } },
+    nodeWidth: { control: { type: 'range', min: 6, max: 24, step: 2 } },
+    linkCurvature: { control: { type: 'range', min: 0, max: 0.8, step: 0.1 } },
+    showValues: { control: 'boolean' },
+  },
+  args: { nodePadding: 18, nodeWidth: 14, linkCurvature: 0.5, showValues: true },
+  render: ({ nodePadding, nodeWidth, linkCurvature, showValues }) => (
+    <div style={{ maxWidth: 760 }}>
+      <style>{`.eidra-sankey-link{transition:stroke-opacity .15s ease}.eidra-sankey-link:hover{stroke-opacity:.6}`}</style>
+      <Chart.Container config={{}} style={{ height: 420 }} aria-label="Revenue flow: region to net revenue to cost and EBITDA">
+        <Chart.Sankey
+          data={SANKEY_DATA}
+          nodePadding={nodePadding}
+          nodeWidth={nodeWidth}
+          linkCurvature={linkCurvature}
+          node={renderSankeyNode(showValues) as ComponentProps<typeof Chart.Sankey>['node']}
+          link={renderSankeyLink() as ComponentProps<typeof Chart.Sankey>['link']}
+          margin={{ top: 16, right: 96, bottom: 16, left: 112 }}
+        >
+          <Chart.Tooltip content={<SankeyTooltip />} />
+        </Chart.Sankey>
+      </Chart.Container>
+    </div>
+  ),
 };
