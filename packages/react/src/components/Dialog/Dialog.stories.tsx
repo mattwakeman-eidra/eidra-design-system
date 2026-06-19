@@ -2,25 +2,64 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Trash2 } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
+import { within, userEvent, screen, expect, waitFor, fn } from 'storybook/test';
 import { Button } from '../Button/Button.js';
 import { Dialog } from './Dialog.js';
 
 const meta = {
   title: 'Overlays/Dialog',
-  component: Dialog.Popup,
+  // Point at Root: it carries the meaningful behavior props (open/defaultOpen/
+  // modal). Every other part is declared as a subcomponent so each one gets its
+  // own props table in the autodocs page.
+  component: Dialog.Root,
+  subcomponents: {
+    'Dialog.Trigger': Dialog.Trigger,
+    'Dialog.Portal': Dialog.Portal,
+    'Dialog.Backdrop': Dialog.Backdrop,
+    'Dialog.Popup': Dialog.Popup,
+    'Dialog.Header': Dialog.Header,
+    'Dialog.Body': Dialog.Body,
+    'Dialog.Footer': Dialog.Footer,
+    'Dialog.Title': Dialog.Title,
+    'Dialog.Description': Dialog.Description,
+    'Dialog.Close': Dialog.Close,
+    'Dialog.CloseButton': Dialog.CloseButton,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'A general-purpose **dialog** (Base UI `Dialog`, `role="dialog"`) for content, ' +
+          'forms, and detail panels.\n\n' +
+          '**It dismisses on outside-click and `Esc`** — the user can freely close it. ' +
+          'If you need an interruptive confirmation that must *not* be lost to a stray click ' +
+          'outside (e.g. “Delete this project?”), use **AlertDialog** instead — its backdrop ' +
+          'is non-dismissing.',
+      },
+    },
   },
-} satisfies Meta<typeof Dialog.Popup>;
+  argTypes: {
+    modal: { control: 'inline-radio', options: [true, false, 'trap-focus'] },
+    open: { control: 'boolean' },
+    defaultOpen: { control: 'boolean' },
+  },
+} satisfies Meta<typeof Dialog.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ---- Playground ----
+// Root args (modal/defaultOpen) are flat controls; the dialog is opened from its
+// own trigger inside the story.
 export const Playground: Story = {
-  render: () => (
-    <Dialog.Root>
+  args: {
+    modal: true,
+    defaultOpen: false,
+  },
+  render: (args) => (
+    <Dialog.Root {...args}>
       <Dialog.Trigger render={<Button variant="solid" tone="accent">Open dialog</Button>} />
       <Dialog.Portal>
         <Dialog.Backdrop />
@@ -43,6 +82,33 @@ export const Playground: Story = {
       </Dialog.Portal>
     </Dialog.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /open dialog/i });
+
+    await step('clicking the trigger opens the dialog (portaled to body)', async () => {
+      await expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+      await userEvent.click(trigger);
+      const dialog = await screen.findByRole('dialog');
+      await waitFor(() => expect(dialog).toBeVisible());
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await waitFor(() => expect(screen.getByText(/project kickoff/i)).toBeVisible());
+    });
+
+    await step('a Dialog.Close footer button closes the dialog', async () => {
+      await userEvent.click(screen.getByRole('button', { name: /^cancel$/i }));
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    await step('Escape dismisses the open dialog', async () => {
+      await userEvent.click(trigger);
+      const dialog = await screen.findByRole('dialog');
+      await waitFor(() => expect(dialog).toBeVisible());
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    });
+  },
 };
 
 // ---- Confirmation dialog ----
@@ -72,6 +138,22 @@ export const Confirmation: Story = {
       </Dialog.Portal>
     </Dialog.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /delete project/i });
+
+    await step('opening surfaces the title + description via aria', async () => {
+      await userEvent.click(trigger);
+      const dialog = await screen.findByRole('dialog');
+      await expect(dialog).toHaveAccessibleName(/delete project/i);
+      await expect(dialog).toHaveAccessibleDescription(/cannot be undone/i);
+    });
+
+    await step('the CloseButton (X icon) closes the dialog', async () => {
+      await userEvent.click(screen.getByRole('button', { name: /close dialog/i }));
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    });
+  },
 };
 
 // ---- Non-modal dialog ----
@@ -97,18 +179,48 @@ export const NonModal: Story = {
       </Dialog.Portal>
     </Dialog.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /open non-modal/i });
+
+    await step('a non-modal dialog opens without a modal backdrop', async () => {
+      await userEvent.click(trigger);
+      const dialog = await screen.findByRole('dialog');
+      await waitFor(() => expect(dialog).toBeVisible());
+      // Non-modal: the dialog is not flagged aria-modal, so the page stays reachable.
+      await expect(dialog).not.toHaveAttribute('aria-modal', 'true');
+      // The trigger behind it is still in the document and not inert/hidden.
+      await expect(trigger).toBeVisible();
+    });
+
+    await step('the footer Close button dismisses it', async () => {
+      await userEvent.click(screen.getByRole('button', { name: /got it/i }));
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    });
+  },
 };
 
 // ---- Controlled ----
+// `meta` now types args against Dialog.Root, so onOpenChange lives in `args`
+// directly (no module-scoped spy workaround needed).
 export const Controlled: Story = {
-  render: function ControlledStory() {
+  args: {
+    onOpenChange: fn(),
+  },
+  render: function ControlledStory(args) {
     const [open, setOpen] = useState(false);
     return (
       <>
         <Button variant="solid" tone="accent" onClick={() => setOpen(true)}>
           Open (controlled)
         </Button>
-        <Dialog.Root open={open} onOpenChange={(next) => setOpen(next)}>
+        <Dialog.Root
+          open={open}
+          onOpenChange={(next, details) => {
+            setOpen(next);
+            args.onOpenChange?.(next, details);
+          }}
+        >
           <Dialog.Portal>
             <Dialog.Backdrop />
             <Dialog.Popup>
@@ -132,6 +244,36 @@ export const Controlled: Story = {
         </Dialog.Root>
       </>
     );
+  },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const onOpenChange = args.onOpenChange as ReturnType<typeof fn>;
+    onOpenChange.mockClear();
+    const trigger = canvas.getByRole('button', { name: /open \(controlled\)/i });
+
+    await step('host-driven trigger opens the controlled dialog (no Dialog.Trigger)', async () => {
+      await userEvent.click(trigger);
+      const dialog = await screen.findByRole('dialog');
+      await waitFor(() => expect(dialog).toBeVisible());
+    });
+
+    await step('closing via the X fires onOpenChange(false, …)', async () => {
+      await userEvent.click(screen.getByRole('button', { name: /close dialog/i }));
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+      await expect(onOpenChange).toHaveBeenCalled();
+      // Base UI 1.x calls onOpenChange(open, eventDetails) — two args.
+      await expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
+    });
+
+    await step('reopening then Escape also drives onOpenChange to false', async () => {
+      await userEvent.click(trigger);
+      const dialog = await screen.findByRole('dialog');
+      await waitFor(() => expect(dialog).toBeVisible());
+      onOpenChange.mockClear();
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+      await expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
+    });
   },
 };
 
@@ -165,4 +307,22 @@ export const LongContent: Story = {
       </Dialog.Portal>
     </Dialog.Root>
   ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /terms & conditions/i });
+
+    await step('opening a modal dialog moves focus inside it', async () => {
+      await userEvent.click(trigger);
+      const dialog = await screen.findByRole('dialog');
+      await waitFor(() => expect(dialog).toBeVisible());
+      // A modal dialog traps focus: the active element lives within the popup.
+      await waitFor(() => expect(dialog.contains(document.activeElement)).toBe(true));
+    });
+
+    await step('closing restores focus to the trigger', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+      await expect(trigger).toHaveFocus();
+    });
+  },
 };

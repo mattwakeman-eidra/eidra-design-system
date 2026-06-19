@@ -109,13 +109,51 @@
   line-height: var(--eidra-font-line-height-normal);
 }
 
+/* ---- Horizontal orientation ---- */
+/* Items run left-to-right; the rail becomes a horizontal line through the markers,
+   marker on top and content beneath. Each item is an equal-width column. */
+.root[data-orientation='horizontal'] {
+  flex-direction: row;
+  align-items: flex-start;
+}
+.root[data-orientation='horizontal'] .item {
+  grid-template-columns: 1fr;
+  grid-template-rows: var(--_marker-size) auto;
+  row-gap: var(--_rail-gap);
+  column-gap: 0;
+  flex: 1 1 0;
+  min-width: 0;
+  padding-block-end: 0;
+  padding-inline-end: var(--eidra-space-6);
+}
+.root[data-orientation='horizontal'] .item:last-child {
+  flex: 0 1 auto;
+  padding-inline-end: 0;
+}
+/* Rail: horizontal, centred on the marker row, from after this marker to the next item. */
+.root[data-orientation='horizontal'] .item::before {
+  inset-block: calc(var(--_marker-size) / 2 - var(--eidra-space-px)) auto;
+  inset-inline: calc(var(--_marker-size) + var(--eidra-space-1)) 0;
+  width: auto;
+  height: 2px;
+}
+.root[data-orientation='horizontal'] .marker {
+  margin-block-start: 0;
+}
+/* Stack title over timestamp in the narrower column. */
+.root[data-orientation='horizontal'] .heading {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--eidra-space-0-5);
+}
+
 /* Honour the ambient compact-density scope: smaller marker, tighter rail and stacking. */
 :global([data-density='compact']) .root {
-  --_rail-gap: var(--eidra-space-2);
+  --_rail-gap: var(--eidra-space-1-5);
   --_marker-size: 0.75rem;
 }
 :global([data-density='compact']) .item {
-  padding-block-end: var(--eidra-space-2);
+  padding-block-end: var(--eidra-space-1-5);
 }
 :global([data-density='compact']) .dot {
   width: 0.5rem;

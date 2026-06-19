@@ -27,4 +27,4 @@ flowchart TD
 ## Consequences
 
 - Consumers import a prebuilt CSS file and theme via a `data-theme` attribute.
-- Not published yet — packages are workspace-only but built publish-ready (scoped `@eidra/*`, ESM-first, tree-shakable `exports`, Changesets-ready). Registry choice (likely private GitHub Packages) is deferred.
+- Not published to a registry — packages are built publish-ready (scoped `@eidra/*`, ESM-first, tree-shakable `exports`, Changesets-ready). Distribution was resolved later in [ADR-0003](./0003-versioned-tarball-distribution.md) / [ADR-0004](./0004-github-releases-distribution.md): **versioned tarballs attached to GitHub Releases — no registry.** (GitHub Packages was considered and rejected — see [ADR-0006](./0006-github-packages-release-flow.md).)

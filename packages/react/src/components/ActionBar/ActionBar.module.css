@@ -61,6 +61,6 @@
 
 /* Honour the ambient compact-density scope: tighter padding. */
 :global([data-density='compact']) .root {
-  padding: var(--eidra-space-2) var(--eidra-space-3);
-  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-1-5) var(--eidra-space-2);
+  gap: var(--eidra-space-1-5);
 }

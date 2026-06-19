@@ -15,6 +15,10 @@ const meta = {
     tone: { control: 'inline-radio', options: ['neutral', 'success', 'danger', 'warning', 'accent'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     progress: { control: { type: 'range', min: 0, max: 100 } },
+    progressTone: { control: 'select', options: ['accent', 'success', 'warning', 'danger', 'info'] },
+    accent: { control: 'boolean' },
+    caption: { control: 'text' },
+    delta: { control: 'text' },
   },
 } satisfies Meta<typeof Statistic>;
 

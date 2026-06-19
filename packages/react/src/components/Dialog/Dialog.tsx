@@ -167,7 +167,7 @@ Footer.displayName = 'Dialog.Footer';
 
 // ---- Compound export ----
 /**
- * A modal/non-modal dialog built on Base UI `Dialog`.
+ * A general-purpose modal/non-modal dialog (Base UI `Dialog`) for content, forms and detail panels — dismissible by outside-click or Esc; use `AlertDialog` instead when an outside-click must not discard a destructive or critical choice.
  *
  * Usage:
  * ```tsx

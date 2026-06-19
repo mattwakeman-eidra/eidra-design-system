@@ -43,6 +43,8 @@ export function App() {
 
 `<ThemeProvider>` applies the `eidra-root` scope plus `data-theme` and `data-density`. You can instead put `class="eidra-root" data-theme="dark"` on your own root element.
 
+**Using Tailwind?** The tokens are available as utilities either way: Tailwind **v4** apps `@import '@eidra/react/tailwind.css'` (a generated, drift-proof `@theme` bridge); Tailwind **v3** apps add `presets: [require('@eidra/tokens/tailwind')]`. Both keep utilities reactive to the live theme. See [`docs/CONSUMING.md` §5](./docs/CONSUMING.md).
+
 ## Design decisions
 
 - **Product-first foundation.** The brand guidelines define an editorial scale (bold-only type from 15px, coarse 10px spacing). For product UI this system uses a conventional type ramp (Regular→Bold from 12px) and a 4px spacing grid; the brand's large display sizes live in the **display tier** as opt-in expressive styles. Identity is carried by the palette and Eidra Sans. See [`docs/adr/0002`](./docs/adr/0002-product-first-foundation.md).

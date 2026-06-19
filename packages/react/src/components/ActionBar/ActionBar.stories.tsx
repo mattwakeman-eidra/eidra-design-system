@@ -14,6 +14,9 @@ const meta = {
     align: { control: 'inline-radio', options: ['start', 'end', 'between'] },
     sticky: { control: 'inline-radio', options: [false, 'top', 'bottom'] },
     selectedCount: { control: { type: 'number', min: 0 } },
+    // ReactNode (often JSX) — not editable as a control.
+    children: { control: false },
+    message: { control: false },
   },
 } satisfies Meta<typeof ActionBar>;
 

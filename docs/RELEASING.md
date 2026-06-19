@@ -26,7 +26,7 @@ You never bump versions or pack tarballs by hand — merging the two PRs does it
 
 3. **The bot opens a "Version Packages" PR** (workflow `release.yml`). It bumps all three `package.json` versions and writes `CHANGELOG.md` entries from the changesets. Review it like any PR — the diff is just versions + changelog.
 
-4. **Merge the "Version Packages" PR.** That triggers the publish step, which builds, regenerates the catalog, packs the tarballs, and creates **GitHub Release `v<version>`** with `eidra-tokens-<v>.tgz`, `eidra-icons-<v>.tgz`, `eidra-react-<v>.tgz`, and `manifest.json` attached.
+4. **Merge the "Version Packages" PR.** That triggers the publish step, which builds, regenerates the catalog, packs the tarballs, and creates **GitHub Release `v<version>`** with `eidra-tokens-<v>.tgz`, `eidra-icons-<v>.tgz`, `eidra-react-<v>.tgz`, and `manifest.json` attached. The release notes aggregate the `## <version>` changelog section of every published package (`scripts/github-release.mjs`): packages that share an identical summary — the usual case, since the fixed group writes each changeset to every listed package — are grouped under one heading (e.g. `## @eidra/react · @eidra/tokens`), and packages carrying only dependency bumps are omitted.
 
 Done — the release is live on the repo's **Releases** page.
 

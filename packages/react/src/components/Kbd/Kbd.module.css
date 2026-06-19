@@ -41,7 +41,7 @@
 /* Honour the ambient compact-density scope: tighter padding/gaps. */
 :global([data-density='compact']) .root {
   padding-block: var(--eidra-space-0-5);
-  padding-inline: var(--eidra-space-1);
+  padding-inline: var(--eidra-space-0-5);
 }
 
 :global([data-density='compact']) .root[data-size='sm'] {
@@ -51,5 +51,5 @@
 
 :global([data-density='compact']) .root[data-size='lg'] {
   padding-block: var(--eidra-space-0-5);
-  padding-inline: var(--eidra-space-1-5);
+  padding-inline: var(--eidra-space-1);
 }

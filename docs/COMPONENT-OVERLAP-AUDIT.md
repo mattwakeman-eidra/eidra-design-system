@@ -1,6 +1,6 @@
 # Component overlap & duplication audit
 
-**Date:** 2026-06-17 · **Scope:** all 58 `@eidra/react` components · **Status:** findings only — no changes actioned yet.
+**Date:** 2026-06-17 (snapshot) · **Scope:** all 58 `@eidra/react` components · **Status:** **actioned** — Tier 1 resolved in v1.4.0 (SegmentedControl→ToggleGroup merge; Menu radio parity); Tier 2 confusable pairs documented via the `Foundations/Choosing Components` page + sharpened docstrings.
 
 Run after a dogfooding pass surfaced several components that *felt* redundant (Statistic/StatisticBar/StatusStrip, FacetBar/ActionBar/ToggleGroup). Each overlap-prone cluster was read at source (props + CSS + stories) and adjudicated. Methodology: classify every adjacent pair/group as **TRUE DUPLICATE**, **PARTIAL OVERLAP**, or **DISTINCT-BUT-CONFUSABLE**, then recommend MERGE / DEPRECATE / KEEP + clarify.
 
@@ -47,7 +47,7 @@ Each came back "keep + clarify." This is the bulk of the "why do we have three o
 | **Statistic / StatisticBar / StatusStrip** | single rich metric (delta/progress/accent-border) · inline divider-separated figures · RAG heat-cells (per-cell background tint) |
 | **Accordion / Collapsible** | multi-section disclosure w/ heading semantics · single collapsible region. *Flagged structurally duplicate, but mirrors Base UI's own split — keep + document; merge only to diverge from Base UI.* |
 | **Popover / Tooltip / PreviewCard** | click panel (`role=dialog`) · hover microcopy (`role=tooltip`) · hover-link rich preview. *Same shape, but different ARIA roles + triggers — do **not** merge (would discard accessibility).* |
-| **Dialog / AlertDialog** | generic modal w/ Header/Body/Footer · `alertdialog` role + confirm-centric button defaults |
+| **Dialog / AlertDialog** | generic modal for content/forms — dismisses on outside-click/Esc · `alertdialog` role for destructive/critical choices — backdrop does **not** dismiss (Esc still closes), so a stray click can't lose the decision |
 | **Meter / Progress** | scalar measurement vs a range (`<meter>`) · task completion + indeterminate state (`<progress>`) |
 | **Select / Combobox / Autocomplete / FilterSelect** | fixed non-searchable list · searchable multi-select w/ chips · single-select w/ suggestion/complete · high-level filter pill |
 | **Switch / Checkbox** | system on/off toggle (animated) · selection/agreement (+ indeterminate, grouping) |

@@ -3,7 +3,7 @@
 // Expects `pnpm release` to have produced ./releases/*.tgz + manifest.json, and the `gh`
 // CLI to be authenticated (GH_TOKEN / GITHUB_TOKEN in CI).
 import { execSync } from 'node:child_process';
-import { promises as fs } from 'node:fs';
+import { promises as fs, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
@@ -20,6 +20,56 @@ function changelogSection(md, version) {
   let end = lines.findIndex((l, i) => i > start && /^## /.test(l));
   if (end === -1) end = lines.length;
   return lines.slice(start + 1, end).join('\n').trim();
+}
+
+// Strip Changesets' "Updated dependencies" boilerplate. The fixed group writes
+// each changeset's human summary into every listed package's changelog, plus a
+// per-package "Updated dependencies" block that differs between them — dropping
+// that boilerplate lets packages sharing the same summary dedupe to one block.
+function stripDepBumps(section) {
+  const lines = section.split('\n');
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (/^\s*-\s*Updated dependencies/i.test(lines[i])) {
+      while (i + 1 < lines.length && /^\s+-\s/.test(lines[i + 1])) i++; // skip indented refs
+      continue;
+    }
+    out.push(lines[i]);
+  }
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+// True if a section has content beyond its `###`/`####` headings (i.e. it's not
+// just a "### Patch Changes" left empty after stripping dependency bumps).
+function hasSubstance(section) {
+  return section.replace(/^#{2,}.*$/gm, '').trim().length > 0;
+}
+
+// Build release notes by aggregating the `## <version>` changelog section of
+// every published package, grouping packages that share an identical summary.
+function buildNotes(publishedPkgs, version, tag) {
+  const ORDER = ['@eidra/react', '@eidra/tokens', '@eidra/icons'];
+  const ordered = [
+    ...ORDER.filter((p) => publishedPkgs.includes(p)),
+    ...publishedPkgs.filter((p) => !ORDER.includes(p)),
+  ];
+  const groups = [];
+  for (const pkg of ordered) {
+    const dir = pkg.replace(/^@eidra\//, '');
+    let md = '';
+    try {
+      md = readFileSync(path.join(ROOT, 'packages', dir, 'CHANGELOG.md'), 'utf8');
+    } catch {
+      md = '';
+    }
+    const body = stripDepBumps(changelogSection(md, version));
+    if (!hasSubstance(body)) continue;
+    const g = groups.find((x) => x.body === body);
+    if (g) g.pkgs.push(pkg);
+    else groups.push({ pkgs: [pkg], body });
+  }
+  if (groups.length === 0) return `Eidra Design System ${tag}. Tarball assets attached.`;
+  return groups.map((g) => `## ${g.pkgs.join(' · ')}\n\n${g.body}`).join('\n\n');
 }
 
 async function main() {
@@ -39,9 +89,7 @@ async function main() {
     return;
   }
 
-  const changelog = await fs.readFile(path.join(ROOT, 'packages/react/CHANGELOG.md'), 'utf8').catch(() => '');
-  const notes =
-    changelogSection(changelog, version) || `Eidra Design System ${tag}. Tarball assets attached.`;
+  const notes = buildNotes(Object.keys(manifest.files), version, tag);
   const notesFile = path.join(RELEASES, 'NOTES.md');
   await fs.writeFile(notesFile, `${notes}\n`);
 

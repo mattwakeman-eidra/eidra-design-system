@@ -134,9 +134,9 @@
 
 /* Honour the ambient compact-density scope: tighter padding/gaps. */
 :global([data-density='compact']) .trigger {
-  padding-block: var(--eidra-space-3);
+  padding-block: var(--eidra-space-2);
 }
 
 :global([data-density='compact']) .panel:not([hidden]) {
-  padding-bottom: var(--eidra-space-3);
+  padding-bottom: var(--eidra-space-2);
 }

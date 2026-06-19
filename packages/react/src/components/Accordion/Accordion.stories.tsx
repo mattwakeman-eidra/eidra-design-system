@@ -1,12 +1,35 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { within, userEvent, expect, fn } from 'storybook/test';
 import { Accordion } from './Accordion.js';
+import type { AccordionValue } from './Accordion.js';
 
 const meta = {
   title: 'Layout/Accordion',
   component: Accordion.Root,
+  subcomponents: {
+    'Accordion.Item': Accordion.Item,
+    'Accordion.Header': Accordion.Header,
+    'Accordion.Trigger': Accordion.Trigger,
+    'Accordion.Panel': Accordion.Panel,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
+  },
+  argTypes: {
+    disabled: {
+      control: 'boolean',
+      description: 'Ignore user interaction across the whole accordion (triggers grey out).',
+    },
+    // `disabled` is the only Root prop with an immediate visual effect. The others
+    // (multiple, orientation, loopFocus, keepMounted, hiddenUntilFound) only change
+    // interaction/keyboard/DOM behaviour with no static visual change, so they're
+    // left off the controls panel rather than shown as knobs that do nothing.
+    // `multiple` is demonstrated by the Multiple / "Single item open" stories below.
+  },
+  args: {
+    disabled: false,
   },
 } satisfies Meta<typeof Accordion.Root>;
 
@@ -38,10 +61,15 @@ function AccordionItem({
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
+/**
+ * Toggle **disabled** to grey out and lock the whole accordion. One panel is open
+ * by default. (No auto-running interaction here — the assertion-driven behaviours,
+ * including single-vs-multiple open, live in the dedicated stories below.)
+ */
 export const Playground: Story = {
   render: (args) => (
     <div style={{ maxWidth: 640 }}>
-      <Accordion.Root {...args}>
+      <Accordion.Root defaultValue={['approach']} {...args}>
         <AccordionItem value="approach" heading="Our Approach">
           At Eidra we combine Nordic clarity with strategic depth — turning
           complex challenges into elegant, scalable solutions that endure.
@@ -75,6 +103,22 @@ export const DefaultOpen: Story = {
       </Accordion.Root>
     </div>
   ),
+  // defaultValue seeds the uncontrolled open-state, then the host stops tracking it.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const services = canvas.getByRole('button', { name: /^services/i });
+    const approach = canvas.getByRole('button', { name: /our approach/i });
+
+    await step('the defaultValue item starts open, others closed', async () => {
+      await expect(services).toHaveAttribute('aria-expanded', 'true');
+      await expect(approach).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    await step('the seeded item can be collapsed by the user', async () => {
+      await userEvent.click(services);
+      await expect(services).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
 };
 
 export const SingleOpen: Story = {
@@ -97,6 +141,44 @@ export const SingleOpen: Story = {
       </Accordion.Root>
     </div>
   ),
+  // Keyboard: roving focus across triggers (arrows/Home/End) and toggle via Enter/Space.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const q1 = canvas.getByRole('button', { name: /what is eidra/i });
+    const q2 = canvas.getByRole('button', { name: /who do you work with/i });
+    const q3 = canvas.getByRole('button', { name: /how do i get in touch/i });
+
+    await step('ArrowDown moves roving focus to the next trigger', async () => {
+      q1.focus();
+      await expect(q1).toHaveFocus();
+      await userEvent.keyboard('{ArrowDown}');
+      await expect(q2).toHaveFocus();
+    });
+
+    await step('ArrowUp moves focus back to the previous trigger', async () => {
+      await userEvent.keyboard('{ArrowUp}');
+      await expect(q1).toHaveFocus();
+    });
+
+    await step('End jumps focus to the last trigger, Home to the first', async () => {
+      await userEvent.keyboard('{End}');
+      await expect(q3).toHaveFocus();
+      await userEvent.keyboard('{Home}');
+      await expect(q1).toHaveFocus();
+    });
+
+    await step('Enter toggles the focused panel open', async () => {
+      await userEvent.keyboard('{Enter}');
+      await expect(q1).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    await step('Space on another trigger opens it and closes the first', async () => {
+      q2.focus();
+      await userEvent.keyboard(' ');
+      await expect(q2).toHaveAttribute('aria-expanded', 'true');
+      await expect(q1).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
 };
 
 export const WithDisabledItem: Story = {
@@ -115,6 +197,122 @@ export const WithDisabledItem: Story = {
       </Accordion.Root>
     </div>
   ),
+  // A disabled item carries data-disabled and ignores activation.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const disabled = canvas.getByRole('button', { name: /coming soon/i });
+
+    await step('the disabled trigger is marked disabled', async () => {
+      await expect(disabled).toHaveAttribute('aria-disabled', 'true');
+      await expect(disabled).toHaveAttribute('data-disabled');
+    });
+
+    await step('clicking the disabled trigger does not expand it', async () => {
+      await userEvent.click(disabled);
+      await expect(disabled).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
+};
+
+/**
+ * **Multiple open.** With `multiple`, several panels can be expanded at once —
+ * opening one no longer collapses the others.
+ */
+export const Multiple: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={{ maxWidth: 640 }}>
+      <Accordion.Root multiple defaultValue={['approach']}>
+        <AccordionItem value="approach" heading="Our Approach">
+          Nordic clarity with strategic depth.
+        </AccordionItem>
+        <AccordionItem value="services" heading="Services">
+          Strategy · Service Design · Engineering.
+        </AccordionItem>
+        <AccordionItem value="locations" heading="Locations">
+          Stockholm · Oslo · Helsinki · Copenhagen.
+        </AccordionItem>
+      </Accordion.Root>
+    </div>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const approach = canvas.getByRole('button', { name: /our approach/i });
+    const services = canvas.getByRole('button', { name: /^services/i });
+
+    await step('a seeded panel is open while a second is opened', async () => {
+      await expect(approach).toHaveAttribute('aria-expanded', 'true');
+      await userEvent.click(services);
+      await expect(services).toHaveAttribute('aria-expanded', 'true');
+      // The first stays open — multiple panels coexist.
+      await expect(approach).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    await step('panels close independently', async () => {
+      await userEvent.click(approach);
+      await expect(approach).toHaveAttribute('aria-expanded', 'false');
+      await expect(services).toHaveAttribute('aria-expanded', 'true');
+    });
+  },
+};
+
+/**
+ * **Controlled.** The host owns the open-state via `value`; the accordion only
+ * reports changes through `onValueChange`.
+ */
+export const Controlled: Story = {
+  parameters: { controls: { disable: true } },
+  args: {
+    onValueChange: fn(),
+  },
+  render: (args) => {
+    const [value, setValue] = useState<AccordionValue>(['services']);
+    return (
+      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 640 }}>
+        <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
+          Open: <strong style={{ color: 'var(--eidra-fg)' }}>{value.join(', ') || '—'}</strong>
+        </p>
+        <Accordion.Root
+          value={value}
+          onValueChange={(next, details) => {
+            setValue(next);
+            args.onValueChange?.(next, details);
+          }}
+        >
+          <AccordionItem value="approach" heading="Our Approach">
+            Nordic clarity with strategic depth.
+          </AccordionItem>
+          <AccordionItem value="services" heading="Services">
+            Strategy · Service Design · Engineering.
+          </AccordionItem>
+          <AccordionItem value="locations" heading="Locations">
+            Stockholm · Oslo · Helsinki · Copenhagen.
+          </AccordionItem>
+        </Accordion.Root>
+      </div>
+    );
+  },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const approach = canvas.getByRole('button', { name: /our approach/i });
+    const services = canvas.getByRole('button', { name: /^services/i });
+
+    await step('the controlled value drives which panel is open', async () => {
+      await expect(services).toHaveAttribute('aria-expanded', 'true');
+      await expect(approach).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    await step('clicking fires onValueChange with the new value', async () => {
+      await userEvent.click(approach);
+      await expect(args.onValueChange).toHaveBeenCalled();
+      await expect(args.onValueChange).toHaveBeenLastCalledWith(['approach'], expect.anything());
+    });
+
+    await step('the host applies the change and the panel opens', async () => {
+      await expect(approach).toHaveAttribute('aria-expanded', 'true');
+      await expect(services).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
 };
 
 export const FAQ: Story = {

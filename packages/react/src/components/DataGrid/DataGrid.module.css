@@ -19,7 +19,7 @@
 :global([data-density='compact']) .root,
 .root[data-density='compact'] {
   --dg-pad-block: var(--eidra-space-0-5);
-  --dg-pad-inline: var(--eidra-space-2);
+  --dg-pad-inline: var(--eidra-space-1-5);
   --dg-font-size: var(--eidra-font-size-xs);
   /* Shrink the control metric that sets the inline-edit cell's min row height. */
   --eidra-size-control-sm: 1.5rem;
@@ -347,6 +347,19 @@
 }
 .colHeader[data-highlighted][data-highlight-tone='finance'] {
   border-top-color: var(--eidra-finance-accent);
+}
+/*
+ * On a hovered row the highlighted column was frozen at its flat tint while the
+ * rest of the row lifted to --eidra-surface-hover, so the current column looked
+ * dead. Blend the column tint over the hover surface (an opaque mix, so pinned
+ * highlighted cells stay solid) — it lifts with the row yet stays clearly the
+ * accent-tinted highlight. Per-cell value tones keep their fixed state tint.
+ */
+.row:hover .cell[data-highlighted]:not([data-cell-tone]) {
+  background-color: color-mix(in srgb, var(--eidra-accent-subtle) 55%, var(--eidra-surface-hover));
+}
+.row:hover .cell[data-highlight-tone='finance']:not([data-cell-tone]) {
+  background-color: color-mix(in srgb, var(--eidra-finance-accent-subtle) 55%, var(--eidra-surface-hover));
 }
 
 /* ---- Value/state-driven cell tint ---- */

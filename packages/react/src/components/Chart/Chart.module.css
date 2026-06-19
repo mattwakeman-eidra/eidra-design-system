@@ -25,6 +25,18 @@
   fill: var(--eidra-fg);
 }
 
+/* Polar (radar) grid + axis theming — polar elements use their own classes,
+   not the cartesian ones above, so the tick labels would otherwise render in
+   the SVG default fill and break in dark theme. */
+.container :global(.recharts-polar-grid-angle line),
+.container :global(.recharts-polar-grid-concentric) {
+  stroke: var(--eidra-border-subtle);
+}
+.container :global(.recharts-polar-angle-axis-tick-value),
+.container :global(.recharts-polar-radius-axis-tick-value) {
+  fill: var(--eidra-fg-muted);
+}
+
 /*
  * Focus. Recharts makes the chart surface focusable (keyboard a11y), and the
  * browser draws its default blue focus box on click. Suppress that, and show the
@@ -39,6 +51,12 @@
   outline: 2px solid var(--eidra-focus-ring);
   outline-offset: 2px;
   border-radius: var(--eidra-radius-md);
+}
+
+/* ---- Box plot ---- */
+.boxLayer line,
+.boxLayer rect {
+  stroke-linecap: round;
 }
 
 /* ---- Tooltip ---- */

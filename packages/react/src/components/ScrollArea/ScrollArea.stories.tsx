@@ -4,6 +4,13 @@ import { ScrollArea } from './ScrollArea.js';
 const meta = {
   title: 'Layout/ScrollArea',
   component: ScrollArea.Root,
+  subcomponents: {
+    'ScrollArea.Viewport': ScrollArea.Viewport,
+    'ScrollArea.Content': ScrollArea.Content,
+    'ScrollArea.Scrollbar': ScrollArea.Scrollbar,
+    'ScrollArea.Thumb': ScrollArea.Thumb,
+    'ScrollArea.Corner': ScrollArea.Corner,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

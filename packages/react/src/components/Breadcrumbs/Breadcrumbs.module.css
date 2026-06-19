@@ -53,7 +53,7 @@
 
 /* Honour the ambient compact-density scope: tighter sizing/gaps. */
 :global([data-density='compact']) .list {
-  gap: var(--eidra-space-1);
+  gap: var(--eidra-space-0-5);
 }
 :global([data-density='compact']) .link {
   gap: var(--eidra-space-0-5);

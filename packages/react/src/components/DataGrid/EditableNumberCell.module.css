@@ -16,8 +16,14 @@
   border-radius: var(--eidra-radius-sm);
   transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
 }
+/* A hovered editable cell takes the accent-subtle wash — the same "this cell is
+   in play" colour as a committed override/rollup — so it reads as a distinct
+   colour channel against the neutral row shade (the row already hovers to
+   --eidra-surface-hover; matching that just melts the cell into its row). The
+   dark accent-subtle fill also keeps the light -fg toned values well clear of
+   the 4.5:1 AA floor, where the lighter grey surfaces did not. */
 .cell:hover:not([data-disabled]) {
-  background-color: var(--eidra-surface-active);
+  background-color: var(--eidra-accent-subtle);
 }
 .cell:focus-visible {
   outline: 2px solid var(--eidra-accent);
@@ -58,30 +64,35 @@
 }
 
 /* ---- Semantic value tone — colours the resting value text + edit field.
+   Uses the -fg tone tokens (red/green/orange-300 in dark, -700/-800 in light),
+   which are tuned to read on neutral surfaces — the base tone tokens
+   (red/green/orange-500) drop below 4.5:1 once a cell hovers onto grey.
+   Accent maps to --eidra-accent-active (orange-300 dark / orange-700 light):
+   --eidra-accent-fg is the on-accent colour (black), so it can't be used here.
    Markers keep their own accent colour, so tiers read at the value level. ---- */
 .cell[data-tone='positive'] .value {
-  color: var(--eidra-success);
+  color: var(--eidra-success-fg);
 }
 .cell[data-tone='caution'] .value {
-  color: var(--eidra-warning);
+  color: var(--eidra-warning-fg);
 }
 .cell[data-tone='danger'] .value {
-  color: var(--eidra-danger);
+  color: var(--eidra-danger-fg);
 }
 .cell[data-tone='accent'] .value {
-  color: var(--eidra-accent);
+  color: var(--eidra-accent-active);
 }
 .input[data-tone='positive'] {
-  color: var(--eidra-success);
+  color: var(--eidra-success-fg);
 }
 .input[data-tone='caution'] {
-  color: var(--eidra-warning);
+  color: var(--eidra-warning-fg);
 }
 .input[data-tone='danger'] {
-  color: var(--eidra-danger);
+  color: var(--eidra-danger-fg);
 }
 .input[data-tone='accent'] {
-  color: var(--eidra-accent);
+  color: var(--eidra-accent-active);
 }
 
 /* Disabled greys the value regardless of tone (declared last so it wins). */

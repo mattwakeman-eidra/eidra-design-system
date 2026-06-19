@@ -1,11 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Icon, CheckCircle, FileText, MessageSquare, XCircle } from '@eidra/icons';
+import { Icon, AlertTriangle, CheckCircle, FileText, MessageSquare, XCircle } from '@eidra/icons';
 import { Timeline } from './Timeline.js';
 
 const meta = {
   title: 'Data Display/Timeline',
   component: Timeline,
   tags: ['autodocs'],
+  argTypes: {
+    orientation: {
+      control: 'inline-radio',
+      options: ['vertical', 'horizontal'],
+      description:
+        'Layout direction — `vertical` stacks the feed; `horizontal` runs items along a rail.',
+    },
+    // Array of objects holding JSX icons — not editable as a control.
+    items: { control: false },
+  },
+  args: {
+    orientation: 'vertical',
+  },
 } satisfies Meta<typeof Timeline>;
 
 export default meta;
@@ -45,6 +58,14 @@ export const WithIconsAndTones: Story = {
       },
       {
         id: 3,
+        title: 'Approval expiring soon',
+        timestamp: '2h ago',
+        tone: 'warning',
+        icon: <Icon icon={AlertTriangle} size="sm" />,
+        description: 'Sign off before end of day to avoid re-review.',
+      },
+      {
+        id: 4,
         title: 'Rejected',
         timestamp: '3h ago',
         tone: 'danger',
@@ -52,13 +73,14 @@ export const WithIconsAndTones: Story = {
         description: 'Missing PO number.',
       },
       {
-        id: 4,
+        id: 5,
         title: 'Draft created',
         timestamp: '12 Jun 2026',
         tone: 'default',
         icon: <Icon icon={FileText} size="sm" />,
       },
     ],
+    orientation: 'vertical',
   },
 };
 
@@ -81,4 +103,35 @@ export const Dense: Story = {
       <Timeline {...args} />
     </div>
   ),
+};
+
+/**
+ * `orientation="horizontal"` lays the items left-to-right along a horizontal
+ * rail — a step/progress reading for a small number of stages where width is
+ * plentiful (e.g. an approval flow across the top of a page). Markers sit above
+ * each step with the title and timestamp beneath.
+ */
+export const Horizontal: Story = {
+  parameters: { controls: { disable: true } },
+  args: {
+    orientation: 'horizontal',
+    items: [
+      { id: 1, title: 'Draft created', timestamp: '12 Jun', tone: 'default' },
+      {
+        id: 2,
+        title: 'Submitted',
+        timestamp: '13 Jun',
+        tone: 'accent',
+        icon: <Icon icon={FileText} size="sm" />,
+      },
+      {
+        id: 3,
+        title: 'Approved',
+        timestamp: '14 Jun',
+        tone: 'success',
+        icon: <Icon icon={CheckCircle} size="sm" />,
+      },
+      { id: 4, title: 'Exported to accounting', timestamp: '15 Jun', tone: 'success' },
+    ],
+  },
 };

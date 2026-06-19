@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ArrowRight, Plus, Trash2 } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
+import { within, userEvent, expect, fn } from 'storybook/test';
 import { Button } from './Button.js';
 
 const meta = {
@@ -12,6 +13,10 @@ const meta = {
     variant: { control: 'inline-radio', options: ['solid', 'outline', 'ghost', 'subtle'] },
     tone: { control: 'inline-radio', options: ['accent', 'neutral', 'coral', 'danger'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    loading: { control: 'boolean' },
+    iconOnly: { control: 'boolean' },
+    fullWidth: { control: 'boolean' },
+    disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Button>;
 
@@ -70,9 +75,64 @@ export const WithIcons: Story = {
 };
 
 export const Loading: Story = {
-  args: { loading: true, children: 'Saving…' },
+  args: { loading: true, children: 'Saving…', onClick: fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: /saving/i });
+    // `loading` flips the button to disabled + aria-busy and suppresses clicks.
+    await expect(button).toBeDisabled();
+    await expect(button).toHaveAttribute('aria-busy', 'true');
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
 };
 
 export const Disabled: Story = {
-  args: { disabled: true },
+  args: { disabled: true, onClick: fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: /button/i });
+    await expect(button).toBeDisabled();
+    // A disabled native button never dispatches click.
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/** `onClick` fires on pointer click. */
+export const Clickable: Story = {
+  args: { onClick: fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: /button/i });
+    await userEvent.click(button);
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
+  },
+};
+
+/**
+ * Keyboard activation. A native `<button>` fires `click` on both Enter and Space,
+ * and is reachable by Tab.
+ */
+export const KeyboardActivation: Story = {
+  args: { onClick: fn() },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: /button/i });
+
+    await step('Tab moves focus to the button', async () => {
+      await userEvent.tab();
+      await expect(button).toHaveFocus();
+    });
+
+    await step('Enter activates the focused button', async () => {
+      await userEvent.keyboard('{Enter}');
+      await expect(args.onClick).toHaveBeenCalledTimes(1);
+    });
+
+    await step('Space activates the focused button', async () => {
+      await userEvent.keyboard(' ');
+      await expect(args.onClick).toHaveBeenCalledTimes(2);
+    });
+  },
 };

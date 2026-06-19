@@ -7,13 +7,14 @@ the first segment of its story `title`. So the title is not cosmetic; keep it co
 ## The three tiers
 
 1. **`Foundations/*`** — system-level documentation with **no single component**:
-   design tokens and cross-cutting rules. Current pages: `Colors`, `Typography`,
-   `Density`, `Theming`.
+   design tokens and cross-cutting rules. Current pages: `Choosing Components`,
+   `Colors`, `Density`, `Flags`, `Theming`, `Typography`.
 2. **`‹Function›/‹Component›`** — **one page per component**, whose stories are that
    component's own variants, states, and props. This is where the vast majority of
    stories live. `‹Function›` is one of the functional categories below.
 3. **`Patterns/*`** — recipes that **combine two or more components** into a reusable
-   layout. Current pages: `Project Economics`, `Data Visualization`, `KPIs`.
+   layout. Current pages: `By Region`, `Data Visualization`, `Funnel`, `KPIs`,
+   `Project Economics`, `Report Page`, `Top Clients`.
 
 ## Decision tree (where does this story go?)
 

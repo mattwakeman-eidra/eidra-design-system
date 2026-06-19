@@ -97,8 +97,8 @@
   line-height: 1.1;
 }
 :global([data-density='compact']) .root[data-size='md'] .value {
-  font-size: var(--eidra-font-size-base);
+  font-size: var(--eidra-font-size-sm);
 }
 :global([data-density='compact']) .root[data-size='lg'] .value {
-  font-size: var(--eidra-font-size-lg);
+  font-size: var(--eidra-font-size-base);
 }

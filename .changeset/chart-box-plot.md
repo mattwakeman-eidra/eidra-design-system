@@ -1,0 +1,5 @@
+---
+"@eidra/react": minor
+---
+
+Add `Chart.BoxPlot` — a box-and-whisker chart for showing the distribution of a metric across categories. Recharts has no box primitive, so `BoxPlot` is a self-contained chart: drop it inside `Chart.Container` and it owns its `ComposedChart`, axes and value-domain, drawing one box per row at true axis scale (box = Q1–Q3, emphasised median, whiskers to the Tukey 1.5×IQR fences with caps, and outliers as dots). It reads the axis scales via Recharts' v3 hooks and positions each box on its axis tick centre, so boxes stay aligned with the category labels. Supports `orientation` (`vertical` | `horizontal`), per-category `color` (cycles `--eidra-chart-1…16` by default), and a hover tooltip showing the five-number summary (routed through the themed `Chart.TooltipContent` `rows` override). Ships with `Chart.computeBoxStats(values)` (also exported standalone) to derive a `{ min, q1, median, q3, max, outliers }` summary from raw samples using type-7 quartiles + Tukey outlier fences. Additive only.

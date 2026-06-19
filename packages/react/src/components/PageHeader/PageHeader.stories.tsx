@@ -9,6 +9,11 @@ const meta = {
   args: {
     title: 'Projects',
   },
+  argTypes: {
+    // ReactNode (JSX) — not editable as controls.
+    actions: { control: false },
+    breadcrumbs: { control: false },
+  },
 } satisfies Meta<typeof PageHeader>;
 
 export default meta;

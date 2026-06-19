@@ -176,16 +176,16 @@
  * popup padding/gap one step and steps down the title (per the base.css convention).
  */
 :global([data-density='compact']) .popup {
-  gap: var(--eidra-space-3);
-  padding: var(--eidra-space-4);
+  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-3);
 }
 :global([data-density='compact']) .title {
-  font-size: var(--eidra-font-size-base);
+  font-size: var(--eidra-font-size-sm);
 }
 
 /* Popup is the portal root and is stamped with data-density (ThemeProvider scope),
    so also match the attribute on the element itself, not only an ancestor. */
 .popup[data-density='compact'] {
-  gap: var(--eidra-space-3);
-  padding: var(--eidra-space-4);
+  gap: var(--eidra-space-2);
+  padding: var(--eidra-space-3);
 }

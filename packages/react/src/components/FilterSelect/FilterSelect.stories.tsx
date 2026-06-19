@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { within, userEvent, screen, expect, waitFor, fn } from 'storybook/test';
 import { FilterSelect, type FilterSelectOption } from './FilterSelect.js';
 
 const meta = {
@@ -34,6 +35,49 @@ const OWNERS: FilterSelectOption[] = [
   { value: 'sf', label: 'S. Fischer' },
 ];
 
+/**
+ * **Playground.** Drive the scalar/text props from the controls panel against a
+ * fixed option list (selection stays controlled via host state; `options`,
+ * `value`, `onValueChange`, and `summary` are authored in code).
+ */
+export const Playground: Story = {
+  parameters: { controls: { disable: false } },
+  argTypes: {
+    size: { control: 'inline-radio', options: ['sm', 'md'] },
+    placeholder: { control: 'text' },
+    noun: { control: 'text' },
+    searchPlaceholder: { control: 'text' },
+    searchable: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    // Authored in code, not from the controls panel.
+    options: { control: false },
+    value: { control: false },
+    onValueChange: { control: false },
+    summary: { control: false },
+  },
+  args: {
+    size: 'md',
+    placeholder: 'Owner',
+    noun: 'owner',
+    searchPlaceholder: 'Search…',
+    searchable: true,
+    disabled: false,
+  },
+  render: (args) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [value, setValue] = useState<string[]>([]);
+    return (
+      <FilterSelect
+        {...args}
+        aria-label="Account owner"
+        options={OWNERS}
+        value={value}
+        onValueChange={setValue}
+      />
+    );
+  },
+};
+
 /** Basic single filter — selecting keeps the popup open and updates the count. */
 export const Default: Story = {
   render: () => {
@@ -48,6 +92,51 @@ export const Default: Story = {
         onValueChange={setValue}
       />
     );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /region/i });
+
+    await step('clicking the trigger opens the popover', async () => {
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await userEvent.click(trigger);
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      // The option list is portaled to document.body — query with screen.
+      const nordicsOption = await screen.findByRole('checkbox', { name: /Nordics/ });
+      await waitFor(() => expect(nordicsOption).toBeVisible());
+    });
+
+    await step('toggling an option checks it and keeps the popup open', async () => {
+      const nordics = await screen.findByRole('checkbox', { name: /Nordics/ });
+      await userEvent.click(nordics);
+      await expect(nordics).toBeChecked();
+      // Popup stays open while toggling.
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      // Footer count reflects the selection.
+      await waitFor(async () => expect(await screen.findByText('1 selected')).toBeVisible());
+    });
+
+    await step('a second selection updates the trigger summary to the noun count', async () => {
+      await userEvent.click(await screen.findByRole('checkbox', { name: /Benelux/ }));
+      await waitFor(async () => expect(await screen.findByText('2 selected')).toBeVisible());
+      await expect(trigger).toHaveTextContent(/2 regions/);
+    });
+
+    await step('toggling a checked option deselects it', async () => {
+      const benelux = await screen.findByRole('checkbox', { name: /Benelux/ });
+      await userEvent.click(benelux);
+      await expect(benelux).not.toBeChecked();
+      // Single selection now shows that option's label, not the count summary.
+      await expect(trigger).toHaveTextContent(/Nordics/);
+    });
+
+    await step('Escape closes the popover', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+      await waitFor(() =>
+        expect(screen.queryByRole('checkbox', { name: /Nordics/ })).toBeNull(),
+      );
+    });
   },
 };
 
@@ -65,6 +154,41 @@ export const Searchable: Story = {
         onValueChange={setValue}
       />
     );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /owner/i });
+
+    await step('the long list auto-shows the search box', async () => {
+      await userEvent.click(trigger);
+      // searchPlaceholder defaults to "Search…" and is the search input's aria-label.
+      const searchBox = await screen.findByRole('textbox', { name: /search/i });
+      await waitFor(() => expect(searchBox).toBeVisible());
+    });
+
+    await step('typing filters the option list', async () => {
+      const search = await screen.findByRole('textbox', { name: /search/i });
+      await userEvent.type(search, 'Fischer');
+      const fischer = await screen.findByRole('checkbox', { name: /Fischer/ });
+      await waitFor(() => expect(fischer).toBeVisible());
+      await waitFor(() =>
+        expect(screen.queryByRole('checkbox', { name: /Lindqvist/ })).toBeNull(),
+      );
+    });
+
+    await step('a query with no matches shows the empty message', async () => {
+      const search = await screen.findByRole('textbox', { name: /search/i });
+      await userEvent.clear(search);
+      await userEvent.type(search, 'zzzzz');
+      await waitFor(async () => expect(await screen.findByText(/No matches/i)).toBeVisible());
+    });
+
+    await step('clearing the query restores the full list', async () => {
+      const search = await screen.findByRole('textbox', { name: /search/i });
+      await userEvent.clear(search);
+      const lindqvist = await screen.findByRole('checkbox', { name: /Lindqvist/ });
+      await waitFor(() => expect(lindqvist).toBeVisible());
+    });
   },
 };
 
@@ -132,6 +256,36 @@ export const DisabledStates: Story = {
       </div>
     );
   },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('a fully disabled control is not interactive and stays closed', async () => {
+      // Both triggers share the accessible name "Region" (the aria-label); the
+      // "(disabled)" text is only the visible placeholder, not the a11y name.
+      // The disabled control carries the native `disabled` attribute — pick it.
+      const triggers = canvas.getAllByRole('button', { name: 'Region' });
+      const disabledTrigger = triggers.find((b) => b.hasAttribute('disabled'))!;
+      await expect(disabledTrigger).toBeDisabled();
+      await userEvent.click(disabledTrigger, { pointerEventsCheck: 0 });
+      await expect(disabledTrigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    await step('a disabled option cannot be toggled', async () => {
+      const trigger = canvas
+        .getAllByRole('button', { name: 'Region' })
+        .find((b) => !b.hasAttribute('disabled'))!;
+      await userEvent.click(trigger);
+      const benelux = await screen.findByRole('checkbox', { name: /Benelux/ });
+      await waitFor(() => expect(benelux).toBeVisible());
+      // Base UI marks the disabled option via aria-disabled (it's a role="checkbox"
+      // span, not a native control), and disables pointer events on it.
+      await expect(benelux).toHaveAttribute('aria-disabled', 'true');
+      await userEvent.click(benelux, { pointerEventsCheck: 0 });
+      await expect(benelux).not.toBeChecked();
+      // Footer count is unchanged (the pre-selected Nordics remains the only selection).
+      await waitFor(async () => expect(await screen.findByText('1 selected')).toBeVisible());
+    });
+  },
 };
 
 /** The invoicing toolbar: six filter pills side by side. */
@@ -174,5 +328,119 @@ export const FilterToolbar: Story = {
         <FilterSelect size="sm" aria-label="Industry" placeholder="Industry" noun="industry" options={industries} value={industry} onValueChange={setIndustry} />
       </div>
     );
+  },
+};
+
+const clearCallbackSpy = fn();
+
+/**
+ * **Clear-all & the `onValueChange` callback.** The footer's Clear button is
+ * disabled while nothing is selected and resets the selection to `[]` once it is.
+ * Here `onValueChange` is a spy wrapping the host state so we can assert both the
+ * UI and the emitted payload.
+ */
+export const ClearAndCallback: Story = {
+  render: () => {
+    const [value, setValue] = useState<string[]>(['nordics', 'dach']);
+    return (
+      <FilterSelect
+        aria-label="Region"
+        placeholder="Region"
+        noun="region"
+        options={REGIONS}
+        value={value}
+        onValueChange={(next) => {
+          clearCallbackSpy(next);
+          setValue(next);
+        }}
+      />
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const handler = clearCallbackSpy;
+    const trigger = canvas.getByRole('button', { name: /region/i });
+
+    await step('opening shows the pre-selected count and an enabled Clear', async () => {
+      await userEvent.click(trigger);
+      await waitFor(async () => expect(await screen.findByText('2 selected')).toBeVisible());
+      const clear = await screen.findByRole('button', { name: /clear/i });
+      await expect(clear).toBeEnabled();
+    });
+
+    await step('toggling an option fires onValueChange with the new value array', async () => {
+      handler.mockClear();
+      await userEvent.click(await screen.findByRole('checkbox', { name: /Benelux/ }));
+      await expect(handler).toHaveBeenCalledWith(['nordics', 'dach', 'benelux']);
+    });
+
+    await step('Clear resets the selection to an empty array and disables itself', async () => {
+      handler.mockClear();
+      await userEvent.click(await screen.findByRole('button', { name: /clear/i }));
+      await expect(handler).toHaveBeenCalledWith([]);
+      await waitFor(() =>
+        expect(screen.getByRole('button', { name: /clear/i })).toBeDisabled(),
+      );
+      await waitFor(async () => expect(await screen.findByText('0 selected')).toBeVisible());
+      // Trigger falls back to the placeholder once nothing is selected.
+      await expect(trigger).toHaveTextContent(/Region/);
+    });
+  },
+};
+
+/**
+ * **Keyboard.** The trigger opens on Enter, options toggle with Space, and the
+ * type-ahead search box (auto-shown for long lists) narrows the list from the
+ * keyboard. Escape closes the popover and returns focus to the trigger.
+ */
+export const KeyboardInteraction: Story = {
+  render: () => {
+    const [value, setValue] = useState<string[]>([]);
+    return (
+      <FilterSelect
+        aria-label="Account owner"
+        placeholder="Owner"
+        noun="owner"
+        options={OWNERS}
+        value={value}
+        onValueChange={setValue}
+      />
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: /owner/i });
+
+    await step('Enter on the focused trigger opens the popover', async () => {
+      trigger.focus();
+      await expect(trigger).toHaveFocus();
+      await userEvent.keyboard('{Enter}');
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      const searchBox = await screen.findByRole('textbox', { name: /search/i });
+      await waitFor(() => expect(searchBox).toBeVisible());
+    });
+
+    await step('type-ahead in the search box narrows the list', async () => {
+      const search = await screen.findByRole('textbox', { name: /search/i });
+      await userEvent.type(search, 'Persson');
+      const match = await screen.findByRole('checkbox', { name: /Persson/ });
+      await waitFor(() => expect(match).toBeVisible());
+      await waitFor(() =>
+        expect(screen.queryByRole('checkbox', { name: /Lindqvist/ })).toBeNull(),
+      );
+    });
+
+    await step('Space toggles the focused option', async () => {
+      const match = await screen.findByRole('checkbox', { name: /Persson/ });
+      match.focus();
+      await userEvent.keyboard(' ');
+      await expect(match).toBeChecked();
+    });
+
+    await step('Escape closes the popover and restores focus to the trigger', async () => {
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+      await waitFor(() => expect(trigger).toHaveFocus());
+    });
   },
 };

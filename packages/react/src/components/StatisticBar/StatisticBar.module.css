@@ -91,7 +91,7 @@
 
 /* Honour the ambient compact-density scope: tight dividers, no inter-line gap. */
 :global([data-density='compact']) .item {
-  padding-inline: var(--eidra-space-2);
+  padding-inline: var(--eidra-space-1-5);
   gap: 0;
 }
 :global([data-density='compact']) .item:first-child {
@@ -106,5 +106,5 @@
   line-height: 1;
 }
 :global([data-density='compact']) .root[data-size='lg'] .value {
-  font-size: var(--eidra-font-size-base);
+  font-size: var(--eidra-font-size-sm);
 }

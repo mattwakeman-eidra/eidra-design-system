@@ -1,8 +1,7 @@
 /* ---- Viewport ---- */
 .viewport {
+  --_inset: var(--eidra-space-5);
   position: fixed;
-  bottom: var(--eidra-space-5);
-  right: var(--eidra-space-5);
   z-index: var(--eidra-z-toast);
   display: flex;
   flex-direction: column;
@@ -11,6 +10,25 @@
   max-width: calc(100vw - var(--eidra-space-10));
   outline: none;
   pointer-events: none;
+}
+
+/* Placement — anchored to a corner/edge via the `position` prop (data-position).
+   Inset distance is `--_inset` so compact density only has to change one value. */
+.viewport[data-position^='top-'] {
+  top: var(--_inset);
+}
+.viewport[data-position^='bottom-'] {
+  bottom: var(--_inset);
+}
+.viewport[data-position$='-right'] {
+  right: var(--_inset);
+}
+.viewport[data-position$='-left'] {
+  left: var(--_inset);
+}
+.viewport[data-position$='-center'] {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* ---- Root ---- */
@@ -219,14 +237,13 @@
 
 /* Honour the ambient compact-density scope: tighter padding/gaps. */
 :global([data-density='compact']) .viewport {
-  bottom: var(--eidra-space-4);
-  right: var(--eidra-space-4);
-  gap: var(--eidra-space-1);
+  --_inset: var(--eidra-space-3);
+  gap: var(--eidra-space-0-5);
 }
 
 :global([data-density='compact']) .content {
-  gap: var(--eidra-space-2);
-  padding: var(--eidra-space-3);
+  gap: var(--eidra-space-1-5);
+  padding: var(--eidra-space-2);
 }
 
 :global([data-density='compact']) .description {
@@ -238,14 +255,13 @@
 }
 
 :global([data-density='compact']) .action {
-  padding: var(--eidra-space-0-5) var(--eidra-space-2);
-  margin-top: var(--eidra-space-2);
+  padding: var(--eidra-space-0-5) var(--eidra-space-1-5);
+  margin-top: var(--eidra-space-1-5);
 }
 
 /* Viewport is the portal root and is stamped with data-density (ThemeProvider scope),
    so also match the attribute on the element itself, not only an ancestor. */
 .viewport[data-density='compact'] {
-  bottom: var(--eidra-space-4);
-  right: var(--eidra-space-4);
-  gap: var(--eidra-space-1);
+  --_inset: var(--eidra-space-3);
+  gap: var(--eidra-space-0-5);
 }

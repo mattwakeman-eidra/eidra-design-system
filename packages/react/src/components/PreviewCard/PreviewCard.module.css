@@ -133,5 +133,5 @@
 
 /* Honour the ambient compact-density scope: tighter padding/gaps. */
 :global([data-density='compact']) .popup {
-  gap: var(--eidra-space-2);
+  gap: var(--eidra-space-1-5);
 }
