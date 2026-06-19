@@ -66,8 +66,8 @@ const CLUSTERS: Cluster[] = [
     title: 'Overlays & disclosure',
     space: 'Revealing more content',
     choices: [
-      { use: 'Dialog', when: 'A generic modal with header/body/footer.' },
-      { use: 'AlertDialog', when: 'A confirmation/destructive choice (role="alertdialog").' },
+      { use: 'Dialog', when: 'Content, forms or detail panels — dismisses on outside-click and Esc.' },
+      { use: 'AlertDialog', when: 'Destructive/critical confirmations — the backdrop does NOT dismiss (role="alertdialog"), so a stray click can’t lose the choice; Esc still closes.' },
       { use: 'Popover', when: 'A click-triggered panel with rich content + actions (role="dialog").' },
       { use: 'Tooltip', when: 'Hover/focus microcopy — text only (role="tooltip").' },
       { use: 'PreviewCard', when: 'A hover-triggered rich preview of a linked resource.' },
