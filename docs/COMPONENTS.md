@@ -57,7 +57,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { StatisticBar } from '@eidra/react'`
 - **StatusStrip** — Status strip / heat-row.
   - import: `import { StatusStrip } from '@eidra/react'` · parts: StatusStrip.Cell
-- **Timeline** — A vertical activity feed: a connecting rail with a tone-coloured marker per item, a title, an optional muted timestamp, and optional description.
+- **Timeline** — An activity feed: a connecting rail with a tone-coloured marker per item, a title, an optional muted timestamp, and optional description.
   - import: `import { Timeline } from '@eidra/react'`
 - **TreeView** — A hierarchical list following the WAI-ARIA `tree` pattern: a single-select, keyboard-navigable view of nested data.
   - import: `import { TreeView } from '@eidra/react'`

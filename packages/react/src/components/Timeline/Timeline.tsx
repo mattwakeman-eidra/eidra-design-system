@@ -20,15 +20,24 @@ export interface TimelineItem {
   tone?: TimelineTone;
 }
 
+export type TimelineOrientation = 'vertical' | 'horizontal';
+
 export interface TimelineProps extends Omit<ComponentPropsWithoutRef<'ol'>, 'children'> {
   /** The activity items, newest-first or oldest-first — `Timeline` renders them in array order. */
   items: TimelineItem[];
+  /**
+   * Layout direction. `'vertical'` (default) is the stacked activity feed;
+   * `'horizontal'` lays the items left-to-right along a horizontal rail — a
+   * step/progress reading where space is wide and items are few.
+   */
+  orientation?: TimelineOrientation;
 }
 
 /**
- * A vertical activity feed: a connecting rail with a tone-coloured marker per
- * item, a title, an optional muted timestamp, and optional description. The
- * domain-agnostic form of an audit trail — humanising/threshold logic is the
+ * An activity feed: a connecting rail with a tone-coloured marker per item, a
+ * title, an optional muted timestamp, and optional description. `'vertical'`
+ * (default) stacks the items; `'horizontal'` runs them along a horizontal rail.
+ * The domain-agnostic form of an audit trail — humanising/threshold logic is the
  * caller's; `Timeline` only renders the `tone` and content it is given.
  *
  * @example
@@ -42,11 +51,11 @@ export interface TimelineProps extends Omit<ComponentPropsWithoutRef<'ol'>, 'chi
  * ```
  */
 export const Timeline = forwardRef<HTMLOListElement, TimelineProps>(function Timeline(
-  { items, className, ...props },
+  { items, orientation = 'vertical', className, ...props },
   ref,
 ) {
   return (
-    <ol ref={ref} className={cn(styles.root, className)} {...props}>
+    <ol ref={ref} className={cn(styles.root, className)} data-orientation={orientation} {...props}>
       {items.map((item) => (
         <li key={item.id} className={styles.item} data-tone={item.tone ?? 'default'}>
           <span className={styles.marker} aria-hidden="true">

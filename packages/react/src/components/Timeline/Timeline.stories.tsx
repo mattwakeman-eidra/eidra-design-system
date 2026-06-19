@@ -82,3 +82,34 @@ export const Dense: Story = {
     </div>
   ),
 };
+
+/**
+ * `orientation="horizontal"` lays the items left-to-right along a horizontal
+ * rail — a step/progress reading for a small number of stages where width is
+ * plentiful (e.g. an approval flow across the top of a page). Markers sit above
+ * each step with the title and timestamp beneath.
+ */
+export const Horizontal: Story = {
+  parameters: { controls: { disable: true } },
+  args: {
+    orientation: 'horizontal',
+    items: [
+      { id: 1, title: 'Draft created', timestamp: '12 Jun', tone: 'default' },
+      {
+        id: 2,
+        title: 'Submitted',
+        timestamp: '13 Jun',
+        tone: 'accent',
+        icon: <Icon icon={FileText} size="sm" />,
+      },
+      {
+        id: 3,
+        title: 'Approved',
+        timestamp: '14 Jun',
+        tone: 'success',
+        icon: <Icon icon={CheckCircle} size="sm" />,
+      },
+      { id: 4, title: 'Exported to accounting', timestamp: '15 Jun', tone: 'success' },
+    ],
+  },
+};
