@@ -249,6 +249,156 @@ export const ComposedBarLine: Story = {
   ),
 };
 
+// ── Dual-axis combo: revenue bars (MSEK) + EBITDA-margin line (%) ────────────
+// The financial-deck shape: revenue is plotted as stacked bars on a LEFT axis in
+// MSEK (~0–2000), while the EBITDA margin (~10–22%) rides a separate RIGHT axis in
+// percent. On a single axis the margin line would be a flat smear along the bottom —
+// the two y-axes are what make the percentage legible against the revenue scale.
+interface DualAxisDatum {
+  month: string;
+  /** Actualised revenue, MSEK (left axis, "rev" stack). */
+  revActuals: number;
+  /** Forecast (FC1) revenue, MSEK (left axis, stacked on top of actuals). */
+  revForecast: number;
+  /** EBITDA margin, % (right axis). */
+  margin: number;
+  /** Forecast (FC1) EBITDA margin, % (right axis, dashed). */
+  marginFc1: number;
+}
+
+// 18 months: 12 actualised, then 6 forecast (actuals taper, forecast picks up).
+const DUAL_AXIS: DualAxisDatum[] = [
+  { month: "Jan '24", revActuals: 1180, revForecast: 0, margin: 11.2, marginFc1: 11.2 },
+  { month: "Feb '24", revActuals: 1240, revForecast: 0, margin: 12.0, marginFc1: 12.0 },
+  { month: "Mar '24", revActuals: 1390, revForecast: 0, margin: 13.4, marginFc1: 13.4 },
+  { month: "Apr '24", revActuals: 1320, revForecast: 0, margin: 12.8, marginFc1: 12.8 },
+  { month: "May '24", revActuals: 1450, revForecast: 0, margin: 14.1, marginFc1: 14.1 },
+  { month: "Jun '24", revActuals: 1610, revForecast: 0, margin: 15.6, marginFc1: 15.6 },
+  { month: "Jul '24", revActuals: 1380, revForecast: 0, margin: 13.0, marginFc1: 13.0 },
+  { month: "Aug '24", revActuals: 1290, revForecast: 0, margin: 12.2, marginFc1: 12.2 },
+  { month: "Sep '24", revActuals: 1540, revForecast: 0, margin: 15.0, marginFc1: 15.0 },
+  { month: "Oct '24", revActuals: 1680, revForecast: 0, margin: 16.3, marginFc1: 16.3 },
+  { month: "Nov '24", revActuals: 1620, revForecast: 0, margin: 15.8, marginFc1: 15.8 },
+  { month: "Dec '24", revActuals: 1820, revForecast: 0, margin: 18.1, marginFc1: 18.1 },
+  { month: "Jan '25", revActuals: 980, revForecast: 360, margin: 14.2, marginFc1: 15.0 },
+  { month: "Feb '25", revActuals: 0, revForecast: 1380, margin: 14.8, marginFc1: 16.1 },
+  { month: "Mar '25", revActuals: 0, revForecast: 1520, margin: 15.4, marginFc1: 17.0 },
+  { month: "Apr '25", revActuals: 0, revForecast: 1610, margin: 15.9, marginFc1: 18.2 },
+  { month: "May '25", revActuals: 0, revForecast: 1700, margin: 16.5, marginFc1: 19.4 },
+  { month: "Jun '25", revActuals: 0, revForecast: 1880, margin: 17.1, marginFc1: 21.0 },
+];
+
+const dualAxisConfig: ChartConfig = {
+  revActuals: { label: 'Revenue (actuals)', color: 'var(--eidra-finance-revenue-actuals)' },
+  revForecast: { label: 'Revenue (FC1)', color: 'var(--eidra-finance-revenue-budget)' },
+  margin: { label: 'EBITDA margin', color: 'var(--eidra-fg)' },
+  marginFc1: { label: 'EBITDA margin (FC1)', color: 'var(--eidra-finance-comparison)' },
+};
+
+// Left axis in MSEK (data is already in MSEK; ×1_000_000 brings it to SEK so the
+// shared currency helper can format it compactly). Right axis in percent.
+const msekAxis = (v: number | string | undefined) => formatCompactCurrency(Number(v) * 1_000_000);
+const pctAxis = (v: number | string | undefined) => `${Number(v)}%`;
+// The tooltip mixes both units. TooltipContent's `formatter` only receives the value
+// (not the series key), so disambiguate by magnitude: margins are ≤25, revenue rows
+// are 0 or ≥360 MSEK — a positive value at/below the 25% ceiling is a percentage.
+const dualAxisTooltip = (value: number | string | undefined) => {
+  const n = Number(value);
+  return n > 0 && n <= 25 ? pctAxis(value) : msekAxis(value);
+};
+
+/**
+ * **Dual-axis combo** (`ComposedChart` with two `YAxis`) — the canonical financial-deck
+ * chart: stacked **revenue bars in MSEK on the LEFT axis** (`yAxisId="left"`) plus an
+ * **EBITDA-margin line in % on the RIGHT axis** (`yAxisId="right"`, `orientation="right"`).
+ * Each series declares which axis it belongs to via `yAxisId`. Because the margin
+ * (~10–22%) and revenue (~0–2000 MSEK) live on wildly different scales, a single axis
+ * would flatten the margin line into the baseline — the second axis is what makes it
+ * readable. Actuals + forecast (FC1) revenue share one `stackId`; a solid actual margin
+ * and a dashed FC1 margin track the right axis. (Deck page 17.)
+ */
+interface DualAxisArgs {
+  showFc1Margin: boolean;
+  showGrid: boolean;
+  showLegend: boolean;
+}
+
+export const DualAxis: StoryObj<DualAxisArgs> = {
+  argTypes: {
+    showFc1Margin: { control: 'boolean' },
+    showGrid: { control: 'boolean' },
+    showLegend: { control: 'boolean' },
+  },
+  args: { showFc1Margin: true, showGrid: true, showLegend: true },
+  render: ({ showFc1Margin, showGrid, showLegend }) => (
+    <Chart.Container config={dualAxisConfig} style={{ height: 380, maxWidth: 820 }}>
+      <Chart.ComposedChart data={DUAL_AXIS} margin={{ top: 20, right: 12, bottom: 0, left: 4 }}>
+        {showGrid && <Chart.CartesianGrid vertical={false} strokeDasharray="4 4" />}
+        <Chart.XAxis dataKey="month" tickLine={false} axisLine={false} interval={0} fontSize={11} />
+        {/* Left axis: revenue in MSEK. */}
+        <Chart.YAxis
+          yAxisId="left"
+          tickLine={false}
+          axisLine={false}
+          width={56}
+          tickFormatter={msekAxis}
+        />
+        {/* Right axis: EBITDA margin in percent, fixed 0–25 so the line sits mid-plot. */}
+        <Chart.YAxis
+          yAxisId="right"
+          orientation="right"
+          domain={[0, 25]}
+          tickLine={false}
+          axisLine={false}
+          width={44}
+          tickFormatter={pctAxis}
+        />
+        <Chart.Tooltip
+          cursor={{ fill: 'var(--eidra-surface-hover)' }}
+          content={<Chart.TooltipContent formatter={dualAxisTooltip} />}
+        />
+        <Chart.Bar
+          {...Chart.seriesDefaults}
+          yAxisId="left"
+          dataKey="revActuals"
+          stackId="rev"
+          fill="var(--color-revActuals)"
+        />
+        <Chart.Bar
+          {...Chart.seriesDefaults}
+          yAxisId="left"
+          dataKey="revForecast"
+          stackId="rev"
+          fill="var(--color-revForecast)"
+          radius={[3, 3, 0, 0]}
+        />
+        <Chart.Line
+          {...Chart.seriesDefaults}
+          yAxisId="right"
+          dataKey="margin"
+          type="monotone"
+          stroke="var(--color-margin)"
+          strokeWidth={2.5}
+          dot={{ r: 3 }}
+        />
+        {showFc1Margin && (
+          <Chart.Line
+            {...Chart.seriesDefaults}
+            yAxisId="right"
+            dataKey="marginFc1"
+            type="monotone"
+            stroke="var(--color-marginFc1)"
+            strokeWidth={2}
+            strokeDasharray="4 3"
+            dot={false}
+          />
+        )}
+        {showLegend && <Chart.Legend content={<Chart.LegendContent />} />}
+      </Chart.ComposedChart>
+    </Chart.Container>
+  ),
+};
+
 // ── Bubble / scatter: client revenue vs growth, bubble size = total revenue ──
 interface ClientPoint {
   client: string;
@@ -1467,7 +1617,7 @@ function WaterfallTooltip({ active, payload }: WaterfallTooltipProps) {
 // One waterfall panel. The transparent `base` bar is rendered first (so the
 // visible `delta` floats on top of it); WaterfallTooltip reads the shared row
 // payload, so only the step's own contribution + cumulative show on hover.
-function WaterfallPanel({ title, steps }: { title: string; steps: WaterfallStep[] }) {
+function WaterfallPanel({ title, steps, showLabels = true }: { title: string; steps: WaterfallStep[]; showLabels?: boolean }) {
   const data = toWaterfall(steps);
   return (
     <div
@@ -1506,7 +1656,9 @@ function WaterfallPanel({ title, steps }: { title: string; steps: WaterfallStep[
                 fill={d.isTotal ? 'var(--eidra-fg)' : (WATERFALL_REGION_COLORS[d.label] ?? 'var(--eidra-chart-1)')}
               />
             ))}
-            <Chart.LabelList dataKey="value" position="top" fontSize={11} formatter={(v) => String(Number(v))} />
+            {showLabels && (
+              <Chart.LabelList dataKey="value" position="top" fontSize={11} formatter={(v) => String(Number(v))} />
+            )}
           </Chart.Bar>
         </Chart.BarChart>
       </Chart.Container>
@@ -1514,29 +1666,38 @@ function WaterfallPanel({ title, steps }: { title: string; steps: WaterfallStep[
   );
 }
 
+const WATERFALL_DATASETS = {
+  'Net Revenue — Month (MSEK)': NET_REVENUE_MONTH,
+  'Net Revenue — YTD (MSEK)': NET_REVENUE_YTD,
+  'EBITDA — Month (MSEK)': EBITDA_MONTH,
+  'EBITDA — YTD (MSEK)': EBITDA_YTD,
+} as const;
+type WaterfallDataset = keyof typeof WATERFALL_DATASETS;
+
+interface WaterfallArgs {
+  dataset: WaterfallDataset;
+  showLabels: boolean;
+}
+
 /**
  * **Waterfall** — cumulative build-up to a Total bar, the canonical monthly-deck
- * "Net Revenue & EBITDA Build-up" (a 2×2 grid of four waterfalls). Each regional
- * contribution stacks onto the running cumulative total; the final black `--eidra-fg`
- * bar is the sum. Built from a stacked `BarChart` of two bars sharing one `stackId`:
- * a transparent `base` riser (the cumulative start) and a visible `delta` segment
- * (the step's value, or the full total). Per-step colour via `<Chart.Cell>`, value
- * labels via `<Chart.LabelList>`.
+ * "Net Revenue & EBITDA Build-up". Each regional contribution stacks onto the running
+ * cumulative total; the final black `--eidra-fg` bar is the sum. Built from a stacked
+ * `BarChart` of two bars sharing one `stackId`: a transparent `base` riser (the
+ * cumulative start) and a visible `delta` segment (the step's value, or the full
+ * total). Per-step colour via `<Chart.Cell>`, value labels via `<Chart.LabelList>`.
+ * Use the **dataset** control to switch metric/period and **showLabels** to toggle
+ * value labels.
  */
-export const Waterfall: Story = {
-  render: () => (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: 'var(--eidra-space-4)',
-        maxWidth: 880,
-      }}
-    >
-      <WaterfallPanel title="Net Revenue — Month (MSEK)" steps={NET_REVENUE_MONTH} />
-      <WaterfallPanel title="Net Revenue — YTD (MSEK)" steps={NET_REVENUE_YTD} />
-      <WaterfallPanel title="EBITDA — Month (MSEK)" steps={EBITDA_MONTH} />
-      <WaterfallPanel title="EBITDA — YTD (MSEK)" steps={EBITDA_YTD} />
+export const Waterfall: StoryObj<WaterfallArgs> = {
+  argTypes: {
+    dataset: { control: 'select', options: Object.keys(WATERFALL_DATASETS) },
+    showLabels: { control: 'boolean' },
+  },
+  args: { dataset: 'Net Revenue — Month (MSEK)', showLabels: true },
+  render: ({ dataset, showLabels }) => (
+    <div style={{ maxWidth: 560 }}>
+      <WaterfallPanel title={dataset} steps={WATERFALL_DATASETS[dataset]} showLabels={showLabels} />
     </div>
   ),
 };
