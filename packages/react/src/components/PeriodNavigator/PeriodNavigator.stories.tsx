@@ -19,6 +19,18 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    prevDisabled: {
+      control: 'boolean',
+      description: 'Disable the previous control (e.g. at the start of the range).',
+    },
+    nextDisabled: {
+      control: 'boolean',
+      description: 'Disable the next control (e.g. at the end of the range).',
+    },
+    // Dropped prevLabel/nextLabel controls: they only set the buttons' aria-labels,
+    // which produce no visible change in the rendered story.
+  },
 } satisfies Meta<typeof PeriodNavigator>;
 
 export default meta;
@@ -33,9 +45,59 @@ const MONTHS = [
   'June 2026',
 ];
 
+/**
+ * **Playground.** Step through the months with local state while the scalar props
+ * (`prevDisabled` / `nextDisabled`) are driven by the controls. The range guards
+ * still override the disabled controls at the ends.
+ */
+export const Playground: Story = {
+  args: {
+    value: MONTHS[3],
+    onPrev: () => {},
+    onNext: () => {},
+    prevDisabled: false,
+    nextDisabled: false,
+  },
+  render: (args) => {
+    const [index, setIndex] = useState(3);
+    return (
+      <PeriodNavigator
+        {...args}
+        value={MONTHS[index]}
+        onPrev={() => setIndex((i) => Math.max(0, i - 1))}
+        onNext={() => setIndex((i) => Math.min(MONTHS.length - 1, i + 1))}
+        prevDisabled={args.prevDisabled || index === 0}
+        nextDisabled={args.nextDisabled || index === MONTHS.length - 1}
+        prevLabel="Previous month"
+        nextLabel="Next month"
+      />
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const prev = canvas.getByRole('button', { name: /previous month/i });
+    const next = canvas.getByRole('button', { name: /next month/i });
+
+    await step('starts at April (index 3)', async () => {
+      await expect(canvas.getByText('April 2026')).toBeInTheDocument();
+    });
+
+    await step('clicking next steps the value forward', async () => {
+      await userEvent.click(next);
+      await expect(canvas.getByText('May 2026')).toBeInTheDocument();
+    });
+
+    await step('clicking previous steps the value back', async () => {
+      await userEvent.click(prev);
+      await expect(canvas.getByText('April 2026')).toBeInTheDocument();
+    });
+  },
+};
+
 /** Wire `onPrev` / `onNext` to local state; the caller formats the label. */
 export const Default: Story = {
-  args: { value: '', onPrev: () => {}, onNext: () => {} },
+  parameters: { controls: { disable: true } },
+  args: { value: MONTHS[3], onPrev: () => {}, onNext: () => {} },
   render: () => {
     const [index, setIndex] = useState(3);
     return (

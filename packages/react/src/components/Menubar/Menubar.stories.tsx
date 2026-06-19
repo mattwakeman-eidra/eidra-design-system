@@ -30,6 +30,24 @@ const meta = {
   parameters: {
     layout: 'padded',
   },
+  // Dropped `loopFocus`: keyboard-navigation behaviour only, no visible change.
+  // `orientation` is kept — the CSS module reflows the bar to a column for
+  // `[data-orientation='vertical']`.
+  argTypes: {
+    disabled: {
+      control: 'boolean',
+      description: 'Disables the whole menubar — every trigger reports disabled.',
+    },
+    orientation: {
+      control: 'inline-radio',
+      options: ['horizontal', 'vertical'],
+      description: 'The orientation of the menubar.',
+    },
+  },
+  args: {
+    disabled: false,
+    orientation: 'horizontal',
+  },
 } satisfies Meta<typeof Menubar.Root>;
 
 export default meta;
@@ -38,8 +56,8 @@ type Story = StoryObj<typeof meta>;
 // ─── Playground ───────────────────────────────────────────────────────────────
 
 export const Playground: Story = {
-  render: () => (
-    <Menubar.Root>
+  render: (args) => (
+    <Menubar.Root {...args}>
       <Menubar.MenuRoot>
         <Menubar.Trigger>
           File

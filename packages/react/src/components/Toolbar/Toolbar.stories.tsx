@@ -22,6 +22,19 @@ const meta = {
   parameters: {
     layout: 'padded',
   },
+  // Dropped invisible control: `loopFocus` (keyboard wrap-around only — no visible
+  // change in the rendered toolbar). `orientation` stays: the CSS reflows the layout
+  // (flex-direction row/column) so toggling it is visible.
+  argTypes: {
+    orientation: {
+      control: 'inline-radio',
+      options: ['horizontal', 'vertical'],
+      description: 'The orientation of the toolbar — row vs. column layout.',
+    },
+  },
+  args: {
+    orientation: 'horizontal',
+  },
 } satisfies Meta<typeof Toolbar.Root>;
 
 export default meta;
@@ -30,8 +43,8 @@ type Story = StoryObj<typeof meta>;
 // ─── Playground ──────────────────────────────────────────────────────────────
 
 export const Playground: Story = {
-  render: () => (
-    <Toolbar.Root aria-label="Text formatting">
+  render: (args) => (
+    <Toolbar.Root aria-label="Text formatting" {...args}>
       <Toolbar.Button aria-label="Bold">
         <Icon icon={Bold} size="sm" />
       </Toolbar.Button>

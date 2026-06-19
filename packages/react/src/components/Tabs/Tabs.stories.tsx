@@ -19,9 +19,70 @@ type Story = StoryObj<typeof meta>;
 
 // ─── Playground ──────────────────────────────────────────────────────────────
 
-export const Playground: Story = {
+/**
+ * Args exposed by the Playground: real `Tabs.Root` knobs.
+ *
+ * `activateOnFocus` and `loopFocus` dropped as controls — both are keyboard-navigation
+ * behaviours with no visible effect in the rendered story (covered by the
+ * KeyboardNavigation / ManualActivation stories instead).
+ */
+interface PlaygroundArgs {
+  /** Layout flow direction (`Tabs.Root`). */
+  orientation?: 'horizontal' | 'vertical';
+  /** Uncontrolled initial active tab (`Tabs.Root`). */
+  defaultValue?: number;
+}
+
+export const Playground: StoryObj<PlaygroundArgs> = {
+  args: {
+    orientation: 'horizontal',
+    defaultValue: 0,
+  },
+  argTypes: {
+    orientation: {
+      control: 'inline-radio',
+      options: ['horizontal', 'vertical'],
+      description: 'Layout flow direction (Tabs.Root).',
+    },
+    defaultValue: {
+      control: 'inline-radio',
+      options: [0, 1, 2],
+      description: 'Uncontrolled initial active tab (Tabs.Root).',
+    },
+  },
+  render: ({ orientation, defaultValue }) => (
+    <Tabs.Root defaultValue={defaultValue} orientation={orientation}>
+      <Tabs.List>
+        <Tabs.Tab value={0}>Overview</Tabs.Tab>
+        <Tabs.Tab value={1}>Details</Tabs.Tab>
+        <Tabs.Tab value={2}>History</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel value={0}>
+        An overview of the selected engagement or project will appear here.
+      </Tabs.Panel>
+      <Tabs.Panel value={1}>
+        Detailed information about deliverables, milestones, and contacts.
+      </Tabs.Panel>
+      <Tabs.Panel value={2}>
+        A log of all changes and activity related to this engagement.
+      </Tabs.Panel>
+    </Tabs.Root>
+  ),
+};
+
+// ─── Behaviour ───────────────────────────────────────────────────────────────
+
+/**
+ * **Behaviour.** Interaction coverage relocated from the Playground so the controls
+ * panel can drive the Playground without a `play` re-running on every change. Fixed
+ * args (no controls) keep this deterministic.
+ */
+export const Behaviour: Story = {
+  name: 'Tabs behaviour',
+  parameters: { controls: { disable: true } },
   render: () => (
-    <Tabs.Root defaultValue={0}>
+    <Tabs.Root defaultValue={0} orientation="horizontal">
       <Tabs.List>
         <Tabs.Tab value={0}>Overview</Tabs.Tab>
         <Tabs.Tab value={1}>Details</Tabs.Tab>

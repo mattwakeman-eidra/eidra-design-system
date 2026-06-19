@@ -12,6 +12,10 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  // All controls dropped (none produce a visible change on the Playground):
+  // `orientation` has no direction/layout rule in the CSS module (the Vertical
+  // story sets layout via inline styles, not this prop); `delay`/`closeDelay`
+  // are pure open/close timing.
 } satisfies Meta<typeof NavigationMenu.Root>;
 
 export default meta;
@@ -97,9 +101,9 @@ function ContentGrid({ items }: ContentGridProps) {
 // ─── Playground ───────────────────────────────────────────────────────────────
 
 export const Playground: Story = {
-  render: () => (
+  render: (args) => (
     <NavWrapper>
-      <NavigationMenu.Root>
+      <NavigationMenu.Root {...args}>
         <NavigationMenu.List>
           <NavigationMenu.Item>
             <NavigationMenu.Trigger>

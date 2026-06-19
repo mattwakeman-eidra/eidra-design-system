@@ -14,6 +14,11 @@ const meta = {
       { label: 'Website Redesign' },
     ],
   },
+  argTypes: {
+    // Array of objects (some items carry a `render` fn) — not editable as a control.
+    items: { control: false },
+    separator: { control: false },
+  },
 } satisfies Meta<typeof Breadcrumbs>;
 
 export default meta;
@@ -25,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 // assertable while staying type-correct.
 const onNavigate = fn();
 
-/** Interactive playground — edit `items` in the controls panel. */
+/** Default breadcrumb trail. `items` is fixture-driven (not a panel control). */
 export const Playground: Story = {};
 
 /** The last crumb is the current page (`aria-current="page"`); earlier crumbs link. */
