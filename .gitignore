@@ -8,6 +8,8 @@ storybook-static/
 releases/*.tgz
 *.tsbuildinfo
 *.log
+# generated test report (CI emits this from vitest for the test-report publish step)
+junit.xml
 .DS_Store
 # generated token outputs
 packages/tokens/src/_generated.ts

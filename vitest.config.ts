@@ -24,10 +24,14 @@ export default defineConfig({
   },
   test: {
     name: 'storybook',
-    // In CI, add the github-actions reporter so a failing assertion is annotated
-    // inline on the offending line in the PR diff (and in the run summary), not
-    // just buried in the step log. Keep `default` so the full console output stays.
-    reporters: process.env.GITHUB_ACTIONS ? ['default', 'github-actions'] : ['default'],
+    // In CI add two extra reporters (keep `default` for the full console output):
+    //  - github-actions: annotates a failing assertion inline on its line in the PR diff.
+    //  - junit → junit.xml: a machine-readable result file the CI `Publish test report`
+    //    step turns into a persistent pass/fail summary (Checks tab + job summary) on
+    //    every run, green or red — see .github/workflows/ci.yml.
+    reporters: process.env.GITHUB_ACTIONS
+      ? ['default', 'github-actions', ['junit', { outputFile: 'junit.xml' }]]
+      : ['default'],
     browser: {
       enabled: true,
       provider: 'playwright',

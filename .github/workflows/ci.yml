@@ -37,6 +37,12 @@ jobs:
   # that typecheck + build cannot see, plus runs each story's `play` function.
   storybook-test:
     runs-on: ubuntu-latest
+    # checks: write lets the Publish step post the test report as a check run
+    # (visible in the PR's Checks tab). Job-level perms replace the top-level
+    # block, so contents: read is repeated here.
+    permissions:
+      contents: read
+      checks: write
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -49,3 +55,16 @@ jobs:
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test-storybook
+      # Publish a persistent pass/fail summary from junit.xml on every run (green
+      # or red): a "Storybook tests" check run (Checks tab) + a table on this job's
+      # summary page. always() so it reports even when the test step above failed;
+      # fail_on_failure:false because that step already sets the job status. The
+      # vitest github-actions reporter still owns the inline per-failure annotations.
+      - name: Publish test report
+        if: ${{ !cancelled() }}
+        uses: mikepenz/action-junit-report@v5
+        with:
+          report_paths: junit.xml
+          check_name: Storybook tests
+          detailed_summary: true
+          fail_on_failure: false
