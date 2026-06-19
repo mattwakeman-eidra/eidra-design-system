@@ -12,11 +12,19 @@ const withTheme: Decorator = (Story, context) => {
   if (context.parameters.selfScoped) {
     return <Story />;
   }
+  // In Docs, every story is embedded inline — a `100vh` min-height would balloon
+  // each preview with empty space and stop it hugging its content. Only fill the
+  // viewport in canvas/story view; in docs just pad lightly.
+  const isDocs = context.viewMode === 'docs';
   return (
     <ThemeProvider
       theme={theme}
       density={density}
-      style={{ minHeight: '100vh', padding: 'var(--eidra-space-6)' }}
+      style={
+        isDocs
+          ? { padding: 'var(--eidra-space-4)' }
+          : { minHeight: '100vh', padding: 'var(--eidra-space-6)' }
+      }
     >
       <Story />
     </ThemeProvider>
