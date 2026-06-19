@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { within, userEvent, fireEvent, expect, waitFor, fn } from 'storybook/test';
+import { Button } from '../Button/Button.js';
+import { Input } from '../Input/Input.js';
 import { DataGrid, type DataGridColumnDef, type DataGridSort } from './DataGrid.js';
 import { EditableNumberCell } from './EditableNumberCell.js';
 import { EditableSelectCell } from './EditableSelectCell.js';
@@ -1293,15 +1295,15 @@ export const ControlledFilterAndVisibility: Story = {
     return (
       <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
         <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center' }}>
-          <input
+          <Input
             aria-label="Filter clients"
             placeholder="Filter…"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
-          <button type="button" onClick={toggleOwner}>
+          <Button type="button" variant="outline" onClick={toggleOwner}>
             {hidden.includes('owner') ? 'Show Owner column' : 'Hide Owner column'}
-          </button>
+          </Button>
         </div>
         <DataGrid<ForecastRow>
           aria-label="Filtered clients"

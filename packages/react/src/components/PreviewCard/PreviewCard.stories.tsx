@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ExternalLink, Building2, Users, Calendar } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { within, userEvent, screen, expect, waitFor, fn } from 'storybook/test';
+import { Button } from '../Button/Button.js';
 import { PreviewCard } from './PreviewCard.js';
 
 const meta = {
@@ -434,9 +435,9 @@ export const ControlledOpen: Story = {
           Open:{' '}
           <strong>{String(open)}</strong>
         </p>
-        <button type="button" onClick={() => setOpen(true)}>
+        <Button type="button" variant="outline" onClick={() => setOpen(true)}>
           Open from outside
-        </button>
+        </Button>
         <p style={{ margin: 0, fontSize: 'var(--eidra-font-size-base)' }}>
           Hover{' '}
           <PreviewCard.Root open={open} onOpenChange={setOpen}>
