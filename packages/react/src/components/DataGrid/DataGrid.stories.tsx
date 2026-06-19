@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { DataGrid, type DataGridColumnDef } from './DataGrid.js';
+import { within, userEvent, fireEvent, expect, waitFor, fn } from 'storybook/test';
+import { DataGrid, type DataGridColumnDef, type DataGridSort } from './DataGrid.js';
 import { EditableNumberCell } from './EditableNumberCell.js';
 import { EditableSelectCell } from './EditableSelectCell.js';
 import { EditableTextCell } from './EditableTextCell.js';
@@ -168,6 +169,39 @@ export const ForecastGrid: Story = {
         />
       </div>
     );
+  },
+  // Tree-row expand/collapse + inline numeric edit (commit-on-Enter, the host
+  // re-renders the new value). The expand toggle is an aria-labelled <button>.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('expanding a parent row reveals its child rows', async () => {
+      // Acme Corp is collapsed initially → its projects are not in the DOM.
+      await expect(canvas.queryByText('Platform rebuild')).toBeNull();
+      const expand = canvas.getByRole('button', { name: /expand row/i });
+      await userEvent.click(expand);
+      await expect(canvas.getByText('Platform rebuild')).toBeInTheDocument();
+      await expect(canvas.getByText('Design system')).toBeInTheDocument();
+    });
+
+    await step('collapsing the parent hides the children again', async () => {
+      const collapse = canvas.getByRole('button', { name: /collapse row/i });
+      await userEvent.click(collapse);
+      await waitFor(() => expect(canvas.queryByText('Platform rebuild')).toBeNull());
+    });
+
+    await step('clicking a Sold cell opens an inline editor; Enter commits the new value', async () => {
+      // Globex Jan Sold is 90 — find its click-to-edit button and override it.
+      const soldButton = canvas.getByRole('button', { name: /^90/ });
+      await userEvent.click(soldButton);
+      const input = canvas.getByRole('spinbutton');
+      await expect(input).toHaveFocus();
+      await userEvent.clear(input);
+      await userEvent.type(input, '95');
+      await userEvent.keyboard('{Enter}');
+      // The committed value re-renders as a resting cell button.
+      await expect(canvas.getByRole('button', { name: /^95/ })).toBeInTheDocument();
+    });
   },
 };
 
@@ -541,6 +575,36 @@ export const CellTonesAndDrilldown: Story = {
       </div>
     );
   },
+  // Cell drill-down: a renderCellDetail column's cells are <button aria-expanded>.
+  // Clicking opens a full-width detail row beneath; only one detail is open at a
+  // time across the grid, and clicking the same cell again closes it.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('clicking a Revenue cell opens its detail row with invoice lines', async () => {
+      const fabriqueRevenue = canvas.getByRole('button', { name: /120,000/ });
+      await expect(fabriqueRevenue).toHaveAttribute('aria-expanded', 'false');
+      await userEvent.click(fabriqueRevenue);
+      await expect(fabriqueRevenue).toHaveAttribute('aria-expanded', 'true');
+      await expect(canvas.getByText('Fabrique — invoice lines')).toBeInTheDocument();
+      await expect(canvas.getByText('INV-1042')).toBeInTheDocument();
+    });
+
+    await step('opening another cell closes the first (one detail at a time)', async () => {
+      const q42Revenue = canvas.getByRole('button', { name: /96,000/ });
+      await userEvent.click(q42Revenue);
+      await expect(q42Revenue).toHaveAttribute('aria-expanded', 'true');
+      await waitFor(() => expect(canvas.queryByText('Fabrique — invoice lines')).toBeNull());
+      await expect(canvas.getByText('Q42 — invoice lines')).toBeInTheDocument();
+    });
+
+    await step('clicking the open cell again closes its detail', async () => {
+      const q42Revenue = canvas.getByRole('button', { name: /96,000/ });
+      await userEvent.click(q42Revenue);
+      await expect(q42Revenue).toHaveAttribute('aria-expanded', 'false');
+      await waitFor(() => expect(canvas.queryByText('Q42 — invoice lines')).toBeNull());
+    });
+  },
 };
 
 /** Minimal flat grid — no groups, no pinning, just sortable columns. */
@@ -558,6 +622,91 @@ export const Simple: Story = {
       getRowId={(r) => r.id}
     />
   ),
+  // Uncontrolled sort: clicking a sortable header cycles asc → desc → off and
+  // reorders the rendered rows. The header renders a <button> with an accessible
+  // "Sort by …" name (no controlled `sort` prop, so the grid owns the state).
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const rowOrder = () =>
+      canvas
+        .getAllByRole('row')
+        // drop the header row (no rowheader cell text we track); read first data cell
+        .map((tr) => tr.querySelector('td')?.textContent ?? '')
+        .filter(Boolean);
+
+    await step('first click on Jan total sorts ascending (smallest first)', async () => {
+      const janSort = canvas.getByRole('button', { name: /sort by jan total/i });
+      await userEvent.click(janSort);
+      // SAMPLE Jan totals: Acme 120, Globex 90, Initech 60 → asc: Initech, Globex, Acme
+      const order = rowOrder();
+      await expect(order[0]).toBe('Initech');
+      await expect(order[order.length - 1]).toBe('Acme Corp');
+    });
+
+    await step('second click reverses to descending', async () => {
+      const janSort = canvas.getByRole('button', { name: /sort by jan total/i });
+      await userEvent.click(janSort);
+      const order = rowOrder();
+      await expect(order[0]).toBe('Acme Corp');
+      await expect(order[order.length - 1]).toBe('Initech');
+    });
+
+    await step('third click clears the sort (back to data order)', async () => {
+      const janSort = canvas.getByRole('button', { name: /sort by jan total/i });
+      await userEvent.click(janSort);
+      const order = rowOrder();
+      // data order: Acme, Globex, Initech
+      await expect(order[0]).toBe('Acme Corp');
+      await expect(order[1]).toBe('Globex');
+      await expect(order[2]).toBe('Initech');
+    });
+  },
+};
+
+/**
+ * **Controlled sort.** The host owns `sort` and is notified via `onSortChange`;
+ * the grid renders strictly from the prop. Clicking a sortable header fires the
+ * callback with the next sort in the asc → desc → null cycle.
+ */
+const controlledSortSpy = fn();
+export const ControlledSort: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const [sort, setSort] = useState<DataGridSort | null>({ columnId: 'client', direction: 'asc' });
+    return (
+      <DataGrid<ForecastRow>
+        aria-label="Controlled sort"
+        columns={[
+          { id: 'client', header: 'Client', accessor: (r) => r.client, sortable: true },
+          { id: 'opco', header: 'Opco', accessor: (r) => r.opco, sortable: true },
+          { id: 'owner', header: 'Owner', accessor: (r) => r.owner },
+        ]}
+        data={SAMPLE}
+        getRowId={(r) => r.id}
+        sort={sort}
+        onSortChange={(next) => {
+          controlledSortSpy(next);
+          setSort(next);
+        }}
+      />
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    controlledSortSpy.mockClear();
+
+    await step('clicking the already-asc Client header advances to desc and notifies', async () => {
+      const clientSort = canvas.getByRole('button', { name: /sort by client/i });
+      await userEvent.click(clientSort);
+      await expect(controlledSortSpy).toHaveBeenCalledWith({ columnId: 'client', direction: 'desc' });
+    });
+
+    await step('clicking a different header resets to asc on that column', async () => {
+      const opcoSort = canvas.getByRole('button', { name: /sort by opco/i });
+      await userEvent.click(opcoSort);
+      await expect(controlledSortSpy).toHaveBeenLastCalledWith({ columnId: 'opco', direction: 'asc' });
+    });
+  },
 };
 
 // ── Editable select / text cells + drag-fill ─────────────────────────────────
@@ -629,6 +778,34 @@ export const EditableSelect: Story = {
       </div>
     );
   },
+  // EditableSelectCell: click the resting cell to swap in a native <select>
+  // (role combobox); choosing an option commits on change and re-renders the
+  // resting label.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('clicking a status cell reveals the select and selecting commits', async () => {
+      // Acme (r1) status = "To do" — a unique resting label to target.
+      const todoCell = canvas.getByRole('button', { name: /to do/i });
+      await userEvent.click(todoCell);
+      const select = canvas.getByRole('combobox');
+      await expect(select).toHaveValue('todo');
+      // Soylent (r5) already shows "Cleared"; committing Acme to "cleared" makes two.
+      await expect(canvas.getAllByRole('button', { name: /cleared/i })).toHaveLength(1);
+      await userEvent.selectOptions(select, 'cleared');
+      await expect(canvas.getAllByRole('button', { name: /cleared/i })).toHaveLength(2);
+    });
+
+    await step('Escape cancels an edit without committing', async () => {
+      const investigatingCell = canvas.getByRole('button', { name: /investigating/i });
+      await userEvent.click(investigatingCell);
+      const select = canvas.getByRole('combobox');
+      await userEvent.keyboard('{Escape}');
+      // Editor closed, value unchanged.
+      await waitFor(() => expect(select).not.toBeInTheDocument());
+      await expect(canvas.getByRole('button', { name: /investigating/i })).toBeInTheDocument();
+    });
+  },
 };
 
 /**
@@ -684,6 +861,36 @@ export const EditableText: Story = {
       </div>
     );
   },
+  // EditableTextCell: click to edit (role textbox), Enter commits, Escape reverts.
+  // Both note columns bind the same row.note, so a commit updates both.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('Enter commits an edited note (both columns reflect the new value)', async () => {
+      // r1 note "Awaiting PO" renders in both columns → two resting buttons.
+      const restCell = canvas.getAllByRole('button', { name: /awaiting po/i })[0]!;
+      await userEvent.click(restCell);
+      const input = canvas.getByRole('textbox');
+      await expect(input).toHaveFocus();
+      await userEvent.clear(input);
+      await userEvent.type(input, 'PO received');
+      await userEvent.keyboard('{Enter}');
+      await expect(canvas.getAllByRole('button', { name: /po received/i })).toHaveLength(2);
+    });
+
+    await step('Escape reverts an in-progress edit', async () => {
+      const restCell = canvas.getAllByRole('button', { name: /disputed line/i })[0]!;
+      await userEvent.click(restCell);
+      const input = canvas.getByRole('textbox');
+      await userEvent.clear(input);
+      await userEvent.type(input, 'this should be discarded');
+      await userEvent.keyboard('{Escape}');
+      await waitFor(() => expect(canvas.queryByRole('textbox')).toBeNull());
+      // Original value preserved, discarded draft absent.
+      await expect(canvas.getAllByRole('button', { name: /disputed line/i })).toHaveLength(2);
+      await expect(canvas.queryByText('this should be discarded')).toBeNull();
+    });
+  },
 };
 
 /**
@@ -694,6 +901,7 @@ export const EditableText: Story = {
  * both **Status** and **Note** are fillable — set a status, then drag its handle
  * down a few rows.
  */
+const dragFillSpy = fn();
 export const DragFill: Story = {
   render: () => {
     const [data, setData] = useState(REVIEW_SAMPLE);
@@ -738,6 +946,7 @@ export const DragFill: Story = {
     // Render order here equals data order (no sort/filter), so the row indices
     // from onFillRange map straight onto `data`.
     const onFillRange = (columnId: string, from: number, to: number, value: unknown) => {
+      dragFillSpy(columnId, from, to, value);
       setData((prev) =>
         prev.map((r, i) => {
           if (i < from || i > to) return r;
@@ -759,6 +968,65 @@ export const DragFill: Story = {
         />
       </div>
     );
+  },
+  // Drag-fill gesture: mousedown a cell's fill handle to start, mouseEnter a
+  // lower row to extend the range, mouseup (on window) to apply via onFillRange.
+  // The handle is a role="presentation" span carrying a descriptive title.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    dragFillSpy.mockClear();
+
+    // Fill handles, in DOM order: row0-status, row0-note, row1-status, … two per row.
+    const handles = () =>
+      Array.from(
+        canvasElement.querySelectorAll<HTMLElement>('[title="Drag down to fill the column with this value"]'),
+      );
+    // The status <td> for a given row index (every row's status cell).
+    const statusCells = () =>
+      Array.from(canvasElement.querySelectorAll<HTMLTableCellElement>('tbody td:nth-child(3)'));
+
+    await step('dragging the row-0 Status handle down extends and fills the range', async () => {
+      const startHandle = handles()[0]!; // row 0 (Acme, status "todo") status handle
+      fireEvent.mouseDown(startHandle);
+      // Extend the live range to row 2 by entering its status cell. React maps
+      // onMouseEnter onto native mouseover (not the native mouseenter event), so
+      // drive the cell's handler with fireEvent.mouseOver — mouseEnter would not
+      // reach React's onMouseEnter. The handler is attached once the fill is active.
+      fireEvent.mouseOver(statusCells()[1]!);
+      fireEvent.mouseOver(statusCells()[2]!);
+      // Release anywhere → the grid applies the resolved range.
+      fireEvent.mouseUp(window);
+      await waitFor(() => expect(dragFillSpy).toHaveBeenCalled());
+      // Source column + start row + dragged value are exact; the end row is the
+      // last cell entered.
+      const [columnId, from, to, value] = dragFillSpy.mock.calls.at(-1) as [
+        string,
+        number,
+        number,
+        unknown,
+      ];
+      await expect(columnId).toBe('status');
+      await expect(from).toBe(0);
+      await expect(value).toBe('todo');
+      await expect(to).toBeGreaterThanOrEqual(from);
+    });
+
+    await step('the dragged "To do" status now spans the filled range', async () => {
+      // Acme(0) plus the rows it was dragged over all show "To do".
+      await waitFor(() =>
+        expect(canvas.getAllByRole('button', { name: /to do/i }).length).toBeGreaterThanOrEqual(2),
+      );
+    });
+
+    await step('Escape during a drag aborts it (no onFillRange call)', async () => {
+      dragFillSpy.mockClear();
+      const startHandle = handles()[0]!;
+      fireEvent.mouseDown(startHandle);
+      fireEvent.mouseOver(statusCells()[3]!);
+      fireEvent.keyDown(window, { key: 'Escape' });
+      fireEvent.mouseUp(window);
+      await expect(dragFillSpy).not.toHaveBeenCalled();
+    });
   },
 };
 
@@ -919,5 +1187,106 @@ export const EditableProbabilityTiers: Story = {
         />
       </div>
     );
+  },
+  // Editable aggregated rollup: a parent's Sold cell shows the project rollup with
+  // the ◆ affordance yet stays click-to-edit (EditableNumberCell, unlike the
+  // select/text cells, edits even when aggregated). Committing flips it to an
+  // explicit override; clearing it (empty + Enter) returns to the rollup.
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('editing an aggregated parent Sold overrides the rollup', async () => {
+      // Acme rollup = 120 + 70 = 190 → "€ 190k".
+      const acmeSold = canvas.getByRole('button', { name: /€ 190k/ });
+      await userEvent.click(acmeSold);
+      const input = canvas.getByRole('spinbutton');
+      await userEvent.clear(input);
+      await userEvent.type(input, '200');
+      await userEvent.keyboard('{Enter}');
+      await expect(canvas.getByRole('button', { name: /€ 200k/ })).toBeInTheDocument();
+    });
+
+    await step('clearing the override (empty + Enter) returns to the aggregated rollup', async () => {
+      const overridden = canvas.getByRole('button', { name: /€ 200k/ });
+      await userEvent.click(overridden);
+      const input = canvas.getByRole('spinbutton');
+      await userEvent.clear(input);
+      await userEvent.keyboard('{Enter}');
+      // Back to the project rollup (190).
+      await expect(canvas.getByRole('button', { name: /€ 190k/ })).toBeInTheDocument();
+    });
+  },
+};
+
+// ── Controlled global filter + column visibility (host-driven props) ───────────
+
+/**
+ * **Controlled global filter & column visibility.** Both are controlled props
+ * with no built-in chrome — the host owns a search box (`globalFilter`) and a
+ * column toggle (`hiddenColumnIds`). Filtering keeps matching rows (and their
+ * ancestors); hiding a column drops it from the header and every body row.
+ */
+export const ControlledFilterAndVisibility: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const [filter, setFilter] = useState('');
+    const [hidden, setHidden] = useState<string[]>([]);
+    const cols: DataGridColumnDef<ForecastRow>[] = [
+      { id: 'client', header: 'Client', accessor: (r) => r.client, width: 180 },
+      { id: 'opco', header: 'Opco', accessor: (r) => r.opco, width: 140 },
+      { id: 'owner', header: 'Owner', accessor: (r) => r.owner, width: 160 },
+    ];
+    const toggleOwner = () =>
+      setHidden((prev) => (prev.includes('owner') ? prev.filter((id) => id !== 'owner') : [...prev, 'owner']));
+    return (
+      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+        <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center' }}>
+          <input
+            aria-label="Filter clients"
+            placeholder="Filter…"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+          <button type="button" onClick={toggleOwner}>
+            {hidden.includes('owner') ? 'Show Owner column' : 'Hide Owner column'}
+          </button>
+        </div>
+        <DataGrid<ForecastRow>
+          aria-label="Filtered clients"
+          columns={cols}
+          data={SAMPLE}
+          getRowId={(r) => r.id}
+          getRowSearchText={(r) => `${r.client} ${r.opco} ${r.owner}`}
+          globalFilter={filter}
+          hiddenColumnIds={hidden}
+        />
+      </div>
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('typing in the host filter keeps only matching rows', async () => {
+      await expect(canvas.getByText('Globex')).toBeInTheDocument();
+      const filter = canvas.getByRole('textbox', { name: /filter clients/i });
+      await userEvent.type(filter, 'Globex');
+      await waitFor(() => expect(canvas.queryByText('Acme Corp')).toBeNull());
+      await expect(canvas.getByText('Globex')).toBeInTheDocument();
+    });
+
+    await step('clearing the filter restores all rows', async () => {
+      const filter = canvas.getByRole('textbox', { name: /filter clients/i });
+      await userEvent.clear(filter);
+      await waitFor(() => expect(canvas.getByText('Acme Corp')).toBeInTheDocument());
+    });
+
+    await step('toggling column visibility drops the Owner column header', async () => {
+      await expect(canvas.getByRole('columnheader', { name: /owner/i })).toBeInTheDocument();
+      await userEvent.click(canvas.getByRole('button', { name: /hide owner column/i }));
+      await waitFor(() => expect(canvas.queryByRole('columnheader', { name: /owner/i })).toBeNull());
+      // And it comes back.
+      await userEvent.click(canvas.getByRole('button', { name: /show owner column/i }));
+      await expect(canvas.getByRole('columnheader', { name: /owner/i })).toBeInTheDocument();
+    });
   },
 };
