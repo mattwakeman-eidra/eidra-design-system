@@ -7,6 +7,17 @@ import { Toast, useToastManager } from './Toast.js';
 
 const meta: Meta = {
   title: 'Feedback/Toast',
+  subcomponents: {
+    'Toast.Provider': Toast.Provider,
+    'Toast.Viewport': Toast.Viewport,
+    'Toast.Root': Toast.Root,
+    'Toast.Content': Toast.Content,
+    'Toast.Title': Toast.Title,
+    'Toast.Description': Toast.Description,
+    'Toast.Close': Toast.Close,
+    'Toast.CloseButton': Toast.CloseButton,
+    'Toast.Action': Toast.Action,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -18,7 +29,8 @@ const meta: Meta = {
         {/* Toasts render into the fixed Viewport (bottom-right), never the story
             flow — so adding a toast can't shift the trigger button. */}
         <Toast.Viewport>
-          </Toast.Viewport>
+          <ToastList />
+        </Toast.Viewport>
       </Toast.Provider>
     ),
   ],

@@ -21,6 +21,25 @@ const meta = {
   // Point at Root: it carries the meaningful behavior props (open/defaultOpen).
   // The visual Popup part has almost no props.
   component: ContextMenu.Root,
+  subcomponents: {
+    'ContextMenu.Trigger': ContextMenu.Trigger,
+    'ContextMenu.Portal': ContextMenu.Portal,
+    'ContextMenu.Positioner': ContextMenu.Positioner,
+    'ContextMenu.Popup': ContextMenu.Popup,
+    'ContextMenu.Item': ContextMenu.Item,
+    'ContextMenu.CheckboxItem': ContextMenu.CheckboxItem,
+    'ContextMenu.CheckboxItemIndicator': ContextMenu.CheckboxItemIndicator,
+    'ContextMenu.RadioGroup': ContextMenu.RadioGroup,
+    'ContextMenu.RadioItem': ContextMenu.RadioItem,
+    'ContextMenu.RadioItemIndicator': ContextMenu.RadioItemIndicator,
+    'ContextMenu.Group': ContextMenu.Group,
+    'ContextMenu.GroupLabel': ContextMenu.GroupLabel,
+    'ContextMenu.Separator': ContextMenu.Separator,
+    'ContextMenu.SubmenuRoot': ContextMenu.SubmenuRoot,
+    'ContextMenu.SubmenuTrigger': ContextMenu.SubmenuTrigger,
+    'ContextMenu.Arrow': ContextMenu.Arrow,
+    'ContextMenu.Backdrop': ContextMenu.Backdrop,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

@@ -12,6 +12,21 @@ const meta = {
   // Point at Root: it carries the meaningful behavior props (open/defaultOpen/
   // modal). The visual Popup part has almost no props.
   component: Popover.Root,
+  subcomponents: {
+    'Popover.Trigger': Popover.Trigger,
+    'Popover.Portal': Popover.Portal,
+    'Popover.Positioner': Popover.Positioner,
+    'Popover.Popup': Popover.Popup,
+    'Popover.Arrow': Popover.Arrow,
+    'Popover.Backdrop': Popover.Backdrop,
+    'Popover.Title': Popover.Title,
+    'Popover.Description': Popover.Description,
+    'Popover.Close': Popover.Close,
+    'Popover.CloseButton': Popover.CloseButton,
+    'Popover.Header': Popover.Header,
+    'Popover.Body': Popover.Body,
+    'Popover.Footer': Popover.Footer,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
