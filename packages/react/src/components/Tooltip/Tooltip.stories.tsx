@@ -17,6 +17,14 @@ const meta = {
   // Point at Root: it carries the meaningful behavior props (open/defaultOpen/
   // disabled/trackCursorAxis). The visual Popup part has almost no props.
   component: Tooltip.Root,
+  subcomponents: {
+    'Tooltip.Provider': Tooltip.Provider,
+    'Tooltip.Trigger': Tooltip.Trigger,
+    'Tooltip.Portal': Tooltip.Portal,
+    'Tooltip.Positioner': Tooltip.Positioner,
+    'Tooltip.Popup': Tooltip.Popup,
+    'Tooltip.Arrow': Tooltip.Arrow,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

@@ -4,6 +4,12 @@ import { Progress } from './Progress.js';
 const meta = {
   title: 'Feedback/Progress',
   component: Progress.Root,
+  subcomponents: {
+    'Progress.Label': Progress.Label,
+    'Progress.Value': Progress.Value,
+    'Progress.Track': Progress.Track,
+    'Progress.Indicator': Progress.Indicator,
+  },
   tags: ['autodocs'],
   args: {
     value: 65,

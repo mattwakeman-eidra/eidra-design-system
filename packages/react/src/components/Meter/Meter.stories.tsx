@@ -4,6 +4,12 @@ import { Meter } from './Meter.js';
 const meta = {
   title: 'Feedback/Meter',
   component: Meter.Root,
+  subcomponents: {
+    'Meter.Label': Meter.Label,
+    'Meter.Value': Meter.Value,
+    'Meter.Track': Meter.Track,
+    'Meter.Indicator': Meter.Indicator,
+  },
   tags: ['autodocs'],
   args: {
     value: 72,

@@ -4,6 +4,9 @@ import { Fieldset } from './Fieldset.js';
 const meta = {
   title: 'Forms/Fieldset',
   component: Fieldset.Root,
+  subcomponents: {
+    'Fieldset.Legend': Fieldset.Legend,
+  },
   tags: ['autodocs'],
   parameters: {
     docs: {

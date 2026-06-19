@@ -6,6 +6,20 @@ import { Select } from './Select.js';
 const meta = {
   title: 'Forms/Select',
   component: Select.Root,
+  subcomponents: {
+    'Select.Trigger': Select.Trigger,
+    'Select.Value': Select.Value,
+    'Select.Portal': Select.Portal,
+    'Select.Backdrop': Select.Backdrop,
+    'Select.Positioner': Select.Positioner,
+    'Select.Popup': Select.Popup,
+    'Select.List': Select.List,
+    'Select.Item': Select.Item,
+    'Select.ItemIndicator': Select.ItemIndicator,
+    'Select.ItemText': Select.ItemText,
+    'Select.Group': Select.Group,
+    'Select.GroupLabel': Select.GroupLabel,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

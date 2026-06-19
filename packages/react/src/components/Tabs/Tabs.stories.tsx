@@ -8,6 +8,12 @@ import { Tabs } from './Tabs.js';
 const meta = {
   title: 'Navigation/Tabs',
   component: Tabs.Root,
+  subcomponents: {
+    'Tabs.List': Tabs.List,
+    'Tabs.Tab': Tabs.Tab,
+    'Tabs.Indicator': Tabs.Indicator,
+    'Tabs.Panel': Tabs.Panel,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

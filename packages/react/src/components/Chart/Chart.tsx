@@ -49,6 +49,7 @@ function useChartConfig(): ChartConfig {
 }
 
 export interface ChartContainerProps extends ComponentPropsWithoutRef<'div'> {
+  /** Per-series labels and colours; each colour is injected as a `--color-<key>` CSS variable. */
   config: ChartConfig;
   /** Visual scale. `sm` tightens axis type/margins for compact cards. Defaults to `md`. */
   size?: 'sm' | 'md';

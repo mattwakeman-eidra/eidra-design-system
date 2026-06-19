@@ -6,6 +6,9 @@ import { Radio, RadioGroup } from './Radio.js';
 const meta = {
   title: 'Forms/Radio',
   component: Radio.Root,
+  subcomponents: {
+    'Radio.Indicator': Radio.Indicator,
+  },
   tags: ['autodocs'],
   args: { label: 'Option', value: 'option' },
 } satisfies Meta<typeof Radio.Root>;

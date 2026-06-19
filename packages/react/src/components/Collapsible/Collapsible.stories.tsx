@@ -8,6 +8,10 @@ import { Collapsible } from './Collapsible.js';
 const meta = {
   title: 'Layout/Collapsible',
   component: Collapsible.Root,
+  subcomponents: {
+    'Collapsible.Trigger': Collapsible.Trigger,
+    'Collapsible.Panel': Collapsible.Panel,
+  },
   tags: ['autodocs'],
   parameters: {
   },

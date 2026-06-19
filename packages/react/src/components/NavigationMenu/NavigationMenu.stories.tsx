@@ -8,6 +8,20 @@ import { NavigationMenu } from './NavigationMenu.js';
 const meta = {
   title: 'Navigation/NavigationMenu',
   component: NavigationMenu.Root,
+  subcomponents: {
+    'NavigationMenu.List': NavigationMenu.List,
+    'NavigationMenu.Item': NavigationMenu.Item,
+    'NavigationMenu.Trigger': NavigationMenu.Trigger,
+    'NavigationMenu.Icon': NavigationMenu.Icon,
+    'NavigationMenu.Portal': NavigationMenu.Portal,
+    'NavigationMenu.Positioner': NavigationMenu.Positioner,
+    'NavigationMenu.Viewport': NavigationMenu.Viewport,
+    'NavigationMenu.Popup': NavigationMenu.Popup,
+    'NavigationMenu.Content': NavigationMenu.Content,
+    'NavigationMenu.Arrow': NavigationMenu.Arrow,
+    'NavigationMenu.Backdrop': NavigationMenu.Backdrop,
+    'NavigationMenu.Link': NavigationMenu.Link,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',

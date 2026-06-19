@@ -6,6 +6,13 @@ import { Slider } from './Slider.js';
 const meta = {
   title: 'Forms/Slider',
   component: Slider.Root,
+  subcomponents: {
+    'Slider.Control': Slider.Control,
+    'Slider.Track': Slider.Track,
+    'Slider.Indicator': Slider.Indicator,
+    'Slider.Thumb': Slider.Thumb,
+    'Slider.Value': Slider.Value,
+  },
   tags: ['autodocs'],
   parameters: {
   },

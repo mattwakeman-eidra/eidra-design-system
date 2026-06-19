@@ -10,8 +10,17 @@ import { PreviewCard } from './PreviewCard.js';
 const meta = {
   title: 'Overlays/PreviewCard',
   // Point at Root: it carries the meaningful behavior props (open/defaultOpen).
-  // The visual Popup part has almost no props.
+  // The visual Popup part has almost no props. Every other part is declared as a
+  // subcomponent so each one gets its own props table in the autodocs page.
   component: PreviewCard.Root,
+  subcomponents: {
+    'PreviewCard.Trigger': PreviewCard.Trigger,
+    'PreviewCard.Portal': PreviewCard.Portal,
+    'PreviewCard.Positioner': PreviewCard.Positioner,
+    'PreviewCard.Popup': PreviewCard.Popup,
+    'PreviewCard.Arrow': PreviewCard.Arrow,
+    'PreviewCard.Backdrop': PreviewCard.Backdrop,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

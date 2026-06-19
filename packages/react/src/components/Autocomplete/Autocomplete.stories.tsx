@@ -59,6 +59,21 @@ const Stack = ({ children }: { children: React.ReactNode }) => (
 const meta = {
   title: 'Forms/Autocomplete',
   component: Autocomplete.Root,
+  subcomponents: {
+    'Autocomplete.Control': Autocomplete.Control,
+    'Autocomplete.Trigger': Autocomplete.Trigger,
+    'Autocomplete.Input': Autocomplete.Input,
+    'Autocomplete.Icon': Autocomplete.Icon,
+    'Autocomplete.Clear': Autocomplete.Clear,
+    'Autocomplete.Portal': Autocomplete.Portal,
+    'Autocomplete.Positioner': Autocomplete.Positioner,
+    'Autocomplete.Popup': Autocomplete.Popup,
+    'Autocomplete.List': Autocomplete.List,
+    'Autocomplete.Item': Autocomplete.Item,
+    'Autocomplete.Group': Autocomplete.Group,
+    'Autocomplete.GroupLabel': Autocomplete.GroupLabel,
+    'Autocomplete.Empty': Autocomplete.Empty,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

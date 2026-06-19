@@ -8,6 +8,15 @@ import { AlertDialog } from './AlertDialog.js';
 const meta = {
   title: 'Overlays/AlertDialog',
   component: AlertDialog.Root,
+  subcomponents: {
+    'AlertDialog.Trigger': AlertDialog.Trigger,
+    'AlertDialog.Portal': AlertDialog.Portal,
+    'AlertDialog.Backdrop': AlertDialog.Backdrop,
+    'AlertDialog.Popup': AlertDialog.Popup,
+    'AlertDialog.Title': AlertDialog.Title,
+    'AlertDialog.Description': AlertDialog.Description,
+    'AlertDialog.Close': AlertDialog.Close,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

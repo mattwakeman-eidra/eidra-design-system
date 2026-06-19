@@ -6,6 +6,10 @@ import { Avatar } from './Avatar.js';
 const meta = {
   title: 'Data Display/Avatar',
   component: Avatar.Root,
+  subcomponents: {
+    'Avatar.Image': Avatar.Image,
+    'Avatar.Fallback': Avatar.Fallback,
+  },
   tags: ['autodocs'],
   args: {
     size: 'md',

@@ -7,6 +7,14 @@ import { NumberField } from './NumberField.js';
 const meta = {
   title: 'Forms/NumberField',
   component: NumberField.Root,
+  subcomponents: {
+    'NumberField.Group': NumberField.Group,
+    'NumberField.Input': NumberField.Input,
+    'NumberField.Increment': NumberField.Increment,
+    'NumberField.Decrement': NumberField.Decrement,
+    'NumberField.ScrubArea': NumberField.ScrubArea,
+    'NumberField.ScrubAreaCursor': NumberField.ScrubAreaCursor,
+  },
   tags: ['autodocs'],
   parameters: {
   },

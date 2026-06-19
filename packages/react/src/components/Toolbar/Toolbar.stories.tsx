@@ -18,6 +18,13 @@ import { Toolbar } from './Toolbar.js';
 const meta = {
   title: 'Navigation/Toolbar',
   component: Toolbar.Root,
+  subcomponents: {
+    'Toolbar.Button': Toolbar.Button,
+    'Toolbar.Link': Toolbar.Link,
+    'Toolbar.Input': Toolbar.Input,
+    'Toolbar.Group': Toolbar.Group,
+    'Toolbar.Separator': Toolbar.Separator,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

@@ -6,6 +6,9 @@ import { Checkbox, CheckboxGroup } from './Checkbox.js';
 const meta = {
   title: 'Forms/Checkbox',
   component: Checkbox.Root,
+  subcomponents: {
+    'Checkbox.Indicator': Checkbox.Indicator,
+  },
   tags: ['autodocs'],
   args: {
     label: 'Accept terms and conditions',

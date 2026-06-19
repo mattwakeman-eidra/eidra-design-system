@@ -7,6 +7,12 @@ import type { AccordionValue } from './Accordion.js';
 const meta = {
   title: 'Layout/Accordion',
   component: Accordion.Root,
+  subcomponents: {
+    'Accordion.Item': Accordion.Item,
+    'Accordion.Header': Accordion.Header,
+    'Accordion.Trigger': Accordion.Trigger,
+    'Accordion.Panel': Accordion.Panel,
+  },
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
