@@ -11,6 +11,20 @@ const meta = {
   parameters: {
     layout: 'padded',
   },
+  argTypes: {
+    disabled: {
+      control: 'boolean',
+      description: 'Ignore user interaction across the whole accordion (triggers grey out).',
+    },
+    // `disabled` is the only Root prop with an immediate visual effect. The others
+    // (multiple, orientation, loopFocus, keepMounted, hiddenUntilFound) only change
+    // interaction/keyboard/DOM behaviour with no static visual change, so they're
+    // left off the controls panel rather than shown as knobs that do nothing.
+    // `multiple` is demonstrated by the Multiple / "Single item open" stories below.
+  },
+  args: {
+    disabled: false,
+  },
 } satisfies Meta<typeof Accordion.Root>;
 
 export default meta;
@@ -41,10 +55,15 @@ function AccordionItem({
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
+/**
+ * Toggle **disabled** to grey out and lock the whole accordion. One panel is open
+ * by default. (No auto-running interaction here — the assertion-driven behaviours,
+ * including single-vs-multiple open, live in the dedicated stories below.)
+ */
 export const Playground: Story = {
   render: (args) => (
     <div style={{ maxWidth: 640 }}>
-      <Accordion.Root {...args}>
+      <Accordion.Root defaultValue={['approach']} {...args}>
         <AccordionItem value="approach" heading="Our Approach">
           At Eidra we combine Nordic clarity with strategic depth — turning
           complex challenges into elegant, scalable solutions that endure.
@@ -60,34 +79,6 @@ export const Playground: Story = {
       </Accordion.Root>
     </div>
   ),
-  // Uncontrolled, single-open (the default). Base UI accordion triggers expose
-  // aria-expanded; opening a second item closes the first (exclusive).
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const approach = canvas.getByRole('button', { name: /our approach/i });
-    const services = canvas.getByRole('button', { name: /^services/i });
-
-    await step('all panels start collapsed', async () => {
-      await expect(approach).toHaveAttribute('aria-expanded', 'false');
-      await expect(services).toHaveAttribute('aria-expanded', 'false');
-    });
-
-    await step('clicking a trigger expands its panel', async () => {
-      await userEvent.click(approach);
-      await expect(approach).toHaveAttribute('aria-expanded', 'true');
-    });
-
-    await step('opening a second item closes the first (exclusive)', async () => {
-      await userEvent.click(services);
-      await expect(services).toHaveAttribute('aria-expanded', 'true');
-      await expect(approach).toHaveAttribute('aria-expanded', 'false');
-    });
-
-    await step('clicking the open trigger again collapses it', async () => {
-      await userEvent.click(services);
-      await expect(services).toHaveAttribute('aria-expanded', 'false');
-    });
-  },
 };
 
 export const DefaultOpen: Story = {
