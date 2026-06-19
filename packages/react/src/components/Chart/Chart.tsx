@@ -1,5 +1,6 @@
 import { createContext, forwardRef, useContext } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { TreemapNode, SunburstData } from 'recharts';
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -18,8 +19,18 @@ import {
   ZAxis,
   CartesianGrid,
   ReferenceLine,
+  ReferenceArea,
   Legend,
   Tooltip as RechartsTooltip,
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  PieChart,
+  Pie,
+  Treemap,
+  SunburstChart,
 } from 'recharts';
 import { cn } from '../../utils/cn.js';
 import styles from './Chart.module.css';
@@ -184,6 +195,9 @@ function ChartLegendContent({ payload, hidden = [], onToggle, className }: Chart
 // so `import { formatCompactCurrency } from '@eidra/react'` keeps working.
 export { formatCompactCurrency } from '../../utils/currency.js';
 
+/** Recharts data-node types for the hierarchical charts (Treemap / Sunburst). */
+export type { TreemapNode, SunburstData };
+
 /**
  * Default props for animated series (`Bar` / `Line` / `Area`): turns the entry
  * animation off. Spread it onto a series — `<Chart.Bar {...Chart.seriesDefaults} />`.
@@ -240,6 +254,19 @@ export const Chart = {
   ZAxis,
   CartesianGrid,
   ReferenceLine,
+  ReferenceArea,
   Legend,
   Tooltip: RechartsTooltip,
+  // Radar
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  // Pie / Donut
+  PieChart,
+  Pie,
+  // Hierarchical
+  Treemap,
+  SunburstChart,
 };

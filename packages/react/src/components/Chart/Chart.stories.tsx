@@ -1,6 +1,12 @@
-import { useState, type ReactNode } from 'react';
+import { useState, type ReactNode, type ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Chart, formatCompactCurrency, type ChartConfig } from './Chart.js';
+import {
+  Chart,
+  formatCompactCurrency,
+  type ChartConfig,
+  type TreemapNode,
+  type SunburstData,
+} from './Chart.js';
 
 const meta = {
   title: 'Data Display/Chart',
@@ -324,6 +330,488 @@ export const Bubble: Story = {
   ),
 };
 
+// ── Radar: team capability assessment across six skill axes ─────────────────
+// Non-financial, domain-agnostic. Categorical chart palette (--eidra-chart-N),
+// theme-reactive (distinct in light, brighter in dark).
+interface CapabilityDatum {
+  skill: string;
+  platform: number; // 0–100
+  product: number; // 0–100
+}
+
+const CAPABILITY: CapabilityDatum[] = [
+  { skill: 'Frontend', platform: 65, product: 90 },
+  { skill: 'Backend', platform: 92, product: 70 },
+  { skill: 'Infra / DevOps', platform: 88, product: 45 },
+  { skill: 'Data', platform: 70, product: 60 },
+  { skill: 'Design', platform: 40, product: 85 },
+  { skill: 'Product sense', platform: 55, product: 95 },
+];
+
+const radarConfig: ChartConfig = {
+  platform: { label: 'Platform team', color: 'var(--eidra-chart-1)' },
+  product: { label: 'Product team', color: 'var(--eidra-chart-2)' },
+};
+
+const score = (v: number | string | undefined) => `${Number(v)} / 100`;
+
+/**
+ * **Radar** (`RadarChart`) — multi-series radar comparing two teams across six
+ * capability axes. Polar grid + angle/radius axes are themed via tokens; each
+ * `Radar` uses a categorical chart colour with a translucent fill.
+ */
+export const Radar: Story = {
+  render: () => (
+    <Chart.Container
+      config={radarConfig}
+      style={{ height: 360, maxWidth: 560 }}
+      aria-label="Team capability assessment across six skills, comparing the Platform and Product teams"
+    >
+      <Chart.RadarChart data={CAPABILITY} margin={{ top: 16, right: 24, bottom: 16, left: 24 }}>
+        <Chart.PolarGrid />
+        <Chart.PolarAngleAxis dataKey="skill" />
+        <Chart.PolarRadiusAxis angle={90} domain={[0, 100]} tickCount={5} axisLine={false} />
+        <Chart.Tooltip content={<Chart.TooltipContent formatter={score} />} />
+        <Chart.Radar
+          {...Chart.seriesDefaults}
+          dataKey="platform"
+          stroke="var(--color-platform)"
+          fill="var(--color-platform)"
+          fillOpacity={0.25}
+          strokeWidth={2}
+        />
+        <Chart.Radar
+          {...Chart.seriesDefaults}
+          dataKey="product"
+          stroke="var(--color-product)"
+          fill="var(--color-product)"
+          fillOpacity={0.25}
+          strokeWidth={2}
+        />
+        <Chart.Legend content={<Chart.LegendContent />} />
+      </Chart.RadarChart>
+    </Chart.Container>
+  ),
+};
+
+// ── Pie / Donut: categorical revenue breakdown by business line ──────────────
+// One slice per category; colours come from the categorical chart tokens,
+// mapped per-slice via <Chart.Cell>. Config is keyed by slice *name* (pie
+// tooltip/legend payload uses `name` from `nameKey`).
+interface SliceDatum {
+  key: string;
+  name: string;
+  value: number; // €k
+}
+
+const REVENUE_BY_LINE: SliceDatum[] = [
+  { key: 'consulting', name: 'Consulting', value: 4200 },
+  { key: 'managed', name: 'Managed Services', value: 3100 },
+  { key: 'product', name: 'Product Licences', value: 2350 },
+  { key: 'support', name: 'Support', value: 1450 },
+  { key: 'training', name: 'Training', value: 780 },
+  { key: 'other', name: 'Other', value: 420 },
+];
+
+const pieConfig: ChartConfig = {
+  Consulting: { label: 'Consulting', color: 'var(--eidra-chart-1)' },
+  'Managed Services': { label: 'Managed Services', color: 'var(--eidra-chart-2)' },
+  'Product Licences': { label: 'Product Licences', color: 'var(--eidra-chart-3)' },
+  Support: { label: 'Support', color: 'var(--eidra-chart-4)' },
+  Training: { label: 'Training', color: 'var(--eidra-chart-5)' },
+  Other: { label: 'Other', color: 'var(--eidra-chart-6)' },
+};
+
+const TOTAL_REVENUE = REVENUE_BY_LINE.reduce((sum, d) => sum + d.value, 0);
+
+/**
+ * **Pie** (`PieChart`) — a categorical breakdown (revenue by business line). Each
+ * slice maps to a theme-reactive categorical token (`--eidra-chart-N`) via
+ * `<Chart.Cell>`; a thin `--eidra-surface` stroke separates slices in both themes.
+ */
+export const Pie: Story = {
+  render: () => (
+    <Chart.Container
+      config={pieConfig}
+      style={{ height: 360, maxWidth: 520 }}
+      aria-label="Revenue by business line"
+    >
+      <Chart.PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+        <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+        <Chart.Pie
+          {...Chart.seriesDefaults}
+          data={REVENUE_BY_LINE}
+          dataKey="value"
+          nameKey="name"
+          outerRadius="80%"
+          paddingAngle={2}
+          stroke="var(--eidra-surface)"
+          strokeWidth={2}
+          label={({ name, percent }: { name?: string; percent?: number }) =>
+            `${name} · ${((percent ?? 0) * 100).toFixed(0)}%`
+          }
+          labelLine={false}
+        >
+          {REVENUE_BY_LINE.map((d, i) => (
+            <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+          ))}
+        </Chart.Pie>
+        <Chart.Legend content={<Chart.LegendContent />} />
+      </Chart.PieChart>
+    </Chart.Container>
+  ),
+};
+
+/**
+ * **Donut** (`PieChart` with `innerRadius`) — same breakdown as a donut with a
+ * centred total. The centre label is an overlay (Recharts has no native one),
+ * `aria-hidden` + `pointer-events:none` so it never blocks slice hover.
+ */
+export const Donut: Story = {
+  render: () => (
+    <div style={{ position: 'relative', maxWidth: 520 }}>
+      <Chart.Container config={pieConfig} style={{ height: 360 }} aria-label="Revenue by business line">
+        <Chart.PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+          <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+          <Chart.Pie
+            {...Chart.seriesDefaults}
+            data={REVENUE_BY_LINE}
+            dataKey="value"
+            nameKey="name"
+            innerRadius="58%"
+            outerRadius="82%"
+            paddingAngle={2}
+            cornerRadius={3}
+            stroke="var(--eidra-surface)"
+            strokeWidth={2}
+          >
+            {REVENUE_BY_LINE.map((d, i) => (
+              <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+            ))}
+          </Chart.Pie>
+          <Chart.Legend content={<Chart.LegendContent />} />
+        </Chart.PieChart>
+      </Chart.Container>
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 360,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingBottom: 'var(--eidra-space-6)',
+          pointerEvents: 'none',
+        }}
+      >
+        <span
+          style={{
+            font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            color: 'var(--eidra-fg-muted)',
+          }}
+        >
+          Total
+        </span>
+        <span
+          style={{
+            font: '700 var(--eidra-font-size-xl)/1.1 var(--eidra-font-family-sans)',
+            fontVariantNumeric: 'tabular-nums',
+            color: 'var(--eidra-fg)',
+          }}
+        >
+          {fmt(TOTAL_REVENUE)}
+        </span>
+      </div>
+    </div>
+  ),
+};
+
+// ── Treemap: cloud spend by service category → service ───────────────────────
+// Hierarchical. Each top-level category carries a `colorKey` (a ChartConfig key
+// → --color-<key> → an --eidra-chart-N token); leaves inherit it via node.root.
+interface SpendNode {
+  name: string;
+  value?: number;
+  colorKey?: string;
+  children?: SpendNode[];
+  // Treemap's data type requires an index signature (TreemapDataType).
+  [key: string]: unknown;
+}
+
+const SPEND: SpendNode[] = [
+  {
+    name: 'Compute',
+    colorKey: 'compute',
+    children: [
+      { name: 'EC2', value: 48200, colorKey: 'compute' },
+      { name: 'Lambda', value: 12400, colorKey: 'compute' },
+      { name: 'ECS', value: 9100, colorKey: 'compute' },
+    ],
+  },
+  {
+    name: 'Storage',
+    colorKey: 'storage',
+    children: [
+      { name: 'S3', value: 21800, colorKey: 'storage' },
+      { name: 'EBS', value: 7300, colorKey: 'storage' },
+    ],
+  },
+  {
+    name: 'Database',
+    colorKey: 'database',
+    children: [
+      { name: 'RDS', value: 18600, colorKey: 'database' },
+      { name: 'DynamoDB', value: 6200, colorKey: 'database' },
+    ],
+  },
+  {
+    name: 'Networking',
+    colorKey: 'networking',
+    children: [
+      { name: 'CloudFront', value: 8400, colorKey: 'networking' },
+      { name: 'Data transfer', value: 5100, colorKey: 'networking' },
+    ],
+  },
+  {
+    name: 'Analytics',
+    colorKey: 'analytics',
+    children: [{ name: 'Redshift', value: 9700, colorKey: 'analytics' }],
+  },
+];
+
+const spendConfig: ChartConfig = {
+  compute: { label: 'Compute', color: 'var(--eidra-chart-1)' },
+  storage: { label: 'Storage', color: 'var(--eidra-chart-2)' },
+  database: { label: 'Database', color: 'var(--eidra-chart-3)' },
+  networking: { label: 'Networking', color: 'var(--eidra-chart-4)' },
+  analytics: { label: 'Analytics', color: 'var(--eidra-chart-5)' },
+};
+
+// Custom Treemap node renderer: colour each leaf by its category's
+// --color-<colorKey> token, separate tiles with an --eidra-surface stroke, and
+// only label leaves big enough to fit. Parent rects stay transparent. Label uses
+// a fixed light tone — legible on the saturated chart fills in both themes.
+function renderSpendNode(showLabels: boolean) {
+  return (node: TreemapNode): ReactElement => {
+    const { x, y, width, height, depth, name } = node;
+    const colorKey =
+      (node.colorKey as string | undefined) ??
+      ((node.root as TreemapNode | undefined)?.colorKey as string | undefined) ??
+      'compute';
+    const isLeaf = depth >= 2;
+    const showLabel = showLabels && isLeaf && width > 56 && height > 24;
+    return (
+      <g>
+        <rect
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+          fill={isLeaf ? `var(--color-${colorKey})` : 'transparent'}
+          stroke="var(--eidra-surface)"
+          strokeWidth={2}
+          strokeOpacity={isLeaf ? 1 : 0}
+        />
+        {showLabel && (
+          <text
+            x={x + 7}
+            y={y + 17}
+            fontSize={11}
+            fontFamily="var(--eidra-font-family-sans)"
+            fill="rgba(255, 255, 255, 0.96)"
+            style={{ pointerEvents: 'none' }}
+          >
+            {name}
+          </text>
+        )}
+      </g>
+    );
+  };
+}
+
+const fmtSpend = (v: number | string | undefined) => formatCompactCurrency(Number(v));
+
+/**
+ * **Treemap** (`Treemap`) — hierarchical cloud spend (service category → service).
+ * Each top-level category is coloured with an `--eidra-chart-N` token via a custom
+ * node renderer; leaves inherit their category colour, tiles are separated by an
+ * `--eidra-surface` stroke, and only large leaves are labelled.
+ */
+export const Treemap: Story = {
+  render: () => (
+    <Chart.Container
+      config={spendConfig}
+      style={{ height: 360, maxWidth: 680 }}
+      aria-label="Cloud spend by service category and service"
+    >
+      <Chart.Treemap
+        data={SPEND}
+        dataKey="value"
+        nameKey="name"
+        aspectRatio={1.5}
+        stroke="var(--eidra-surface)"
+        {...Chart.seriesDefaults}
+        content={renderSpendNode(true)}
+      >
+        <Chart.Tooltip content={<Chart.TooltipContent formatter={fmtSpend} />} />
+      </Chart.Treemap>
+    </Chart.Container>
+  ),
+};
+
+// ── Sunburst: annual budget allocation (department → team) ───────────────────
+// SunburstChart is self-contained (no child series): one hierarchical root with
+// per-node `fill`. Top-level nodes carry the categorical colour; children inherit.
+const BUDGET_TREE: SunburstData = {
+  name: 'Budget',
+  children: [
+    {
+      name: 'Engineering',
+      fill: 'var(--eidra-chart-1)',
+      children: [
+        { name: 'Platform', value: 32, fill: 'var(--eidra-chart-1)' },
+        { name: 'Product', value: 26, fill: 'var(--eidra-chart-1)' },
+        { name: 'Data', value: 14, fill: 'var(--eidra-chart-1)' },
+      ],
+    },
+    {
+      name: 'Sales',
+      fill: 'var(--eidra-chart-2)',
+      children: [
+        { name: 'Enterprise', value: 28, fill: 'var(--eidra-chart-2)' },
+        { name: 'Mid-market', value: 18, fill: 'var(--eidra-chart-2)' },
+      ],
+    },
+    {
+      name: 'Marketing',
+      fill: 'var(--eidra-chart-3)',
+      children: [
+        { name: 'Brand', value: 12, fill: 'var(--eidra-chart-3)' },
+        { name: 'Demand gen', value: 16, fill: 'var(--eidra-chart-3)' },
+      ],
+    },
+    {
+      name: 'Operations',
+      fill: 'var(--eidra-chart-4)',
+      children: [
+        { name: 'Finance', value: 10, fill: 'var(--eidra-chart-4)' },
+        { name: 'People', value: 9, fill: 'var(--eidra-chart-4)' },
+      ],
+    },
+  ],
+};
+
+/**
+ * **Sunburst** (`SunburstChart`) — a 2-level hierarchy (budget → department → team)
+ * in polar coordinates. Self-contained (no child series): a single hierarchical
+ * `data` root, coloured per top-level branch with `--eidra-chart-N` (children
+ * inherit), `--eidra-surface` segment separators, and `--eidra-fg` value labels.
+ * The accessible name lives on the container (the chart takes no `aria-label`).
+ */
+export const Sunburst: Story = {
+  render: () => (
+    <Chart.Container
+      config={{}}
+      role="img"
+      aria-label="Annual budget allocation by department and team"
+      style={{ height: 360, maxWidth: 420 }}
+    >
+      <Chart.SunburstChart
+        data={BUDGET_TREE}
+        dataKey="value"
+        nameKey="name"
+        stroke="var(--eidra-surface)"
+        padding={2}
+        ringPadding={2}
+        innerRadius={36}
+        textOptions={{ fill: 'var(--eidra-fg)', stroke: 'none', fontSize: 11 }}
+      >
+        <Chart.Tooltip content={<Chart.TooltipContent hideLabel />} />
+      </Chart.SunburstChart>
+    </Chart.Container>
+  ),
+};
+
+// ── Magic Quadrant: 2×2 positioning grid (vision × execution) ────────────────
+interface QuadrantPoint {
+  name: string;
+  vision: number; // x, 0–100
+  execution: number; // y, 0–100
+}
+
+const VENDORS: QuadrantPoint[] = [
+  { name: 'Acme', vision: 78, execution: 82 },
+  { name: 'Globex', vision: 64, execution: 71 },
+  { name: 'Initech', vision: 38, execution: 30 },
+  { name: 'Umbrella', vision: 85, execution: 40 },
+  { name: 'Soylent', vision: 30, execution: 66 },
+  { name: 'Hooli', vision: 55, execution: 52 },
+];
+
+const quadrantLabel = (value: string) => ({
+  value,
+  position: 'center' as const,
+  fill: 'var(--eidra-fg-muted)',
+  fontSize: 12,
+  fontWeight: 600,
+});
+
+/**
+ * **Magic Quadrant** — a 2×2 positioning grid (`ScatterChart`): two `ReferenceLine`s
+ * split the plot into quadrants, each named and tinted with a `ReferenceArea`, the
+ * plotted points are labelled, and both axes carry titles. The classic
+ * vendor/competitor positioning map.
+ */
+export const MagicQuadrant: Story = {
+  render: () => (
+    <Chart.Container
+      config={{}}
+      style={{ height: 460, maxWidth: 560 }}
+      aria-label="Magic quadrant: completeness of vision versus ability to execute"
+    >
+      <Chart.ScatterChart margin={{ top: 24, right: 28, bottom: 28, left: 16 }}>
+        <Chart.CartesianGrid strokeDasharray="4 4" />
+        {/* Quadrant tints + names, drawn under the points. */}
+        <Chart.ReferenceArea x1={50} x2={100} y1={50} y2={100} fill="var(--eidra-chart-1)" fillOpacity={0.06} label={quadrantLabel('Leaders')} />
+        <Chart.ReferenceArea x1={0} x2={50} y1={50} y2={100} fill="var(--eidra-chart-2)" fillOpacity={0.06} label={quadrantLabel('Challengers')} />
+        <Chart.ReferenceArea x1={50} x2={100} y1={0} y2={50} fill="var(--eidra-chart-3)" fillOpacity={0.06} label={quadrantLabel('Visionaries')} />
+        <Chart.ReferenceArea x1={0} x2={50} y1={0} y2={50} fill="var(--eidra-chart-4)" fillOpacity={0.06} label={quadrantLabel('Niche Players')} />
+        <Chart.XAxis
+          type="number"
+          dataKey="vision"
+          domain={[0, 100]}
+          tick={false}
+          axisLine={false}
+          tickLine={false}
+          label={{ value: 'Completeness of Vision →', position: 'insideBottom', offset: -12, fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
+        />
+        <Chart.YAxis
+          type="number"
+          dataKey="execution"
+          domain={[0, 100]}
+          tick={false}
+          axisLine={false}
+          tickLine={false}
+          width={28}
+          label={{ value: 'Ability to Execute →', angle: -90, position: 'insideLeft', fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
+        />
+        <Chart.ReferenceLine x={50} stroke="var(--eidra-border-strong)" />
+        <Chart.ReferenceLine y={50} stroke="var(--eidra-border-strong)" />
+        <Chart.Tooltip cursor={{ strokeDasharray: '3 3' }} content={<Chart.TooltipContent hideLabel />} />
+        <Chart.Scatter {...Chart.seriesDefaults} data={VENDORS} fill="var(--eidra-chart-1)" name="Vendor">
+          <Chart.LabelList dataKey="name" position="top" fill="var(--eidra-fg)" fontSize={11} />
+        </Chart.Scatter>
+      </Chart.ScatterChart>
+    </Chart.Container>
+  ),
+};
+
 // A small labelled card wrapper for the mini gallery.
 function MiniCard({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -417,6 +905,68 @@ export const Minis: Story = {
             <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
             <Chart.Scatter {...Chart.seriesDefaults} data={CLIENTS} fill="var(--color-large)" fillOpacity={0.6} />
           </Chart.ScatterChart>
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Radar">
+        <Chart.Container config={radarConfig} size="sm" style={{ height: 120 }}>
+          <Chart.RadarChart data={CAPABILITY} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+            <Chart.PolarGrid />
+            <Chart.PolarAngleAxis dataKey="skill" tick={false} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={score} hideLabel />} />
+            <Chart.Radar {...Chart.seriesDefaults} dataKey="platform" stroke="var(--color-platform)" fill="var(--color-platform)" fillOpacity={0.25} strokeWidth={1.5} />
+            <Chart.Radar {...Chart.seriesDefaults} dataKey="product" stroke="var(--color-product)" fill="var(--color-product)" fillOpacity={0.25} strokeWidth={1.5} />
+          </Chart.RadarChart>
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Donut">
+        <Chart.Container config={pieConfig} size="sm" style={{ height: 120 }} aria-label="Revenue split">
+          <Chart.PieChart margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Pie
+              {...Chart.seriesDefaults}
+              data={REVENUE_BY_LINE}
+              dataKey="value"
+              nameKey="name"
+              innerRadius="60%"
+              outerRadius="92%"
+              paddingAngle={2}
+              stroke="var(--eidra-surface)"
+              strokeWidth={1.5}
+            >
+              {REVENUE_BY_LINE.map((d, i) => (
+                <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+              ))}
+            </Chart.Pie>
+          </Chart.PieChart>
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Treemap">
+        <Chart.Container config={spendConfig} size="sm" style={{ height: 120 }}>
+          <Chart.Treemap
+            data={SPEND}
+            dataKey="value"
+            nameKey="name"
+            aspectRatio={1.6}
+            stroke="var(--eidra-surface)"
+            {...Chart.seriesDefaults}
+            content={renderSpendNode(false)}
+          />
+        </Chart.Container>
+      </MiniCard>
+
+      <MiniCard title="Sunburst">
+        <Chart.Container config={{}} size="sm" role="img" aria-label="Budget allocation breakdown" style={{ height: 120 }}>
+          <Chart.SunburstChart
+            data={BUDGET_TREE}
+            dataKey="value"
+            stroke="var(--eidra-surface)"
+            padding={2}
+            innerRadius={16}
+            textOptions={{ fill: 'transparent', stroke: 'none' }}
+          />
         </Chart.Container>
       </MiniCard>
     </div>

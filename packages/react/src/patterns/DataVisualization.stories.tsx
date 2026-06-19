@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,
@@ -10,6 +10,8 @@ import {
   StatusStrip,
   formatCompactCurrency,
   type ChartConfig,
+  type TreemapNode,
+  type SunburstData,
 } from '../index.js';
 
 const meta = {
@@ -56,6 +58,121 @@ const POINTS = [
 ];
 const bubbleConfig: ChartConfig = {
   clients: { label: 'Clients', color: 'var(--eidra-finance-accent)' },
+};
+
+// Categorical-palette demos (radar / donut / treemap / sunburst) — colours from
+// the theme-reactive --eidra-chart-N ramp.
+const CAPABILITY = [
+  { skill: 'Frontend', platform: 65, product: 90 },
+  { skill: 'Backend', platform: 92, product: 70 },
+  { skill: 'Infra', platform: 88, product: 45 },
+  { skill: 'Data', platform: 70, product: 60 },
+  { skill: 'Design', platform: 40, product: 85 },
+  { skill: 'Product', platform: 55, product: 95 },
+];
+const radarConfig: ChartConfig = {
+  platform: { label: 'Platform', color: 'var(--eidra-chart-1)' },
+  product: { label: 'Product', color: 'var(--eidra-chart-2)' },
+};
+
+const SLICES = [
+  { key: 'consulting', name: 'Consulting', value: 4200 },
+  { key: 'managed', name: 'Managed Services', value: 3100 },
+  { key: 'product', name: 'Product Licences', value: 2350 },
+  { key: 'support', name: 'Support', value: 1450 },
+  { key: 'training', name: 'Training', value: 780 },
+];
+const sliceConfig: ChartConfig = {
+  Consulting: { label: 'Consulting', color: 'var(--eidra-chart-1)' },
+  'Managed Services': { label: 'Managed Services', color: 'var(--eidra-chart-2)' },
+  'Product Licences': { label: 'Product Licences', color: 'var(--eidra-chart-3)' },
+  Support: { label: 'Support', color: 'var(--eidra-chart-4)' },
+  Training: { label: 'Training', color: 'var(--eidra-chart-5)' },
+};
+
+interface AllocNode {
+  name: string;
+  value?: number;
+  colorKey?: string;
+  children?: AllocNode[];
+  [key: string]: unknown;
+}
+const ALLOCATION: AllocNode[] = [
+  {
+    name: 'Equities',
+    colorKey: 'equities',
+    children: [
+      { name: 'US', value: 42, colorKey: 'equities' },
+      { name: 'EU', value: 18, colorKey: 'equities' },
+      { name: 'EM', value: 11, colorKey: 'equities' },
+    ],
+  },
+  {
+    name: 'Fixed income',
+    colorKey: 'bonds',
+    children: [
+      { name: 'Govt', value: 14, colorKey: 'bonds' },
+      { name: 'Corp', value: 8, colorKey: 'bonds' },
+    ],
+  },
+  { name: 'Cash', colorKey: 'cash', children: [{ name: 'Money market', value: 7, colorKey: 'cash' }] },
+];
+const allocConfig: ChartConfig = {
+  equities: { label: 'Equities', color: 'var(--eidra-chart-1)' },
+  bonds: { label: 'Fixed income', color: 'var(--eidra-chart-2)' },
+  cash: { label: 'Cash', color: 'var(--eidra-chart-3)' },
+};
+const renderAllocNode = (node: TreemapNode): ReactElement => {
+  const { x, y, width, height, depth } = node;
+  const colorKey =
+    (node.colorKey as string | undefined) ??
+    ((node.root as TreemapNode | undefined)?.colorKey as string | undefined) ??
+    'equities';
+  const isLeaf = depth >= 2;
+  return (
+    <g>
+      <rect
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        fill={isLeaf ? `var(--color-${colorKey})` : 'transparent'}
+        stroke="var(--eidra-surface)"
+        strokeWidth={2}
+        strokeOpacity={isLeaf ? 1 : 0}
+      />
+    </g>
+  );
+};
+
+const SUNBURST_TREE: SunburstData = {
+  name: 'Traffic',
+  children: [
+    {
+      name: 'Organic',
+      fill: 'var(--eidra-chart-1)',
+      children: [
+        { name: 'Search', value: 38, fill: 'var(--eidra-chart-1)' },
+        { name: 'Direct', value: 22, fill: 'var(--eidra-chart-1)' },
+      ],
+    },
+    {
+      name: 'Paid',
+      fill: 'var(--eidra-chart-2)',
+      children: [
+        { name: 'Search ads', value: 18, fill: 'var(--eidra-chart-2)' },
+        { name: 'Social ads', value: 12, fill: 'var(--eidra-chart-2)' },
+      ],
+    },
+    {
+      name: 'Referral',
+      fill: 'var(--eidra-chart-3)',
+      children: [
+        { name: 'Partners', value: 9, fill: 'var(--eidra-chart-3)' },
+        { name: 'Press', value: 6, fill: 'var(--eidra-chart-3)' },
+      ],
+    },
+  ],
 };
 
 const fmt = (v: number | string | undefined) => formatCompactCurrency(Number(v) * 1000);
@@ -157,6 +274,68 @@ export const Gallery: Story = {
             <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
             <Chart.Scatter {...Chart.seriesDefaults} data={POINTS} fill="var(--color-clients)" fillOpacity={0.6} />
           </Chart.ScatterChart>
+        </Chart.Container>
+      </Card>
+
+      <Card title="Radar">
+        <Chart.Container config={radarConfig} size="sm" style={{ height: 110 }}>
+          <Chart.RadarChart data={CAPABILITY} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+            <Chart.PolarGrid />
+            <Chart.PolarAngleAxis dataKey="skill" tick={false} />
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
+            <Chart.Radar {...Chart.seriesDefaults} dataKey="platform" stroke="var(--color-platform)" fill="var(--color-platform)" fillOpacity={0.25} strokeWidth={1.5} />
+            <Chart.Radar {...Chart.seriesDefaults} dataKey="product" stroke="var(--color-product)" fill="var(--color-product)" fillOpacity={0.25} strokeWidth={1.5} />
+          </Chart.RadarChart>
+        </Chart.Container>
+      </Card>
+
+      <Card title="Donut">
+        <Chart.Container config={sliceConfig} size="sm" style={{ height: 110 }} aria-label="Revenue split">
+          <Chart.PieChart margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Pie
+              {...Chart.seriesDefaults}
+              data={SLICES}
+              dataKey="value"
+              nameKey="name"
+              innerRadius="60%"
+              outerRadius="92%"
+              paddingAngle={2}
+              stroke="var(--eidra-surface)"
+              strokeWidth={1.5}
+            >
+              {SLICES.map((d, i) => (
+                <Chart.Cell key={d.key} fill={`var(--eidra-chart-${i + 1})`} />
+              ))}
+            </Chart.Pie>
+          </Chart.PieChart>
+        </Chart.Container>
+      </Card>
+
+      <Card title="Treemap">
+        <Chart.Container config={allocConfig} size="sm" style={{ height: 110 }}>
+          <Chart.Treemap
+            data={ALLOCATION}
+            dataKey="value"
+            nameKey="name"
+            aspectRatio={1.6}
+            stroke="var(--eidra-surface)"
+            {...Chart.seriesDefaults}
+            content={renderAllocNode}
+          />
+        </Chart.Container>
+      </Card>
+
+      <Card title="Sunburst">
+        <Chart.Container config={{}} size="sm" role="img" aria-label="Traffic sources by channel" style={{ height: 110 }}>
+          <Chart.SunburstChart
+            data={SUNBURST_TREE}
+            dataKey="value"
+            stroke="var(--eidra-surface)"
+            padding={2}
+            innerRadius={14}
+            textOptions={{ fill: 'transparent', stroke: 'none' }}
+          />
         </Chart.Container>
       </Card>
 
