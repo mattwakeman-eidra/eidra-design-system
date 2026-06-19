@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ArrowRight, Building2, Calendar, Users } from '@eidra/icons';
-import { Icon } from '@eidra/icons';
+import { ArrowRight, Building2, Calendar, Users, Mail, Clock } from '@eidra/icons';
+import { Icon, Flag } from '@eidra/icons';
 import { Button } from '../Button/Button.js';
+import { Avatar } from '../Avatar/Avatar.js';
+import { Badge } from '../Badge/Badge.js';
 import { Card } from './Card.js';
 
 const meta = {
@@ -162,6 +164,190 @@ export const CardGrid: Story = {
       </div>
     );
   },
+};
+
+/**
+ * A team-member profile card: avatar, name with their country flag, job title,
+ * and a few skill tags. Composes `Card` + `Avatar` + `Flag` + `Badge` — there's
+ * no dedicated profile component; profiles are a composition.
+ */
+export const ProfileCard: Story = {
+  render: (args) => (
+    <Card {...args} style={{ maxWidth: 340 }}>
+      <Card.Body>
+        <div style={{ display: 'flex', gap: 'var(--eidra-space-4)', alignItems: 'center' }}>
+          <Avatar.Root size="lg">
+            <Avatar.Fallback>AL</Avatar.Fallback>
+          </Avatar.Root>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+              <strong style={{ fontSize: 'var(--eidra-font-size-lg)', color: 'var(--eidra-fg)' }}>
+                Astrid Lindqvist
+              </strong>
+              <Flag code="SE" size="sm" label="Sweden" />
+            </div>
+            <p
+              style={{
+                margin: 'var(--eidra-space-1) 0 0',
+                color: 'var(--eidra-fg-muted)',
+                fontSize: 'var(--eidra-font-size-sm)',
+              }}
+            >
+              Principal Consultant · Stockholm
+            </p>
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 'var(--eidra-space-2)',
+            marginTop: 'var(--eidra-space-4)',
+          }}
+        >
+          <Badge tone="accent" size="sm">Design Systems</Badge>
+          <Badge size="sm">React</Badge>
+          <Badge size="sm">Accessibility</Badge>
+        </div>
+      </Card.Body>
+      <Card.Footer style={{ justifyContent: 'flex-end' }}>
+        <Button variant="outline" size="sm" startIcon={<Icon icon={Mail} />}>
+          Message
+        </Button>
+        <Button size="sm" endIcon={<Icon icon={ArrowRight} />}>
+          View profile
+        </Button>
+      </Card.Footer>
+    </Card>
+  ),
+};
+
+/** A grid of team-member profile cards — members across different countries. */
+export const TeamGrid: Story = {
+  render: (args) => {
+    const team = [
+      { name: 'Astrid Lindqvist', role: 'Principal Consultant', city: 'Stockholm', code: 'SE', country: 'Sweden', initials: 'AL', tags: ['Design Systems', 'React'] },
+      { name: 'Erik Møller', role: 'Staff Engineer', city: 'Oslo', code: 'NO', country: 'Norway', initials: 'EM', tags: ['Platform', 'TypeScript'] },
+      { name: 'Sofia Rossi', role: 'UX Research Lead', city: 'Milan', code: 'IT', country: 'Italy', initials: 'SR', tags: ['Research', 'Accessibility'] },
+    ];
+    return (
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: 'var(--eidra-space-4)',
+        }}
+      >
+        {team.map((m) => (
+          <Card key={m.name} {...args}>
+            <Card.Body>
+              <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center' }}>
+                <Avatar.Root size="md">
+                  <Avatar.Fallback>{m.initials}</Avatar.Fallback>
+                </Avatar.Root>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+                    <strong style={{ color: 'var(--eidra-fg)' }}>{m.name}</strong>
+                    <Flag code={m.code} size="sm" label={m.country} />
+                  </div>
+                  <p
+                    style={{
+                      margin: 'var(--eidra-space-1) 0 0',
+                      color: 'var(--eidra-fg-muted)',
+                      fontSize: 'var(--eidra-font-size-sm)',
+                    }}
+                  >
+                    {m.role} · {m.city}
+                  </p>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 'var(--eidra-space-2)',
+                  marginTop: 'var(--eidra-space-3)',
+                }}
+              >
+                {m.tags.map((t) => (
+                  <Badge key={t} size="sm">{t}</Badge>
+                ))}
+              </div>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+    );
+  },
+};
+
+/**
+ * A blog/article preview card: a full-bleed cover, a category tag, title,
+ * excerpt, and a byline. The card's `overflow: hidden` clips the cover to the
+ * rounded corners; `Card.Body` keeps the text inset.
+ */
+export const ArticleCard: Story = {
+  render: (args) => (
+    <Card {...args} style={{ maxWidth: 360 }}>
+      <div
+        style={{
+          height: 150,
+          background:
+            'linear-gradient(135deg, var(--eidra-accent), var(--eidra-accent-active))',
+        }}
+      />
+      <Card.Body>
+        <Badge tone="accent" size="sm">Design Systems</Badge>
+        <h3
+          style={{
+            margin: 'var(--eidra-space-2) 0 0',
+            fontSize: 'var(--eidra-font-size-lg)',
+            color: 'var(--eidra-fg)',
+          }}
+        >
+          Tokens as the source of truth
+        </h3>
+        <p
+          style={{
+            margin: 'var(--eidra-space-2) 0 0',
+            color: 'var(--eidra-fg-muted)',
+            fontSize: 'var(--eidra-font-size-sm)',
+            lineHeight: 'var(--eidra-font-line-height-normal)',
+          }}
+        >
+          How a three-tier token architecture keeps light, dark, and sub-brand themes in sync
+          without touching component code.
+        </p>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--eidra-space-2)',
+            marginTop: 'var(--eidra-space-4)',
+          }}
+        >
+          <Avatar.Root size="sm">
+            <Avatar.Fallback>EM</Avatar.Fallback>
+          </Avatar.Root>
+          <span style={{ fontSize: 'var(--eidra-font-size-xs)', color: 'var(--eidra-fg-subtle)' }}>
+            Erik Møller
+          </span>
+          <span
+            style={{
+              marginLeft: 'auto',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--eidra-space-1)',
+              fontSize: 'var(--eidra-font-size-xs)',
+              color: 'var(--eidra-fg-subtle)',
+            }}
+          >
+            <Icon icon={Clock} /> 6 min read
+          </span>
+        </div>
+      </Card.Body>
+    </Card>
+  ),
 };
 
 /** Header and body only — no footer divider. */
