@@ -67,5 +67,22 @@
     "subtle":  { "$type": "color", "$value": "{color.blue.900}" },
     "fg":      { "$type": "color", "$value": "{color.blue.300}" },
     "border":  { "$type": "color", "$value": "{color.blue.700}" }
+  },
+  "finance": {
+    "accent":        { "$type": "color", "$value": "{color.finance.blue-bright}" },
+    "accent-hover":  { "$type": "color", "$value": "{color.finance.blue-light}" },
+    "accent-active": { "$type": "color", "$value": "{color.finance.blue-light}" },
+    "accent-subtle": { "$type": "color", "$value": "{color.finance.blue-deep}" },
+    "accent-fg":     { "$type": "color", "$value": "{color.black}" }
+  },
+  "chart": {
+    "1": { "$type": "color", "$value": "{color.categorical.1-bright}" },
+    "2": { "$type": "color", "$value": "{color.categorical.2-bright}" },
+    "3": { "$type": "color", "$value": "{color.categorical.3-bright}" },
+    "4": { "$type": "color", "$value": "{color.categorical.4-bright}" },
+    "5": { "$type": "color", "$value": "{color.categorical.5-bright}" },
+    "6": { "$type": "color", "$value": "{color.categorical.6-bright}" },
+    "7": { "$type": "color", "$value": "{color.categorical.7-bright}" },
+    "8": { "$type": "color", "$value": "{color.categorical.8-bright}" }
   }
 }

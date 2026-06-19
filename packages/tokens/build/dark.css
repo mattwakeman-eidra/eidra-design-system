@@ -50,4 +50,17 @@
   --eidra-info-subtle: var(--eidra-color-blue-900);
   --eidra-info-fg: var(--eidra-color-blue-300);
   --eidra-info-border: var(--eidra-color-blue-700);
+  --eidra-finance-accent: var(--eidra-color-finance-blue-bright);
+  --eidra-finance-accent-hover: var(--eidra-color-finance-blue-light);
+  --eidra-finance-accent-active: var(--eidra-color-finance-blue-light);
+  --eidra-finance-accent-subtle: var(--eidra-color-finance-blue-deep);
+  --eidra-finance-accent-fg: var(--eidra-color-black);
+  --eidra-chart-1: var(--eidra-color-categorical-1-bright);
+  --eidra-chart-2: var(--eidra-color-categorical-2-bright);
+  --eidra-chart-3: var(--eidra-color-categorical-3-bright);
+  --eidra-chart-4: var(--eidra-color-categorical-4-bright);
+  --eidra-chart-5: var(--eidra-color-categorical-5-bright);
+  --eidra-chart-6: var(--eidra-color-categorical-6-bright);
+  --eidra-chart-7: var(--eidra-color-categorical-7-bright);
+  --eidra-chart-8: var(--eidra-color-categorical-8-bright);
 }
