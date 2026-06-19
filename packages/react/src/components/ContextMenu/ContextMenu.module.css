@@ -197,6 +197,13 @@
   padding-inline: var(--eidra-space-1-5);
   padding-block: var(--eidra-space-0-5);
 }
+/* The compact `.item` rule above uses the `padding-inline` shorthand, which would
+   otherwise clobber the radio/checkbox indicator gutter and let the tick overlap
+   the label. Restore the start padding (the indicator is the same size in compact). */
+:global([data-density='compact']) .radioItem,
+:global([data-density='compact']) .checkboxItem {
+  padding-inline-start: var(--eidra-space-8);
+}
 :global([data-density='compact']) .groupLabel {
   padding-inline: var(--eidra-space-1-5);
   padding-block: var(--eidra-space-0-5);
