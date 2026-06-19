@@ -107,7 +107,7 @@ export const Playground: Story = {
       const option = await screen.findByRole('option', { name: /^Oslo$/ });
       await waitFor(() => expect(option).toBeVisible());
       // Non-matching cities are filtered out.
-      await expect(screen.queryByRole('option', { name: /^Helsinki$/ })).toBeNull();
+      await waitFor(() => expect(screen.queryByRole('option', { name: /^Helsinki$/ })).toBeNull());
     });
 
     await step('a query with no matches shows the Empty state', async () => {
@@ -634,7 +634,7 @@ export const InlineCompletion: Story = {
       await userEvent.type(input, 'Rey');
       const reykjavik = await screen.findByRole('option', { name: /^Reykjavik$/ });
       await waitFor(() => expect(reykjavik).toBeVisible());
-      await expect(screen.queryByRole('option', { name: /^Oslo$/ })).toBeNull();
+      await waitFor(() => expect(screen.queryByRole('option', { name: /^Oslo$/ })).toBeNull());
     });
 
     await step('ArrowDown then Enter completes the input', async () => {

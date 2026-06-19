@@ -182,7 +182,11 @@ export const Playground: Story = {
       await waitFor(async () => {
         await expect(file).toHaveAttribute('aria-expanded', 'false');
       });
-      await expect(screen.queryByRole('menuitem', { name: /new file/i })).toBeNull();
+      // The popup leaves the a11y tree a beat after the trigger collapses (close
+      // transition), so poll rather than assert synchronously.
+      await waitFor(() =>
+        expect(screen.queryByRole('menuitem', { name: /new file/i })).toBeNull(),
+      );
     });
   },
 };
