@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect, type ReactNode, type ReactElement } from 'react';
+import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,
@@ -825,6 +825,222 @@ export const Sunburst: Story = {
     </div>
   ),
 };
+
+// ── Interactive Sunburst: region → opco → capability, drill + detail ─────────
+interface OrgRaw {
+  name: string;
+  value?: number;
+  children?: OrgRaw[];
+}
+
+// Leaf values only; `enrich` below assigns ids, propagates the region colour, and
+// sums each parent's value (recharts SunburstChart needs a value on every node).
+const ORG_RAW: OrgRaw = {
+  name: 'Global',
+  children: [
+    {
+      name: 'EMEA',
+      children: [
+        { name: 'UK', children: [{ name: 'Advisory', value: 14 }, { name: 'Data', value: 11 }, { name: 'Design', value: 8 }] },
+        { name: 'DACH', children: [{ name: 'Advisory', value: 10 }, { name: 'Data', value: 13 }, { name: 'Platform', value: 7 }] },
+        { name: 'Nordics', children: [{ name: 'Advisory', value: 6 }, { name: 'Design', value: 9 }] },
+      ],
+    },
+    {
+      name: 'Americas',
+      children: [
+        { name: 'US', children: [{ name: 'Advisory', value: 18 }, { name: 'Data', value: 15 }, { name: 'Platform', value: 12 }] },
+        { name: 'Brazil', children: [{ name: 'Advisory', value: 7 }, { name: 'Design', value: 5 }] },
+      ],
+    },
+    {
+      name: 'APAC',
+      children: [
+        { name: 'Singapore', children: [{ name: 'Data', value: 9 }, { name: 'Platform', value: 8 }] },
+        { name: 'Australia', children: [{ name: 'Advisory', value: 8 }, { name: 'Design', value: 6 }] },
+      ],
+    },
+  ],
+};
+
+const REGION_COLORS = ['var(--eidra-chart-1)', 'var(--eidra-chart-2)', 'var(--eidra-chart-3)'];
+
+function enrich(node: OrgRaw, id: string, fill: string): SunburstData {
+  const children = node.children?.map((c) => enrich(c, `${id}/${c.name}`, fill));
+  const value = children ? children.reduce((sum, c) => sum + (c.value ?? 0), 0) : (node.value ?? 0);
+  return { name: node.name, id, fill, value, ...(children ? { children } : {}) };
+}
+
+const ORG_TREE: SunburstData = (() => {
+  const regions = ORG_RAW.children!.map((r, i) => enrich(r, `Global/${r.name}`, REGION_COLORS[i % REGION_COLORS.length]!));
+  return {
+    name: 'Global',
+    id: 'Global',
+    fill: 'var(--eidra-fg-subtle)',
+    value: regions.reduce((sum, r) => sum + (r.value ?? 0), 0),
+    children: regions,
+  };
+})();
+
+function findById(node: SunburstData, id: string): SunburstData | null {
+  if (node.id === id) return node;
+  for (const c of node.children ?? []) {
+    const found = findById(c, id);
+    if (found) return found;
+  }
+  return null;
+}
+
+function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) {
+  const nodeValue = node.value ?? 0;
+  return (
+    <div
+      style={{
+        border: '1px solid var(--eidra-border)',
+        borderRadius: 'var(--eidra-radius-lg)',
+        background: 'var(--eidra-surface)',
+        padding: 'var(--eidra-space-4)',
+        font: 'var(--eidra-font-size-sm)/1.5 var(--eidra-font-family-sans)',
+        color: 'var(--eidra-fg)',
+        minWidth: 220,
+      }}
+    >
+      <div style={{ fontWeight: 700 }}>{node.name}</div>
+      <div style={{ color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-xs)', marginBottom: 'var(--eidra-space-3)' }}>
+        {fmt(nodeValue)} · {Math.round((nodeValue / total) * 100)}% of global
+      </div>
+      {node.children?.length ? (
+        <div style={{ display: 'grid', gap: 'var(--eidra-space-2)' }}>
+          {node.children.map((c) => (
+            <div key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+              <span aria-hidden style={{ width: 10, height: 10, borderRadius: 'var(--eidra-radius-full)', background: c.fill, flex: 'none' }} />
+              <span style={{ flex: 1 }}>{c.name}</span>
+              <span style={{ fontVariantNumeric: 'tabular-nums', color: 'var(--eidra-fg-muted)' }}>{fmt(c.value ?? 0)}</span>
+              <span style={{ fontVariantNumeric: 'tabular-nums', width: 40, textAlign: 'right' }}>
+                {Math.round(((c.value ?? 0) / (nodeValue || 1)) * 100)}%
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div style={{ color: 'var(--eidra-fg-muted)' }}>Capability leaf — no further breakdown.</div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * **Interactive** — a drill-down sunburst (region → opco → capability). Click a
+ * slice to zoom into it (it becomes the centre); the breadcrumb navigates back up.
+ * Hovering a slice updates the detail panel with that node's value, share, and
+ * child breakdown — so the chart reveals more data on interaction without losing
+ * the overview.
+ */
+export const Interactive: Story = {
+  render: () => <InteractiveSunburst />,
+};
+
+// Memoised so hovering (which updates the detail panel via parent state) doesn't
+// re-render — and visibly jitter — the SunburstChart. Props stay referentially
+// stable across hovers: rootData is a node from the static ORG_TREE, callbacks are
+// useCallback'd.
+const DrillChart = memo(function DrillChart({
+  rootData,
+  rootId,
+  onDrill,
+  onHover,
+}: {
+  rootData: SunburstData;
+  rootId: string;
+  onDrill: (id: string) => void;
+  onHover: (id: string | null) => void;
+}) {
+  return (
+    <ResponsiveBox height={320} ariaLabel={`Org breakdown, focused on ${rootData.name}`}>
+      {(w, h) => (
+        <Chart.SunburstChart
+          // Remount on drill: SunburstChart leaves stale sectors behind when its
+          // `data` changes in place, so key it by the focused node for a clean render.
+          key={rootId}
+          width={w}
+          height={h}
+          data={rootData}
+          dataKey="value"
+          nameKey="name"
+          stroke="var(--eidra-surface)"
+          padding={2}
+          ringPadding={2}
+          innerRadius={Math.max(24, Math.min(w, h) * 0.12)}
+          textOptions={{ fill: 'var(--eidra-fg)', stroke: 'none', fontSize: 11 }}
+          onClick={(node: SunburstData) => {
+            const canonical = findById(ORG_TREE, (node as { id?: string }).id ?? '');
+            if (canonical?.children?.length) onDrill(canonical.id as string);
+          }}
+          onMouseEnter={(node: SunburstData) => onHover((node as { id?: string }).id ?? null)}
+          onMouseLeave={() => onHover(null)}
+        />
+      )}
+    </ResponsiveBox>
+  );
+});
+
+function InteractiveSunburst() {
+  const [rootId, setRootId] = useState('Global');
+  const [hoverId, setHoverId] = useState<string | null>(null);
+  // findById returns the same node object for a given id, so displayRoot is a stable
+  // reference across hover re-renders — keeping DrillChart's memo intact.
+  const displayRoot = findById(ORG_TREE, rootId) ?? ORG_TREE;
+  const focused = (hoverId && findById(ORG_TREE, hoverId)) || displayRoot;
+  const onDrill = useCallback((id: string) => {
+    setRootId(id);
+    setHoverId(null);
+  }, []);
+  const onHover = useCallback((id: string | null) => setHoverId(id), []);
+  const crumbs = rootId.split('/');
+
+  return (
+    <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 720 }}>
+      {/* Breadcrumb — each crumb zooms back to that level. */}
+      <nav
+        aria-label="Drill path"
+        style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)', font: 'var(--eidra-font-size-sm)/1 var(--eidra-font-family-sans)' }}
+      >
+        {crumbs.map((name, i) => {
+          const id = crumbs.slice(0, i + 1).join('/');
+          const isLast = i === crumbs.length - 1;
+          return (
+            <span key={id} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}>
+              {i > 0 && <span aria-hidden style={{ color: 'var(--eidra-fg-subtle)' }}>›</span>}
+              <button
+                type="button"
+                onClick={() => onDrill(id)}
+                disabled={isLast}
+                style={{
+                  border: 'none',
+                  background: 'none',
+                  padding: 'var(--eidra-space-1) var(--eidra-space-1-5)',
+                  borderRadius: 'var(--eidra-radius-sm)',
+                  cursor: isLast ? 'default' : 'pointer',
+                  color: isLast ? 'var(--eidra-fg)' : 'var(--eidra-accent)',
+                  fontWeight: isLast ? 700 : 500,
+                  font: 'inherit',
+                }}
+              >
+                {name}
+              </button>
+            </span>
+          );
+        })}
+      </nav>
+
+      {/* align-items: start so the detail panel resizing per hover doesn't shift the chart. */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 260px', gap: 'var(--eidra-space-4)', alignItems: 'start' }}>
+        <DrillChart rootData={displayRoot} rootId={rootId} onDrill={onDrill} onHover={onHover} />
+        <OrgDetailPanel node={focused} total={ORG_TREE.value ?? 1} />
+      </div>
+    </div>
+  );
+}
 
 // ── Magic Quadrant: 2×2 positioning grid (vision × execution) ────────────────
 interface QuadrantPoint {
