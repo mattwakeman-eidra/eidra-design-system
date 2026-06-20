@@ -5,6 +5,7 @@ import { ChevronsUpDown, Check } from '@eidra/icons';
 import { Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
 import { useScopeDataAttrs } from '../../utils/scope.js';
+import type { OverlayWidth } from '../../utils/overlayWidth.js';
 import styles from './Select.module.css';
 
 // ─── Root ──────────────────────────────────────────────────────────────────────
@@ -109,16 +110,24 @@ const SelectPositioner = forwardRef<HTMLDivElement, SelectPositionerProps>(
 
 export interface SelectPopupProps extends ComponentPropsWithoutRef<typeof BaseSelect.Popup> {
   className?: string;
+  /**
+   * How the popup decides its width. `anchor` (default) makes it at least as wide
+   * as the trigger, then hugs content, capped at the viewport; `content` hugs
+   * content with no trigger floor; `fill` matches the trigger width exactly. See
+   * the overlay width policy in `base.css`.
+   */
+  width?: OverlayWidth;
 }
 
 const SelectPopup = forwardRef<Element, SelectPopupProps>(function SelectPopup(
-  { className, ...props },
+  { className, width = 'anchor', ...props },
   ref,
 ) {
   return (
     <BaseSelect.Popup
       ref={ref as React.Ref<HTMLDivElement>}
       className={cn(styles.popup, className)}
+      data-eidra-width={width}
       {...props}
     />
   );

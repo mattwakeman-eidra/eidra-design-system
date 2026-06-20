@@ -31,6 +31,15 @@ Charts compose Recharts primitives re-exported from `Chart`. Build them through 
 - **Axes / grid.** Spread `Chart.margin` / `Chart.gridProps` / `Chart.axisProps` onto the **real** Recharts `XAxis`/`YAxis`/`CartesianGrid` (Recharts detects them by component type, so you can't wrap them in presets). Override per-axis as needed (`width`, `tickFormatter`, …).
 - Spread `{...Chart.seriesDefaults}` on every `Bar`/`Line`/`Area` (disables the first-frame animation flash that breaks headless capture).
 
+## Overlays (width policy)
+
+Every anchored floating surface decides its width through **one** shared rule, not per-component CSS — so menus hug their content/anchor instead of stretching toward the viewport edge. Follow it for any new popup:
+
+- The popup carries a `width` prop typed `OverlayWidth` (`'anchor' | 'content' | 'fill'`, from `utils/overlayWidth.ts`) and spreads it as `data-eidra-width`. The sizing lives **only** in the `[data-eidra-width]` block in `base.css`: `anchor` = `min-width: var(--anchor-width); width: max-content`; `content` = `width: max-content`; `fill` = `width: var(--anchor-width)`. All three cap at `min(var(--eidra-overlay-max-width, 100vw), var(--available-width))`.
+- **Never** set `min-width`/`width: var(--available-width)` in a module — `--available-width` (Base UI's space-to-viewport-edge) is a **ceiling only** (`max-width`). Using it as a floor is the bug that made a left-edge `Select` span the screen.
+- Defaults: field dropdowns (`Select`/`Combobox`/`Autocomplete`) → `anchor`; command menus (`Menu`/`ContextMenu`/`Menubar`/`FilterSelect`) → `content`. A command menu sets its own readable floor (`min-width: var(--eidra-size-container-2xs)`) in its module; to also cap long content, set `--eidra-overlay-max-width: var(--eidra-size-container-xs)` (the policy mins it with the viewport — no cascade fight).
+- Floating panels/tooltips (`Popover`/`PreviewCard`/`Tooltip`) and modals (`Dialog`/`AlertDialog`) are content/container-scaled in their own module and don't take the prop; tokenise any fixed cap onto `--eidra-size-container-*` (don't hard-code px).
+
 ## Theming
 
 Semantic tokens resolve per `data-theme` (`light`/`dark`) on the `eidra-root` element; `data-density` (`comfortable`/`compact`) scales control sizes — `compact` also drops the base reading size (16→14px) and steps each component's padding/gap **two** spacing steps down (the two-step convention is documented in `base.css`; follow it for new components). Components consume **semantic** tokens (`--eidra-accent`, `--eidra-fg`…), never primitives directly, so themes stay swappable.

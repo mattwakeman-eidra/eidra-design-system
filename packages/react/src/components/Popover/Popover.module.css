@@ -14,7 +14,7 @@
   position: relative;
   z-index: var(--eidra-z-popover);
   width: max-content;
-  max-width: min(calc(100vw - var(--eidra-space-8)), 320px);
+  max-width: min(calc(100vw - var(--eidra-space-8)), var(--eidra-size-container-xs));
   background-color: var(--eidra-surface);
   border: 1px solid var(--eidra-border);
   border-radius: var(--eidra-radius-lg);

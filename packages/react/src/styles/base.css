@@ -106,3 +106,45 @@
   --eidra-accent-fg: var(--eidra-finance-accent-fg);
   --eidra-fg-on-accent: var(--eidra-finance-accent-fg);
 }
+
+/*
+ * Overlay width policy — one rule for how every anchored floating surface decides
+ * its width (Select, Combobox, Autocomplete, Menu, ContextMenu, Menubar,
+ * FilterSelect). The popup carries `data-eidra-width` from its `width` prop (see
+ * utils/overlayWidth.ts); the sizing lives here so the catalogue stays consistent.
+ *
+ * Base UI sets `--anchor-width` (trigger width) and `--available-width` (space to
+ * the viewport edge) on the positioner; the popup inherits both. `--available-width`
+ * is only ever a CEILING (`max-width`) — using it for `min-width`/`width` makes a
+ * popup near the viewport edge stretch almost full-width (the original Select bug).
+ *
+ *  - anchor : at least as wide as the trigger, then hug content, capped at viewport.
+ *  - content: hug content, capped at viewport (no trigger floor — command menus add
+ *             their own readable min-width token in their module CSS).
+ *  - fill   : exactly the trigger width.
+ *
+ * The ceiling is always `min(--eidra-overlay-max-width, --available-width)`. The
+ * default `--eidra-overlay-max-width: 100vw` means the cap is just the viewport
+ * edge; a component can set it to a token (e.g. `--eidra-size-container-xs`) to also
+ * stop very long content from sprawling — without fighting the cascade, since the
+ * policy rule reads the property rather than being overridden.
+ *
+ * Keyed on the bare attribute (not scoped to `.eidra-root`) so it reaches portaled
+ * popups, which render outside the root — same pattern as the density/accent blocks.
+ */
+[data-eidra-width] {
+  max-width: min(var(--eidra-overlay-max-width, 100vw), var(--available-width, 100vw));
+}
+
+[data-eidra-width='anchor'] {
+  min-width: var(--anchor-width);
+  width: max-content;
+}
+
+[data-eidra-width='content'] {
+  width: max-content;
+}
+
+[data-eidra-width='fill'] {
+  width: var(--anchor-width);
+}

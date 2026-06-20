@@ -3,6 +3,7 @@ import type { HTMLAttributes } from 'react';
 import { Autocomplete as BaseAutocomplete } from '@base-ui/react/autocomplete';
 import { cn } from '../../utils/cn.js';
 import { useScopeDataAttrs } from '../../utils/scope.js';
+import type { OverlayWidth } from '../../utils/overlayWidth.js';
 import styles from './Autocomplete.module.css';
 
 // ---- Public prop types ----
@@ -13,7 +14,15 @@ export type AutocompleteInputProps = BaseAutocomplete.Input.Props;
 export type AutocompleteIconProps = BaseAutocomplete.Icon.Props;
 export type AutocompleteClearProps = BaseAutocomplete.Clear.Props;
 export type AutocompletePositionerProps = BaseAutocomplete.Positioner.Props;
-export type AutocompletePopupProps = BaseAutocomplete.Popup.Props;
+export interface AutocompletePopupProps extends BaseAutocomplete.Popup.Props {
+  /**
+   * How the popup decides its width. `anchor` (default) makes it at least as wide
+   * as the trigger, then hugs content, capped at the viewport; `content` hugs
+   * content with no trigger floor; `fill` matches the trigger width exactly. See
+   * the overlay width policy in `base.css`.
+   */
+  width?: OverlayWidth;
+}
 export type AutocompleteListProps = BaseAutocomplete.List.Props;
 export type AutocompleteItemProps = BaseAutocomplete.Item.Props;
 export type AutocompleteGroupProps = BaseAutocomplete.Group.Props;
@@ -113,12 +122,13 @@ const Positioner = forwardRef<HTMLDivElement, BaseAutocomplete.Positioner.Props>
 Positioner.displayName = 'Autocomplete.Positioner';
 
 // ---- Popup ----
-const Popup = forwardRef<HTMLDivElement, BaseAutocomplete.Popup.Props>(
-  function Popup({ className, ...props }, ref) {
+const Popup = forwardRef<HTMLDivElement, AutocompletePopupProps>(
+  function Popup({ className, width = 'anchor', ...props }, ref) {
     return (
       <BaseAutocomplete.Popup
         ref={ref}
         className={cn(styles.popup, className)}
+        data-eidra-width={width}
         {...props}
       />
     );

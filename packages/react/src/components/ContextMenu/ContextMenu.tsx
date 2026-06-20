@@ -3,6 +3,7 @@ import type { ComponentPropsWithoutRef, Ref } from 'react';
 import { ContextMenu as BaseContextMenu } from '@base-ui/react/context-menu';
 import { cn } from '../../utils/cn.js';
 import { useScopeDataAttrs } from '../../utils/scope.js';
+import type { OverlayWidth } from '../../utils/overlayWidth.js';
 import styles from './ContextMenu.module.css';
 
 // ---- Root ----
@@ -60,16 +61,24 @@ const Positioner = forwardRef<HTMLDivElement, ContextMenuPositionerProps>(
 export interface ContextMenuPopupProps
   extends ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> {
   className?: string;
+  /**
+   * How the popup decides its width. `content` (default) hugs content from a
+   * readable floor, capped at the viewport; `anchor` additionally makes it at
+   * least as wide as the trigger; `fill` matches the trigger width exactly. See
+   * the overlay width policy in `base.css`.
+   */
+  width?: OverlayWidth;
 }
 
 const Popup = forwardRef<Element, ContextMenuPopupProps>(function Popup(
-  { className, ...props },
+  { className, width = 'content', ...props },
   ref,
 ) {
   return (
     <BaseContextMenu.Popup
       ref={ref as Ref<HTMLDivElement>}
       className={cn(styles.popup, className)}
+      data-eidra-width={width}
       {...props}
     />
   );
