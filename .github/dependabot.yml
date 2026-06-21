@@ -1,0 +1,39 @@
+# Dependabot version updates. Two ecosystems: the pnpm workspace (one entry at
+# the root resolves every workspace package via pnpm-lock.yaml) and the GitHub
+# Actions used by the workflows. Minor/patch bumps are grouped into a single PR
+# per ecosystem to cut review noise; majors still open individual PRs so each
+# gets a deliberate look.
+#
+# Note: a bump to a *published* package's runtime dependency (e.g. @base-ui/react,
+# recharts, lucide-react) edits packages/<pkg>/package.json, which the CI
+# `validate` job's `changeset status` gate flags as a package change needing a
+# changeset. Add one to those Dependabot PRs before merging (a dependency bump
+# that reaches consumers is genuinely release-worthy). Dev-dependency bumps in
+# the root package.json don't touch packages/* and pass the gate untouched.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps-dev)'
+    groups:
+      # One PR per week for all the low-risk bumps across the workspace.
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'chore(ci)'
+    groups:
+      github-actions:
+        patterns:
+          - '*'
