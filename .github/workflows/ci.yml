@@ -29,13 +29,14 @@ jobs:
       # which is gitignored) plus the built @eidra/tokens/@eidra/icons declarations react consumes.
       - run: pnpm build
       - run: pnpm typecheck
-      # Fail the PR if a committed *generated* artifact is stale (a component/token
-      # changed but `pnpm catalog` / the token build wasn't re-run + committed).
-      # `pnpm build` above already refreshed the Tailwind bridge; `pnpm catalog`
-      # refreshes the agent catalog (llms.txt) + component index.
+      # Fail the PR if a committed *generated* artifact is stale (a component
+      # changed but `pnpm catalog` wasn't re-run + committed). Only the agent
+      # catalog + component index are committed generated files; the token build
+      # output (packages/tokens/build/, packages/tokens/dist/) is gitignored and
+      # rebuilt from the DTCG JSON on every build, so there's nothing to diff.
       - run: pnpm catalog
       - name: Generated artifacts are up to date
-        run: git diff --exit-code docs/COMPONENTS.md packages/react/llms.txt packages/tokens/build/tailwind.css packages/tokens/build/tailwind-preset.cjs
+        run: git diff --exit-code docs/COMPONENTS.md packages/react/llms.txt
       # Fail the PR if it changes a package without a changeset describing the bump.
       - run: pnpm changeset status --since=origin/main
 
