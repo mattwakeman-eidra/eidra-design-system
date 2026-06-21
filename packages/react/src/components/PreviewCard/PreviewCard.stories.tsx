@@ -233,9 +233,7 @@ export const PersonCard: Story = {
                   color: 'var(--eidra-fg-subtle)',
                 }}
               >
-                <span
-                  style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-1)' }}
-                >
+                <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-1)' }}>
                   <Icon icon={Users} size="sm" aria-hidden />4 active projects
                 </span>
               </div>

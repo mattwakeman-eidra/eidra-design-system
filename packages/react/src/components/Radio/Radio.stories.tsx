@@ -236,7 +236,12 @@ export const GroupDisabled: Story = {
 
 export const GroupHorizontal: Story = {
   render: () => (
-    <RadioGroup name="priority" defaultValue="medium" aria-label="Priority" data-orientation="horizontal">
+    <RadioGroup
+      name="priority"
+      defaultValue="medium"
+      aria-label="Priority"
+      data-orientation="horizontal"
+    >
       <Radio.Root label="Low" value="low" />
       <Radio.Root label="Medium" value="medium" />
       <Radio.Root label="High" value="high" />

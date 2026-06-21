@@ -301,9 +301,7 @@ function RegionOverviewCard({
         )}
       </Card.Header>
       <Card.Body>
-        <div
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--eidra-gap-4)' }}
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--eidra-gap-4)' }}>
           <div>
             {miniTitle('Net Revenue (MSEK)')}
             <MiniBars values={region.netRevenue} showLabels={showLabels} />

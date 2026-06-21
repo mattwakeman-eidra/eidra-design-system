@@ -236,9 +236,7 @@ export const WithIconInTrigger: Story = {
     >
       <Collapsible.Root defaultOpen>
         <Collapsible.Trigger>
-          <span
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
-          >
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
             <Icon icon={Users} size="sm" />
             Team members
           </span>
@@ -270,9 +268,7 @@ export const WithIconInTrigger: Story = {
 
       <Collapsible.Root>
         <Collapsible.Trigger>
-          <span
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
-          >
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
             <Icon icon={FileText} size="sm" />
             Documents
           </span>
@@ -294,9 +290,7 @@ export const WithIconInTrigger: Story = {
 
       <Collapsible.Root disabled>
         <Collapsible.Trigger>
-          <span
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
-          >
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
             <Icon icon={Settings} size="sm" />
             Advanced settings
           </span>

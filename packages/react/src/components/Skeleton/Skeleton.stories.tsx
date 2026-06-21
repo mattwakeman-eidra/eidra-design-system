@@ -92,9 +92,7 @@ export const ProfileCard: Story = {
       }}
     >
       <Skeleton variant="circle" width="48px" height="48px" />
-      <div
-        style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-2)' }}
-      >
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-2)' }}>
         <Skeleton variant="text" width="55%" />
         <Skeleton variant="text" width="40%" />
         <Skeleton variant="text" width="80%" />

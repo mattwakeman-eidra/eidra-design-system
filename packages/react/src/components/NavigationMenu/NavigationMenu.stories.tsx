@@ -324,9 +324,7 @@ export const Controlled: Story = {
   render: (args) => {
     const [value, setValue] = useState<string | null>(null);
     return (
-      <div
-        style={{ display: 'grid', gap: 'var(--eidra-gap-3)', padding: 'var(--eidra-gap-4)' }}
-      >
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)', padding: 'var(--eidra-gap-4)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Open item: <strong style={{ color: 'var(--eidra-fg)' }}>{value ?? 'none'}</strong>
         </p>

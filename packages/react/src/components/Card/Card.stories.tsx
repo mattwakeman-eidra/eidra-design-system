@@ -289,9 +289,7 @@ export const TeamGrid: Story = {
                   <Avatar.Fallback>{m.initials}</Avatar.Fallback>
                 </Avatar.Root>
                 <div style={{ minWidth: 0 }}>
-                  <div
-                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
-                  >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
                     <strong style={{ color: 'var(--eidra-fg)' }}>{m.name}</strong>
                     <Flag code={m.code} size="sm" label={m.country} />
                   </div>

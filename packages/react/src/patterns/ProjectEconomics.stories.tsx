@@ -262,9 +262,7 @@ export const AccountingMatrix: Story = {
             if (!lines?.length)
               return <span style={{ color: 'var(--eidra-fg-muted)' }}>No entries for {p}.</span>;
             return (
-              <div
-                style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}
-              >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
                 {kicker(`${r.label} — ${p} entries`)}
                 <table
                   style={{
