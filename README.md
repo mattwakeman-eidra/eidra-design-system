@@ -102,3 +102,12 @@ Linting and formatting are enforced in CI (the `lint` job runs `pnpm lint` and `
 - **Prettier** owns formatting — config in [`.prettierrc.json`](./.prettierrc.json). Run `pnpm format` before committing, or wire it into your editor's format-on-save.
 - **ESLint** (flat config, [`eslint.config.js`](./eslint.config.js)) lints TS/TSX with `typescript-eslint`, `react-hooks`, `jsx-a11y`, and the Storybook plugin. It is intentionally **not** type-aware (tsc covers type correctness via `pnpm typecheck`), so it stays fast. CI fails on errors; warnings are surfaced but non-blocking.
 - **Stylelint** ([`stylelint.config.js`](./stylelint.config.js)) lints the CSS Modules and enforces the house rule that colours come from tokens, not raw literals (`color-no-hex` + `color-named`). `pnpm lint:fix` auto-fixes most stylistic findings.
+
+### Git hooks
+
+[Husky](https://typicode.github.io/husky/) installs two local hooks on `pnpm install` (via the `prepare` script):
+
+- **pre-commit** runs [lint-staged](https://github.com/lint-staged/lint-staged) — `eslint --fix` / `stylelint --fix` / `prettier --write` over the **staged** files only, so unformatted code can't be committed.
+- **commit-msg** runs [commitlint](https://commitlint.js.org/) against [Conventional Commits](https://www.conventionalcommits.org/) ([`commitlint.config.js`](./commitlint.config.js)).
+
+The hooks are a local convenience, not the source of truth — CI's `lint` job is the real gate. Bypass them with `git commit --no-verify` if you must.
