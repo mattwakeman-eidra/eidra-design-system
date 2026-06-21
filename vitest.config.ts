@@ -7,6 +7,7 @@
 // Run: `pnpm test-storybook` (needs `pnpm exec playwright install chromium` once).
 import { defineConfig } from 'vitest/config';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { playwright } from '@vitest/browser-playwright';
 import { fileURLToPath } from 'node:url';
 
 const storybookDir = fileURLToPath(new URL('./.storybook', import.meta.url));
@@ -39,7 +40,8 @@ export default defineConfig({
       : ['default'],
     browser: {
       enabled: true,
-      provider: 'playwright',
+      // vitest 4 takes a provider factory (was the string 'playwright').
+      provider: playwright(),
       headless: true,
       instances: [{ browser: 'chromium' }],
     },
