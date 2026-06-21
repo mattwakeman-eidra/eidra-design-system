@@ -80,11 +80,19 @@
   border-radius: var(--eidra-radius-full);
   background-color: var(--eidra-border-strong);
   transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
-
-  /* Thumb needs a minimum size so it stays visible */
-  min-height: 40px;
-  min-width: 40px;
   position: relative;
+}
+
+/* The thumb needs a minimum grab size along the SCROLL axis only. Setting a
+   minimum on the cross axis too made the pill overflow its track (a 40px
+   min-width on a 10px-wide vertical track). The cross axis fills the padded
+   track via flex stretch, so leave it alone. */
+.scrollbarVertical .thumb {
+  min-height: 40px;
+}
+
+.scrollbarHorizontal .thumb {
+  min-width: 40px;
 }
 
 /* Expand hit area via pseudo-element */
