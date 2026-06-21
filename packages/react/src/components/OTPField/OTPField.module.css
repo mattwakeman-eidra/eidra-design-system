@@ -1,0 +1,102 @@
+/* ---- Root (row of slots) ---- */
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+}
+
+.root[data-disabled] {
+  cursor: not-allowed;
+}
+
+/* ---- Input (single character slot) ---- */
+.input {
+  box-sizing: border-box;
+  width: var(--eidra-size-control-md);
+  height: var(--eidra-size-control-md);
+  padding: 0;
+  text-align: center;
+  border: 1px solid var(--eidra-border);
+  border-radius: var(--eidra-radius-md);
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  font-size: var(--eidra-font-size-base);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  transition:
+    border-color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    box-shadow var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.input:hover:not([data-disabled]) {
+  border-color: var(--eidra-border-strong);
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--eidra-accent);
+  box-shadow: 0 0 0 3px var(--eidra-accent-subtle);
+}
+
+/* A filled slot reads slightly stronger so progress is visible at a glance. */
+.input[data-filled] {
+  border-color: var(--eidra-border-strong);
+}
+
+.input[data-invalid] {
+  border-color: var(--eidra-danger-border);
+}
+
+.input[data-invalid]:focus-visible {
+  border-color: var(--eidra-danger);
+  box-shadow: 0 0 0 3px var(--eidra-danger-subtle);
+}
+
+.input[data-disabled] {
+  background-color: var(--eidra-bg-muted);
+  color: var(--eidra-fg-disabled);
+  cursor: not-allowed;
+}
+
+.input[data-readonly] {
+  background-color: var(--eidra-bg-muted);
+}
+
+/* ---- Sizes (driven by data-size on the root) ---- */
+.root[data-size='sm'] .input {
+  width: var(--eidra-size-control-sm);
+  height: var(--eidra-size-control-sm);
+  font-size: var(--eidra-font-size-sm);
+}
+
+.root[data-size='lg'] .input {
+  width: var(--eidra-size-control-lg);
+  height: var(--eidra-size-control-lg);
+  font-size: var(--eidra-font-size-lg);
+}
+
+/* ---- Separator ---- */
+.separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--eidra-fg-subtle);
+  user-select: none;
+}
+
+/* Bare separator (no children) renders a short dash. */
+.separator:empty::before {
+  content: '';
+  width: var(--eidra-space-2);
+  height: 1px;
+  background-color: var(--eidra-border-strong);
+}
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; steps the
+ * slot gap down one step (per the base.css convention).
+ */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-1);
+}

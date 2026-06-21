@@ -28,7 +28,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - Anchored popups (Select, Combobox, Autocomplete, Menu, ContextMenu, Menubar, FilterSelect) size via a `width` prop — `"anchor"` (≥ trigger width, then hug content, capped at the viewport), `"content"` (hug content), or `"fill"` (= trigger width). Sensible defaults; no inline width overrides needed.
 - `@eidra/react` is a client boundary (`"use client"` baked in) — safe to import from React Server Components.
 
-## Components (58)
+## Components (60)
 
 ### Actions
 
@@ -105,6 +105,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { Input } from '@eidra/react'`
 - **NumberField**
   - import: `import { NumberField } from '@eidra/react'` · parts: NumberField.Root, NumberField.Group, NumberField.Input, NumberField.Increment, NumberField.Decrement, NumberField.ScrubArea, NumberField.ScrubAreaCursor
+- **OTPField** — A one-time-code / PIN input (Base UI `OTPField`): a row of single-character slots for verification, MFA, or recovery codes.
+  - import: `import { OTPField } from '@eidra/react'` · parts: OTPField.Root, OTPField.Input, OTPField.Separator
 - **Radio** — A radio button control built on Base UI `Radio`.
   - import: `import { Radio, RadioGroup } from '@eidra/react'` · parts: Radio.Root, Radio.Indicator
 - **Select** — A select control built on Base UI `Select`.
@@ -161,6 +163,8 @@ import { Icon, ChevronDown } from '@eidra/icons'
   - import: `import { ContextMenu } from '@eidra/react'` · parts: ContextMenu.Root, ContextMenu.Trigger, ContextMenu.Portal, ContextMenu.Positioner, ContextMenu.Popup, ContextMenu.Item, ContextMenu.CheckboxItem, ContextMenu.CheckboxItemIndicator, ContextMenu.RadioGroup, ContextMenu.RadioItem, ContextMenu.RadioItemIndicator, ContextMenu.Group, ContextMenu.GroupLabel, ContextMenu.Separator, ContextMenu.SubmenuRoot, ContextMenu.SubmenuTrigger, ContextMenu.Arrow, ContextMenu.Backdrop
 - **Dialog** — A general-purpose modal/non-modal dialog (Base UI `Dialog`) for content, forms and detail panels — dismissible by outside-click or Esc; use `AlertDialog` instead when an outside-click must not discard a destructive or critical choice.
   - import: `import { Dialog } from '@eidra/react'` · parts: Dialog.Root, Dialog.Trigger, Dialog.Portal, Dialog.Backdrop, Dialog.Popup, Dialog.Header, Dialog.Body, Dialog.Footer, Dialog.Title, Dialog.Description, Dialog.Close, Dialog.CloseButton
+- **Drawer** — A panel that slides in from an edge of the screen (Base UI `Drawer`), with swipe-to-dismiss gestures.
+  - import: `import { Drawer } from '@eidra/react'` · parts: Drawer.Root, Drawer.Trigger, Drawer.Portal, Drawer.Backdrop, Drawer.Viewport, Drawer.Popup, Drawer.Header, Drawer.Body, Drawer.Footer, Drawer.Title, Drawer.Description, Drawer.Close, Drawer.CloseButton
 - **Menu** — A dropdown menu built on Base UI `Menu`.
   - import: `import { Menu } from '@eidra/react'` · parts: Menu.Root, Menu.Trigger, Menu.Portal, Menu.Positioner, Menu.Popup, Menu.Item, Menu.CheckboxItem, Menu.CheckboxItemIndicator, Menu.RadioGroup, Menu.RadioItem, Menu.RadioItemIndicator, Menu.Group, Menu.GroupLabel, Menu.Separator, Menu.SubmenuRoot, Menu.SubmenuTrigger, Menu.Arrow
 - **Popover**
