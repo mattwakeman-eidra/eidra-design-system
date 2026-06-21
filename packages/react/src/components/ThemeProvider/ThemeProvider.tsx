@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
+import { CSPProvider } from '@base-ui/react/csp-provider';
 import { cn } from '../../utils/cn.js';
 import { EidraScopeProvider } from '../../utils/scope.js';
 
@@ -21,6 +22,19 @@ export interface ThemeProviderProps extends ComponentPropsWithoutRef<'div'> {
   density?: Density;
   /** Accent palette. Sets `data-accent`. Defaults to `brand`. */
   accent?: Accent;
+  /**
+   * Nonce applied to the inline `<style>`/`<script>` tags Base UI injects (e.g. for
+   * scrollbar locking). Set this when the host enforces a strict Content Security
+   * Policy (`style-src 'nonce-…'`) so those tags aren't blocked. Wraps the scope in
+   * Base UI's `CSPProvider` when provided.
+   */
+  nonce?: string;
+  /**
+   * Prevent Base UI from injecting inline `<style>` elements at all (the strictest
+   * CSP option). Components must then be styled entirely via class names. Forwarded
+   * to Base UI's `CSPProvider`. Defaults to `false`.
+   */
+  cspDisableStyleElements?: boolean;
 }
 
 /**
@@ -31,19 +45,38 @@ export interface ThemeProviderProps extends ComponentPropsWithoutRef<'div'> {
  * is also published to portaled components (menus, dialogs, tooltips) so they match.
  */
 export const ThemeProvider = forwardRef<HTMLDivElement, ThemeProviderProps>(function ThemeProvider(
-  { theme = 'light', density = 'comfortable', accent = 'brand', className, ...props },
+  {
+    theme = 'light',
+    density = 'comfortable',
+    accent = 'brand',
+    nonce,
+    cspDisableStyleElements,
+    className,
+    ...props
+  },
   ref,
 ) {
-  return (
-    <EidraScopeProvider value={{ theme, density, accent }}>
-      <div
-        ref={ref}
-        className={cn('eidra-root', className)}
-        data-theme={theme}
-        data-density={density}
-        data-accent={accent}
-        {...props}
-      />
-    </EidraScopeProvider>
+  const root = (
+    <div
+      ref={ref}
+      className={cn('eidra-root', className)}
+      data-theme={theme}
+      data-density={density}
+      data-accent={accent}
+      {...props}
+    />
   );
+
+  // Only introduce a CSPProvider when CSP handling is actually requested, so the
+  // default tree stays untouched and a consumer's own CSPProvider isn't overridden.
+  const scoped =
+    nonce != null || cspDisableStyleElements ? (
+      <CSPProvider nonce={nonce} disableStyleElements={cspDisableStyleElements}>
+        {root}
+      </CSPProvider>
+    ) : (
+      root
+    );
+
+  return <EidraScopeProvider value={{ theme, density, accent }}>{scoped}</EidraScopeProvider>;
 });
