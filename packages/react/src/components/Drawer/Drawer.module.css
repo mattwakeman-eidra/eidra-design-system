@@ -1,0 +1,277 @@
+/* ---- Backdrop ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--eidra-bg-inverse) 40%, transparent);
+  z-index: var(--eidra-z-overlay);
+
+  /* Fade with the swipe so the scrim tracks the gesture (0 when not swiping). */
+  opacity: calc(1 - var(--drawer-swipe-progress, 0));
+  transition: opacity var(--eidra-duration-base) var(--eidra-easing-standard);
+}
+
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.backdrop[data-swiping] {
+  transition-duration: 0ms;
+}
+
+/* ---- Viewport (positions the popup against its edge) ---- */
+.viewport {
+  position: fixed;
+  inset: 0;
+  z-index: var(--eidra-z-modal);
+  display: flex;
+}
+
+.viewport[data-eidra-side='right'] {
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.viewport[data-eidra-side='left'] {
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.viewport[data-eidra-side='top'] {
+  align-items: flex-start;
+  justify-content: stretch;
+}
+
+.viewport[data-eidra-side='bottom'] {
+  align-items: flex-end;
+  justify-content: stretch;
+}
+
+/* ---- Popup ---- */
+.popup {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--eidra-surface);
+  color: var(--eidra-fg);
+  font-family: var(--eidra-font-family-sans);
+  box-shadow: var(--eidra-shadow-xl);
+  outline: none;
+  overflow: hidden;
+  transition: transform var(--eidra-duration-base) var(--eidra-easing-emphasized);
+  will-change: transform;
+}
+
+.popup:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: -2px;
+}
+
+/* Side-anchored sizing + the edge the popup borders against. */
+.popup[data-eidra-side='right'],
+.popup[data-eidra-side='left'] {
+  height: 100%;
+  width: min(calc(100vw - var(--eidra-space-8)), var(--eidra-size-container-xs));
+
+  /* Resting transform tracks the horizontal swipe (0 when idle). */
+  transform: translateX(var(--drawer-swipe-movement-x, 0));
+}
+
+.popup[data-eidra-side='right'] {
+  border-left: 1px solid var(--eidra-border);
+}
+
+.popup[data-eidra-side='left'] {
+  border-right: 1px solid var(--eidra-border);
+}
+
+.popup[data-eidra-side='top'],
+.popup[data-eidra-side='bottom'] {
+  width: 100%;
+  max-height: min(calc(100dvh - var(--eidra-space-8)), 80dvh);
+  transform: translateY(var(--drawer-swipe-movement-y, 0));
+}
+
+.popup[data-eidra-side='top'] {
+  border-bottom: 1px solid var(--eidra-border);
+}
+
+.popup[data-eidra-side='bottom'] {
+  border-top: 1px solid var(--eidra-border);
+}
+
+/* Off-screen rest position for enter/exit, per side. */
+.popup[data-eidra-side='right'][data-starting-style],
+.popup[data-eidra-side='right'][data-ending-style] {
+  transform: translateX(100%);
+}
+
+.popup[data-eidra-side='left'][data-starting-style],
+.popup[data-eidra-side='left'][data-ending-style] {
+  transform: translateX(-100%);
+}
+
+.popup[data-eidra-side='top'][data-starting-style],
+.popup[data-eidra-side='top'][data-ending-style] {
+  transform: translateY(-100%);
+}
+
+.popup[data-eidra-side='bottom'][data-starting-style],
+.popup[data-eidra-side='bottom'][data-ending-style] {
+  transform: translateY(100%);
+}
+
+/* While dragging, drop the transition so the popup tracks the finger 1:1. */
+.popup[data-swiping] {
+  transition-duration: 0ms;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--eidra-space-3);
+  padding: var(--eidra-space-5) var(--eidra-space-5) 0;
+  flex-shrink: 0;
+}
+
+/* ---- Title ---- */
+.title {
+  margin: 0;
+  font-size: var(--eidra-font-size-lg);
+  font-weight: var(--eidra-font-weight-semibold);
+  line-height: var(--eidra-font-line-height-tight);
+  color: var(--eidra-fg);
+}
+
+/* ---- Description ---- */
+.description {
+  margin: 0;
+  font-size: var(--eidra-font-size-sm);
+  line-height: var(--eidra-font-line-height-normal);
+  color: var(--eidra-fg-muted);
+}
+
+/* ---- Body (scrolls when content overflows) ---- */
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--eidra-space-4) var(--eidra-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-3);
+}
+
+/* ---- Footer ---- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--eidra-space-3);
+  padding: 0 var(--eidra-space-5) var(--eidra-space-5);
+  flex-shrink: 0;
+}
+
+/* ---- Trigger (plain pass-through; inherits btn styles from consumer) ---- */
+.trigger {
+  /* No default styling; consumers apply their own button styles */
+}
+
+/* ---- Close (raw close, no icon) ---- */
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--eidra-fg-muted);
+  padding: var(--eidra-space-1);
+  border-radius: var(--eidra-radius-md);
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.close:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.close[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- CloseButton (X icon variant) ---- */
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--eidra-size-control-sm);
+  height: var(--eidra-size-control-sm);
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--eidra-radius-md);
+  cursor: pointer;
+  color: var(--eidra-fg-subtle);
+  transition:
+    color var(--eidra-duration-fast) var(--eidra-easing-standard),
+    background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+}
+
+.closeButton:hover:not([data-disabled]) {
+  color: var(--eidra-fg);
+  background-color: var(--eidra-surface-hover);
+}
+
+.closeButton:active:not([data-disabled]) {
+  background-color: var(--eidra-surface-active);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--eidra-focus-ring);
+  outline-offset: 2px;
+}
+
+.closeButton[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/*
+ * Compact density. Honours the ambient `data-density="compact"` scope; reduces
+ * both padding axes one step and steps down the title (per the base.css convention).
+ */
+:global([data-density='compact']) .header {
+  gap: var(--eidra-space-1-5);
+  padding: var(--eidra-space-3) var(--eidra-space-3) 0;
+}
+
+:global([data-density='compact']) .title {
+  font-size: var(--eidra-font-size-sm);
+}
+
+:global([data-density='compact']) .body {
+  padding: var(--eidra-space-2) var(--eidra-space-3);
+  gap: var(--eidra-space-1-5);
+}
+
+:global([data-density='compact']) .footer {
+  gap: var(--eidra-space-1-5);
+  padding: 0 var(--eidra-space-3) var(--eidra-space-3);
+}
+
+:global([data-density='compact']) .close {
+  padding: var(--eidra-space-0-5);
+}
