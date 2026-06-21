@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Flag, flagCodes } from '@eidra/icons';
 import type { FlagSize } from '@eidra/icons';
+import styles from './Flags.module.css';
 
 /** Country name from the platform's Intl data — no extra dependency. Falls back to the code. */
 const regionNames =
@@ -36,16 +37,7 @@ const meta = {
 export default meta;
 
 const Cell = ({ children }: { children: React.ReactNode }) => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'var(--eidra-space-2)',
-      fontSize: 'var(--eidra-font-size-sm)',
-    }}
-  >
-    {children}
-  </div>
+  <div className={styles.cell}>{children}</div>
 );
 
 const SIZE_OPTIONS: FlagSize[] = ['xs', 'sm', 'md', 'lg'];
@@ -60,7 +52,7 @@ export const RegionSet: StoryObj<{ size: FlagSize; showName: boolean; showCode: 
   },
   args: { size: 'md', showName: true, showCode: false },
   render: ({ size, showName, showCode }) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-5)' }}>
+    <div className={styles.row}>
       {(
         [
           ['SE', 'Sweden'],
@@ -93,7 +85,7 @@ export const Sizes: StoryObj<{ code: string }> = {
   argTypes: { code: { control: 'text' } },
   args: { code: 'SE' },
   render: ({ code }) => (
-    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--eidra-space-5)' }}>
+    <div className={styles.sizes}>
       {SIZE_OPTIONS.map((size) => (
         <Cell key={size}>
           <Flag code={code} size={size} label={`${countryName(code)} (${size})`} />
@@ -154,8 +146,8 @@ export const AllFlags: StoryObj<FlagGalleryArgs> = {
     // Wider cells when names are shown so they don't wrap awkwardly.
     const minCol = showName ? 132 : 72;
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-4)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+      <div className={styles.gallery}>
+        <div className={styles.controls}>
           <input
             aria-label="Filter flags by code or name"
             placeholder="Filter by code or name…"
@@ -176,11 +168,8 @@ export const AllFlags: StoryObj<FlagGalleryArgs> = {
           </span>
         </div>
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(auto-fill, minmax(${minCol}px, 1fr))`,
-            gap: 'var(--eidra-space-3)',
-          }}
+          className={styles.galleryGrid}
+          style={{ gridTemplateColumns: `repeat(auto-fill, minmax(${minCol}px, 1fr))` }}
         >
           {codes.map((code) => (
             <div

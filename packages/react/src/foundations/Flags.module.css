@@ -1,0 +1,58 @@
+/* Layout for the Flags showcase stories. Gaps live here (not inline) so they
+   react to the ambient compact-density scope: the regional set and galleries
+   bunch together in compact, matching every other component. */
+
+.cell {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+  font-size: var(--eidra-font-size-sm);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eidra-space-5);
+}
+
+.sizes {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--eidra-space-5);
+}
+
+.gallery {
+  display: grid;
+  gap: var(--eidra-space-4);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--eidra-space-2);
+}
+
+/* The auto-fill grid; callers add grid-template-columns inline (it's dynamic). */
+.galleryGrid {
+  display: grid;
+  gap: var(--eidra-space-3);
+}
+
+/* Compact density: step the gaps down two rungs so the flags bunch together. */
+:global([data-density='compact']) .row,
+:global([data-density='compact']) .sizes {
+  gap: var(--eidra-space-3);
+}
+
+:global([data-density='compact']) .gallery {
+  gap: var(--eidra-space-2);
+}
+
+:global([data-density='compact']) .cell,
+:global([data-density='compact']) .controls {
+  gap: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .galleryGrid {
+  gap: var(--eidra-space-1-5);
+}
