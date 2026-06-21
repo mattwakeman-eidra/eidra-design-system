@@ -12,7 +12,8 @@
       "import": "./dist/index.js"
     },
     "./styles.css": "./dist/index.css",
-    "./tailwind.css": "./dist/tailwind.css"
+    "./tailwind.css": "./dist/tailwind.css",
+    "./tailwind-reset.css": "./dist/tailwind-reset.css"
   },
   "files": [
     "dist",

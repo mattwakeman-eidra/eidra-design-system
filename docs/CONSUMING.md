@@ -131,11 +131,22 @@ Tailwind v4 configures the theme in CSS, not a `tailwind.config.js`. Import the 
 @import '@eidra/react/tailwind.css';  /* maps the tokens onto Tailwind's v4 @theme */
 ```
 
-**Order matters:** keep `@eidra/react/styles.css` first. It declares `@layer eidra`, so importing it before `tailwindcss` registers `eidra` *below* Tailwind's `utilities` layer — that's what lets a utility like `w-24` or `border-0` override a DS rule on a component (e.g. `<Select.Trigger className="w-24" />`). Your own unlayered CSS beats both.
+**Order matters:** keep `@eidra/react/styles.css` first. It declares `@layer eidra`, so importing it before `tailwindcss` registers `eidra` below Tailwind's `utilities` layer, which is what lets a utility like `w-24` or `border-0` override a DS rule on a component (e.g. `<Select.Trigger className="w-24" />`). Your own unlayered CSS beats both.
 
-`@eidra/react/tailwind.css` (identical to `@eidra/tokens/tailwind.css`) is **generated from the tokens**, so it never drifts. It maps each token onto Tailwind v4's theme namespaces — `--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--font-weight-*`, `--leading-*`, `--tracking-*`, `--ease-*` — inside `@theme inline`, so utilities resolve to the live `var(--eidra-*)` value.
+`@eidra/react/tailwind.css` (identical to `@eidra/tokens/tailwind.css`) is **generated from the tokens**, so it never drifts. It maps each token onto Tailwind v4's theme namespaces (`--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--font-weight-*`, `--leading-*`, `--tracking-*`, `--ease-*`) inside `@theme inline`, so utilities resolve to the live `var(--eidra-*)` value. This adds the Eidra tokens **alongside** Tailwind's built-in theme.
 
-It ships with a `@theme { --*: initial }` reset so **only** Eidra tokens generate utilities (`p-4` → `var(--eidra-space-4)`, `rounded-lg`, `shadow-md`, `bg-accent`, `text-fg-muted`, `font-sans`, `text-sm`). If you'd rather keep Tailwind's built-in defaults alongside, copy the file into your repo and delete the `@theme { --*: initial }` block.
+#### Optional: Eidra-only utilities (`@eidra/react/tailwind-reset.css`)
+
+By default the bridge leaves Tailwind's built-in theme in place, so both Tailwind's defaults (`p-4`, `bg-red-500`, …) and the Eidra tokens generate utilities. If you want **only** Eidra tokens to generate utilities (so devs can't reach for off-system colours/spacing), opt in to the reset — it's a separate import so the design system enables this rather than forcing it. Import it **after** `tailwindcss` and **before** the bridge:
+
+```css
+@import '@eidra/react/styles.css';
+@import 'tailwindcss';
+@import '@eidra/react/tailwind-reset.css';  /* opt-in: drops Tailwind's default theme */
+@import '@eidra/react/tailwind.css';        /* re-adds only the Eidra tokens */
+```
+
+The reset is just `@theme { --*: initial }`; order matters, since it clears all theme namespaces and the bridge then re-adds the Eidra ones. Omit the import to keep Tailwind's defaults alongside Eidra's.
 
 ### Tailwind v3 (JS preset) — `@eidra/tokens/tailwind`
 
