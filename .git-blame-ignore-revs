@@ -1,0 +1,7 @@
+# Bulk, mechanical reformatting commits — ignored by `git blame`.
+# Configure once locally with:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+# (GitHub honours this file automatically.)
+
+# style: apply Stylelint & Prettier autofixes across the repo
+29e5b5b262755b90ae09a95fafcd869ad589bd45
