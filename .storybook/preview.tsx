@@ -63,6 +63,27 @@ const preview: Preview = {
   initialGlobals: { a11y: { manual: true } },
   parameters: {
     layout: 'fullscreen',
+    // Order the sidebar by the docs taxonomy (docs/STORYBOOK.md): the welcome page
+    // first, then the cross-cutting Foundations, then the per-component functional
+    // categories, then (via the `*` wildcard) anything unlisted, with the
+    // multi-component Patterns recipes pinned last.
+    options: {
+      storySort: {
+        order: [
+          'Introduction',
+          'Foundations',
+          'Actions',
+          'Forms',
+          'Navigation',
+          'Overlays',
+          'Layout',
+          'Data Display',
+          'Feedback',
+          '*',
+          'Patterns',
+        ],
+      },
+    },
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
     // In the Vitest/CI run, report accessibility violations as warnings, not hard
     // failures (independent of the manual auto-run setting above).
