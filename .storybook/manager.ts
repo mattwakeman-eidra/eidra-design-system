@@ -5,6 +5,7 @@ import { create } from 'storybook/theming';
 const eidraTheme = create({
   base: 'light',
   brandTitle: 'Eidra Design System',
+  brandUrl: 'https://mattwakeman-eidra.github.io/eidra-design-system/',
   brandImage: './eidra-logo.svg',
   brandTarget: '_self',
 
