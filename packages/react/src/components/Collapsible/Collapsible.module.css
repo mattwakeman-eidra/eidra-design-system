@@ -106,3 +106,15 @@
   font-size: var(--eidra-font-size-sm);
   line-height: var(--eidra-font-line-height-normal);
 }
+
+/* Compact density: tighten both axes on the trigger and panel content (base.css
+   convention; neither derives size from a control-size token). */
+:global([data-density='compact']) .trigger {
+  padding-block: var(--eidra-space-2);
+  padding-inline: var(--eidra-space-3);
+}
+:global([data-density='compact']) .panelContent {
+  padding-block: var(--eidra-space-2);
+  padding-top: 0;
+  padding-inline: var(--eidra-space-3);
+}
