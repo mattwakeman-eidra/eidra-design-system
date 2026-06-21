@@ -157,8 +157,7 @@
    vertical stack, and it steps down two rungs under compact like everything
    else (an attribute selector so it wins over the base .group gap). */
 .group[data-orientation='horizontal'] {
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   gap: var(--eidra-space-5);
 }
 

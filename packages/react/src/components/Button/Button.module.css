@@ -174,9 +174,11 @@
   gap: var(--eidra-space-1);
   padding-inline: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .root[data-size='sm'] {
   padding-inline: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .root[data-size='lg'] {
   padding-inline: var(--eidra-space-3);
 }

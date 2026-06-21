@@ -113,6 +113,7 @@
   padding-block: var(--eidra-space-2);
   padding-inline: var(--eidra-space-3);
 }
+
 :global([data-density='compact']) .panelContent {
   padding-block: var(--eidra-space-2);
   padding-top: 0;

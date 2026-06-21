@@ -232,18 +232,23 @@
   gap: var(--eidra-space-0-5);
   padding-inline: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .toggle[data-size='sm'] {
   padding-inline: var(--eidra-space-1);
 }
+
 :global([data-density='compact']) .toggle[data-size='lg'] {
   padding-inline: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .group[data-appearance='segmented'] .toggle {
   padding-inline: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .group[data-appearance='segmented'][data-size='sm'] .toggle {
   padding-inline: var(--eidra-space-1);
 }
+
 :global([data-density='compact']) .group[data-appearance='segmented'][data-size='lg'] .toggle {
   padding-inline: var(--eidra-space-2);
 }

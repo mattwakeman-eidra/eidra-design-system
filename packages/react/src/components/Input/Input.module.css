@@ -110,13 +110,16 @@
 :global([data-density='compact']) .input {
   padding-inline: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .input[data-size='lg'] {
   padding-inline: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .group {
   gap: var(--eidra-space-1);
   padding-inline: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .group[data-size='lg'] {
   padding-inline: var(--eidra-space-2);
 }

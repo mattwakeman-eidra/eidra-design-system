@@ -193,9 +193,11 @@
 :global([data-density='compact']) .input {
   padding-inline: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .root[data-size='sm'] .input {
   padding-inline: var(--eidra-space-1);
 }
+
 :global([data-density='compact']) .root[data-size='lg'] .input {
   padding-inline: var(--eidra-space-2);
 }
