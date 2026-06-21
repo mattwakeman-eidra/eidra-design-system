@@ -1,5 +1,8 @@
 node_modules/
 dist/
+# Style Dictionary scratch dir: build.mjs writes raw token output here, then
+# immediately re-reads it to assemble dist/ — a regenerated intermediate, like dist/.
+packages/tokens/build/
 .pnpm-store/
 .turbo/
 storybook-static/
