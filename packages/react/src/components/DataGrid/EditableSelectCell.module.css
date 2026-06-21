@@ -82,3 +82,10 @@
 .select:focus-visible {
   outline: none;
 }
+
+/* Compact density: align the editor's inline padding with the grid's compact
+   cell padding so it lines up with non-editing cells. */
+:global([data-density='compact']) .cell,
+:global([data-density='compact']) .input {
+  padding-inline: var(--eidra-space-1-5);
+}
