@@ -1,7 +1,10 @@
 export const meta = {
   name: 'eidra-build-components',
-  description: 'Build the remaining Eidra DS components on Base UI, in parallel, against the locked pattern',
-  phases: [{ title: 'Build', detail: 'one agent per component, writes files following the exemplars' }],
+  description:
+    'Build the remaining Eidra DS components on Base UI, in parallel, against the locked pattern',
+  phases: [
+    { title: 'Build', detail: 'one agent per component, writes files following the exemplars' },
+  ],
 };
 
 // Components to build. baseUi = Base UI dir(s) to wrap, or null for a from-scratch primitive.
@@ -10,39 +13,114 @@ const COMPONENTS = [
   { name: 'AlertDialog', category: 'Overlays', baseUi: 'alert-dialog' },
   { name: 'Autocomplete', category: 'Forms', baseUi: 'autocomplete' },
   { name: 'Avatar', category: 'Data Display', baseUi: 'avatar' },
-  { name: 'Checkbox', category: 'Forms', baseUi: 'checkbox, checkbox-group', note: 'Export Checkbox and CheckboxGroup.' },
+  {
+    name: 'Checkbox',
+    category: 'Forms',
+    baseUi: 'checkbox, checkbox-group',
+    note: 'Export Checkbox and CheckboxGroup.',
+  },
   { name: 'Collapsible', category: 'Layout', baseUi: 'collapsible' },
   { name: 'Combobox', category: 'Forms', baseUi: 'combobox' },
   { name: 'ContextMenu', category: 'Overlays', baseUi: 'context-menu' },
-  { name: 'Dialog', category: 'Overlays', baseUi: 'dialog', note: 'Include a styled close button using the X icon from @eidra/icons.' },
+  {
+    name: 'Dialog',
+    category: 'Overlays',
+    baseUi: 'dialog',
+    note: 'Include a styled close button using the X icon from @eidra/icons.',
+  },
   { name: 'Fieldset', category: 'Forms', baseUi: 'fieldset' },
-  { name: 'Form', category: 'Forms', baseUi: 'form', note: 'Wraps the native form with Base UI validation; pairs with Field.' },
-  { name: 'Menu', category: 'Overlays', baseUi: 'menu', note: 'Dropdown menu. Use Check/ChevronRight icons for checkbox items and submenus.' },
+  {
+    name: 'Form',
+    category: 'Forms',
+    baseUi: 'form',
+    note: 'Wraps the native form with Base UI validation; pairs with Field.',
+  },
+  {
+    name: 'Menu',
+    category: 'Overlays',
+    baseUi: 'menu',
+    note: 'Dropdown menu. Use Check/ChevronRight icons for checkbox items and submenus.',
+  },
   { name: 'Menubar', category: 'Navigation', baseUi: 'menubar' },
   { name: 'Meter', category: 'Feedback', baseUi: 'meter' },
   { name: 'NavigationMenu', category: 'Navigation', baseUi: 'navigation-menu' },
-  { name: 'NumberField', category: 'Forms', baseUi: 'number-field', note: 'Use Minus/Plus icons for the steppers.' },
+  {
+    name: 'NumberField',
+    category: 'Forms',
+    baseUi: 'number-field',
+    note: 'Use Minus/Plus icons for the steppers.',
+  },
   { name: 'Popover', category: 'Overlays', baseUi: 'popover' },
   { name: 'PreviewCard', category: 'Overlays', baseUi: 'preview-card' },
   { name: 'Progress', category: 'Feedback', baseUi: 'progress' },
-  { name: 'Radio', category: 'Forms', baseUi: 'radio, radio-group', note: 'Export Radio and RadioGroup.' },
+  {
+    name: 'Radio',
+    category: 'Forms',
+    baseUi: 'radio, radio-group',
+    note: 'Export Radio and RadioGroup.',
+  },
   { name: 'ScrollArea', category: 'Layout', baseUi: 'scroll-area' },
-  { name: 'Select', category: 'Forms', baseUi: 'select', note: 'Use ChevronsUpDown for the trigger and Check for the selected item.' },
+  {
+    name: 'Select',
+    category: 'Forms',
+    baseUi: 'select',
+    note: 'Use ChevronsUpDown for the trigger and Check for the selected item.',
+  },
   { name: 'Separator', category: 'Layout', baseUi: 'separator' },
   { name: 'Slider', category: 'Forms', baseUi: 'slider' },
   { name: 'Switch', category: 'Forms', baseUi: 'switch' },
   { name: 'Tabs', category: 'Navigation', baseUi: 'tabs' },
-  { name: 'Toast', category: 'Feedback', baseUi: 'toast', note: 'Provide a Toast provider/viewport and a useToast-style API per Base UI. Use the X icon to close.' },
-  { name: 'Toggle', category: 'Forms', baseUi: 'toggle, toggle-group', note: 'Export Toggle and ToggleGroup.' },
+  {
+    name: 'Toast',
+    category: 'Feedback',
+    baseUi: 'toast',
+    note: 'Provide a Toast provider/viewport and a useToast-style API per Base UI. Use the X icon to close.',
+  },
+  {
+    name: 'Toggle',
+    category: 'Forms',
+    baseUi: 'toggle, toggle-group',
+    note: 'Export Toggle and ToggleGroup.',
+  },
   { name: 'Toolbar', category: 'Navigation', baseUi: 'toolbar' },
   { name: 'Tooltip', category: 'Overlays', baseUi: 'tooltip' },
   // From-scratch primitives (no Base UI dir) — build like Button (native element + tokens).
-  { name: 'Badge', category: 'Data Display', baseUi: null, note: 'Small status label. Props: tone (neutral|accent|coral|success|danger|warning|info), variant (solid|subtle|outline), size (sm|md). Renders a span.' },
-  { name: 'Card', category: 'Data Display', baseUi: null, note: 'Surface container. Compound: Card, Card.Header, Card.Body, Card.Footer (or subcomponents). Props: variant (elevated|outline|subtle), padding. Uses --eidra-surface, shadow, radius-lg, border.' },
-  { name: 'Spinner', category: 'Feedback', baseUi: null, note: 'Loading spinner (SVG or bordered circle), size sm|md|lg, role=status with aria-label. Mirror Button.module.css spinner approach.' },
-  { name: 'Alert', category: 'Feedback', baseUi: null, note: 'Inline callout. Props: tone (info|success|warning|danger|neutral), title, icon (auto per tone via @eidra/icons: Info/CheckCircle/AlertTriangle/AlertCircle), dismissible. role=alert/status.' },
-  { name: 'Skeleton', category: 'Feedback', baseUi: null, note: 'Loading placeholder with a subtle pulse animation (respect prefers-reduced-motion). Props: width, height, radius, variant (text|rect|circle).' },
-  { name: 'Kbd', category: 'Data Display', baseUi: null, note: 'Keyboard key hint. Renders a <kbd>. Uses mono font, border, subtle surface, radius-sm.' },
+  {
+    name: 'Badge',
+    category: 'Data Display',
+    baseUi: null,
+    note: 'Small status label. Props: tone (neutral|accent|coral|success|danger|warning|info), variant (solid|subtle|outline), size (sm|md). Renders a span.',
+  },
+  {
+    name: 'Card',
+    category: 'Data Display',
+    baseUi: null,
+    note: 'Surface container. Compound: Card, Card.Header, Card.Body, Card.Footer (or subcomponents). Props: variant (elevated|outline|subtle), padding. Uses --eidra-surface, shadow, radius-lg, border.',
+  },
+  {
+    name: 'Spinner',
+    category: 'Feedback',
+    baseUi: null,
+    note: 'Loading spinner (SVG or bordered circle), size sm|md|lg, role=status with aria-label. Mirror Button.module.css spinner approach.',
+  },
+  {
+    name: 'Alert',
+    category: 'Feedback',
+    baseUi: null,
+    note: 'Inline callout. Props: tone (info|success|warning|danger|neutral), title, icon (auto per tone via @eidra/icons: Info/CheckCircle/AlertTriangle/AlertCircle), dismissible. role=alert/status.',
+  },
+  {
+    name: 'Skeleton',
+    category: 'Feedback',
+    baseUi: null,
+    note: 'Loading placeholder with a subtle pulse animation (respect prefers-reduced-motion). Props: width, height, radius, variant (text|rect|circle).',
+  },
+  {
+    name: 'Kbd',
+    category: 'Data Display',
+    baseUi: null,
+    note: 'Keyboard key hint. Renders a <kbd>. Uses mono font, border, subtle surface, radius-sm.',
+  },
 ];
 
 const BASE_UI_PATH =
@@ -63,13 +141,15 @@ function prompt(c) {
   return `You are building ONE component for the Eidra React design system (@eidra/react). Work in the repo at the current working directory.
 
 ## Component: ${c.name}  (category: ${c.category})
-${isPrimitive
-  ? `This is a from-scratch primitive (no Base UI wrapper). Build it like the Button exemplar: a native element styled entirely with Eidra tokens.`
-  : `Wrap the Base UI primitive(s): ${c.baseUi}. The Base UI package is at:
+${
+  isPrimitive
+    ? `This is a from-scratch primitive (no Base UI wrapper). Build it like the Button exemplar: a native element styled entirely with Eidra tokens.`
+    : `Wrap the Base UI primitive(s): ${c.baseUi}. The Base UI package is at:
 ${BASE_UI_PATH}
 READ the type declarations there FIRST to learn the exact parts and props:
 - \`<dir>/index.parts.d.ts\` lists the parts (Root, Trigger, etc.).
-- Read each part's *.d.ts for props, state, and the data-* attributes it sets (data-open, data-checked, data-disabled, data-selected, data-highlighted, etc.). Style states via those [data-*] selectors.`}
+- Read each part's *.d.ts for props, state, and the data-* attributes it sets (data-open, data-checked, data-disabled, data-selected, data-highlighted, etc.). Style states via those [data-*] selectors.`
+}
 ${c.note ? `\nSpecific guidance: ${c.note}` : ''}
 
 ## REQUIRED: study the locked pattern before writing
@@ -114,13 +194,14 @@ phase('Build');
 log(`Building ${COMPONENTS.length} components in parallel against the locked pattern.`);
 
 const results = await parallel(
-  COMPONENTS.map((c) => () =>
-    agent(prompt(c), {
-      label: `build:${c.name}`,
-      phase: 'Build',
-      model: 'sonnet',
-      schema: SCHEMA,
-    }),
+  COMPONENTS.map(
+    (c) => () =>
+      agent(prompt(c), {
+        label: `build:${c.name}`,
+        phase: 'Build',
+        model: 'sonnet',
+        schema: SCHEMA,
+      }),
   ),
 );
 

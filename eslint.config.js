@@ -54,7 +54,10 @@ export default tseslint.config(
       ],
       // Empty `interface XProps extends BaseUIProps {}` is the house pattern
       // for re-exporting a primitive's props under an Eidra name — allow it.
-      '@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'with-single-extends' }],
+      '@typescript-eslint/no-empty-object-type': [
+        'error',
+        { allowInterfaces: 'with-single-extends' },
+      ],
       // `any` shows up in a few chart/AST-tooling seams where precise typing
       // buys little; surface it as a warning rather than blocking CI.
       '@typescript-eslint/no-explicit-any': 'warn',

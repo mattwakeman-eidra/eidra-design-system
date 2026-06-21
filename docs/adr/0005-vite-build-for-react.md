@@ -13,7 +13,7 @@ Vite scopes CSS Modules natively (the same pipeline Storybook already proved on 
 - `vite.config.base.ts` exports `libConfig({ root, external, emptyOutDir })`; each package's `vite.config.ts` is a 3-line call.
 - ESM output, JSX via Vite's esbuild (`jsx: 'automatic'`; no `@vitejs/plugin-react`, which requires Vite 8 — the workspace is on Vite 7), externals per package, types via `vite-plugin-dts`.
 - **`@eidra/tokens`**: `node build.mjs && vite build`. Style Dictionary (`build.mjs`) writes the CSS + fonts into `dist`, so tokens build with `emptyOutDir: false` (and `build.mjs` cleans `dist` itself).
-- **`@eidra/react`**: `vite build && add-use-client.mjs && check-build.mjs`. `check-build.mjs` is a regression guard that fails the build if CSS-module locals are empty, the CSS isn't hashed, a bare class leaks, or `"use client"` is missing — i.e. it verifies the *built artifact*, the check that would have caught the original bug.
+- **`@eidra/react`**: `vite build && add-use-client.mjs && check-build.mjs`. `check-build.mjs` is a regression guard that fails the build if CSS-module locals are empty, the CSS isn't hashed, a bare class leaks, or `"use client"` is missing — i.e. it verifies the _built artifact_, the check that would have caught the original bug.
 
 ## Consequences
 

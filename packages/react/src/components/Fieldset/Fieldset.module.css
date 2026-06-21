@@ -9,8 +9,7 @@
   background-color: var(--eidra-surface);
   margin: 0;
   min-width: 0;
-  transition:
-    border-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+  transition: border-color var(--eidra-duration-fast) var(--eidra-easing-standard);
 }
 
 .root[data-disabled] {

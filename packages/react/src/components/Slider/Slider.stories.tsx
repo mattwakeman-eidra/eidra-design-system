@@ -14,8 +14,7 @@ const meta = {
     'Slider.Value': Slider.Value,
   },
   tags: ['autodocs'],
-  parameters: {
-  },
+  parameters: {},
   args: {
     defaultValue: 40,
     min: 0,
@@ -341,7 +340,7 @@ export const Disabled: Story = {
         <Slider.Track>
           <Slider.Indicator />
         </Slider.Track>
-        <Slider.Thumb getAriaLabel={() => 'Disabled value' } />
+        <Slider.Thumb getAriaLabel={() => 'Disabled value'} />
       </Slider.Control>
     </Slider.Root>
   ),

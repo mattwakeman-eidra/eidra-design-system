@@ -92,10 +92,7 @@
 }
 
 .root[data-orientation='vertical'] .indicator {
-  bottom: auto;
-  right: -1px;
-  left: auto;
-  top: var(--active-tab-top);
+  inset: var(--active-tab-top) -1px auto auto;
   width: 2px;
   height: var(--active-tab-height);
 }

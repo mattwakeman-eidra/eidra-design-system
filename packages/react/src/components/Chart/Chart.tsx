@@ -92,7 +92,11 @@ const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(function 
             default is {-1,-1}, which renders one frame at -1×-1 and logs
             "width(-1)/height(-1) should be greater than 0" before the
             ResizeObserver reports the real 100% box. */}
-        <ResponsiveContainer width="100%" height="100%" initialDimension={{ width: 320, height: 200 }}>
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          initialDimension={{ width: 320, height: 200 }}
+        >
           {children as React.ReactElement}
         </ResponsiveContainer>
       </div>
@@ -103,7 +107,13 @@ const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(function 
 /** Recharts injects `active`/`payload`/`label` into tooltip `content`. */
 interface ChartTooltipContentProps {
   active?: boolean;
-  payload?: Array<{ dataKey?: string | number; name?: string; value?: number | string; color?: string; payload?: any }>;
+  payload?: Array<{
+    dataKey?: string | number;
+    name?: string;
+    value?: number | string;
+    color?: string;
+    payload?: any;
+  }>;
   label?: ReactNode;
   /** Format each value (e.g. a currency formatter). */
   formatter?: (value: number | string | undefined) => ReactNode;
@@ -165,7 +175,11 @@ function ChartTooltipContent({
         {items.map((it, i) => (
           <div key={i} className={styles.tooltipRow}>
             {it.color != null && (
-              <span className={styles.tooltipSwatch} style={{ backgroundColor: it.color }} aria-hidden />
+              <span
+                className={styles.tooltipSwatch}
+                style={{ backgroundColor: it.color }}
+                aria-hidden
+              />
             )}
             <span className={styles.tooltipName}>{it.name}</span>
             <span className={styles.tooltipValue}>{it.value}</span>
@@ -191,7 +205,12 @@ interface ChartLegendContentProps {
  * For a toggleable legend, pass `hidden` + `onToggle` and manage the hidden set in
  * the consumer; items render as buttons that dim when hidden.
  */
-function ChartLegendContent({ payload, hidden = [], onToggle, className }: ChartLegendContentProps) {
+function ChartLegendContent({
+  payload,
+  hidden = [],
+  onToggle,
+  className,
+}: ChartLegendContentProps) {
   const config = useChartConfig();
   if (!payload?.length) return null;
   return (
@@ -329,7 +348,14 @@ interface BoxLayerProps {
  * scale hooks resolve against the chart's axes (default ids). Draws each box at
  * true axis positions; returns nothing until the scales are ready.
  */
-function BoxLayer({ data, categoryKey, orientation, showOutliers, boxRatio, valueFormatter }: BoxLayerProps) {
+function BoxLayer({
+  data,
+  categoryKey,
+  orientation,
+  showOutliers,
+  boxRatio,
+  valueFormatter,
+}: BoxLayerProps) {
   const xScale = useXAxisScale();
   const yScale = useYAxisScale();
   const xTicks = useXAxisTicks();
@@ -344,13 +370,18 @@ function BoxLayer({ data, categoryKey, orientation, showOutliers, boxRatio, valu
   // The category axis reports a point-style scale here (bandwidth 0), so derive
   // each box's centre from the axis tick coordinates (the true, label-aligned
   // category centres) and the band width from the tick spacing.
-  const catTicks = ((isV ? xTicks : yTicks) ?? []) as ReadonlyArray<{ value?: unknown; coordinate?: number }>;
+  const catTicks = ((isV ? xTicks : yTicks) ?? []) as ReadonlyArray<{
+    value?: unknown;
+    coordinate?: number;
+  }>;
   const centreOf = new Map(catTicks.map((t) => [String(t.value), t.coordinate ?? NaN]));
   const band =
     catTicks.length > 1
       ? Math.abs((catTicks[1]!.coordinate ?? 0) - (catTicks[0]!.coordinate ?? 0))
       : plot
-        ? (isV ? plot.width : plot.height)
+        ? isV
+          ? plot.width
+          : plot.height
         : 0;
 
   return (
@@ -487,32 +518,54 @@ function BoxPlot({
   height,
 }: BoxPlotProps) {
   const isV = orientation !== 'horizontal';
-  const resolvedDomain: [number, number] = domain ?? (() => {
-    const vals = data.flatMap((d) => [
-      d.min,
-      d.q1,
-      d.median,
-      d.q3,
-      d.max,
-      ...(showOutliers ? (d.outliers ?? []) : []),
-    ]);
-    const lo = Math.min(...vals);
-    const hi = Math.max(...vals);
-    const pad = (hi - lo) * 0.05 || 1;
-    return [lo - pad, hi + pad];
-  })();
+  const resolvedDomain: [number, number] =
+    domain ??
+    (() => {
+      const vals = data.flatMap((d) => [
+        d.min,
+        d.q1,
+        d.median,
+        d.q3,
+        d.max,
+        ...(showOutliers ? (d.outliers ?? []) : []),
+      ]);
+      const lo = Math.min(...vals);
+      const hi = Math.max(...vals);
+      const pad = (hi - lo) * 0.05 || 1;
+      return [lo - pad, hi + pad];
+    })();
 
   const valueTick = (v: number | string) => String(valueFormatter(Number(v)));
   const valueAxis = (
-    <YAxis {...axisProps} type="number" domain={resolvedDomain} tickFormatter={valueTick} allowDataOverflow />
+    <YAxis
+      {...axisProps}
+      type="number"
+      domain={resolvedDomain}
+      tickFormatter={valueTick}
+      allowDataOverflow
+    />
   );
   const catAxis = <XAxis {...axisProps} dataKey={categoryKey} type="category" />;
 
   return (
-    <ComposedChart data={data} layout={isV ? 'horizontal' : 'vertical'} width={width} height={height} margin={margin}>
+    <ComposedChart
+      data={data}
+      layout={isV ? 'horizontal' : 'vertical'}
+      width={width}
+      height={height}
+      margin={margin}
+    >
       {!hideGrid && <CartesianGrid {...gridProps} vertical={!isV} horizontal={isV} />}
-      {isV ? catAxis : (
-        <XAxis {...axisProps} type="number" domain={resolvedDomain} tickFormatter={valueTick} allowDataOverflow />
+      {isV ? (
+        catAxis
+      ) : (
+        <XAxis
+          {...axisProps}
+          type="number"
+          domain={resolvedDomain}
+          tickFormatter={valueTick}
+          allowDataOverflow
+        />
       )}
       {isV ? valueAxis : <YAxis {...axisProps} dataKey={categoryKey} type="category" width={72} />}
       {/* Transparent anchor: forces a band scale and provides the per-category

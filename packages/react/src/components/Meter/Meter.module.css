@@ -55,6 +55,7 @@
   overflow: hidden;
   background-color: var(--eidra-bg-inset);
   border-radius: var(--eidra-radius-full);
+
   /* default md height */
   height: var(--_track-height, 8px);
 }
@@ -86,6 +87,7 @@
 :global([data-density='compact']) .root {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .root[data-size='md'] {
   --_track-height: 6px;
 }

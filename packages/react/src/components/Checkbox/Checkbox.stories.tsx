@@ -175,7 +175,9 @@ export const Group: Story = {
     await step('group seeds its defaultValue (uncontrolled)', async () => {
       await expect(canvas.getByRole('checkbox', { name: /strategy/i })).toBeChecked();
       await expect(canvas.getByRole('checkbox', { name: /experience design/i })).toBeChecked();
-      await expect(canvas.getByRole('checkbox', { name: /technology delivery/i })).not.toBeChecked();
+      await expect(
+        canvas.getByRole('checkbox', { name: /technology delivery/i }),
+      ).not.toBeChecked();
     });
 
     await step('ticking a member adds its value and fires onValueChange', async () => {
@@ -208,7 +210,14 @@ export const GroupWithParent: Story = {
       aria-label="Nordic offices"
     >
       <Checkbox.Root label="All offices" parent name="offices-parent" />
-      <div style={{ paddingInlineStart: 'var(--eidra-space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
+      <div
+        style={{
+          paddingInlineStart: 'var(--eidra-space-6)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--eidra-space-2)',
+        }}
+      >
         <Checkbox.Root label="Oslo" value="norway" name="offices" />
         <Checkbox.Root label="Stockholm" value="sweden" name="offices" />
         <Checkbox.Root label="Copenhagen" value="denmark" name="offices" />

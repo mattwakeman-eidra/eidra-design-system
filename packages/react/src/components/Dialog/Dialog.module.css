@@ -182,17 +182,21 @@
   gap: var(--eidra-space-1-5);
   padding: var(--eidra-space-3) var(--eidra-space-3) 0;
 }
+
 :global([data-density='compact']) .title {
   font-size: var(--eidra-font-size-sm);
 }
+
 :global([data-density='compact']) .body {
   padding: var(--eidra-space-2) var(--eidra-space-3);
   gap: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .footer {
   gap: var(--eidra-space-1-5);
   padding: 0 var(--eidra-space-3) var(--eidra-space-3);
 }
+
 :global([data-density='compact']) .close {
   padding: var(--eidra-space-0-5);
 }

@@ -35,7 +35,13 @@ const meta = {
     truncate: { control: 'boolean' },
     children: { control: 'text' },
   },
-  args: { children: 'We help leaders create great change', variant: 'body', tone: 'default', tabular: false, truncate: false },
+  args: {
+    children: 'We help leaders create great change',
+    variant: 'body',
+    tone: 'default',
+    tabular: false,
+    truncate: false,
+  },
 } satisfies Meta<typeof Typography>;
 
 export default meta;
@@ -50,7 +56,9 @@ export const ProductScale: Story = {
       <Typography variant="heading-2">Heading 2</Typography>
       <Typography variant="heading-3">Heading 3</Typography>
       <Typography variant="heading-4">Heading 4</Typography>
-      <Typography variant="body-lg">Body large — the concentrated expertise leaders need.</Typography>
+      <Typography variant="body-lg">
+        Body large — the concentrated expertise leaders need.
+      </Typography>
       <Typography variant="body">Body — plain-spoken, open and thoughtful.</Typography>
       <Typography variant="body-sm">Body small — supporting detail.</Typography>
       <Typography variant="label">Label</Typography>

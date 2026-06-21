@@ -1,9 +1,9 @@
 // Drop into a consumer at: apps/web/src/app/design/page.tsx  → visit /design
-'use client'
+'use client';
 
-import { Typography, Button, Badge, Alert, Card, Separator, Tabs } from '@eidra/react'
-import { ArrowRight, Plus } from '@eidra/icons'
-import { Icon } from '@eidra/icons'
+import { Typography, Button, Badge, Alert, Card, Separator, Tabs } from '@eidra/react';
+import { ArrowRight, Plus } from '@eidra/icons';
+import { Icon } from '@eidra/icons';
 
 export default function DesignShowcase() {
   return (
@@ -25,7 +25,9 @@ export default function DesignShowcase() {
             <Button variant="outline">Outline</Button>
             <Button variant="ghost">Ghost</Button>
             <Button tone="coral">Coral</Button>
-            <Button tone="danger" variant="subtle">Danger</Button>
+            <Button tone="danger" variant="subtle">
+              Danger
+            </Button>
             <Button startIcon={<Icon icon={Plus} />}>Create</Button>
             <Button endIcon={<Icon icon={ArrowRight} />}>Continue</Button>
             <Button loading>Saving…</Button>
@@ -40,9 +42,15 @@ export default function DesignShowcase() {
         <Card.Body style={{ display: 'grid', gap: 'var(--eidra-space-4)' }}>
           <div style={{ display: 'flex', gap: 'var(--eidra-space-2)', flexWrap: 'wrap' }}>
             <Badge tone="accent">Active</Badge>
-            <Badge tone="success" variant="subtle">Synced</Badge>
-            <Badge tone="warning" variant="subtle">Pending</Badge>
-            <Badge tone="danger" variant="outline">Failed</Badge>
+            <Badge tone="success" variant="subtle">
+              Synced
+            </Badge>
+            <Badge tone="warning" variant="subtle">
+              Pending
+            </Badge>
+            <Badge tone="danger" variant="outline">
+              Failed
+            </Badge>
           </div>
           <Separator />
           <Alert tone="info" title="Heads up">
@@ -79,5 +87,5 @@ export default function DesignShowcase() {
         </Card.Body>
       </Card>
     </main>
-  )
+  );
 }

@@ -63,12 +63,7 @@ const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function CardHead
   ref,
 ) {
   return (
-    <div
-      ref={ref}
-      className={cn(styles.header, className)}
-      data-padding={padding}
-      {...props}
-    >
+    <div ref={ref} className={cn(styles.header, className)} data-padding={padding} {...props}>
       {children}
     </div>
   );
@@ -79,12 +74,7 @@ const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(function CardBody(
   ref,
 ) {
   return (
-    <div
-      ref={ref}
-      className={cn(styles.body, className)}
-      data-padding={padding}
-      {...props}
-    >
+    <div ref={ref} className={cn(styles.body, className)} data-padding={padding} {...props}>
       {children}
     </div>
   );
@@ -95,12 +85,7 @@ const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(function CardFoot
   ref,
 ) {
   return (
-    <div
-      ref={ref}
-      className={cn(styles.footer, className)}
-      data-padding={padding}
-      {...props}
-    >
+    <div ref={ref} className={cn(styles.footer, className)} data-padding={padding} {...props}>
       {children}
     </div>
   );

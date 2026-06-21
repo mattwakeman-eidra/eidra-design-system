@@ -66,7 +66,13 @@ export const Playground: StoryObj<PopoverPlaygroundArgs> = {
   },
   render: ({ side, align, sideOffset, ...rootProps }) => (
     <Popover.Root {...rootProps}>
-      <Popover.Trigger render={<Button variant="outline" tone="neutral">Open popover</Button>} />
+      <Popover.Trigger
+        render={
+          <Button variant="outline" tone="neutral">
+            Open popover
+          </Button>
+        }
+      />
       <Popover.Portal>
         <Popover.Positioner side={side} align={align} sideOffset={sideOffset}>
           <Popover.Popup>
@@ -137,8 +143,8 @@ export const InfoPopover: Story = {
           <Popover.Popup>
             <Popover.Body>
               <Popover.Description>
-                Eidra applies a Nordic minimalist design approach — focusing on clarity,
-                whitespace, and purposeful interactions.
+                Eidra applies a Nordic minimalist design approach — focusing on clarity, whitespace,
+                and purposeful interactions.
               </Popover.Description>
             </Popover.Body>
             <Popover.Arrow />
@@ -169,15 +175,17 @@ export const ProfileCard: Story = {
               <Popover.CloseButton />
             </Popover.Header>
             <Popover.Body>
-              <Popover.Description>
-                Senior UX Consultant · Oslo office
-              </Popover.Description>
-              <Popover.Description>
-                astrid.lindqvist@eidra.com
-              </Popover.Description>
+              <Popover.Description>Senior UX Consultant · Oslo office</Popover.Description>
+              <Popover.Description>astrid.lindqvist@eidra.com</Popover.Description>
             </Popover.Body>
             <Popover.Footer>
-              <Popover.Close render={<Button size="sm" variant="outline" tone="neutral">View profile</Button>} />
+              <Popover.Close
+                render={
+                  <Button size="sm" variant="outline" tone="neutral">
+                    View profile
+                  </Button>
+                }
+              />
             </Popover.Footer>
           </Popover.Popup>
         </Popover.Positioner>
@@ -228,7 +236,12 @@ export const NotificationSettings: Story = {
             <Popover.Footer>
               <Popover.Close
                 render={
-                  <Button size="sm" variant="ghost" tone="neutral" startIcon={<Icon icon={Settings} />}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    tone="neutral"
+                    startIcon={<Icon icon={Settings} />}
+                  >
                     Settings
                   </Button>
                 }
@@ -257,7 +270,11 @@ export const Positioning: Story = {
       {(['top', 'right', 'bottom', 'left'] as const).map((side) => (
         <Popover.Root key={side}>
           <Popover.Trigger
-            render={<Button variant="outline" tone="neutral">{side}</Button>}
+            render={
+              <Button variant="outline" tone="neutral">
+                {side}
+              </Button>
+            }
           />
           <Popover.Portal>
             <Popover.Positioner side={side} align="center" sideOffset={8}>
@@ -371,7 +388,13 @@ export const Uncontrolled: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
       <Popover.Root defaultOpen onOpenChange={(next) => uncontrolledOnOpenChange(next)}>
-        <Popover.Trigger render={<Button variant="outline" tone="neutral">Toggle popover</Button>} />
+        <Popover.Trigger
+          render={
+            <Button variant="outline" tone="neutral">
+              Toggle popover
+            </Button>
+          }
+        />
         <Popover.Portal>
           <Popover.Positioner side="bottom" align="start" sideOffset={8}>
             <Popover.Popup>

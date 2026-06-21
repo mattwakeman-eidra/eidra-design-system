@@ -33,16 +33,7 @@ const TONE_ICONS: Record<AlertTone, typeof Info> = {
  * (assertive) for danger/warning tones and `role="status"` (polite) for others.
  */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  {
-    tone = 'info',
-    title,
-    icon,
-    dismissible = false,
-    onDismiss,
-    className,
-    children,
-    ...props
-  },
+  { tone = 'info', title, icon, dismissible = false, onDismiss, className, children, ...props },
   ref,
 ) {
   const isAssertive = tone === 'danger' || tone === 'warning';
@@ -81,12 +72,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
       </div>
 
       {dismissible && (
-        <button
-          type="button"
-          className={styles.dismiss}
-          onClick={onDismiss}
-          aria-label="Dismiss"
-        >
+        <button type="button" className={styles.dismiss} onClick={onDismiss} aria-label="Dismiss">
           <Icon icon={X} size="sm" aria-hidden="true" />
         </button>
       )}

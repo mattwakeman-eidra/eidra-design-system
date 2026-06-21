@@ -319,9 +319,7 @@ export const Disabled: Story = {
     await step('hovering a disabled-Root trigger never opens the tooltip', async () => {
       await userEvent.hover(trigger);
       // Give the open delay a window to (not) fire, then assert it stayed closed.
-      await waitFor(() =>
-        expect(screen.queryByText(/you will never see this/i)).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByText(/you will never see this/i)).toBeNull());
     });
   },
 };
@@ -453,9 +451,9 @@ export const GlossaryTerm: Story = {
   render: () => (
     <Tooltip.Provider delay={200}>
       <p style={{ maxWidth: 460, lineHeight: 1.8, color: 'var(--eidra-fg)' }}>
-        Closing the month means reconciling <Term>WIP</Term> against billed revenue,
-        checking the <Term>Interco</Term> balances net to zero, and confirming the{' '}
-        <Term>EBITDA</Term> figure matches the ledger before sign-off.
+        Closing the month means reconciling <Term>WIP</Term> against billed revenue, checking the{' '}
+        <Term>Interco</Term> balances net to zero, and confirming the <Term>EBITDA</Term> figure
+        matches the ledger before sign-off.
       </p>
     </Tooltip.Provider>
   ),

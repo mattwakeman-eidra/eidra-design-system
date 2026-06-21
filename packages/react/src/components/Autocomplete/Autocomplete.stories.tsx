@@ -49,7 +49,9 @@ const GROUPED_OPTIONS: ServiceOption[] = [
 // ---- Reusable layout helpers ----
 
 const Stack = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 360 }}>
+  <div
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 360 }}
+  >
     {children}
   </div>
 );
@@ -355,7 +357,9 @@ export const ValueChangeCallback: Story = {
     await step('typing fires onValueChange with the typed text', async () => {
       await userEvent.click(input);
       await userEvent.type(input, 'Bergen');
-      await waitFor(() => expect(args.onValueChange).toHaveBeenCalledWith('Bergen', expect.anything()));
+      await waitFor(() =>
+        expect(args.onValueChange).toHaveBeenCalledWith('Bergen', expect.anything()),
+      );
     });
 
     await step('selecting an option fires onValueChange with the option value', async () => {
@@ -363,7 +367,9 @@ export const ValueChangeCallback: Story = {
       await userEvent.type(input, 'Tro');
       const option = await screen.findByRole('option', { name: /^Tromsø$/ });
       await userEvent.click(option);
-      await waitFor(() => expect(args.onValueChange).toHaveBeenCalledWith('Tromsø', expect.anything()));
+      await waitFor(() =>
+        expect(args.onValueChange).toHaveBeenCalledWith('Tromsø', expect.anything()),
+      );
     });
   },
 };
@@ -377,7 +383,13 @@ export const ControlledValue: Story = {
     const [value, setValue] = useState('');
     return (
       <Stack>
-        <p style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)', margin: 0 }}>
+        <p
+          style={{
+            fontSize: 'var(--eidra-font-size-sm)',
+            color: 'var(--eidra-fg-muted)',
+            margin: 0,
+          }}
+        >
           Input value: <strong style={{ color: 'var(--eidra-fg)' }}>{value || '—'}</strong>
         </p>
         <Autocomplete.Root items={NORDIC_CITIES} value={value} onValueChange={setValue}>
@@ -567,7 +579,13 @@ export const GroupedOptions: Story = {
                   return (
                     <Autocomplete.Group key={group.value} items={group.items}>
                       <Autocomplete.GroupLabel>
-                        <span style={{ display: 'inline-flex', gap: 'var(--eidra-space-1)', alignItems: 'center' }}>
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            gap: 'var(--eidra-space-1)',
+                            alignItems: 'center',
+                          }}
+                        >
                           <Icon icon={LucideIcon} size="sm" />
                           {group.value}
                         </span>
@@ -592,12 +610,15 @@ export const GroupedOptions: Story = {
     const canvas = within(canvasElement);
     const input = canvas.getByPlaceholderText('Search services…');
 
-    await step('typing surfaces matching grouped options (object items via itemToStringValue)', async () => {
-      await userEvent.click(input);
-      await userEvent.type(input, 'a');
-      const cloud = await screen.findByRole('option', { name: /Cloud Architecture/ });
-      await waitFor(() => expect(cloud).toBeVisible());
-    });
+    await step(
+      'typing surfaces matching grouped options (object items via itemToStringValue)',
+      async () => {
+        await userEvent.click(input);
+        await userEvent.type(input, 'a');
+        const cloud = await screen.findByRole('option', { name: /Cloud Architecture/ });
+        await waitFor(() => expect(cloud).toBeVisible());
+      },
+    );
 
     await step('a more specific query narrows results across groups', async () => {
       await userEvent.clear(input);
@@ -622,7 +643,9 @@ export const AutoHighlight: Story = {
   name: 'Auto Highlight',
   render: () => (
     <Stack>
-      <p style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)', margin: 0 }}>
+      <p
+        style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)', margin: 0 }}
+      >
         The first matching city is highlighted automatically as you type.
       </p>
       <Autocomplete.Root items={NORDIC_CITIES} autoHighlight>
@@ -675,7 +698,9 @@ export const InlineCompletion: Story = {
   name: 'Inline Completion (both)',
   render: () => (
     <Stack>
-      <p style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)', margin: 0 }}>
+      <p
+        style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)', margin: 0 }}
+      >
         <code>mode="both"</code> — filters the list and fills in the input as you navigate.
       </p>
       <Autocomplete.Root items={NORDIC_CITIES} mode="both">

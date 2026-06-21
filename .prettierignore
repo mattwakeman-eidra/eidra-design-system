@@ -7,6 +7,8 @@ releases/
 static/
 storybook-static/
 pnpm-lock.yaml
+# Tooling dotfiles Prettier has no parser for.
+.npmrc
 # Generated catalog + agent index (owned by scripts/catalog.mjs).
 docs/COMPONENTS.md
 packages/react/llms.txt

@@ -13,8 +13,7 @@ const meta = {
     'Collapsible.Panel': Collapsible.Panel,
   },
   tags: ['autodocs'],
-  parameters: {
-  },
+  parameters: {},
   args: {
     defaultOpen: false,
     disabled: false,
@@ -37,7 +36,14 @@ export const Playground: Story = {
         <Collapsible.Trigger>Team overview</Collapsible.Trigger>
         <Collapsible.Panel>
           <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-            <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)', lineHeight: 'var(--eidra-font-line-height-normal)' }}>
+            <p
+              style={{
+                margin: 0,
+                color: 'var(--eidra-fg-muted)',
+                fontSize: 'var(--eidra-font-size-sm)',
+                lineHeight: 'var(--eidra-font-line-height-normal)',
+              }}
+            >
               Eidra is a Nordic consultancy helping organisations navigate complexity through
               strategic design and engineering expertise.
             </p>
@@ -57,7 +63,13 @@ export const DefaultClosed: Story = {
         <Collapsible.Trigger>Project details</Collapsible.Trigger>
         <Collapsible.Panel>
           <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-            <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)' }}>
+            <p
+              style={{
+                margin: 0,
+                color: 'var(--eidra-fg-muted)',
+                fontSize: 'var(--eidra-font-size-sm)',
+              }}
+            >
               This section expands to reveal additional project information when toggled.
             </p>
           </div>
@@ -76,9 +88,7 @@ export const DefaultClosed: Story = {
     await step('clicking the trigger expands the panel (uncontrolled)', async () => {
       await userEvent.click(trigger);
       await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-      await expect(
-        await canvas.findByText(/reveal additional project information/),
-      ).toBeVisible();
+      await expect(await canvas.findByText(/reveal additional project information/)).toBeVisible();
     });
 
     await step('clicking again collapses it', async () => {
@@ -97,7 +107,13 @@ export const DefaultOpen: Story = {
         <Collapsible.Trigger>Engagement scope</Collapsible.Trigger>
         <Collapsible.Panel>
           <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-            <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)' }}>
+            <p
+              style={{
+                margin: 0,
+                color: 'var(--eidra-fg-muted)',
+                fontSize: 'var(--eidra-font-size-sm)',
+              }}
+            >
               Discovery and research, service design, digital product development, and
               organisational capability building across eight practice areas.
             </p>
@@ -112,9 +128,7 @@ export const DefaultOpen: Story = {
 
     await step('starts expanded', async () => {
       await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-      await expect(
-        await canvas.findByText(/Discovery and research/),
-      ).toBeVisible();
+      await expect(await canvas.findByText(/Discovery and research/)).toBeVisible();
     });
 
     await step('clicking the trigger collapses the panel', async () => {
@@ -177,13 +191,27 @@ const faqs = [
 
 export const FAQ: Story = {
   render: () => (
-    <div style={{ maxWidth: 560, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
+    <div
+      style={{
+        maxWidth: 560,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-2)',
+      }}
+    >
       {faqs.map((item) => (
         <Collapsible.Root key={item.id}>
           <Collapsible.Trigger>{item.question}</Collapsible.Trigger>
           <Collapsible.Panel>
             <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-              <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)', lineHeight: 'var(--eidra-font-line-height-relaxed)' }}>
+              <p
+                style={{
+                  margin: 0,
+                  color: 'var(--eidra-fg-muted)',
+                  fontSize: 'var(--eidra-font-size-sm)',
+                  lineHeight: 'var(--eidra-font-line-height-relaxed)',
+                }}
+              >
                 {item.answer}
               </p>
             </div>
@@ -198,19 +226,42 @@ export const FAQ: Story = {
 
 export const WithIconInTrigger: Story = {
   render: () => (
-    <div style={{ maxWidth: 480, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
+    <div
+      style={{
+        maxWidth: 480,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-2)',
+      }}
+    >
       <Collapsible.Root defaultOpen>
         <Collapsible.Trigger>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+          <span
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+          >
             <Icon icon={Users} size="sm" />
             Team members
           </span>
         </Collapsible.Trigger>
         <Collapsible.Panel>
           <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1-5)' }}>
+            <ul
+              style={{
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--eidra-space-1-5)',
+              }}
+            >
               {['Astrid Lindqvist', 'Erik Holmberg', 'Maja Sundström'].map((name) => (
-                <li key={name} style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>{name}</li>
+                <li
+                  key={name}
+                  style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}
+                >
+                  {name}
+                </li>
               ))}
             </ul>
           </div>
@@ -219,14 +270,22 @@ export const WithIconInTrigger: Story = {
 
       <Collapsible.Root>
         <Collapsible.Trigger>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+          <span
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+          >
             <Icon icon={FileText} size="sm" />
             Documents
           </span>
         </Collapsible.Trigger>
         <Collapsible.Panel>
           <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-            <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)' }}>
+            <p
+              style={{
+                margin: 0,
+                color: 'var(--eidra-fg-muted)',
+                fontSize: 'var(--eidra-font-size-sm)',
+              }}
+            >
               No documents attached yet.
             </p>
           </div>
@@ -235,7 +294,9 @@ export const WithIconInTrigger: Story = {
 
       <Collapsible.Root disabled>
         <Collapsible.Trigger>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+          <span
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+          >
             <Icon icon={Settings} size="sm" />
             Advanced settings
           </span>
@@ -259,8 +320,21 @@ export const Controlled: Story = {
   render: function ControlledCollapsible(args) {
     const [open, setOpen] = React.useState(false);
     return (
-      <div style={{ maxWidth: 480, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
-        <p style={{ margin: 0, fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>
+      <div
+        style={{
+          maxWidth: 480,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--eidra-space-4)',
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            fontSize: 'var(--eidra-font-size-sm)',
+            color: 'var(--eidra-fg-muted)',
+          }}
+        >
           Panel is: <strong style={{ color: 'var(--eidra-fg)' }}>{open ? 'open' : 'closed'}</strong>
         </p>
         <Collapsible.Root
@@ -273,7 +347,13 @@ export const Controlled: Story = {
           <Collapsible.Trigger>Controlled collapsible</Collapsible.Trigger>
           <Collapsible.Panel>
             <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-              <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)' }}>
+              <p
+                style={{
+                  margin: 0,
+                  color: 'var(--eidra-fg-muted)',
+                  fontSize: 'var(--eidra-font-size-sm)',
+                }}
+              >
                 The open state is managed externally by the parent component.
               </p>
             </div>
@@ -317,7 +397,13 @@ export const Keyboard: Story = {
         <Collapsible.Trigger>Keyboard toggle</Collapsible.Trigger>
         <Collapsible.Panel>
           <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
-            <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)' }}>
+            <p
+              style={{
+                margin: 0,
+                color: 'var(--eidra-fg-muted)',
+                fontSize: 'var(--eidra-font-size-sm)',
+              }}
+            >
               Toggled entirely from the keyboard.
             </p>
           </div>

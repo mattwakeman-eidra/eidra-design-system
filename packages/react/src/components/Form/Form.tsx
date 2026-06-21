@@ -8,8 +8,9 @@ export type FormValidationMode = 'onSubmit' | 'onBlur' | 'onChange';
 
 export type FormErrors = Record<string, string | string[]>;
 
-export interface FormProps<FormValues extends Record<string, unknown> = Record<string, unknown>>
-  extends Omit<ComponentPropsWithoutRef<'form'>, 'onSubmit'> {
+export interface FormProps<
+  FormValues extends Record<string, unknown> = Record<string, unknown>,
+> extends Omit<ComponentPropsWithoutRef<'form'>, 'onSubmit'> {
   /**
    * Determines when the form should be validated.
    * The `validationMode` on `<Field>` takes precedence over this.
@@ -30,10 +31,7 @@ export interface FormProps<FormValues extends Record<string, unknown> = Record<s
    * Called when the form is submitted. The native `submit` event is
    * `preventDefault()`-ed when this prop is set.
    */
-  onFormSubmit?: (
-    formValues: FormValues,
-    eventDetails: { reason: string },
-  ) => void;
+  onFormSubmit?: (formValues: FormValues, eventDetails: { reason: string }) => void;
 }
 
 /**

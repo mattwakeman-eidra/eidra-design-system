@@ -1,6 +1,6 @@
 ---
-"@eidra/react": minor
-"@eidra/tokens": minor
+'@eidra/react': minor
+'@eidra/tokens': minor
 ---
 
 One coherent width policy for every anchored overlay — fixes full-width menus.

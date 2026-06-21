@@ -22,7 +22,15 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Minimal inline field layout for stories (avoids importing Field component)
-const FormRow = ({ label, id, children }: { label: string; id: string; children: React.ReactNode }) => (
+const FormRow = ({
+  label,
+  id,
+  children,
+}: {
+  label: string;
+  id: string;
+  children: React.ReactNode;
+}) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
     <label
       htmlFor={id}

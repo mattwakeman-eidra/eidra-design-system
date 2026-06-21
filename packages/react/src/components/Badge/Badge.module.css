@@ -51,6 +51,7 @@
   --_tone-subtle: var(--eidra-bg-muted);
   --_tone-border: var(--eidra-border);
 }
+
 .root[data-tone='accent'] {
   --_tone: var(--eidra-accent);
   --_tone-fg: var(--eidra-accent-fg);
@@ -58,6 +59,7 @@
   --_tone-subtle: var(--eidra-accent-subtle);
   --_tone-border: var(--eidra-accent-border);
 }
+
 .root[data-tone='coral'] {
   --_tone: var(--eidra-coral);
   --_tone-fg: var(--eidra-coral-fg);
@@ -65,6 +67,7 @@
   --_tone-subtle: var(--eidra-coral-subtle);
   --_tone-border: var(--eidra-coral-fg);
 }
+
 .root[data-tone='success'] {
   --_tone: var(--eidra-success);
   --_tone-fg: var(--eidra-color-white);
@@ -72,6 +75,7 @@
   --_tone-subtle: var(--eidra-success-subtle);
   --_tone-border: var(--eidra-success-border);
 }
+
 .root[data-tone='danger'] {
   --_tone: var(--eidra-danger);
   --_tone-fg: var(--eidra-color-white);
@@ -79,6 +83,7 @@
   --_tone-subtle: var(--eidra-danger-subtle);
   --_tone-border: var(--eidra-danger-border);
 }
+
 .root[data-tone='warning'] {
   --_tone: var(--eidra-warning);
   --_tone-fg: var(--eidra-fg);
@@ -86,6 +91,7 @@
   --_tone-subtle: var(--eidra-warning-subtle);
   --_tone-border: var(--eidra-warning-border);
 }
+
 .root[data-tone='info'] {
   --_tone: var(--eidra-info);
   --_tone-fg: var(--eidra-color-white);
@@ -100,11 +106,13 @@
   --_fg: var(--_tone-fg);
   --_border: transparent;
 }
+
 .root[data-variant='subtle'] {
   --_bg: var(--_tone-subtle);
   --_fg: var(--_tone-fg-on-subtle);
   --_border: transparent;
 }
+
 .root[data-variant='outline'] {
   --_bg: transparent;
   --_fg: var(--_tone-fg-on-subtle);

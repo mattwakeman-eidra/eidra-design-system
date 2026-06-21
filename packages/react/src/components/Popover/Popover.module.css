@@ -223,17 +223,21 @@
   gap: var(--eidra-space-1-5);
   padding: var(--eidra-space-2) var(--eidra-space-2) 0;
 }
+
 :global([data-density='compact']) .body {
   padding: var(--eidra-space-1-5) var(--eidra-space-2);
   gap: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .body:first-child {
   padding-top: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .footer {
   gap: var(--eidra-space-1);
   padding: 0 var(--eidra-space-2) var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .close {
   padding: var(--eidra-space-0-5);
 }

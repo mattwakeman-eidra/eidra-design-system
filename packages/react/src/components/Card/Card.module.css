@@ -39,9 +39,11 @@
 .root[data-padding='sm'] {
   padding: var(--eidra-space-3);
 }
+
 .root[data-padding='md'] {
   padding: var(--eidra-space-4);
 }
+
 .root[data-padding='lg'] {
   padding: var(--eidra-space-6);
 }
@@ -68,12 +70,15 @@
 .header[data-padding='none'] {
   padding: 0;
 }
+
 .header[data-padding='sm'] {
   padding: var(--eidra-space-3);
 }
+
 .header[data-padding='md'] {
   padding: var(--eidra-space-4);
 }
+
 .header[data-padding='lg'] {
   padding: var(--eidra-space-6);
 }
@@ -90,12 +95,15 @@
 .body[data-padding='none'] {
   padding: 0;
 }
+
 .body[data-padding='sm'] {
   padding: var(--eidra-space-3);
 }
+
 .body[data-padding='md'] {
   padding: var(--eidra-space-4);
 }
+
 .body[data-padding='lg'] {
   padding: var(--eidra-space-6);
 }
@@ -111,12 +119,15 @@
 .footer[data-padding='none'] {
   padding: 0;
 }
+
 .footer[data-padding='sm'] {
   padding: var(--eidra-space-3);
 }
+
 .footer[data-padding='md'] {
   padding: var(--eidra-space-4);
 }
+
 .footer[data-padding='lg'] {
   padding: var(--eidra-space-6);
 }
@@ -125,9 +136,11 @@
 :global([data-density='compact']) .root[data-padding='sm'] {
   padding: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .root[data-padding='md'] {
   padding: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .root[data-padding='lg'] {
   padding: var(--eidra-space-3);
 }
@@ -135,12 +148,15 @@
 :global([data-density='compact']) .header {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .header[data-padding='sm'] {
   padding: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .header[data-padding='md'] {
   padding: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .header[data-padding='lg'] {
   padding: var(--eidra-space-3);
 }
@@ -148,9 +164,11 @@
 :global([data-density='compact']) .body[data-padding='sm'] {
   padding: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .body[data-padding='md'] {
   padding: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .body[data-padding='lg'] {
   padding: var(--eidra-space-3);
 }
@@ -158,12 +176,15 @@
 :global([data-density='compact']) .footer {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .footer[data-padding='sm'] {
   padding: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .footer[data-padding='md'] {
   padding: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .footer[data-padding='lg'] {
   padding: var(--eidra-space-3);
 }

@@ -52,12 +52,33 @@ export const Playground: Story = {
 export const Horizontal: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 480 }}>
-      <p style={{ margin: 0, color: 'var(--eidra-fg)', fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-4)',
+        maxWidth: 480,
+      }}
+    >
+      <p
+        style={{
+          margin: 0,
+          color: 'var(--eidra-fg)',
+          fontFamily: 'var(--eidra-font-family-sans)',
+          fontSize: 'var(--eidra-font-size-sm)',
+        }}
+      >
         Eidra helps Nordic companies build products people love.
       </p>
       <Separator />
-      <p style={{ margin: 0, color: 'var(--eidra-fg-muted)', fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)' }}>
+      <p
+        style={{
+          margin: 0,
+          color: 'var(--eidra-fg-muted)',
+          fontFamily: 'var(--eidra-font-family-sans)',
+          fontSize: 'var(--eidra-font-size-sm)',
+        }}
+      >
         Strategy. Design. Engineering.
       </p>
     </div>
@@ -93,7 +114,14 @@ export const Vertical: Story = {
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-6)',
+        maxWidth: 480,
+      }}
+    >
       <Separator label="or continue with" />
       <Separator label="Services" />
       <Separator label="2024" />
@@ -121,25 +149,56 @@ export const InCard: Story = {
       }}
     >
       <div>
-        <p style={{ margin: 0, fontWeight: 'var(--eidra-font-weight-semibold)', color: 'var(--eidra-fg)', fontSize: 'var(--eidra-font-size-base)' }}>
+        <p
+          style={{
+            margin: 0,
+            fontWeight: 'var(--eidra-font-weight-semibold)',
+            color: 'var(--eidra-fg)',
+            fontSize: 'var(--eidra-font-size-base)',
+          }}
+        >
           Project Proposal
         </p>
-        <p style={{ margin: '4px 0 0', color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-sm)' }}>
+        <p
+          style={{
+            margin: '4px 0 0',
+            color: 'var(--eidra-fg-muted)',
+            fontSize: 'var(--eidra-font-size-sm)',
+          }}
+        >
           Nordic Digital Transformation 2024
         </p>
       </div>
       <Separator />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
-        <p style={{ margin: 0, color: 'var(--eidra-fg-subtle)', fontSize: 'var(--eidra-font-size-xs)' }}>CLIENT</p>
-        <p style={{ margin: 0, color: 'var(--eidra-fg)', fontSize: 'var(--eidra-font-size-sm)' }}>Storebrand ASA</p>
+        <p
+          style={{
+            margin: 0,
+            color: 'var(--eidra-fg-subtle)',
+            fontSize: 'var(--eidra-font-size-xs)',
+          }}
+        >
+          CLIENT
+        </p>
+        <p style={{ margin: 0, color: 'var(--eidra-fg)', fontSize: 'var(--eidra-font-size-sm)' }}>
+          Storebrand ASA
+        </p>
       </div>
       <Separator />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
-        <p style={{ margin: 0, color: 'var(--eidra-fg-subtle)', fontSize: 'var(--eidra-font-size-xs)' }}>SCOPE</p>
+        <p
+          style={{
+            margin: 0,
+            color: 'var(--eidra-fg-subtle)',
+            fontSize: 'var(--eidra-font-size-xs)',
+          }}
+        >
+          SCOPE
+        </p>
         <p style={{ margin: 0, color: 'var(--eidra-fg)', fontSize: 'var(--eidra-font-size-sm)' }}>
           UX audit, design system, front-end build
         </p>
       </div>
     </div>
-  )
+  ),
 };

@@ -107,7 +107,6 @@ export const Playground: Story = {
         </Menubar.Portal>
       </Menubar.MenuRoot>
 
-
       <Menubar.MenuRoot>
         <Menubar.Trigger>
           Edit
@@ -221,9 +220,7 @@ export const Playground: Story = {
       });
       // The popup leaves the a11y tree a beat after the trigger collapses (close
       // transition), so poll rather than assert synchronously.
-      await waitFor(() =>
-        expect(screen.queryByRole('menuitem', { name: /new file/i })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('menuitem', { name: /new file/i })).toBeNull());
     });
   },
 };
@@ -332,7 +329,9 @@ export const KeyboardNavigation: Story = {
     await step('opening one menu lets ArrowRight rove to the next', async () => {
       await userEvent.click(file);
       await waitFor(() => expect(file).toHaveAttribute('aria-expanded', 'true'));
-      await waitFor(() => expect(screen.getByRole('menuitem', { name: /new file/i })).toBeVisible());
+      await waitFor(() =>
+        expect(screen.getByRole('menuitem', { name: /new file/i })).toBeVisible(),
+      );
       await userEvent.keyboard('{ArrowRight}');
       // Roving opens the Edit menu and closes File. Keyboard roving moves focus
       // into the next popup (not onto its trigger), so the Edit trigger keeps
@@ -410,14 +409,17 @@ export const WithCheckboxItems: Story = {
       await expect(sidebar).toHaveAttribute('aria-checked', 'true');
     });
 
-    await step('toggling an unchecked item fires onCheckedChange(true) and sets aria-checked', async () => {
-      const terminal = await screen.findByRole('menuitemcheckbox', { name: /terminal/i });
-      await expect(terminal).toHaveAttribute('aria-checked', 'false');
-      // Base UI keeps the menu open after a checkbox-item activation.
-      await userEvent.click(terminal);
-      const reopened = await screen.findByRole('menuitemcheckbox', { name: /terminal/i });
-      await expect(reopened).toHaveAttribute('aria-checked', 'true');
-    });
+    await step(
+      'toggling an unchecked item fires onCheckedChange(true) and sets aria-checked',
+      async () => {
+        const terminal = await screen.findByRole('menuitemcheckbox', { name: /terminal/i });
+        await expect(terminal).toHaveAttribute('aria-checked', 'false');
+        // Base UI keeps the menu open after a checkbox-item activation.
+        await userEvent.click(terminal);
+        const reopened = await screen.findByRole('menuitemcheckbox', { name: /terminal/i });
+        await expect(reopened).toHaveAttribute('aria-checked', 'true');
+      },
+    );
   },
 };
 

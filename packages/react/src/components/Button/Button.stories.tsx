@@ -24,7 +24,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}>
+  <div
+    style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}
+  >
     {children}
   </div>
 );
@@ -34,10 +36,18 @@ export const Playground: Story = {};
 export const Variants: Story = {
   render: (args) => (
     <Row>
-      <Button {...args} variant="solid">Solid</Button>
-      <Button {...args} variant="outline">Outline</Button>
-      <Button {...args} variant="ghost">Ghost</Button>
-      <Button {...args} variant="subtle">Subtle</Button>
+      <Button {...args} variant="solid">
+        Solid
+      </Button>
+      <Button {...args} variant="outline">
+        Outline
+      </Button>
+      <Button {...args} variant="ghost">
+        Ghost
+      </Button>
+      <Button {...args} variant="subtle">
+        Subtle
+      </Button>
     </Row>
   ),
 };
@@ -45,10 +55,18 @@ export const Variants: Story = {
 export const Tones: Story = {
   render: (args) => (
     <Row>
-      <Button {...args} tone="accent">Accent</Button>
-      <Button {...args} tone="neutral">Neutral</Button>
-      <Button {...args} tone="coral">Coral</Button>
-      <Button {...args} tone="danger">Danger</Button>
+      <Button {...args} tone="accent">
+        Accent
+      </Button>
+      <Button {...args} tone="neutral">
+        Neutral
+      </Button>
+      <Button {...args} tone="coral">
+        Coral
+      </Button>
+      <Button {...args} tone="danger">
+        Danger
+      </Button>
     </Row>
   ),
 };
@@ -56,9 +74,15 @@ export const Tones: Story = {
 export const Sizes: Story = {
   render: (args) => (
     <Row>
-      <Button {...args} size="sm">Small</Button>
-      <Button {...args} size="md">Medium</Button>
-      <Button {...args} size="lg">Large</Button>
+      <Button {...args} size="sm">
+        Small
+      </Button>
+      <Button {...args} size="md">
+        Medium
+      </Button>
+      <Button {...args} size="lg">
+        Large
+      </Button>
     </Row>
   ),
 };
@@ -66,10 +90,18 @@ export const Sizes: Story = {
 export const WithIcons: Story = {
   render: (args) => (
     <Row>
-      <Button {...args} startIcon={<Icon icon={Plus} />}>Create</Button>
-      <Button {...args} endIcon={<Icon icon={ArrowRight} />}>Continue</Button>
-      <Button {...args} variant="ghost" tone="danger" startIcon={<Icon icon={Trash2} />}>Delete</Button>
-      <Button {...args} iconOnly aria-label="Add"><Icon icon={Plus} /></Button>
+      <Button {...args} startIcon={<Icon icon={Plus} />}>
+        Create
+      </Button>
+      <Button {...args} endIcon={<Icon icon={ArrowRight} />}>
+        Continue
+      </Button>
+      <Button {...args} variant="ghost" tone="danger" startIcon={<Icon icon={Trash2} />}>
+        Delete
+      </Button>
+      <Button {...args} iconOnly aria-label="Add">
+        <Icon icon={Plus} />
+      </Button>
     </Row>
   ),
 };

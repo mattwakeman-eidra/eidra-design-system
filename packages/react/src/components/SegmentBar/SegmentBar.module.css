@@ -58,15 +58,19 @@
   background-color: var(--_marker, var(--eidra-accent));
   pointer-events: none;
 }
+
 .marker[data-tone='accent'] {
   --_marker: var(--eidra-accent);
 }
+
 .marker[data-tone='success'] {
   --_marker: var(--eidra-success);
 }
+
 .marker[data-tone='danger'] {
   --_marker: var(--eidra-danger);
 }
+
 .marker[data-tone='warning'] {
   --_marker: var(--eidra-warning);
 }
@@ -74,6 +78,7 @@
 .root[data-size='sm'] .track {
   height: var(--eidra-space-2);
 }
+
 .root[data-size='lg'] .track {
   height: var(--eidra-space-4);
 }
@@ -82,9 +87,11 @@
   flex-basis: 0;
   min-width: 2px;
   height: 100%;
+
   /* Hairline between adjacent segments so colours stay legible. */
   box-shadow: inset 1px 0 0 var(--eidra-surface);
 }
+
 .segment:first-child {
   box-shadow: none;
 }
@@ -127,12 +134,15 @@
 :global([data-density='compact']) .root {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .track {
   height: var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .root[data-size='lg'] .track {
   height: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .legend {
   gap: var(--eidra-space-0-5) var(--eidra-space-2);
 }

@@ -11,18 +11,21 @@
   line-height: var(--eidra-font-line-height-none);
   letter-spacing: var(--eidra-font-letter-spacing-display);
 }
+
 .display-xl {
   font-size: var(--eidra-font-size-6xl);
   font-weight: var(--eidra-font-weight-bold);
   line-height: var(--eidra-font-line-height-none);
   letter-spacing: var(--eidra-font-letter-spacing-display);
 }
+
 .display-lg {
   font-size: var(--eidra-font-size-5xl);
   font-weight: var(--eidra-font-weight-bold);
   line-height: var(--eidra-font-line-height-tight);
   letter-spacing: var(--eidra-font-letter-spacing-tight);
 }
+
 .display-md {
   font-size: var(--eidra-font-size-4xl);
   font-weight: var(--eidra-font-weight-bold);
@@ -37,27 +40,32 @@
   line-height: var(--eidra-font-line-height-tight);
   letter-spacing: var(--eidra-font-letter-spacing-tight);
 }
+
 .heading-2 {
   font-size: var(--eidra-font-size-2xl);
   font-weight: var(--eidra-font-weight-semibold);
   line-height: var(--eidra-font-line-height-tight);
   letter-spacing: var(--eidra-font-letter-spacing-tight);
 }
+
 .heading-3 {
   font-size: var(--eidra-font-size-xl);
   font-weight: var(--eidra-font-weight-semibold);
   line-height: var(--eidra-font-line-height-snug);
 }
+
 .heading-4 {
   font-size: var(--eidra-font-size-lg);
   font-weight: var(--eidra-font-weight-semibold);
   line-height: var(--eidra-font-line-height-snug);
 }
+
 .heading-5 {
   font-size: var(--eidra-font-size-md);
   font-weight: var(--eidra-font-weight-semibold);
   line-height: var(--eidra-font-line-height-snug);
 }
+
 .heading-6 {
   font-size: var(--eidra-font-size-base);
   font-weight: var(--eidra-font-weight-semibold);
@@ -70,27 +78,32 @@
   font-weight: var(--eidra-font-weight-regular);
   line-height: var(--eidra-font-line-height-normal);
 }
+
 .body {
   font-size: var(--eidra-font-size-base);
   font-weight: var(--eidra-font-weight-regular);
   line-height: var(--eidra-font-line-height-normal);
 }
+
 .body-sm {
   font-size: var(--eidra-font-size-sm);
   font-weight: var(--eidra-font-weight-regular);
   line-height: var(--eidra-font-line-height-normal);
 }
+
 .label {
   font-size: var(--eidra-font-size-sm);
   font-weight: var(--eidra-font-weight-medium);
   line-height: var(--eidra-font-line-height-snug);
 }
+
 .caption {
   font-size: var(--eidra-font-size-xs);
   font-weight: var(--eidra-font-weight-regular);
   line-height: var(--eidra-font-line-height-normal);
   color: var(--eidra-fg-muted);
 }
+
 .code {
   font-family: var(--eidra-font-family-mono);
   font-size: 0.9em;
@@ -100,15 +113,19 @@
 .tone-muted {
   color: var(--eidra-fg-muted);
 }
+
 .tone-subtle {
   color: var(--eidra-fg-subtle);
 }
+
 .tone-accent {
   color: var(--eidra-accent);
 }
+
 .tone-danger {
   color: var(--eidra-danger-fg);
 }
+
 .tone-inverse {
   color: var(--eidra-fg-on-inverse);
 }

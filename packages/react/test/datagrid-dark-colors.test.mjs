@@ -27,10 +27,7 @@ const CELL_CSS = readFileSync(
   here('../src/components/DataGrid/EditableNumberCell.module.css'),
   'utf8',
 );
-const GRID_CSS = readFileSync(
-  here('../src/components/DataGrid/DataGrid.module.css'),
-  'utf8',
-);
+const GRID_CSS = readFileSync(here('../src/components/DataGrid/DataGrid.module.css'), 'utf8');
 
 const AA_NORMAL = 4.5;
 
@@ -100,9 +97,7 @@ function contrast(fgHex, bgHex) {
 
 // ---- Parse the component's own mappings ----------------------------------
 function hoverBgToken(css) {
-  const m = css.match(
-    /\.cell:hover[^{]*\{[^}]*?background-color:\s*var\(\s*(--[\w-]+)\s*\)/s,
-  );
+  const m = css.match(/\.cell:hover[^{]*\{[^}]*?background-color:\s*var\(\s*(--[\w-]+)\s*\)/s);
   assert.ok(m, 'could not find the .cell:hover background-color');
   return m[1];
 }
@@ -127,10 +122,7 @@ const shadedSurfaces = [
 ];
 
 test('all four tones are wired up', () => {
-  assert.deepEqual(
-    Object.keys(tones).sort(),
-    ['accent', 'caution', 'danger', 'positive'],
-  );
+  assert.deepEqual(Object.keys(tones).sort(), ['accent', 'caution', 'danger', 'positive']);
 });
 
 // The cell-hover highlight must not reuse the row-hover colour, or a hovered
@@ -211,9 +203,7 @@ function toHex([r, g, b]) {
 // `color-mix(in srgb, <A> p%, <B>)` of two resolvable colours.
 function resolveColorValue(value) {
   const v = value.trim();
-  const mix = v.match(
-    /^color-mix\(\s*in srgb\s*,\s*(.+?)\s+(\d+(?:\.\d+)?)%\s*,\s*(.+?)\s*\)$/,
-  );
+  const mix = v.match(/^color-mix\(\s*in srgb\s*,\s*(.+?)\s+(\d+(?:\.\d+)?)%\s*,\s*(.+?)\s*\)$/);
   if (mix) {
     const a = hexToRgb(resolveColorValue(mix[1]));
     const b = hexToRgb(resolveColorValue(mix[3]));
@@ -237,20 +227,35 @@ function hoveredHighlightBg(css, toneAttr) {
 
 for (const variant of [
   { label: 'accent', toneAttr: 'data-highlighted', resting: '--eidra-accent-subtle' },
-  { label: 'finance', toneAttr: "data-highlight-tone='finance'", resting: '--eidra-finance-accent-subtle' },
+  {
+    label: 'finance',
+    toneAttr: "data-highlight-tone='finance'",
+    resting: '--eidra-finance-accent-subtle',
+  },
 ]) {
   const hovered = hoveredHighlightBg(GRID_CSS, variant.toneAttr);
   const resting = resolveDark(variant.resting);
   const rowHover = resolveDark('--eidra-surface-hover');
 
   test(`dark-theme: hovered ${variant.label} highlight differs from its resting tint`, () => {
-    assert.notEqual(hovered, resting, `${variant.label} highlight does not react to row hover (${hovered})`);
+    assert.notEqual(
+      hovered,
+      resting,
+      `${variant.label} highlight does not react to row hover (${hovered})`,
+    );
   });
   test(`dark-theme: hovered ${variant.label} highlight still differs from a plain hovered row`, () => {
-    assert.notEqual(hovered, rowHover, `${variant.label} highlight is indistinguishable from a normal hovered cell (${hovered})`);
+    assert.notEqual(
+      hovered,
+      rowHover,
+      `${variant.label} highlight is indistinguishable from a normal hovered cell (${hovered})`,
+    );
   });
   test(`dark-theme: body text stays legible on the hovered ${variant.label} highlight`, () => {
     const ratio = contrast(resolveDark('--eidra-fg'), hovered);
-    assert.ok(ratio >= AA_NORMAL, `--eidra-fg on hovered ${variant.label} highlight (${hovered}) is ${ratio.toFixed(2)}:1`);
+    assert.ok(
+      ratio >= AA_NORMAL,
+      `--eidra-fg on hovered ${variant.label} highlight (${hovered}) is ${ratio.toFixed(2)}:1`,
+    );
   });
 }

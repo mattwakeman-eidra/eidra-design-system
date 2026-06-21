@@ -29,11 +29,32 @@ type Story = StoryObj<typeof meta>;
 // A small sample panel exercising type, colour, control size, and a metric.
 function Panel({ label }: { label: ReactNode }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', padding: 'var(--eidra-space-4)' }}>
-      <div style={{ font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--eidra-fg-muted)' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-3)',
+        padding: 'var(--eidra-space-4)',
+      }}
+    >
+      <div
+        style={{
+          font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.06em',
+          color: 'var(--eidra-fg-muted)',
+        }}
+      >
         {label}
       </div>
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-2)', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: 'var(--eidra-space-2)',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+        }}
+      >
         <Button tone="accent">Save</Button>
         <Button variant="outline">Cancel</Button>
         <Badge tone="success">Active</Badge>
@@ -52,7 +73,11 @@ export const Playground: Story = {
       theme={args.theme}
       density={args.density}
       accent={args.accent}
-      style={{ maxWidth: 360, border: '1px solid var(--eidra-border)', borderRadius: 'var(--eidra-radius-lg)' }}
+      style={{
+        maxWidth: 360,
+        border: '1px solid var(--eidra-border)',
+        borderRadius: 'var(--eidra-radius-lg)',
+      }}
     >
       <Panel label={`${args.theme} · ${args.density} · ${args.accent}`} />
     </ThemeProvider>
@@ -66,12 +91,22 @@ export const Playground: Story = {
 export const Accent: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))', gap: 'var(--eidra-space-4)', maxWidth: 760 }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))',
+        gap: 'var(--eidra-space-4)',
+        maxWidth: 760,
+      }}
+    >
       {(['brand', 'finance'] as const).map((accent) => (
         <ThemeProvider
           key={accent}
           accent={accent}
-          style={{ border: '1px solid var(--eidra-border)', borderRadius: 'var(--eidra-radius-lg)' }}
+          style={{
+            border: '1px solid var(--eidra-border)',
+            borderRadius: 'var(--eidra-radius-lg)',
+          }}
         >
           <Panel label={`accent · ${accent}`} />
         </ThemeProvider>
@@ -84,14 +119,24 @@ export const Accent: Story = {
 export const Matrix: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))', gap: 'var(--eidra-space-4)', maxWidth: 760 }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))',
+        gap: 'var(--eidra-space-4)',
+        maxWidth: 760,
+      }}
+    >
       {(['light', 'dark'] as const).map((theme) =>
         (['comfortable', 'compact'] as const).map((density) => (
           <ThemeProvider
             key={`${theme}-${density}`}
             theme={theme}
             density={density}
-            style={{ border: '1px solid var(--eidra-border)', borderRadius: 'var(--eidra-radius-lg)' }}
+            style={{
+              border: '1px solid var(--eidra-border)',
+              borderRadius: 'var(--eidra-radius-lg)',
+            }}
           >
             <Panel label={`${theme} · ${density}`} />
           </ThemeProvider>

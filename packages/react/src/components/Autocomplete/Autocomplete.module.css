@@ -152,6 +152,7 @@
 .popup {
   display: flex;
   flex-direction: column;
+
   /* Width comes from the shared overlay policy (`data-eidra-width`, default
    * `anchor`) in base.css — see utils/overlayWidth.ts. */
   max-height: 320px;
@@ -267,13 +268,16 @@
 :global([data-density='compact']) .list {
   padding: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .item {
   gap: var(--eidra-space-1);
   padding: var(--eidra-space-0-5) var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .groupLabel {
   padding: var(--eidra-space-0-5) var(--eidra-space-1-5);
 }
+
 :global([data-density='compact']) .empty {
   padding: var(--eidra-space-3) var(--eidra-space-2);
 }

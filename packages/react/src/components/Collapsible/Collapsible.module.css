@@ -57,6 +57,7 @@
   width: var(--eidra-size-icon-sm);
   height: var(--eidra-size-icon-sm);
   background-color: currentcolor;
+
   /* Chevron down shape via clip-path */
   clip-path: polygon(20% 35%, 50% 65%, 80% 35%, 87% 42%, 50% 75%, 13% 42%);
   transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
@@ -70,6 +71,7 @@
 
 .panel {
   overflow: hidden;
+
   /* Base UI sets --collapsible-panel-height for the animation */
   height: var(--collapsible-panel-height);
   transition: height var(--eidra-duration-base) var(--eidra-easing-standard);

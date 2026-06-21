@@ -38,9 +38,11 @@
   border-radius: var(--eidra-radius-sm);
   transition: color var(--eidra-duration-fast) var(--eidra-easing-standard);
 }
+
 .link:hover {
   color: var(--eidra-fg);
 }
+
 .link:focus-visible {
   outline: 2px solid var(--eidra-focus-ring);
   outline-offset: 2px;
@@ -55,6 +57,7 @@
 :global([data-density='compact']) .list {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .link {
   gap: var(--eidra-space-0-5);
 }

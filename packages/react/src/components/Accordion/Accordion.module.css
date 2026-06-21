@@ -112,6 +112,7 @@
     height: 0;
     padding-bottom: 0;
   }
+
   to {
     opacity: 1;
     height: var(--accordion-panel-height);
@@ -125,6 +126,7 @@
     height: var(--accordion-panel-height);
     padding-bottom: var(--eidra-space-4);
   }
+
   to {
     opacity: 0;
     height: 0;

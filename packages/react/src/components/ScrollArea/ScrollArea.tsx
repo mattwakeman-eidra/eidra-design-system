@@ -21,13 +21,7 @@ const Root = forwardRef<HTMLDivElement, ScrollAreaRootOwnProps>(function Root(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseScrollArea.Root
-      ref={ref}
-      className={cn(styles.root, className)}
-      {...props}
-    />
-  );
+  return <BaseScrollArea.Root ref={ref} className={cn(styles.root, className)} {...props} />;
 });
 
 // ---- Viewport ----
@@ -41,11 +35,7 @@ const Viewport = forwardRef<HTMLDivElement, ScrollAreaViewportOwnProps>(function
   ref,
 ) {
   return (
-    <BaseScrollArea.Viewport
-      ref={ref}
-      className={cn(styles.viewport, className)}
-      {...props}
-    />
+    <BaseScrollArea.Viewport ref={ref} className={cn(styles.viewport, className)} {...props} />
   );
 });
 
@@ -59,13 +49,7 @@ const Content = forwardRef<HTMLDivElement, ScrollAreaContentOwnProps>(function C
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseScrollArea.Content
-      ref={ref}
-      className={cn(styles.content, className)}
-      {...props}
-    />
-  );
+  return <BaseScrollArea.Content ref={ref} className={cn(styles.content, className)} {...props} />;
 });
 
 // ---- Scrollbar ----
@@ -102,13 +86,7 @@ const Thumb = forwardRef<HTMLDivElement, ScrollAreaThumbOwnProps>(function Thumb
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseScrollArea.Thumb
-      ref={ref}
-      className={cn(styles.thumb, className)}
-      {...props}
-    />
-  );
+  return <BaseScrollArea.Thumb ref={ref} className={cn(styles.thumb, className)} {...props} />;
 });
 
 // ---- Corner ----
@@ -121,13 +99,7 @@ const Corner = forwardRef<HTMLDivElement, ScrollAreaCornerOwnProps>(function Cor
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseScrollArea.Corner
-      ref={ref}
-      className={cn(styles.corner, className)}
-      {...props}
-    />
-  );
+  return <BaseScrollArea.Corner ref={ref} className={cn(styles.corner, className)} {...props} />;
 });
 
 /**

@@ -66,7 +66,9 @@ export const Timeline = forwardRef<HTMLOListElement, TimelineProps>(function Tim
               <span className={styles.title}>{item.title}</span>
               {item.timestamp != null && <span className={styles.timestamp}>{item.timestamp}</span>}
             </div>
-            {item.description != null && <div className={styles.description}>{item.description}</div>}
+            {item.description != null && (
+              <div className={styles.description}>{item.description}</div>
+            )}
           </div>
         </li>
       ))}

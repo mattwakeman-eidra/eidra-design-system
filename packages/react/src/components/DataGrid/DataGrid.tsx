@@ -171,7 +171,12 @@ export interface DataGridProps<Row> {
    * The grid does not mutate data itself — apply the value to your row state here.
    * Omit to leave drag-fill disabled even on fillable columns.
    */
-  onFillRange?: (columnId: string, fromRowIndex: number, toRowIndex: number, value: unknown) => void;
+  onFillRange?: (
+    columnId: string,
+    fromRowIndex: number,
+    toRowIndex: number,
+    value: unknown,
+  ) => void;
   /** Accessible label for the grid. */
   'aria-label'?: string;
   className?: string;
@@ -293,13 +298,10 @@ function DataGridInner<Row>(
     };
   }, []);
 
-  const startFill = useCallback(
-    (columnId: string, fromIndex: number, value: unknown) => {
-      if (!onFillRangeRef.current) return;
-      setFill({ columnId, value, fromIndex, toIndex: fromIndex });
-    },
-    [],
-  );
+  const startFill = useCallback((columnId: string, fromIndex: number, value: unknown) => {
+    if (!onFillRangeRef.current) return;
+    setFill({ columnId, value, fromIndex, toIndex: fromIndex });
+  }, []);
 
   const hoverFill = useCallback((rowIndex: number) => {
     setFill((prev) => (prev && prev.toIndex !== rowIndex ? { ...prev, toIndex: rowIndex } : prev));
@@ -487,8 +489,7 @@ function DataGridInner<Row>(
   }, [hasPinned, visibleLeaves, tableLayout]);
 
   // Resolved sticky offset: measured rendered widths when available, else declared.
-  const pinnedOffset = (colId: string) =>
-    (measuredPinnedLeft ?? pinnedLeft).get(colId) ?? 0;
+  const pinnedOffset = (colId: string) => (measuredPinnedLeft ?? pinnedLeft).get(colId) ?? 0;
 
   const align = (col: DataGridColumn<Row>): DataGridAlign =>
     col.align ?? (col.numeric ? 'end' : 'start');
@@ -600,9 +601,7 @@ function DataGridInner<Row>(
           </thead>
 
           <tbody>
-            {totalsAtTop && (
-              <tr className={styles.totalsRow}>{renderTotalsCells('top')}</tr>
-            )}
+            {totalsAtTop && <tr className={styles.totalsRow}>{renderTotalsCells('top')}</tr>}
             {flatRows.map((fr, rowIndex) => {
               const detailCol =
                 openDetail?.rowId === fr.id ? colById.get(openDetail.colId) : undefined;
@@ -614,8 +613,7 @@ function DataGridInner<Row>(
                       const isFirst = col.id === firstLeafId;
                       const tone = col.cellTone?.(col.accessor?.(fr.row), fr.row);
                       const canDrill = !!col.renderCellDetail;
-                      const isOpen =
-                        openDetail?.rowId === fr.id && openDetail?.colId === col.id;
+                      const isOpen = openDetail?.rowId === fr.id && openDetail?.colId === col.id;
                       // Drag-fill: a handle is shown only on fillable columns when
                       // an `onFillRange` is wired. A cell is in-range while a fill
                       // on this column has the pointer between start and current.
@@ -647,9 +645,7 @@ function DataGridInner<Row>(
                           {...highlightProps(col)}
                           {...stickyProps(col, 'body')}
                           onMouseEnter={
-                            fill && fill.columnId === col.id
-                              ? () => hoverFill(rowIndex)
-                              : undefined
+                            fill && fill.columnId === col.id ? () => hoverFill(rowIndex) : undefined
                           }
                         >
                           <span

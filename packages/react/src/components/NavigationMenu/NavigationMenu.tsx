@@ -14,9 +14,7 @@ const Root = forwardRef<HTMLElement, NavigationMenuRootProps>(function Root(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseNavigationMenu.Root ref={ref} className={cn(styles.root, className)} {...props} />
-  );
+  return <BaseNavigationMenu.Root ref={ref} className={cn(styles.root, className)} {...props} />;
 });
 
 // ─── List ────────────────────────────────────────────────────────────────────
@@ -29,9 +27,7 @@ const List = forwardRef<HTMLUListElement, NavigationMenuListProps>(function List
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseNavigationMenu.List ref={ref} className={cn(styles.list, className)} {...props} />
-  );
+  return <BaseNavigationMenu.List ref={ref} className={cn(styles.list, className)} {...props} />;
 });
 
 // ─── Item ────────────────────────────────────────────────────────────────────
@@ -44,9 +40,7 @@ const Item = forwardRef<HTMLLIElement, NavigationMenuItemProps>(function Item(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseNavigationMenu.Item ref={ref} className={cn(styles.item, className)} {...props} />
-  );
+  return <BaseNavigationMenu.Item ref={ref} className={cn(styles.item, className)} {...props} />;
 });
 
 // ─── Trigger ─────────────────────────────────────────────────────────────────
@@ -60,11 +54,7 @@ const Trigger = forwardRef<HTMLButtonElement, NavigationMenuTriggerProps>(functi
   ref,
 ) {
   return (
-    <BaseNavigationMenu.Trigger
-      ref={ref}
-      className={cn(styles.trigger, className)}
-      {...props}
-    />
+    <BaseNavigationMenu.Trigger ref={ref} className={cn(styles.trigger, className)} {...props} />
   );
 });
 
@@ -77,11 +67,7 @@ export type NavigationMenuIconProps = BaseNavigationMenu.Icon.Props & {
 const NavigationMenuIconPart = forwardRef<HTMLDivElement, NavigationMenuIconProps>(
   function NavigationMenuIconPart({ className, ...props }, ref) {
     return (
-      <BaseNavigationMenu.Icon
-        ref={ref}
-        className={cn(styles.triggerIcon, className)}
-        {...props}
-      />
+      <BaseNavigationMenu.Icon ref={ref} className={cn(styles.triggerIcon, className)} {...props} />
     );
   },
 );
@@ -100,19 +86,20 @@ export type NavigationMenuPositionerProps = BaseNavigationMenu.Positioner.Props 
   className?: string;
 };
 
-const Positioner = forwardRef<HTMLDivElement, NavigationMenuPositionerProps>(
-  function Positioner({ className, ...props }, ref) {
-    const scope = useScopeDataAttrs();
-    return (
-      <BaseNavigationMenu.Positioner
-        ref={ref}
-        className={cn(styles.positioner, className)}
-        {...scope}
-        {...props}
-      />
-    );
-  },
-);
+const Positioner = forwardRef<HTMLDivElement, NavigationMenuPositionerProps>(function Positioner(
+  { className, ...props },
+  ref,
+) {
+  const scope = useScopeDataAttrs();
+  return (
+    <BaseNavigationMenu.Positioner
+      ref={ref}
+      className={cn(styles.positioner, className)}
+      {...scope}
+      {...props}
+    />
+  );
+});
 
 // ─── Viewport ────────────────────────────────────────────────────────────────
 
@@ -125,11 +112,7 @@ const Viewport = forwardRef<HTMLDivElement, NavigationMenuViewportProps>(functio
   ref,
 ) {
   return (
-    <BaseNavigationMenu.Viewport
-      ref={ref}
-      className={cn(styles.viewport, className)}
-      {...props}
-    />
+    <BaseNavigationMenu.Viewport ref={ref} className={cn(styles.viewport, className)} {...props} />
   );
 });
 
@@ -143,9 +126,7 @@ const Popup = forwardRef<HTMLElement, NavigationMenuPopupProps>(function Popup(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseNavigationMenu.Popup ref={ref} className={cn(styles.popup, className)} {...props} />
-  );
+  return <BaseNavigationMenu.Popup ref={ref} className={cn(styles.popup, className)} {...props} />;
 });
 
 // ─── Content ─────────────────────────────────────────────────────────────────
@@ -159,11 +140,7 @@ const Content = forwardRef<HTMLDivElement, NavigationMenuContentProps>(function 
   ref,
 ) {
   return (
-    <BaseNavigationMenu.Content
-      ref={ref}
-      className={cn(styles.content, className)}
-      {...props}
-    />
+    <BaseNavigationMenu.Content ref={ref} className={cn(styles.content, className)} {...props} />
   );
 });
 
@@ -177,9 +154,7 @@ const Arrow = forwardRef<HTMLDivElement, NavigationMenuArrowProps>(function Arro
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseNavigationMenu.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />
-  );
+  return <BaseNavigationMenu.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />;
 });
 
 // ─── Backdrop ────────────────────────────────────────────────────────────────
@@ -193,11 +168,7 @@ const Backdrop = forwardRef<HTMLDivElement, NavigationMenuBackdropProps>(functio
   ref,
 ) {
   return (
-    <BaseNavigationMenu.Backdrop
-      ref={ref}
-      className={cn(styles.backdrop, className)}
-      {...props}
-    />
+    <BaseNavigationMenu.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />
   );
 });
 
@@ -211,9 +182,7 @@ const Link = forwardRef<HTMLAnchorElement, NavigationMenuLinkProps>(function Lin
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseNavigationMenu.Link ref={ref} className={cn(styles.link, className)} {...props} />
-  );
+  return <BaseNavigationMenu.Link ref={ref} className={cn(styles.link, className)} {...props} />;
 });
 
 // ─── Compound export ──────────────────────────────────────────────────────────

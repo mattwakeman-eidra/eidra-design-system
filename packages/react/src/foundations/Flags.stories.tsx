@@ -53,22 +53,30 @@ const sizeControl = { control: 'inline-radio', options: SIZE_OPTIONS } as const;
 
 /** The five regions the monthly financial deck reports on. Toggle the name and code on/off. */
 export const RegionSet: StoryObj<{ size: FlagSize; showName: boolean; showCode: boolean }> = {
-  argTypes: { size: sizeControl, showName: { control: 'boolean' }, showCode: { control: 'boolean' } },
+  argTypes: {
+    size: sizeControl,
+    showName: { control: 'boolean' },
+    showCode: { control: 'boolean' },
+  },
   args: { size: 'md', showName: true, showCode: false },
   render: ({ size, showName, showCode }) => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-5)' }}>
-      {([
-        ['SE', 'Sweden'],
-        ['NO', 'Norway'],
-        ['NL', 'Netherlands'],
-        ['DE', 'DACH'],
-        ['US', 'USA'],
-      ] as const).map(([code, name]) => (
+      {(
+        [
+          ['SE', 'Sweden'],
+          ['NO', 'Norway'],
+          ['NL', 'Netherlands'],
+          ['DE', 'DACH'],
+          ['US', 'USA'],
+        ] as const
+      ).map(([code, name]) => (
         <Cell key={code}>
           <Flag code={code} size={size} label={name} />
           {showName && <span>{name}</span>}
           {showCode && (
-            <code style={{ color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-xs)' }}>{code}</code>
+            <code style={{ color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-xs)' }}>
+              {code}
+            </code>
           )}
         </Cell>
       ))}
@@ -89,7 +97,9 @@ export const Sizes: StoryObj<{ code: string }> = {
       {SIZE_OPTIONS.map((size) => (
         <Cell key={size}>
           <Flag code={code} size={size} label={`${countryName(code)} (${size})`} />
-          <code style={{ color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-xs)' }}>{size}</code>
+          <code style={{ color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-xs)' }}>
+            {size}
+          </code>
         </Cell>
       ))}
     </div>
@@ -189,7 +199,9 @@ export const AllFlags: StoryObj<FlagGalleryArgs> = {
                 </span>
               )}
               {showCode && (
-                <code style={{ fontSize: 'var(--eidra-font-size-xs)', color: 'var(--eidra-fg-muted)' }}>
+                <code
+                  style={{ fontSize: 'var(--eidra-font-size-xs)', color: 'var(--eidra-fg-muted)' }}
+                >
                   {code}
                 </code>
               )}

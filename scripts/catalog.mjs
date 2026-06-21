@@ -37,7 +37,9 @@ function parts(src, name) {
   // Keys of a compound export: `export const Name = { A, B }` or `Object.assign(X, { A, B })`.
   const obj =
     clean.match(new RegExp(`export const ${name}\\s*(?::[^=]+)?=\\s*\\{([\\s\\S]*?)\\}`)) ||
-    clean.match(new RegExp(`export const ${name}\\s*=\\s*Object\\.assign\\([^,]+,\\s*\\{([\\s\\S]*?)\\}`));
+    clean.match(
+      new RegExp(`export const ${name}\\s*=\\s*Object\\.assign\\([^,]+,\\s*\\{([\\s\\S]*?)\\}`),
+    );
   if (!obj) return [];
   // Parts may be written one-per-line OR inline (`{ Root, Image, Fallback }`),
   // as shorthand (`Root`) or `Root: Value` — so split on commas and take the
@@ -54,7 +56,13 @@ function exportsFrom(indexSrc) {
   for (const m of indexSrc.matchAll(/export\s+(type\s+)?\{([^}]*)\}/g)) {
     const names = m[2]
       .split(',')
-      .map((s) => s.trim().split(/\s+as\s+/).pop().trim())
+      .map((s) =>
+        s
+          .trim()
+          .split(/\s+as\s+/)
+          .pop()
+          .trim(),
+      )
       .filter(Boolean);
     (m[1] ? types : values).push(...names);
   }
@@ -73,11 +81,14 @@ async function tokenReference() {
     '### Tokens (use these exact CSS variable names; never invent tokens)',
     '',
     '**Semantic colors (theme-aware — prefer these):**',
-    bucket(/^--eidra-(bg|surface|fg|border|accent|coral|focus|success|danger|warning|info)/)
-      .join(' '),
+    bucket(/^--eidra-(bg|surface|fg|border|accent|coral|focus|success|danger|warning|info)/).join(
+      ' ',
+    ),
     '',
     '**Primitive color scales:** ' +
-      ['grey', 'orange', 'coral', 'green', 'blue', 'red'].map((p) => `${p} (${scale(p)})`).join(', '),
+      ['grey', 'orange', 'coral', 'green', 'blue', 'red']
+        .map((p) => `${p} (${scale(p)})`)
+        .join(', '),
     '',
     '**Type:** ' + bucket(/^--eidra-font-/).join(' '),
     '',
@@ -152,7 +163,9 @@ async function main() {
       const rows = byCategory[cat]
         .map((e) => {
           const imp = e.values.join(', ');
-          const partsStr = e.parts.length ? ` · parts: ${e.parts.map((p) => `${e.name}.${p}`).join(', ')}` : '';
+          const partsStr = e.parts.length
+            ? ` · parts: ${e.parts.map((p) => `${e.name}.${p}`).join(', ')}`
+            : '';
           const desc = e.description ? ` — ${e.description}` : '';
           return `- **${e.name}**${desc}\n  - import: \`import { ${imp} } from '@eidra/react'\`${partsStr}`;
         })
@@ -166,7 +179,9 @@ async function main() {
 
   await fs.writeFile(path.join(ROOT, 'docs/COMPONENTS.md'), body);
   await fs.writeFile(path.join(ROOT, 'packages/react/llms.txt'), body);
-  console.log(`✓ catalog: ${entries.length} components → docs/COMPONENTS.md + packages/react/llms.txt`);
+  console.log(
+    `✓ catalog: ${entries.length} components → docs/COMPONENTS.md + packages/react/llms.txt`,
+  );
 }
 
 main().catch((err) => {

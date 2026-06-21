@@ -100,11 +100,14 @@
 .popup {
   display: flex;
   flex-direction: column;
+
   /* Readable floor + a fixed ceiling; the width strategy and the
    * min(cap, viewport) come from the shared overlay policy (`data-eidra-width`,
    * default `content`) in base.css. */
   min-width: var(--eidra-size-container-2xs);
+
   --eidra-overlay-max-width: var(--eidra-size-container-xs);
+
   border: 1px solid var(--eidra-border);
   border-radius: var(--eidra-radius-lg);
   background-color: var(--eidra-surface-raised);
@@ -147,7 +150,8 @@
 .searchInput {
   width: 100%;
   height: var(--eidra-size-control-sm);
-  padding-inline: calc(var(--eidra-space-2) + var(--eidra-size-icon-sm) + var(--eidra-space-1)) var(--eidra-space-2);
+  padding-inline: calc(var(--eidra-space-2) + var(--eidra-size-icon-sm) + var(--eidra-space-1))
+    var(--eidra-space-2);
   border: 1px solid var(--eidra-border);
   border-radius: var(--eidra-radius-md);
   background-color: var(--eidra-surface);

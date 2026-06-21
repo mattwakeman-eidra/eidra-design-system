@@ -34,9 +34,11 @@
 .root[data-align='between'] .actions {
   margin-inline-start: auto;
 }
+
 .root[data-align='end'] {
   justify-content: flex-end;
 }
+
 .root[data-align='start'] {
   justify-content: flex-start;
 }
@@ -50,10 +52,12 @@
   background-color: var(--eidra-surface-raised);
   box-shadow: var(--eidra-shadow-lg);
 }
+
 .root[data-sticky='bottom'] {
   bottom: 0;
   border-block-start: 1px solid var(--eidra-border);
 }
+
 .root[data-sticky='top'] {
   top: 0;
   border-block-end: 1px solid var(--eidra-border);

@@ -64,7 +64,6 @@ export const Playground: Story = {
     disabled: false,
   },
   render: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState<string[]>([]);
     return (
       <FilterSelect
@@ -133,9 +132,7 @@ export const Default: Story = {
     await step('Escape closes the popover', async () => {
       await userEvent.keyboard('{Escape}');
       await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
-      await waitFor(() =>
-        expect(screen.queryByRole('checkbox', { name: /Nordics/ })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('checkbox', { name: /Nordics/ })).toBeNull());
     });
   },
 };
@@ -171,9 +168,7 @@ export const Searchable: Story = {
       await userEvent.type(search, 'Fischer');
       const fischer = await screen.findByRole('checkbox', { name: /Fischer/ });
       await waitFor(() => expect(fischer).toBeVisible());
-      await waitFor(() =>
-        expect(screen.queryByRole('checkbox', { name: /Lindqvist/ })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('checkbox', { name: /Lindqvist/ })).toBeNull());
     });
 
     await step('a query with no matches shows the empty message', async () => {
@@ -199,8 +194,22 @@ export const Preselected: Story = {
     const [many, setMany] = useState<string[]>(['nordics', 'dach', 'uki']);
     return (
       <div style={{ display: 'flex', gap: 'var(--eidra-space-3)' }}>
-        <FilterSelect aria-label="Region" placeholder="Region" noun="region" options={REGIONS} value={one} onValueChange={setOne} />
-        <FilterSelect aria-label="Region" placeholder="Region" noun="region" options={REGIONS} value={many} onValueChange={setMany} />
+        <FilterSelect
+          aria-label="Region"
+          placeholder="Region"
+          noun="region"
+          options={REGIONS}
+          value={one}
+          onValueChange={setOne}
+        />
+        <FilterSelect
+          aria-label="Region"
+          placeholder="Region"
+          noun="region"
+          options={REGIONS}
+          value={many}
+          onValueChange={setMany}
+        />
       </div>
     );
   },
@@ -235,7 +244,15 @@ export const Small: Story = {
   render: () => {
     const [value, setValue] = useState<string[]>(['dach']);
     return (
-      <FilterSelect size="sm" aria-label="Region" placeholder="Region" noun="region" options={REGIONS} value={value} onValueChange={setValue} />
+      <FilterSelect
+        size="sm"
+        aria-label="Region"
+        placeholder="Region"
+        noun="region"
+        options={REGIONS}
+        value={value}
+        onValueChange={setValue}
+      />
     );
   },
 };
@@ -251,8 +268,22 @@ export const DisabledStates: Story = {
     ];
     return (
       <div style={{ display: 'flex', gap: 'var(--eidra-space-3)' }}>
-        <FilterSelect aria-label="Region" placeholder="Region" noun="region" options={opts} value={value} onValueChange={setValue} />
-        <FilterSelect aria-label="Region" placeholder="Region (disabled)" options={REGIONS} value={[]} onValueChange={() => {}} disabled />
+        <FilterSelect
+          aria-label="Region"
+          placeholder="Region"
+          noun="region"
+          options={opts}
+          value={value}
+          onValueChange={setValue}
+        />
+        <FilterSelect
+          aria-label="Region"
+          placeholder="Region (disabled)"
+          options={REGIONS}
+          value={[]}
+          onValueChange={() => {}}
+          disabled
+        />
       </div>
     );
   },
@@ -320,12 +351,60 @@ export const FilterToolbar: Story = {
     ];
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-2)' }}>
-        <FilterSelect size="sm" aria-label="Region" placeholder="Region" noun="region" options={REGIONS} value={region} onValueChange={setRegion} />
-        <FilterSelect size="sm" aria-label="Opco" placeholder="Opco" noun="opco" options={opcos} value={opco} onValueChange={setOpco} />
-        <FilterSelect size="sm" aria-label="Client" placeholder="Client" noun="client" options={clients} value={client} onValueChange={setClient} />
-        <FilterSelect size="sm" aria-label="Owner" placeholder="Owner" noun="owner" options={OWNERS} value={owner} onValueChange={setOwner} />
-        <FilterSelect size="sm" aria-label="Size" placeholder="Size" noun="size" options={sizes} value={size} onValueChange={setSize} />
-        <FilterSelect size="sm" aria-label="Industry" placeholder="Industry" noun="industry" options={industries} value={industry} onValueChange={setIndustry} />
+        <FilterSelect
+          size="sm"
+          aria-label="Region"
+          placeholder="Region"
+          noun="region"
+          options={REGIONS}
+          value={region}
+          onValueChange={setRegion}
+        />
+        <FilterSelect
+          size="sm"
+          aria-label="Opco"
+          placeholder="Opco"
+          noun="opco"
+          options={opcos}
+          value={opco}
+          onValueChange={setOpco}
+        />
+        <FilterSelect
+          size="sm"
+          aria-label="Client"
+          placeholder="Client"
+          noun="client"
+          options={clients}
+          value={client}
+          onValueChange={setClient}
+        />
+        <FilterSelect
+          size="sm"
+          aria-label="Owner"
+          placeholder="Owner"
+          noun="owner"
+          options={OWNERS}
+          value={owner}
+          onValueChange={setOwner}
+        />
+        <FilterSelect
+          size="sm"
+          aria-label="Size"
+          placeholder="Size"
+          noun="size"
+          options={sizes}
+          value={size}
+          onValueChange={setSize}
+        />
+        <FilterSelect
+          size="sm"
+          aria-label="Industry"
+          placeholder="Industry"
+          noun="industry"
+          options={industries}
+          value={industry}
+          onValueChange={setIndustry}
+        />
       </div>
     );
   },
@@ -378,9 +457,7 @@ export const ClearAndCallback: Story = {
       handler.mockClear();
       await userEvent.click(await screen.findByRole('button', { name: /clear/i }));
       await expect(handler).toHaveBeenCalledWith([]);
-      await waitFor(() =>
-        expect(screen.getByRole('button', { name: /clear/i })).toBeDisabled(),
-      );
+      await waitFor(() => expect(screen.getByRole('button', { name: /clear/i })).toBeDisabled());
       await waitFor(async () => expect(await screen.findByText('0 selected')).toBeVisible());
       // Trigger falls back to the placeholder once nothing is selected.
       await expect(trigger).toHaveTextContent(/Region/);
@@ -425,9 +502,7 @@ export const KeyboardInteraction: Story = {
       await userEvent.type(search, 'Persson');
       const match = await screen.findByRole('checkbox', { name: /Persson/ });
       await waitFor(() => expect(match).toBeVisible());
-      await waitFor(() =>
-        expect(screen.queryByRole('checkbox', { name: /Lindqvist/ })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('checkbox', { name: /Lindqvist/ })).toBeNull());
     });
 
     await step('Space toggles the focused option', async () => {

@@ -17,12 +17,7 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
   ref,
 ) {
   return (
-    <kbd
-      ref={ref}
-      className={cn(styles.root, className)}
-      data-size={size}
-      {...props}
-    >
+    <kbd ref={ref} className={cn(styles.root, className)} data-size={size} {...props}>
       {children}
     </kbd>
   );

@@ -14,31 +14,28 @@ export interface SwitchRootProps extends Omit<BaseSwitch.Root.Props, 'className'
   labelPosition?: 'start' | 'end';
 }
 
-const SwitchRoot = forwardRef<HTMLElement, SwitchRootProps>(
-  function SwitchRoot({ className, label, labelPosition = 'end', children, ...props }, ref) {
-    const track = (
-      <BaseSwitch.Root ref={ref} className={cn(styles.root, className)} {...props}>
-        <BaseSwitch.Thumb className={styles.thumb} />
-      </BaseSwitch.Root>
-    );
+const SwitchRoot = forwardRef<HTMLElement, SwitchRootProps>(function SwitchRoot(
+  { className, label, labelPosition = 'end', children, ...props },
+  ref,
+) {
+  const track = (
+    <BaseSwitch.Root ref={ref} className={cn(styles.root, className)} {...props}>
+      <BaseSwitch.Thumb className={styles.thumb} />
+    </BaseSwitch.Root>
+  );
 
-    if (label == null && children == null) {
-      return track;
-    }
+  if (label == null && children == null) {
+    return track;
+  }
 
-    return (
-      <label className={cn(styles.wrapper, props.disabled ? styles.wrapperDisabled : undefined)}>
-        {labelPosition === 'start' && (
-          <span className={styles.label}>{label ?? children}</span>
-        )}
-        {track}
-        {labelPosition === 'end' && (
-          <span className={styles.label}>{label ?? children}</span>
-        )}
-      </label>
-    );
-  },
-);
+  return (
+    <label className={cn(styles.wrapper, props.disabled ? styles.wrapperDisabled : undefined)}>
+      {labelPosition === 'start' && <span className={styles.label}>{label ?? children}</span>}
+      {track}
+      {labelPosition === 'end' && <span className={styles.label}>{label ?? children}</span>}
+    </label>
+  );
+});
 
 // ─── Switch.Thumb ─────────────────────────────────────────────────────────────
 
@@ -46,17 +43,12 @@ export interface SwitchThumbProps extends Omit<BaseSwitch.Thumb.Props, 'classNam
   className?: string;
 }
 
-const SwitchThumb = forwardRef<HTMLSpanElement, SwitchThumbProps>(
-  function SwitchThumb({ className, ...props }, ref) {
-    return (
-      <BaseSwitch.Thumb
-        ref={ref}
-        className={cn(styles.thumb, className)}
-        {...props}
-      />
-    );
-  },
-);
+const SwitchThumb = forwardRef<HTMLSpanElement, SwitchThumbProps>(function SwitchThumb(
+  { className, ...props },
+  ref,
+) {
+  return <BaseSwitch.Thumb ref={ref} className={cn(styles.thumb, className)} {...props} />;
+});
 
 // ─── Compound namespace export ────────────────────────────────────────────────
 

@@ -32,17 +32,21 @@
 .root:hover:not(:disabled) {
   background-color: var(--_bg-hover);
 }
+
 .root:active:not(:disabled) {
   background-color: var(--_bg-active);
 }
+
 .root:focus-visible {
   outline: 2px solid var(--eidra-focus-ring);
   outline-offset: 2px;
 }
+
 .root:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
 .root[data-loading] {
   cursor: progress;
 }
@@ -53,6 +57,7 @@
   padding-inline: var(--eidra-space-3);
   font-size: var(--eidra-font-size-xs);
 }
+
 .root[data-size='lg'] {
   height: var(--eidra-size-control-lg);
   padding-inline: var(--eidra-space-5);
@@ -62,6 +67,7 @@
 .root[data-full-width] {
   width: 100%;
 }
+
 .root[data-icon-only] {
   padding-inline: 0;
   aspect-ratio: 1;
@@ -75,6 +81,7 @@
   --_tone-fg: var(--eidra-accent-fg);
   --_tone-subtle: var(--eidra-accent-subtle);
 }
+
 .root[data-tone='coral'] {
   --_tone: var(--eidra-coral);
   --_tone-hover: var(--eidra-coral-hover);
@@ -82,6 +89,7 @@
   --_tone-fg: var(--eidra-coral-fg);
   --_tone-subtle: var(--eidra-coral-subtle);
 }
+
 .root[data-tone='danger'] {
   --_tone: var(--eidra-danger);
   --_tone-hover: var(--eidra-danger-hover);
@@ -89,6 +97,7 @@
   --_tone-fg: var(--eidra-color-white);
   --_tone-subtle: var(--eidra-danger-subtle);
 }
+
 .root[data-tone='neutral'] {
   --_tone: var(--eidra-fg);
   --_tone-hover: var(--eidra-fg);
@@ -104,6 +113,7 @@
   --_bg-hover: var(--_tone-hover);
   --_bg-active: var(--_tone-active);
 }
+
 .root[data-variant='outline'] {
   --_bg: transparent;
   --_fg: var(--_tone);
@@ -111,18 +121,21 @@
   --_bg-hover: var(--_tone-subtle);
   --_bg-active: var(--_tone-subtle);
 }
+
 .root[data-variant='ghost'] {
   --_bg: transparent;
   --_fg: var(--_tone);
   --_bg-hover: var(--_tone-subtle);
   --_bg-active: var(--_tone-subtle);
 }
+
 .root[data-variant='subtle'] {
   --_bg: var(--_tone-subtle);
   --_fg: var(--_tone);
   --_bg-hover: var(--_tone-subtle);
   --_bg-active: var(--_tone-subtle);
 }
+
 .root[data-tone='neutral'][data-variant='ghost'],
 .root[data-tone='neutral'][data-variant='outline'] {
   --_fg: var(--eidra-fg);
@@ -131,6 +144,7 @@
 .label {
   display: inline-block;
 }
+
 .icon {
   display: inline-flex;
   flex: none;

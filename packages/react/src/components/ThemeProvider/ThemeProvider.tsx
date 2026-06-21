@@ -30,22 +30,20 @@ export interface ThemeProviderProps extends ComponentPropsWithoutRef<'div'> {
  * attributes to your own root element instead of rendering this wrapper. The scope
  * is also published to portaled components (menus, dialogs, tooltips) so they match.
  */
-export const ThemeProvider = forwardRef<HTMLDivElement, ThemeProviderProps>(
-  function ThemeProvider(
-    { theme = 'light', density = 'comfortable', accent = 'brand', className, ...props },
-    ref,
-  ) {
-    return (
-      <EidraScopeProvider value={{ theme, density, accent }}>
-        <div
-          ref={ref}
-          className={cn('eidra-root', className)}
-          data-theme={theme}
-          data-density={density}
-          data-accent={accent}
-          {...props}
-        />
-      </EidraScopeProvider>
-    );
-  },
-);
+export const ThemeProvider = forwardRef<HTMLDivElement, ThemeProviderProps>(function ThemeProvider(
+  { theme = 'light', density = 'comfortable', accent = 'brand', className, ...props },
+  ref,
+) {
+  return (
+    <EidraScopeProvider value={{ theme, density, accent }}>
+      <div
+        ref={ref}
+        className={cn('eidra-root', className)}
+        data-theme={theme}
+        data-density={density}
+        data-accent={accent}
+        {...props}
+      />
+    </EidraScopeProvider>
+  );
+});

@@ -6,11 +6,11 @@ The shared design language and React component library Eidra uses to build web a
 
 ## Packages
 
-| Package | What it is |
-| --- | --- |
+| Package                              | What it is                                                                                                                                     |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`@eidra/tokens`](./packages/tokens) | Design tokens (color, type, spacing, themes) authored in DTCG JSON, built with Style Dictionary to CSS custom properties + typed TS constants. |
-| [`@eidra/icons`](./packages/icons) | Token-aware `<Icon>` wrapper around [Lucide](https://lucide.dev/), plus a tree-shakable re-export of the full icon set. |
-| [`@eidra/react`](./packages/react) | The React component library, built on Base UI and styled with CSS Modules + the token custom properties. |
+| [`@eidra/icons`](./packages/icons)   | Token-aware `<Icon>` wrapper around [Lucide](https://lucide.dev/), plus a tree-shakable re-export of the full icon set.                        |
+| [`@eidra/react`](./packages/react)   | The React component library, built on Base UI and styled with CSS Modules + the token custom properties.                                       |
 
 ## Quick start
 
@@ -55,13 +55,13 @@ See [`CONTEXT.md`](./CONTEXT.md) for the glossary and [`docs/adr/`](./docs/adr) 
 
 ## Brand foundations
 
-| Token | Value | |
-| --- | --- | --- |
-| `creme` | `#F5F2EC` | warm off-white neutral |
-| `taupe` | `#7A756E` | warm grey-brown |
-| `orange` | `#FAA21B` | primary accent |
-| `coral` | `#FF6F61` | secondary warm accent |
-| `grey-100…900` | `#E2E2E2 … #2B2B2B` | neutral ramp |
+| Token          | Value               |                        |
+| -------------- | ------------------- | ---------------------- |
+| `creme`        | `#F5F2EC`           | warm off-white neutral |
+| `taupe`        | `#7A756E`           | warm grey-brown        |
+| `orange`       | `#FAA21B`           | primary accent         |
+| `coral`        | `#FF6F61`           | secondary warm accent  |
+| `grey-100…900` | `#E2E2E2 … #2B2B2B` | neutral ramp           |
 
 Typeface: **Eidra Sans** (bundled in `packages/tokens/fonts/`). It ships two real masters — Regular and Bold, plus italics — so the four weight tokens map onto them via `@font-face` weight ranges (400–550 → Regular, 551–900 → Bold) with `font-synthesis: none` to avoid faux weights. Load it with `import '@eidra/tokens/fonts.css'`.
 
@@ -85,15 +85,15 @@ Step-by-step release runbook: **[docs/RELEASING.md](./docs/RELEASING.md)**. Cons
 
 ## Workspace scripts
 
-| Command | |
-| --- | --- |
-| `pnpm build` | Build all three packages in order. |
-| `pnpm build:tokens` | Rebuild just the tokens (after editing `packages/tokens/tokens/**`). |
-| `pnpm typecheck` | Typecheck every package. |
-| `pnpm lint` | ESLint (TS/TSX) + Stylelint (CSS Modules). |
-| `pnpm lint:fix` | The above, auto-fixing what's fixable. |
-| `pnpm format` / `pnpm format:check` | Write / check Prettier formatting across the repo. |
-| `pnpm storybook` / `pnpm build-storybook` | Run / build the Storybook workshop. |
+| Command                                   |                                                                      |
+| ----------------------------------------- | -------------------------------------------------------------------- |
+| `pnpm build`                              | Build all three packages in order.                                   |
+| `pnpm build:tokens`                       | Rebuild just the tokens (after editing `packages/tokens/tokens/**`). |
+| `pnpm typecheck`                          | Typecheck every package.                                             |
+| `pnpm lint`                               | ESLint (TS/TSX) + Stylelint (CSS Modules).                           |
+| `pnpm lint:fix`                           | The above, auto-fixing what's fixable.                               |
+| `pnpm format` / `pnpm format:check`       | Write / check Prettier formatting across the repo.                   |
+| `pnpm storybook` / `pnpm build-storybook` | Run / build the Storybook workshop.                                  |
 
 ## Code style
 

@@ -21,6 +21,7 @@
   align-items: baseline;
   gap: var(--eidra-space-3);
 }
+
 .root[data-orientation='horizontal'] .term {
   flex: none;
   min-width: 7rem;
@@ -52,7 +53,7 @@
 }
 
 /* Collapse multi-column grids to a single column on narrow viewports. */
-@media (max-width: 32rem) {
+@media (width <= 32rem) {
   .root {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -62,8 +63,10 @@
 :global([data-density='compact']) .root {
   --_row-gap: var(--eidra-space-1-5);
   --_pair-gap: var(--eidra-space-0-5);
+
   gap: var(--_row-gap) var(--eidra-space-3);
 }
+
 :global([data-density='compact']) .root[data-orientation='horizontal'] .row {
   gap: var(--eidra-space-1-5);
 }

@@ -179,6 +179,7 @@
   gap: var(--eidra-space-2);
   padding: var(--eidra-space-3);
 }
+
 :global([data-density='compact']) .title {
   font-size: var(--eidra-font-size-sm);
 }

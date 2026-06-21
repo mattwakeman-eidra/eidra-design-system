@@ -40,7 +40,14 @@ export const Playground: Story = {};
 /** Data age, escalating tone with `staleAfter` (here: 15 min). */
 export const DataAge: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', alignItems: 'flex-start' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-3)',
+        alignItems: 'flex-start',
+      }}
+    >
       <Freshness label="Data" since={minsAgo(2)} staleAfter={15 * 60_000} now={NOW} />
       <Freshness label="Data" since={minsAgo(28)} staleAfter={15 * 60_000} now={NOW} />
       <Freshness label="Actuals" since={hoursAgo(10)} staleAfter={15 * 60_000} now={NOW} />
@@ -51,7 +58,14 @@ export const DataAge: Story = {
 /** Explicit tones (no `staleAfter`). */
 export const Tones: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', alignItems: 'flex-start' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-3)',
+        alignItems: 'flex-start',
+      }}
+    >
       <Freshness label="Synced" since={minsAgo(1)} tone="positive" now={NOW} />
       <Freshness label="Syncing" since={minsAgo(5)} tone="caution" now={NOW} />
       <Freshness label="Failed" since={minsAgo(40)} tone="negative" now={NOW} />
@@ -79,7 +93,14 @@ export const LabelOnly: Story = {
 /** Relative-time buckets. */
 export const RelativeTime: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)', alignItems: 'flex-start' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-2)',
+        alignItems: 'flex-start',
+      }}
+    >
       <Freshness label="Updated" since={NOW - 10_000} now={NOW} tone="positive" />
       <Freshness label="Updated" since={minsAgo(12)} now={NOW} tone="positive" />
       <Freshness label="Updated" since={hoursAgo(10)} now={NOW} tone="caution" />

@@ -28,13 +28,7 @@ export interface SpinnerProps extends Omit<ComponentPropsWithoutRef<'span'>, 'ch
  * ```
  */
 export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
-  {
-    size = 'md',
-    tone = 'accent',
-    label = 'Loading…',
-    className,
-    ...props
-  },
+  { size = 'md', tone = 'accent', label = 'Loading…', className, ...props },
   ref,
 ) {
   return (

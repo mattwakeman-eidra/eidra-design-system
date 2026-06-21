@@ -88,13 +88,15 @@
 .indicator[data-indeterminate] {
   /* Override the inline width Base UI sets when value=null */
   width: 40% !important;
-  animation: eidra-progress-indeterminate var(--eidra-duration-slow) var(--eidra-easing-standard) infinite;
+  animation: eidra-progress-indeterminate var(--eidra-duration-slow) var(--eidra-easing-standard)
+    infinite;
 }
 
 @keyframes eidra-progress-indeterminate {
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(250%);
   }
@@ -118,6 +120,7 @@
 :global([data-density='compact']) .root {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .root[data-size='md'] {
   --_track-height: 6px;
 }

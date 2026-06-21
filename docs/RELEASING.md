@@ -17,9 +17,11 @@ You never bump versions or pack tarballs by hand — merging the two PRs does it
 ## Normal release (the click-path)
 
 1. **On your feature branch**, after making changes, add a changeset:
+
    ```bash
    pnpm changeset
    ```
+
    Pick the bump (`patch` for fixes, `minor` for new components/props, `major` for breaking changes) and write a one-line summary. This creates a file under `.changeset/`. Commit it with your change.
 
 2. **Open your PR.** CI (`ci.yml`) runs typecheck + build and **fails if no changeset is present**. Get it reviewed and merge to `main`.

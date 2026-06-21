@@ -40,7 +40,13 @@ const StatusStripCell = forwardRef<HTMLDivElement, StatusStripCellProps>(functio
   ref,
 ) {
   return (
-    <div ref={ref} className={cn(styles.cell, className)} data-status={status} role="listitem" {...props}>
+    <div
+      ref={ref}
+      className={cn(styles.cell, className)}
+      data-status={status}
+      role="listitem"
+      {...props}
+    >
       {label != null && <span className={styles.label}>{label}</span>}
       {children != null && <span className={styles.value}>{children}</span>}
     </div>

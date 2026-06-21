@@ -84,11 +84,11 @@ The version-stamped filename changes, so pnpm reinstalls the new code — no `--
 In `apps/web/src/app/layout.tsx`. frankly already loads Eidra Sans via `next/font/local`, so we **reuse that** and point the design system's font token at it (no second font download):
 
 ```tsx
-import type { ReactNode } from 'react'
-import { eidraSans } from './fonts'
-import '@eidra/react/styles.css' // tokens + reset + all component styles (one global import)
+import type { ReactNode } from 'react';
+import { eidraSans } from './fonts';
+import '@eidra/react/styles.css'; // tokens + reset + all component styles (one global import)
 
-export const metadata = { title: 'Frankly', description: '…' }
+export const metadata = { title: 'Frankly', description: '…' };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -97,12 +97,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         className="eidra-root"
         data-theme="light"
         data-density="comfortable"
-        style={{ margin: 0, ['--eidra-font-family-sans' as string]: 'var(--font-eidra-sans), system-ui, sans-serif' }}
+        style={{
+          margin: 0,
+          ['--eidra-font-family-sans' as string]: 'var(--font-eidra-sans), system-ui, sans-serif',
+        }}
       >
         {children}
       </body>
     </html>
-  )
+  );
 }
 ```
 
@@ -126,9 +129,9 @@ Tailwind v4 configures the theme in CSS, not a `tailwind.config.js`. Import the 
 
 ```css
 /* your globals.css */
-@import '@eidra/react/styles.css';   /* @layer eidra: --eidra-* variables + component styles */
-@import 'tailwindcss';               /* utilities land in @layer utilities (after eidra) */
-@import '@eidra/react/tailwind.css';  /* maps the tokens onto Tailwind's v4 @theme */
+@import '@eidra/react/styles.css'; /* @layer eidra: --eidra-* variables + component styles */
+@import 'tailwindcss'; /* utilities land in @layer utilities (after eidra) */
+@import '@eidra/react/tailwind.css'; /* maps the tokens onto Tailwind's v4 @theme */
 ```
 
 **Order matters:** keep `@eidra/react/styles.css` first. It declares `@layer eidra`, so importing it before `tailwindcss` registers `eidra` below Tailwind's `utilities` layer, which is what lets a utility like `w-24` or `border-0` override a DS rule on a component (e.g. `<Select.Trigger className="w-24" />`). Your own unlayered CSS beats both.
@@ -142,8 +145,8 @@ By default the bridge leaves Tailwind's built-in theme in place, so both Tailwin
 ```css
 @import '@eidra/react/styles.css';
 @import 'tailwindcss';
-@import '@eidra/react/tailwind-reset.css';  /* opt-in: drops Tailwind's default theme */
-@import '@eidra/react/tailwind.css';        /* re-adds only the Eidra tokens */
+@import '@eidra/react/tailwind-reset.css'; /* opt-in: drops Tailwind's default theme */
+@import '@eidra/react/tailwind.css'; /* re-adds only the Eidra tokens */
 ```
 
 The reset is just `@theme { --*: initial }`; order matters, since it clears all theme namespaces and the bridge then re-adds the Eidra ones. Omit the import to keep Tailwind's defaults alongside Eidra's.
@@ -155,19 +158,19 @@ The reset is just `@theme { --*: initial }`; order matters, since it clears all 
 module.exports = {
   presets: [require('@eidra/tokens/tailwind')],
   content: ['./src/**/*.{ts,tsx}'],
-}
+};
 ```
 
 You still load the CSS variables once (via `@eidra/react/styles.css` or `@eidra/tokens/css`); the preset only maps utilities onto `var(--eidra-*)`. Every token becomes an `eidra-`-prefixed utility:
 
-| Token family | Example utilities | Resolves to |
-| --- | --- | --- |
-| Colour | `bg-eidra-accent`, `text-eidra-fg-muted`, `border-eidra-finance-accent` | `var(--eidra-accent)` … |
-| Spacing | `p-eidra-4`, `gap-eidra-2`, `h-eidra-control-md` | `var(--eidra-space-4)` … |
-| Radius | `rounded-eidra-lg` | `var(--eidra-radius-lg)` |
-| Shadow | `shadow-eidra-md` | `var(--eidra-shadow-md)` |
-| Type | `font-eidra-sans`, `text-eidra-sm` | `var(--eidra-font-family-sans)` … |
-| Z-index | `z-eidra-modal` | `var(--eidra-z-modal)` |
+| Token family | Example utilities                                                       | Resolves to                       |
+| ------------ | ----------------------------------------------------------------------- | --------------------------------- |
+| Colour       | `bg-eidra-accent`, `text-eidra-fg-muted`, `border-eidra-finance-accent` | `var(--eidra-accent)` …           |
+| Spacing      | `p-eidra-4`, `gap-eidra-2`, `h-eidra-control-md`                        | `var(--eidra-space-4)` …          |
+| Radius       | `rounded-eidra-lg`                                                      | `var(--eidra-radius-lg)`          |
+| Shadow       | `shadow-eidra-md`                                                       | `var(--eidra-shadow-md)`          |
+| Type         | `font-eidra-sans`, `text-eidra-sm`                                      | `var(--eidra-font-family-sans)` … |
+| Z-index      | `z-eidra-modal`                                                         | `var(--eidra-z-modal)`            |
 
 The preset uses `theme.extend`, so Tailwind's built-in utilities keep working alongside the Eidra ones.
 
@@ -182,11 +185,11 @@ Two ready-to-paste pages live in the design system under `templates/examples/`. 
 ### `app/design/page.tsx` — component showcase
 
 ```tsx
-'use client'
+'use client';
 
-import { Typography, Button, Badge, Alert, Card, Separator, Tabs } from '@eidra/react'
-import { ArrowRight, Plus } from '@eidra/icons'
-import { Icon } from '@eidra/icons'
+import { Typography, Button, Badge, Alert, Card, Separator, Tabs } from '@eidra/react';
+import { ArrowRight, Plus } from '@eidra/icons';
+import { Icon } from '@eidra/icons';
 
 export default function DesignShowcase() {
   return (
@@ -208,7 +211,9 @@ export default function DesignShowcase() {
             <Button variant="outline">Outline</Button>
             <Button variant="ghost">Ghost</Button>
             <Button tone="coral">Coral</Button>
-            <Button tone="danger" variant="subtle">Danger</Button>
+            <Button tone="danger" variant="subtle">
+              Danger
+            </Button>
             <Button startIcon={<Icon icon={Plus} />}>Create</Button>
             <Button endIcon={<Icon icon={ArrowRight} />}>Continue</Button>
             <Button loading>Saving…</Button>
@@ -223,9 +228,15 @@ export default function DesignShowcase() {
         <Card.Body style={{ display: 'grid', gap: 'var(--eidra-space-4)' }}>
           <div style={{ display: 'flex', gap: 'var(--eidra-space-2)', flexWrap: 'wrap' }}>
             <Badge tone="accent">Active</Badge>
-            <Badge tone="success" variant="subtle">Synced</Badge>
-            <Badge tone="warning" variant="subtle">Pending</Badge>
-            <Badge tone="danger" variant="outline">Failed</Badge>
+            <Badge tone="success" variant="subtle">
+              Synced
+            </Badge>
+            <Badge tone="warning" variant="subtle">
+              Pending
+            </Badge>
+            <Badge tone="danger" variant="outline">
+              Failed
+            </Badge>
           </div>
           <Separator />
           <Alert tone="info" title="Heads up">
@@ -262,27 +273,29 @@ export default function DesignShowcase() {
         </Card.Body>
       </Card>
     </main>
-  )
+  );
 }
 ```
 
 ### `app/design/settings/page.tsx` — a form with controls
 
 ```tsx
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Typography, Card, Field, Input, Switch, Button, Separator } from '@eidra/react'
+import { useState } from 'react';
+import { Typography, Card, Field, Input, Switch, Button, Separator } from '@eidra/react';
 
 export default function SettingsForm() {
-  const [notify, setNotify] = useState(true)
+  const [notify, setNotify] = useState(true);
 
   return (
     <main style={{ maxWidth: 560, margin: '0 auto' }}>
       <Card padding="lg">
         <Card.Header style={{ display: 'grid', gap: 'var(--eidra-space-1)' }}>
           <Typography variant="heading-2">Workspace settings</Typography>
-          <Typography variant="body-sm" tone="muted">Manage how your workspace behaves.</Typography>
+          <Typography variant="body-sm" tone="muted">
+            Manage how your workspace behaves.
+          </Typography>
         </Card.Header>
         <Card.Body style={{ display: 'grid', gap: 'var(--eidra-space-5)' }}>
           <Field label="Workspace name" hint="Shown to everyone in the workspace.">
@@ -292,17 +305,25 @@ export default function SettingsForm() {
             <Input type="email" defaultValue="not-an-email" />
           </Field>
           <Separator />
-          <Switch.Root checked={notify} onCheckedChange={setNotify} label="Email me about sync failures">
+          <Switch.Root
+            checked={notify}
+            onCheckedChange={setNotify}
+            label="Email me about sync failures"
+          >
             <Switch.Thumb />
           </Switch.Root>
         </Card.Body>
-        <Card.Footer style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--eidra-space-3)' }}>
-          <Button variant="ghost" tone="neutral">Cancel</Button>
+        <Card.Footer
+          style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--eidra-space-3)' }}
+        >
+          <Button variant="ghost" tone="neutral">
+            Cancel
+          </Button>
           <Button>Save changes</Button>
         </Card.Footer>
       </Card>
     </main>
-  )
+  );
 }
 ```
 
@@ -320,10 +341,12 @@ Add a section to the consumer's `CLAUDE.md` (or `AGENTS.md`) so the agent knows 
 ## Eidra Design System (@eidra/react)
 
 UI is built with the Eidra Design System. Before writing UI:
+
 - Read `node_modules/@eidra/react/llms.txt` for the component catalog (what exists, imports, compound parts).
 - Read `node_modules/@eidra/react/dist/index.d.ts` for exact prop types — it is the source of truth.
 
 Rules:
+
 - Components: `import { Button, Field, Input, ... } from '@eidra/react'`. Icons: `import { Icon, ChevronDown } from '@eidra/icons'`.
 - Global styles + theme scope are set once in `src/app/layout.tsx` (`@eidra/react/styles.css`, `class="eidra-root" data-theme=…`). Don't re-import styles per page.
 - Style with token CSS variables (`var(--eidra-space-4)`, `var(--eidra-fg)`), never raw colors/spacing. Token names are listed in `llms.txt`.

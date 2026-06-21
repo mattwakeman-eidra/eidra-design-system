@@ -43,7 +43,9 @@ const Positioner = forwardRef<HTMLDivElement, Menu.Positioner.Props>(function Po
   ref,
 ) {
   const scope = useScopeDataAttrs();
-  return <Menu.Positioner ref={ref} className={cn(styles.positioner, className)} {...scope} {...props} />;
+  return (
+    <Menu.Positioner ref={ref} className={cn(styles.positioner, className)} {...scope} {...props} />
+  );
 });
 
 // ─── Popup ────────────────────────────────────────────────────────────────────
@@ -74,10 +76,7 @@ const Popup = forwardRef<HTMLDivElement, MenubarPopupProps>(function Popup(
 
 // ─── Item ─────────────────────────────────────────────────────────────────────
 
-const Item = forwardRef<HTMLElement, Menu.Item.Props>(function Item(
-  { className, ...props },
-  ref,
-) {
+const Item = forwardRef<HTMLElement, Menu.Item.Props>(function Item({ className, ...props }, ref) {
   return <Menu.Item ref={ref} className={cn(styles.item, className)} {...props} />;
 });
 
@@ -114,27 +113,23 @@ const SubmenuRoot = Menu.SubmenuRoot;
 
 // ─── SubmenuTrigger ───────────────────────────────────────────────────────────
 
-const SubmenuTrigger = forwardRef<HTMLElement, Menu.SubmenuTrigger.Props>(
-  function SubmenuTrigger({ className, ...props }, ref) {
-    return (
-      <Menu.SubmenuTrigger
-        ref={ref}
-        className={cn(styles.submenuTrigger, className)}
-        {...props}
-      />
-    );
-  },
-);
+const SubmenuTrigger = forwardRef<HTMLElement, Menu.SubmenuTrigger.Props>(function SubmenuTrigger(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <Menu.SubmenuTrigger ref={ref} className={cn(styles.submenuTrigger, className)} {...props} />
+  );
+});
 
 // ─── CheckboxItem ─────────────────────────────────────────────────────────────
 
-const CheckboxItem = forwardRef<HTMLElement, Menu.CheckboxItem.Props>(
-  function CheckboxItem({ className, ...props }, ref) {
-    return (
-      <Menu.CheckboxItem ref={ref} className={cn(styles.checkboxItem, className)} {...props} />
-    );
-  },
-);
+const CheckboxItem = forwardRef<HTMLElement, Menu.CheckboxItem.Props>(function CheckboxItem(
+  { className, ...props },
+  ref,
+) {
+  return <Menu.CheckboxItem ref={ref} className={cn(styles.checkboxItem, className)} {...props} />;
+});
 
 // ─── CheckboxItemIndicator ────────────────────────────────────────────────────
 

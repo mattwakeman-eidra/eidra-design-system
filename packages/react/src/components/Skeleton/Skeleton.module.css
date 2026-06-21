@@ -62,7 +62,8 @@
     background-image: none;
 
     /* Subtle opacity pulse instead — much less motion */
-    animation: eidra-skeleton-fade var(--eidra-duration-slow) var(--eidra-easing-standard) infinite alternate;
+    animation: eidra-skeleton-fade var(--eidra-duration-slow) var(--eidra-easing-standard) infinite
+      alternate;
   }
 
   @keyframes eidra-skeleton-fade {

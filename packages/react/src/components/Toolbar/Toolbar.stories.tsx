@@ -124,7 +124,9 @@ export const Playground: Story = {
       await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}');
       // Bold → Italic → Underline → Align left (separator between Underline and
       // Align left is skipped, not counted as a stop).
-      await waitFor(() => expect(canvas.getByRole('button', { name: /align left/i })).toHaveFocus());
+      await waitFor(() =>
+        expect(canvas.getByRole('button', { name: /align left/i })).toHaveFocus(),
+      );
     });
   },
 };
@@ -216,11 +218,7 @@ export const WithInput: Story = {
       <Toolbar.Button aria-label="Search">
         <Icon icon={Search} size="sm" />
       </Toolbar.Button>
-      <Toolbar.Input
-        placeholder="Search engagements…"
-        style={{ width: 220 }}
-        aria-label="Search"
-      />
+      <Toolbar.Input placeholder="Search engagements…" style={{ width: 220 }} aria-label="Search" />
       <Toolbar.Separator />
       <Toolbar.Button>All</Toolbar.Button>
       <Toolbar.Button>Active</Toolbar.Button>

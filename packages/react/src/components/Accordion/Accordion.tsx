@@ -24,9 +24,7 @@ const Root = forwardRef<HTMLDivElement, AccordionRootProps>(function Root(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseAccordion.Root ref={ref} className={cn(styles.root, className)} {...props} />
-  );
+  return <BaseAccordion.Root ref={ref} className={cn(styles.root, className)} {...props} />;
 });
 
 // ─── Item ─────────────────────────────────────────────────────────────────────
@@ -42,9 +40,7 @@ const Item = forwardRef<HTMLDivElement, AccordionItemProps>(function Item(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseAccordion.Item ref={ref} className={cn(styles.item, className)} {...props} />
-  );
+  return <BaseAccordion.Item ref={ref} className={cn(styles.item, className)} {...props} />;
 });
 
 // ─── Header ──────────────────────────────────────────────────────────────────
@@ -60,15 +56,15 @@ const Header = forwardRef<HTMLHeadingElement, AccordionHeaderProps>(function Hea
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseAccordion.Header ref={ref} className={cn(styles.header, className)} {...props} />
-  );
+  return <BaseAccordion.Header ref={ref} className={cn(styles.header, className)} {...props} />;
 });
 
 // ─── Trigger ─────────────────────────────────────────────────────────────────
 
-export interface AccordionTriggerProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof BaseAccordion.Trigger>, 'className'> {
+export interface AccordionTriggerProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof BaseAccordion.Trigger>,
+  'className'
+> {
   /** Icon rendered at the trailing edge that rotates when open. Defaults to a chevron SVG. */
   indicator?: ReactNode;
   className?: string;
@@ -122,9 +118,7 @@ const Panel = forwardRef<HTMLDivElement, AccordionPanelProps>(function Panel(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseAccordion.Panel ref={ref} className={cn(styles.panel, className)} {...props} />
-  );
+  return <BaseAccordion.Panel ref={ref} className={cn(styles.panel, className)} {...props} />;
 });
 
 // ─── Compound export ──────────────────────────────────────────────────────────

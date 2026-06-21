@@ -36,73 +36,50 @@ const Root = BaseAutocomplete.Root;
 
 // ---- Control (styled input group container — not a Base UI part) ----
 // Wraps the Input + Trigger into a single focused border container.
-const Control = forwardRef<HTMLDivElement, AutocompleteControlProps>(
-  function Control({ className, ...props }, ref) {
-    return (
-      <div
-        ref={ref}
-        className={cn(styles.control, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Control = forwardRef<HTMLDivElement, AutocompleteControlProps>(function Control(
+  { className, ...props },
+  ref,
+) {
+  return <div ref={ref} className={cn(styles.control, className)} {...props} />;
+});
 Control.displayName = 'Autocomplete.Control';
 
 // ---- Trigger ----
-const Trigger = forwardRef<HTMLButtonElement, BaseAutocomplete.Trigger.Props>(
-  function Trigger({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.Trigger
-        ref={ref}
-        className={cn(styles.trigger, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Trigger = forwardRef<HTMLButtonElement, BaseAutocomplete.Trigger.Props>(function Trigger(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseAutocomplete.Trigger ref={ref} className={cn(styles.trigger, className)} {...props} />
+  );
+});
 Trigger.displayName = 'Autocomplete.Trigger';
 
 // ---- Input ----
-const Input = forwardRef<HTMLInputElement, BaseAutocomplete.Input.Props>(
-  function Input({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.Input
-        ref={ref}
-        className={cn(styles.input, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Input = forwardRef<HTMLInputElement, BaseAutocomplete.Input.Props>(function Input(
+  { className, ...props },
+  ref,
+) {
+  return <BaseAutocomplete.Input ref={ref} className={cn(styles.input, className)} {...props} />;
+});
 Input.displayName = 'Autocomplete.Input';
 
 // ---- Icon ----
-const Icon = forwardRef<HTMLDivElement, BaseAutocomplete.Icon.Props>(
-  function Icon({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.Icon
-        ref={ref}
-        className={cn(styles.icon, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Icon = forwardRef<HTMLDivElement, BaseAutocomplete.Icon.Props>(function Icon(
+  { className, ...props },
+  ref,
+) {
+  return <BaseAutocomplete.Icon ref={ref} className={cn(styles.icon, className)} {...props} />;
+});
 Icon.displayName = 'Autocomplete.Icon';
 
 // ---- Clear ----
-const Clear = forwardRef<HTMLButtonElement, BaseAutocomplete.Clear.Props>(
-  function Clear({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.Clear
-        ref={ref}
-        className={cn(styles.clear, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Clear = forwardRef<HTMLButtonElement, BaseAutocomplete.Clear.Props>(function Clear(
+  { className, ...props },
+  ref,
+) {
+  return <BaseAutocomplete.Clear ref={ref} className={cn(styles.clear, className)} {...props} />;
+});
 Clear.displayName = 'Autocomplete.Clear';
 
 // ---- Positioner ----
@@ -122,60 +99,46 @@ const Positioner = forwardRef<HTMLDivElement, BaseAutocomplete.Positioner.Props>
 Positioner.displayName = 'Autocomplete.Positioner';
 
 // ---- Popup ----
-const Popup = forwardRef<HTMLDivElement, AutocompletePopupProps>(
-  function Popup({ className, width = 'anchor', ...props }, ref) {
-    return (
-      <BaseAutocomplete.Popup
-        ref={ref}
-        className={cn(styles.popup, className)}
-        data-eidra-width={width}
-        {...props}
-      />
-    );
-  },
-);
+const Popup = forwardRef<HTMLDivElement, AutocompletePopupProps>(function Popup(
+  { className, width = 'anchor', ...props },
+  ref,
+) {
+  return (
+    <BaseAutocomplete.Popup
+      ref={ref}
+      className={cn(styles.popup, className)}
+      data-eidra-width={width}
+      {...props}
+    />
+  );
+});
 Popup.displayName = 'Autocomplete.Popup';
 
 // ---- List ----
-const List = forwardRef<HTMLDivElement, BaseAutocomplete.List.Props>(
-  function List({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.List
-        ref={ref}
-        className={cn(styles.list, className)}
-        {...props}
-      />
-    );
-  },
-);
+const List = forwardRef<HTMLDivElement, BaseAutocomplete.List.Props>(function List(
+  { className, ...props },
+  ref,
+) {
+  return <BaseAutocomplete.List ref={ref} className={cn(styles.list, className)} {...props} />;
+});
 List.displayName = 'Autocomplete.List';
 
 // ---- Item ----
-const Item = forwardRef<HTMLDivElement, BaseAutocomplete.Item.Props>(
-  function Item({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.Item
-        ref={ref}
-        className={cn(styles.item, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Item = forwardRef<HTMLDivElement, BaseAutocomplete.Item.Props>(function Item(
+  { className, ...props },
+  ref,
+) {
+  return <BaseAutocomplete.Item ref={ref} className={cn(styles.item, className)} {...props} />;
+});
 Item.displayName = 'Autocomplete.Item';
 
 // ---- Group ----
-const Group = forwardRef<HTMLDivElement, BaseAutocomplete.Group.Props>(
-  function Group({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.Group
-        ref={ref}
-        className={cn(styles.group, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Group = forwardRef<HTMLDivElement, BaseAutocomplete.Group.Props>(function Group(
+  { className, ...props },
+  ref,
+) {
+  return <BaseAutocomplete.Group ref={ref} className={cn(styles.group, className)} {...props} />;
+});
 Group.displayName = 'Autocomplete.Group';
 
 // ---- GroupLabel ----
@@ -193,17 +156,12 @@ const GroupLabel = forwardRef<HTMLDivElement, BaseAutocomplete.GroupLabel.Props>
 GroupLabel.displayName = 'Autocomplete.GroupLabel';
 
 // ---- Empty ----
-const Empty = forwardRef<HTMLDivElement, BaseAutocomplete.Empty.Props>(
-  function Empty({ className, ...props }, ref) {
-    return (
-      <BaseAutocomplete.Empty
-        ref={ref}
-        className={cn(styles.empty, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Empty = forwardRef<HTMLDivElement, BaseAutocomplete.Empty.Props>(function Empty(
+  { className, ...props },
+  ref,
+) {
+  return <BaseAutocomplete.Empty ref={ref} className={cn(styles.empty, className)} {...props} />;
+});
 Empty.displayName = 'Autocomplete.Empty';
 
 // ---- Portal (pass-through — no DOM element to style) ----

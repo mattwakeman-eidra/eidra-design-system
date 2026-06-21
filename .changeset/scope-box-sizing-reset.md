@@ -1,5 +1,5 @@
 ---
-"@eidra/react": patch
+'@eidra/react': patch
 ---
 
 Stop the box-sizing reset leaking into consumer apps.

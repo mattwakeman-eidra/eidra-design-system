@@ -296,8 +296,16 @@ export const Stacked: Story = {
           tone="accent"
           onClick={() => {
             toast.add({ title: 'Sprint planned', description: 'Sprint 24 has been configured.' });
-            toast.add({ type: 'success', title: 'Team notified', description: 'All members received an invite.' });
-            toast.add({ type: 'info', title: 'Calendar synced', description: 'Sprint dates appear in your calendar.' });
+            toast.add({
+              type: 'success',
+              title: 'Team notified',
+              description: 'All members received an invite.',
+            });
+            toast.add({
+              type: 'info',
+              title: 'Calendar synced',
+              description: 'Sprint dates appear in your calendar.',
+            });
           }}
         >
           Trigger 3 toasts

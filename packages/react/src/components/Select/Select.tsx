@@ -76,19 +76,14 @@ const SelectBackdrop = forwardRef<HTMLDivElement, SelectBackdropProps>(function 
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseSelect.Backdrop
-      ref={ref}
-      className={cn(styles.backdrop, className)}
-      {...props}
-    />
-  );
+  return <BaseSelect.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />;
 });
 
 // ─── Positioner ────────────────────────────────────────────────────────────────
 
-export interface SelectPositionerProps
-  extends ComponentPropsWithoutRef<typeof BaseSelect.Positioner> {
+export interface SelectPositionerProps extends ComponentPropsWithoutRef<
+  typeof BaseSelect.Positioner
+> {
   className?: string;
 }
 
@@ -172,8 +167,9 @@ const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(function SelectIt
 
 // ─── ItemIndicator ─────────────────────────────────────────────────────────────
 
-export interface SelectItemIndicatorProps
-  extends ComponentPropsWithoutRef<typeof BaseSelect.ItemIndicator> {
+export interface SelectItemIndicatorProps extends ComponentPropsWithoutRef<
+  typeof BaseSelect.ItemIndicator
+> {
   className?: string;
 }
 
@@ -191,8 +187,7 @@ const SelectItemIndicator = forwardRef<HTMLSpanElement, SelectItemIndicatorProps
 
 // ─── ItemText ──────────────────────────────────────────────────────────────────
 
-export interface SelectItemTextProps
-  extends ComponentPropsWithoutRef<typeof BaseSelect.ItemText> {
+export interface SelectItemTextProps extends ComponentPropsWithoutRef<typeof BaseSelect.ItemText> {
   className?: string;
 }
 
@@ -224,8 +219,9 @@ const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(function Select
 
 // ─── GroupLabel ────────────────────────────────────────────────────────────────
 
-export interface SelectGroupLabelProps
-  extends ComponentPropsWithoutRef<typeof BaseSelect.GroupLabel> {
+export interface SelectGroupLabelProps extends ComponentPropsWithoutRef<
+  typeof BaseSelect.GroupLabel
+> {
   className?: string;
 }
 

@@ -64,14 +64,17 @@ export const WithHint: Story = {
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await step('the hint is visible and associated with the control via aria-describedby', async () => {
-      const hint = canvas.getByText('We’ll never share it.');
-      await expect(hint).toBeVisible();
-      const control = canvas.getByPlaceholderText('you@example.com');
-      const describedBy = control.getAttribute('aria-describedby');
-      await expect(describedBy).toBeTruthy();
-      await expect(describedBy).toContain(hint.id);
-    });
+    await step(
+      'the hint is visible and associated with the control via aria-describedby',
+      async () => {
+        const hint = canvas.getByText('We’ll never share it.');
+        await expect(hint).toBeVisible();
+        const control = canvas.getByPlaceholderText('you@example.com');
+        const describedBy = control.getAttribute('aria-describedby');
+        await expect(describedBy).toBeTruthy();
+        await expect(describedBy).toContain(hint.id);
+      },
+    );
   },
 };
 

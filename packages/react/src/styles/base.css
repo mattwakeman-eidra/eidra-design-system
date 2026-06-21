@@ -3,7 +3,7 @@
  * and the root theme scope. Components are styled in their own *.module.css files.
  * Consumers import this once: `import '@eidra/react/styles.css'`.
  */
-@import '@eidra/tokens/css';
+@import url('@eidra/tokens/css');
 
 /*
  * Box-sizing reset, scoped to the Eidra subtree only. Component CSS Modules assume
@@ -39,6 +39,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
   /* Eidra Sans has only Regular + Bold masters; never synthesise the in-between weights. */
   font-synthesis: none;
 }
@@ -68,6 +69,7 @@
   --eidra-size-control-sm: 1.5rem;
   --eidra-size-control-md: 1.75rem;
   --eidra-size-control-lg: 2.25rem;
+
   /* Compact also tightens the type ramp: drop the base reading size 16→14px so
    * text-driven components (which size from `font-size`/`em`, not the control
    * tokens) get denser too. Headings/large fonts still step down per the
@@ -101,6 +103,7 @@
   --eidra-size-control-sm: 1.5rem;
   --eidra-size-control-md: 1.75rem;
   --eidra-size-control-lg: 2.25rem;
+
   font-size: 0.875rem;
 }
 

@@ -40,13 +40,7 @@ const Label = forwardRef<HTMLSpanElement, ProgressLabelProps>(function Label(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseProgress.Label
-      ref={ref}
-      className={cn(styles.label, className)}
-      {...props}
-    />
-  );
+  return <BaseProgress.Label ref={ref} className={cn(styles.label, className)} {...props} />;
 });
 
 // ── Value ─────────────────────────────────────────────────────────────────────
@@ -57,13 +51,7 @@ const Value = forwardRef<HTMLSpanElement, ProgressValueProps>(function Value(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseProgress.Value
-      ref={ref}
-      className={cn(styles.value, className)}
-      {...props}
-    />
-  );
+  return <BaseProgress.Value ref={ref} className={cn(styles.value, className)} {...props} />;
 });
 
 // ── Track ─────────────────────────────────────────────────────────────────────
@@ -74,13 +62,7 @@ const Track = forwardRef<HTMLDivElement, ProgressTrackProps>(function Track(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseProgress.Track
-      ref={ref}
-      className={cn(styles.track, className)}
-      {...props}
-    />
-  );
+  return <BaseProgress.Track ref={ref} className={cn(styles.track, className)} {...props} />;
 });
 
 // ── Indicator ────────────────────────────────────────────────────────────────
@@ -92,11 +74,7 @@ const Indicator = forwardRef<HTMLDivElement, ProgressIndicatorProps>(function In
   ref,
 ) {
   return (
-    <BaseProgress.Indicator
-      ref={ref}
-      className={cn(styles.indicator, className)}
-      {...props}
-    />
+    <BaseProgress.Indicator ref={ref} className={cn(styles.indicator, className)} {...props} />
   );
 });
 

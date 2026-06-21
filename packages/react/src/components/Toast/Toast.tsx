@@ -42,34 +42,32 @@ export type ToastPosition =
   | 'bottom-center'
   | 'bottom-right';
 
-export interface ToastViewportProps
-  extends ComponentPropsWithoutRef<typeof BaseToast.Viewport> {
+export interface ToastViewportProps extends ComponentPropsWithoutRef<typeof BaseToast.Viewport> {
   /** Corner/edge the toast stack is anchored to. Defaults to `bottom-right`. */
   position?: ToastPosition;
 }
 
-const Viewport = forwardRef<HTMLDivElement, ToastViewportProps>(
-  function Viewport({ className, position = 'bottom-right', ...props }, ref) {
-    const scope = useScopeDataAttrs();
-    return (
-      <BaseToast.Viewport
-        ref={ref}
-        data-position={position}
-        className={cn(styles.viewport, className)}
-        {...scope}
-        {...props}
-      />
-    );
-  },
-);
+const Viewport = forwardRef<HTMLDivElement, ToastViewportProps>(function Viewport(
+  { className, position = 'bottom-right', ...props },
+  ref,
+) {
+  const scope = useScopeDataAttrs();
+  return (
+    <BaseToast.Viewport
+      ref={ref}
+      data-position={position}
+      className={cn(styles.viewport, className)}
+      {...scope}
+      {...props}
+    />
+  );
+});
 Viewport.displayName = 'Toast.Viewport';
 
 // ---- Root ----
 const Root = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BaseToast.Root>>(
   function Root({ className, ...props }, ref) {
-    return (
-      <BaseToast.Root ref={ref} className={cn(styles.root, className)} {...props} />
-    );
+    return <BaseToast.Root ref={ref} className={cn(styles.root, className)} {...props} />;
   },
 );
 Root.displayName = 'Toast.Root';
@@ -77,9 +75,7 @@ Root.displayName = 'Toast.Root';
 // ---- Content ----
 const Content = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BaseToast.Content>>(
   function Content({ className, ...props }, ref) {
-    return (
-      <BaseToast.Content ref={ref} className={cn(styles.content, className)} {...props} />
-    );
+    return <BaseToast.Content ref={ref} className={cn(styles.content, className)} {...props} />;
   },
 );
 Content.displayName = 'Toast.Content';
@@ -87,9 +83,7 @@ Content.displayName = 'Toast.Content';
 // ---- Title ----
 const Title = forwardRef<HTMLHeadingElement, ComponentPropsWithoutRef<typeof BaseToast.Title>>(
   function Title({ className, ...props }, ref) {
-    return (
-      <BaseToast.Title ref={ref} className={cn(styles.title, className)} {...props} />
-    );
+    return <BaseToast.Title ref={ref} className={cn(styles.title, className)} {...props} />;
   },
 );
 Title.displayName = 'Toast.Title';
@@ -118,8 +112,7 @@ const Close = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef<typeof Base
 Close.displayName = 'Toast.Close';
 
 // ---- CloseButton (convenience: styled X icon button) ----
-export interface ToastCloseButtonProps
-  extends ComponentPropsWithoutRef<typeof BaseToast.Close> {
+export interface ToastCloseButtonProps extends ComponentPropsWithoutRef<typeof BaseToast.Close> {
   /** Accessible label. Defaults to "Dismiss". */
   label?: string;
 }

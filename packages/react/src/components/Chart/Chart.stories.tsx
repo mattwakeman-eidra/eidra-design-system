@@ -1,4 +1,13 @@
-import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement, type ComponentProps } from 'react';
+import {
+  useState,
+  useRef,
+  useLayoutEffect,
+  useCallback,
+  memo,
+  type ReactNode,
+  type ReactElement,
+  type ComponentProps,
+} from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,
@@ -36,12 +45,66 @@ interface MonthDatum {
 }
 
 const DATA: MonthDatum[] = [
-  { month: 'Jan', closed: true, actuals: 120, sold: 0, hiProb: 0, additional: 0, budget: 110, ly: 100 },
-  { month: 'Feb', closed: true, actuals: 130, sold: 0, hiProb: 0, additional: 0, budget: 120, ly: 115 },
-  { month: 'Mar', closed: false, actuals: 40, sold: 70, hiProb: 25, additional: 10, budget: 130, ly: 125 },
-  { month: 'Apr', closed: false, actuals: 0, sold: 80, hiProb: 40, additional: 20, budget: 140, ly: 130 },
-  { month: 'May', closed: false, actuals: 0, sold: 60, hiProb: 50, additional: 35, budget: 150, ly: 140 },
-  { month: 'Jun', closed: false, actuals: 0, sold: 40, hiProb: 55, additional: 50, budget: 160, ly: 150 },
+  {
+    month: 'Jan',
+    closed: true,
+    actuals: 120,
+    sold: 0,
+    hiProb: 0,
+    additional: 0,
+    budget: 110,
+    ly: 100,
+  },
+  {
+    month: 'Feb',
+    closed: true,
+    actuals: 130,
+    sold: 0,
+    hiProb: 0,
+    additional: 0,
+    budget: 120,
+    ly: 115,
+  },
+  {
+    month: 'Mar',
+    closed: false,
+    actuals: 40,
+    sold: 70,
+    hiProb: 25,
+    additional: 10,
+    budget: 130,
+    ly: 125,
+  },
+  {
+    month: 'Apr',
+    closed: false,
+    actuals: 0,
+    sold: 80,
+    hiProb: 40,
+    additional: 20,
+    budget: 140,
+    ly: 130,
+  },
+  {
+    month: 'May',
+    closed: false,
+    actuals: 0,
+    sold: 60,
+    hiProb: 50,
+    additional: 35,
+    budget: 150,
+    ly: 140,
+  },
+  {
+    month: 'Jun',
+    closed: false,
+    actuals: 0,
+    sold: 40,
+    hiProb: 55,
+    additional: 50,
+    budget: 160,
+    ly: 150,
+  },
 ];
 
 const config: ChartConfig = {
@@ -99,14 +162,33 @@ export const Composed: StoryObj<ComposedArgs> = {
             cursor={{ fill: 'var(--eidra-surface-hover)' }}
             content={<Chart.TooltipContent formatter={fmt} />}
           />
-          <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" hide={isHidden('actuals')}>
+          <Chart.Bar
+            {...Chart.seriesDefaults}
+            dataKey="actuals"
+            stackId="s"
+            fill="var(--color-actuals)"
+            hide={isHidden('actuals')}
+          >
             {DATA.map((d, i) => (
               <Chart.Cell key={i} fillOpacity={d.closed ? 1 : 0.55} />
             ))}
           </Chart.Bar>
-          <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" hide={isHidden('sold')} />
-          <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" hide={isHidden('hiProb')} />
-          <Chart.Bar {...Chart.seriesDefaults}
+          <Chart.Bar
+            {...Chart.seriesDefaults}
+            dataKey="sold"
+            stackId="s"
+            fill="var(--color-sold)"
+            hide={isHidden('sold')}
+          />
+          <Chart.Bar
+            {...Chart.seriesDefaults}
+            dataKey="hiProb"
+            stackId="s"
+            fill="var(--color-hiProb)"
+            hide={isHidden('hiProb')}
+          />
+          <Chart.Bar
+            {...Chart.seriesDefaults}
             dataKey="additional"
             stackId="s"
             fill="var(--color-additional)"
@@ -120,7 +202,8 @@ export const Composed: StoryObj<ComposedArgs> = {
             />
           </Chart.Bar>
           {showLastYearLine && (
-            <Chart.Line {...Chart.seriesDefaults}
+            <Chart.Line
+              {...Chart.seriesDefaults}
               dataKey="ly"
               type="monotone"
               stroke="var(--color-ly)"
@@ -131,7 +214,8 @@ export const Composed: StoryObj<ComposedArgs> = {
             />
           )}
           {showBudgetLine && (
-            <Chart.Line {...Chart.seriesDefaults}
+            <Chart.Line
+              {...Chart.seriesDefaults}
               dataKey="budget"
               type="step"
               stroke="var(--color-budget)"
@@ -140,7 +224,9 @@ export const Composed: StoryObj<ComposedArgs> = {
               hide={isHidden('budget')}
             />
           )}
-          {showLegend && <Chart.Legend content={<Chart.LegendContent hidden={hidden} onToggle={toggle} />} />}
+          {showLegend && (
+            <Chart.Legend content={<Chart.LegendContent hidden={hidden} onToggle={toggle} />} />
+          )}
         </Chart.ComposedChart>
       </Chart.Container>
     );
@@ -191,12 +277,39 @@ export const Bars: StoryObj<BarsArgs> = {
         {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
         <Chart.XAxis {...Chart.axisProps} dataKey="month" />
         <Chart.YAxis {...Chart.axisProps} width={48} tickFormatter={fmt} />
-        <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<Chart.TooltipContent formatter={fmt} />} />
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[3, 3, 0, 0]}>
-          {showLabels && <Chart.LabelList dataKey="revenue" position="top" fontSize={11} formatter={(v) => fmt(Number(v))} />}
+        <Chart.Tooltip
+          cursor={{ fill: 'var(--eidra-surface-hover)' }}
+          content={<Chart.TooltipContent formatter={fmt} />}
+        />
+        <Chart.Bar
+          {...Chart.seriesDefaults}
+          dataKey="revenue"
+          fill="var(--color-revenue)"
+          radius={[3, 3, 0, 0]}
+        >
+          {showLabels && (
+            <Chart.LabelList
+              dataKey="revenue"
+              position="top"
+              fontSize={11}
+              formatter={(v) => fmt(Number(v))}
+            />
+          )}
         </Chart.Bar>
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="target" fill="var(--color-target)" radius={[3, 3, 0, 0]}>
-          {showLabels && <Chart.LabelList dataKey="target" position="top" fontSize={11} formatter={(v) => fmt(Number(v))} />}
+        <Chart.Bar
+          {...Chart.seriesDefaults}
+          dataKey="target"
+          fill="var(--color-target)"
+          radius={[3, 3, 0, 0]}
+        >
+          {showLabels && (
+            <Chart.LabelList
+              dataKey="target"
+              position="top"
+              fontSize={11}
+              formatter={(v) => fmt(Number(v))}
+            />
+          )}
         </Chart.Bar>
         {showLegend && <Chart.Legend content={<Chart.LegendContent />} />}
       </Chart.BarChart>
@@ -234,9 +347,24 @@ export const Line: StoryObj<LineArgs> = {
         <Chart.XAxis {...Chart.axisProps} dataKey="month" />
         <Chart.YAxis {...Chart.axisProps} width={48} tickFormatter={fmt} />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
-        <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type={curve} stroke="var(--color-revenue)" strokeWidth={2} dot={showDots ? { r: 3 } : false} />
+        <Chart.Line
+          {...Chart.seriesDefaults}
+          dataKey="revenue"
+          type={curve}
+          stroke="var(--color-revenue)"
+          strokeWidth={2}
+          dot={showDots ? { r: 3 } : false}
+        />
         {showTarget && (
-          <Chart.Line {...Chart.seriesDefaults} dataKey="target" type={curve} stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+          <Chart.Line
+            {...Chart.seriesDefaults}
+            dataKey="target"
+            type={curve}
+            stroke="var(--color-target)"
+            strokeWidth={1.5}
+            strokeDasharray="4 3"
+            dot={false}
+          />
         )}
         <Chart.Legend content={<Chart.LegendContent />} />
       </Chart.LineChart>
@@ -272,9 +400,25 @@ export const Area: StoryObj<AreaArgs> = {
         <Chart.XAxis {...Chart.axisProps} dataKey="month" />
         <Chart.YAxis {...Chart.axisProps} width={48} tickFormatter={fmt} />
         <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} />} />
-        <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type={curve} stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={fillOpacity} strokeWidth={2} />
+        <Chart.Area
+          {...Chart.seriesDefaults}
+          dataKey="revenue"
+          type={curve}
+          stroke="var(--color-revenue)"
+          fill="var(--color-revenue)"
+          fillOpacity={fillOpacity}
+          strokeWidth={2}
+        />
         {showTarget && (
-          <Chart.Line {...Chart.seriesDefaults} dataKey="target" type={curve} stroke="var(--color-target)" strokeWidth={1.5} strokeDasharray="4 3" dot={false} />
+          <Chart.Line
+            {...Chart.seriesDefaults}
+            dataKey="target"
+            type={curve}
+            stroke="var(--color-target)"
+            strokeWidth={1.5}
+            strokeDasharray="4 3"
+            dot={false}
+          />
         )}
         <Chart.Legend content={<Chart.LegendContent />} />
       </Chart.AreaChart>
@@ -339,9 +483,16 @@ export const ComposedBarLine: StoryObj<ComposedBarLineArgs> = {
           cursor={{ fill: 'var(--eidra-surface-hover)' }}
           content={<Chart.TooltipContent formatter={fte} />}
         />
-        <Chart.Bar {...Chart.seriesDefaults} dataKey="actual" fill="var(--color-actual)" radius={[3, 3, 0, 0]} barSize={28} />
+        <Chart.Bar
+          {...Chart.seriesDefaults}
+          dataKey="actual"
+          fill="var(--color-actual)"
+          radius={[3, 3, 0, 0]}
+          barSize={28}
+        />
         {showDemandLine && (
-          <Chart.Line {...Chart.seriesDefaults}
+          <Chart.Line
+            {...Chart.seriesDefaults}
             dataKey="demand"
             type="monotone"
             stroke="var(--color-demand)"
@@ -350,7 +501,14 @@ export const ComposedBarLine: StoryObj<ComposedBarLineArgs> = {
           />
         )}
         {showBudgetLine && (
-          <Chart.Line {...Chart.seriesDefaults} dataKey="budget" type="step" stroke="var(--color-budget)" strokeWidth={2.5} dot={false} />
+          <Chart.Line
+            {...Chart.seriesDefaults}
+            dataKey="budget"
+            type="step"
+            stroke="var(--color-budget)"
+            strokeWidth={2.5}
+            dot={false}
+          />
         )}
         {showLegend && <Chart.Legend content={<Chart.LegendContent />} />}
       </Chart.ComposedChart>
@@ -445,12 +603,7 @@ export const DualAxis: StoryObj<DualAxisArgs> = {
         {showGrid && <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />}
         <Chart.XAxis {...Chart.axisProps} dataKey="month" interval={0} />
         {/* Left axis: revenue in MSEK. */}
-        <Chart.YAxis
-          {...Chart.axisProps}
-          yAxisId="left"
-          width={56}
-          tickFormatter={msekAxis}
-        />
+        <Chart.YAxis {...Chart.axisProps} yAxisId="left" width={56} tickFormatter={msekAxis} />
         {/* Right axis: EBITDA margin in percent, fixed 0–25 so the line sits mid-plot. */}
         <Chart.YAxis
           {...Chart.axisProps}
@@ -539,7 +692,9 @@ const TIER_META = [
   { tier: 'pillar', label: 'Pillar' },
 ] as const;
 
-const bubbleConfig: ChartConfig = Chart.categoricalConfig(TIER_META, 'tier', { labelField: 'label' });
+const bubbleConfig: ChartConfig = Chart.categoricalConfig(TIER_META, 'tier', {
+  labelField: 'label',
+});
 
 /**
  * **Bubble / Scatter** (`ScatterChart`) — client revenue (x) vs YoY growth (y) with
@@ -582,7 +737,9 @@ export const Bubble: StoryObj<BubbleArgs> = {
           width={44}
         />
         <Chart.ZAxis type="number" dataKey="total" range={[80, maxBubbleSize]} name="Total" />
-        {showZeroLine && <Chart.ReferenceLine y={0} stroke="var(--eidra-border-strong)" strokeDasharray="2 2" />}
+        {showZeroLine && (
+          <Chart.ReferenceLine y={0} stroke="var(--eidra-border-strong)" strokeDasharray="2 2" />
+        )}
         <Chart.Tooltip
           cursor={{ strokeDasharray: '3 3' }}
           content={<Chart.TooltipContent hideLabel />}
@@ -803,7 +960,11 @@ export const Donut: StoryObj<DonutArgs> = {
           no longer reserves space at the bottom and pushes the donut — and its
           centred total — off-centre. */}
       <div style={{ position: 'relative' }}>
-        <Chart.Container config={pieConfig} style={{ height: 320 }} aria-label="Revenue by business line">
+        <Chart.Container
+          config={pieConfig}
+          style={{ height: 320 }}
+          aria-label="Revenue by business line"
+        >
           <Chart.PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
             <Chart.Tooltip content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
             <Chart.Pie
@@ -871,7 +1032,14 @@ export const Donut: StoryObj<DonutArgs> = {
           }}
         >
           {REVENUE_BY_LINE.map((d, i) => (
-            <span key={d.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+            <span
+              key={d.key}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 'var(--eidra-space-1-5)',
+              }}
+            >
               <span
                 aria-hidden
                 style={{
@@ -1162,7 +1330,11 @@ export const Sunburst: StoryObj<SunburstArgs> = {
             padding={2}
             ringPadding={ringPadding}
             innerRadius={innerRadius}
-            textOptions={{ fill: showLabels ? 'var(--eidra-fg)' : 'transparent', stroke: 'none', fontSize: 11 }}
+            textOptions={{
+              fill: showLabels ? 'var(--eidra-fg)' : 'transparent',
+              stroke: 'none',
+              fontSize: 11,
+            }}
           >
             <Chart.Tooltip content={<Chart.TooltipContent hideLabel />} />
           </Chart.SunburstChart>
@@ -1187,23 +1359,68 @@ const ORG_RAW: OrgRaw = {
     {
       name: 'EMEA',
       children: [
-        { name: 'UK', children: [{ name: 'Advisory', value: 14 }, { name: 'Data', value: 11 }, { name: 'Design', value: 8 }] },
-        { name: 'DACH', children: [{ name: 'Advisory', value: 10 }, { name: 'Data', value: 13 }, { name: 'Platform', value: 7 }] },
-        { name: 'Nordics', children: [{ name: 'Advisory', value: 6 }, { name: 'Design', value: 9 }] },
+        {
+          name: 'UK',
+          children: [
+            { name: 'Advisory', value: 14 },
+            { name: 'Data', value: 11 },
+            { name: 'Design', value: 8 },
+          ],
+        },
+        {
+          name: 'DACH',
+          children: [
+            { name: 'Advisory', value: 10 },
+            { name: 'Data', value: 13 },
+            { name: 'Platform', value: 7 },
+          ],
+        },
+        {
+          name: 'Nordics',
+          children: [
+            { name: 'Advisory', value: 6 },
+            { name: 'Design', value: 9 },
+          ],
+        },
       ],
     },
     {
       name: 'Americas',
       children: [
-        { name: 'US', children: [{ name: 'Advisory', value: 18 }, { name: 'Data', value: 15 }, { name: 'Platform', value: 12 }] },
-        { name: 'Brazil', children: [{ name: 'Advisory', value: 7 }, { name: 'Design', value: 5 }] },
+        {
+          name: 'US',
+          children: [
+            { name: 'Advisory', value: 18 },
+            { name: 'Data', value: 15 },
+            { name: 'Platform', value: 12 },
+          ],
+        },
+        {
+          name: 'Brazil',
+          children: [
+            { name: 'Advisory', value: 7 },
+            { name: 'Design', value: 5 },
+          ],
+        },
       ],
     },
     {
       name: 'APAC',
       children: [
-        { name: 'Singapore', children: [{ name: 'Data', value: 9 }, { name: 'Platform', value: 8 }] },
-        { name: 'Australia', children: [{ name: 'Advisory', value: 8 }, { name: 'Design', value: 6 }] },
+        {
+          name: 'Singapore',
+          children: [
+            { name: 'Data', value: 9 },
+            { name: 'Platform', value: 8 },
+          ],
+        },
+        {
+          name: 'Australia',
+          children: [
+            { name: 'Advisory', value: 8 },
+            { name: 'Design', value: 6 },
+          ],
+        },
       ],
     },
   ],
@@ -1222,7 +1439,9 @@ function enrich(node: OrgRaw, id: string, fill: string): SunburstData {
 }
 
 const ORG_TREE: SunburstData = (() => {
-  const regions = ORG_RAW.children!.map((r, i) => enrich(r, `Global/${r.name}`, REGION_COLORS[i % REGION_COLORS.length]!));
+  const regions = ORG_RAW.children!.map((r, i) =>
+    enrich(r, `Global/${r.name}`, REGION_COLORS[i % REGION_COLORS.length]!),
+  );
   return {
     name: 'Global',
     label: 'Global',
@@ -1234,8 +1453,7 @@ const ORG_TREE: SunburstData = (() => {
 })();
 
 /** Clean display label for an enriched node (falls back to the path id). */
-const orgLabel = (n: SunburstData): string =>
-  String((n as { label?: string }).label ?? n.name);
+const orgLabel = (n: SunburstData): string => String((n as { label?: string }).label ?? n.name);
 
 function findById(node: SunburstData, id: string): SunburstData | null {
   if (node.id === id) return node;
@@ -1261,16 +1479,36 @@ function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) 
       }}
     >
       <div style={{ fontWeight: 700 }}>{orgLabel(node)}</div>
-      <div style={{ color: 'var(--eidra-fg-muted)', fontSize: 'var(--eidra-font-size-xs)', marginBottom: 'var(--eidra-space-3)' }}>
+      <div
+        style={{
+          color: 'var(--eidra-fg-muted)',
+          fontSize: 'var(--eidra-font-size-xs)',
+          marginBottom: 'var(--eidra-space-3)',
+        }}
+      >
         {fmt(nodeValue)} · {Math.round((nodeValue / total) * 100)}% of global
       </div>
       {node.children?.length ? (
         <div style={{ display: 'grid', gap: 'var(--eidra-space-2)' }}>
           {node.children.map((c) => (
-            <div key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
-              <span aria-hidden style={{ width: 10, height: 10, borderRadius: 'var(--eidra-radius-full)', background: c.fill, flex: 'none' }} />
+            <div
+              key={c.id}
+              style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 'var(--eidra-radius-full)',
+                  background: c.fill,
+                  flex: 'none',
+                }}
+              />
               <span style={{ flex: 1 }}>{orgLabel(c)}</span>
-              <span style={{ fontVariantNumeric: 'tabular-nums', color: 'var(--eidra-fg-muted)' }}>{fmt(c.value ?? 0)}</span>
+              <span style={{ fontVariantNumeric: 'tabular-nums', color: 'var(--eidra-fg-muted)' }}>
+                {fmt(c.value ?? 0)}
+              </span>
               <span style={{ fontVariantNumeric: 'tabular-nums', width: 40, textAlign: 'right' }}>
                 {Math.round(((c.value ?? 0) / (nodeValue || 1)) * 100)}%
               </span>
@@ -1278,7 +1516,9 @@ function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) 
           ))}
         </div>
       ) : (
-        <div style={{ color: 'var(--eidra-fg-muted)' }}>Capability leaf — no further breakdown.</div>
+        <div style={{ color: 'var(--eidra-fg-muted)' }}>
+          Capability leaf — no further breakdown.
+        </div>
       )}
     </div>
   );
@@ -1354,7 +1594,9 @@ const DrillChart = memo(function DrillChart({
             content={
               <Chart.TooltipContent
                 hideLabel
-                rows={(d: SunburstData) => [{ label: d ? orgLabel(d) : undefined, value: fmt(d?.value ?? 0), color: d?.fill }]}
+                rows={(d: SunburstData) => [
+                  { label: d ? orgLabel(d) : undefined, value: fmt(d?.value ?? 0), color: d?.fill },
+                ]}
               />
             }
           />
@@ -1388,37 +1630,53 @@ function InteractiveSunburst({
     <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 720 }}>
       {/* Breadcrumb — each crumb zooms back to that level. */}
       {showBreadcrumb && (
-      <nav
-        aria-label="Drill path"
-        style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)', font: 'var(--eidra-font-size-sm)/1 var(--eidra-font-family-sans)' }}
-      >
-        {crumbs.map((name, i) => {
-          const id = crumbs.slice(0, i + 1).join('/');
-          const isLast = i === crumbs.length - 1;
-          return (
-            <span key={id} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}>
-              {i > 0 && <span aria-hidden style={{ color: 'var(--eidra-fg-subtle)' }}>›</span>}
-              <button
-                type="button"
-                onClick={() => onDrill(id)}
-                disabled={isLast}
+        <nav
+          aria-label="Drill path"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--eidra-space-1)',
+            font: 'var(--eidra-font-size-sm)/1 var(--eidra-font-family-sans)',
+          }}
+        >
+          {crumbs.map((name, i) => {
+            const id = crumbs.slice(0, i + 1).join('/');
+            const isLast = i === crumbs.length - 1;
+            return (
+              <span
+                key={id}
                 style={{
-                  border: 'none',
-                  background: 'none',
-                  padding: 'var(--eidra-space-1) var(--eidra-space-1-5)',
-                  borderRadius: 'var(--eidra-radius-sm)',
-                  cursor: isLast ? 'default' : 'pointer',
-                  color: isLast ? 'var(--eidra-fg)' : 'var(--eidra-accent)',
-                  fontWeight: isLast ? 700 : 500,
-                  font: 'inherit',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 'var(--eidra-space-1)',
                 }}
               >
-                {name}
-              </button>
-            </span>
-          );
-        })}
-      </nav>
+                {i > 0 && (
+                  <span aria-hidden style={{ color: 'var(--eidra-fg-subtle)' }}>
+                    ›
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onDrill(id)}
+                  disabled={isLast}
+                  style={{
+                    border: 'none',
+                    background: 'none',
+                    padding: 'var(--eidra-space-1) var(--eidra-space-1-5)',
+                    borderRadius: 'var(--eidra-radius-sm)',
+                    cursor: isLast ? 'default' : 'pointer',
+                    color: isLast ? 'var(--eidra-fg)' : 'var(--eidra-accent)',
+                    fontWeight: isLast ? 700 : 500,
+                    font: 'inherit',
+                  }}
+                >
+                  {name}
+                </button>
+              </span>
+            );
+          })}
+        </nav>
       )}
 
       {/* align-items: start so the detail panel resizing per hover doesn't shift the chart. */}
@@ -1499,10 +1757,42 @@ export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
         {/* Quadrant tints + names, drawn under the points. */}
         {showTints && (
           <>
-            <Chart.ReferenceArea x1={threshold} x2={100} y1={threshold} y2={100} fill="var(--eidra-chart-1)" fillOpacity={0.06} label={quadrantLabel('Leaders')} />
-            <Chart.ReferenceArea x1={0} x2={threshold} y1={threshold} y2={100} fill="var(--eidra-chart-2)" fillOpacity={0.06} label={quadrantLabel('Challengers')} />
-            <Chart.ReferenceArea x1={threshold} x2={100} y1={0} y2={threshold} fill="var(--eidra-chart-3)" fillOpacity={0.06} label={quadrantLabel('Visionaries')} />
-            <Chart.ReferenceArea x1={0} x2={threshold} y1={0} y2={threshold} fill="var(--eidra-chart-4)" fillOpacity={0.06} label={quadrantLabel('Niche Players')} />
+            <Chart.ReferenceArea
+              x1={threshold}
+              x2={100}
+              y1={threshold}
+              y2={100}
+              fill="var(--eidra-chart-1)"
+              fillOpacity={0.06}
+              label={quadrantLabel('Leaders')}
+            />
+            <Chart.ReferenceArea
+              x1={0}
+              x2={threshold}
+              y1={threshold}
+              y2={100}
+              fill="var(--eidra-chart-2)"
+              fillOpacity={0.06}
+              label={quadrantLabel('Challengers')}
+            />
+            <Chart.ReferenceArea
+              x1={threshold}
+              x2={100}
+              y1={0}
+              y2={threshold}
+              fill="var(--eidra-chart-3)"
+              fillOpacity={0.06}
+              label={quadrantLabel('Visionaries')}
+            />
+            <Chart.ReferenceArea
+              x1={0}
+              x2={threshold}
+              y1={0}
+              y2={threshold}
+              fill="var(--eidra-chart-4)"
+              fillOpacity={0.06}
+              label={quadrantLabel('Niche Players')}
+            />
           </>
         )}
         <Chart.XAxis
@@ -1516,7 +1806,13 @@ export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
           // scale, so the numbers stay hidden — intentional non-default tick.
           ticks={[0, 20, 40, 60, 80, 100]}
           tick={{ fill: 'transparent' }}
-          label={{ value: 'Completeness of Vision →', position: 'insideBottom', offset: -12, fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
+          label={{
+            value: 'Completeness of Vision →',
+            position: 'insideBottom',
+            offset: -12,
+            fill: 'var(--eidra-fg-muted)',
+            fontSize: 12,
+          }}
         />
         <Chart.YAxis
           {...Chart.axisProps}
@@ -1526,13 +1822,29 @@ export const MagicQuadrant: StoryObj<MagicQuadrantArgs> = {
           ticks={[0, 20, 40, 60, 80, 100]}
           tick={{ fill: 'transparent' }}
           width={28}
-          label={{ value: 'Ability to Execute →', angle: -90, position: 'insideLeft', fill: 'var(--eidra-fg-muted)', fontSize: 12 }}
+          label={{
+            value: 'Ability to Execute →',
+            angle: -90,
+            position: 'insideLeft',
+            fill: 'var(--eidra-fg-muted)',
+            fontSize: 12,
+          }}
         />
         <Chart.ReferenceLine x={threshold} stroke="var(--eidra-border-strong)" />
         <Chart.ReferenceLine y={threshold} stroke="var(--eidra-border-strong)" />
-        <Chart.Tooltip cursor={{ strokeDasharray: '3 3' }} content={<Chart.TooltipContent hideLabel />} />
-        <Chart.Scatter {...Chart.seriesDefaults} data={VENDORS} fill="var(--eidra-chart-1)" name="Vendor">
-          {showPointLabels && <Chart.LabelList dataKey="name" position="top" fill="var(--eidra-fg)" fontSize={11} />}
+        <Chart.Tooltip
+          cursor={{ strokeDasharray: '3 3' }}
+          content={<Chart.TooltipContent hideLabel />}
+        />
+        <Chart.Scatter
+          {...Chart.seriesDefaults}
+          data={VENDORS}
+          fill="var(--eidra-chart-1)"
+          name="Vendor"
+        >
+          {showPointLabels && (
+            <Chart.LabelList dataKey="name" position="top" fill="var(--eidra-fg)" fontSize={11} />
+          )}
         </Chart.Scatter>
       </Chart.ScatterChart>
     </Chart.Container>
@@ -1595,9 +1907,30 @@ function DumbbellShape({
   const labelStyle = { fill: 'var(--eidra-fg-muted)', fontSize: 11 } as const;
   return (
     <g>
-      <line x1={left} y1={cy} x2={right} y2={cy} stroke="var(--eidra-border-strong)" strokeWidth={connectorWidth} />
-      <circle cx={beforeX} cy={cy} r={r} fill="var(--color-before)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
-      <circle cx={afterX} cy={cy} r={r} fill="var(--color-after)" stroke="var(--eidra-surface)" strokeWidth={1.5} />
+      <line
+        x1={left}
+        y1={cy}
+        x2={right}
+        y2={cy}
+        stroke="var(--eidra-border-strong)"
+        strokeWidth={connectorWidth}
+      />
+      <circle
+        cx={beforeX}
+        cy={cy}
+        r={r}
+        fill="var(--color-before)"
+        stroke="var(--eidra-surface)"
+        strokeWidth={1.5}
+      />
+      <circle
+        cx={afterX}
+        cy={cy}
+        r={r}
+        fill="var(--color-after)"
+        stroke="var(--eidra-surface)"
+        strokeWidth={1.5}
+      />
       {showValues && (
         <>
           <text x={left} y={cy - r - 4} textAnchor="middle" {...labelStyle}>
@@ -1619,7 +1952,11 @@ function dumbbellRows(d: DumbbellDatum) {
   const delta = d.after - d.before;
   const up = delta >= 0;
   return [
-    { label: dumbbellConfig.before!.label, value: fmt(d.before), color: dumbbellConfig.before!.color },
+    {
+      label: dumbbellConfig.before!.label,
+      value: fmt(d.before),
+      color: dumbbellConfig.before!.color,
+    },
     { label: dumbbellConfig.after!.label, value: fmt(d.after), color: dumbbellConfig.after!.color },
     {
       label: up ? '▲ Change' : '▼ Change',
@@ -1640,7 +1977,10 @@ function DumbbellLegend() {
       }}
     >
       {(['before', 'after'] as const).map((key) => (
-        <span key={key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+        <span
+          key={key}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}
+        >
           <span
             aria-hidden
             style={{
@@ -1690,9 +2030,18 @@ export const Dumbbell: StoryObj<DumbbellArgs> = {
         aria-label="Revenue by service line, last year versus this year"
       >
         {/* Custom margin kept: left space for the category labels on the Y axis. */}
-        <Chart.ComposedChart layout="vertical" data={GROWTH} margin={{ top: 12, right: 16, bottom: 4, left: 8 }}>
+        <Chart.ComposedChart
+          layout="vertical"
+          data={GROWTH}
+          margin={{ top: 12, right: 16, bottom: 4, left: 8 }}
+        >
           <Chart.CartesianGrid {...Chart.gridProps} horizontal={false} />
-          <Chart.XAxis {...Chart.axisProps} type="number" domain={[0, (max: number) => Math.ceil((max + 20) / 20) * 20]} tickFormatter={fmt} />
+          <Chart.XAxis
+            {...Chart.axisProps}
+            type="number"
+            domain={[0, (max: number) => Math.ceil((max + 20) / 20) * 20]}
+            tickFormatter={fmt}
+          />
           <Chart.YAxis {...Chart.axisProps} type="category" dataKey="category" width={72} />
           <Chart.Tooltip
             cursor={{ fill: 'var(--eidra-surface-hover)', fillOpacity: 0.5 }}
@@ -1801,7 +2150,15 @@ function waterfallRows(d: WaterfallBar) {
 // One waterfall panel. The transparent `base` bar is rendered first (so the
 // visible `delta` floats on top of it); the composite `rows` tooltip reads the
 // row payload, so only the step's own contribution + cumulative show on hover.
-function WaterfallPanel({ title, steps, showLabels = true }: { title: string; steps: WaterfallStep[]; showLabels?: boolean }) {
+function WaterfallPanel({
+  title,
+  steps,
+  showLabels = true,
+}: {
+  title: string;
+  steps: WaterfallStep[];
+  showLabels?: boolean;
+}) {
   const data = Chart.toWaterfall(steps);
   return (
     <div
@@ -1829,7 +2186,10 @@ function WaterfallPanel({ title, steps, showLabels = true }: { title: string; st
           <Chart.CartesianGrid {...Chart.gridProps} vertical={false} />
           <Chart.XAxis {...Chart.axisProps} dataKey="label" interval={0} />
           <Chart.YAxis {...Chart.axisProps} width={40} />
-          <Chart.Tooltip cursor={{ fill: 'var(--eidra-surface-hover)' }} content={<Chart.TooltipContent rows={waterfallRows} />} />
+          <Chart.Tooltip
+            cursor={{ fill: 'var(--eidra-surface-hover)' }}
+            content={<Chart.TooltipContent rows={waterfallRows} />}
+          />
           {/* Invisible riser: lifts each delta to its cumulative start. The
               composite `rows` tooltip reads the row's payload, so the base
               never shows as its own tooltip row. */}
@@ -1838,13 +2198,22 @@ function WaterfallPanel({ title, steps, showLabels = true }: { title: string; st
             {data.map((d) => (
               <Chart.Cell
                 key={d.label}
-                fill={d.isTotal ? 'var(--eidra-fg)' : (WATERFALL_REGION_COLORS[d.label] ?? 'var(--eidra-chart-1)')}
+                fill={
+                  d.isTotal
+                    ? 'var(--eidra-fg)'
+                    : (WATERFALL_REGION_COLORS[d.label] ?? 'var(--eidra-chart-1)')
+                }
               />
             ))}
             {showLabels && (
               // `delta` is the step's own contribution (the Total bar's delta is the
               // full sum); the kit's `value` is the running cumulative, not the label.
-              <Chart.LabelList dataKey="delta" position="top" fontSize={11} formatter={(v) => String(Number(v))} />
+              <Chart.LabelList
+                dataKey="delta"
+                position="top"
+                fontSize={11}
+                formatter={(v) => String(Number(v))}
+              />
             )}
           </Chart.Bar>
         </Chart.BarChart>
@@ -1949,8 +2318,17 @@ export const Minis: StoryObj<MinisArgs> = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
           <Chart.BarChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[2, 2, 0, 0]} activeBar={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="revenue"
+              fill="var(--color-revenue)"
+              radius={[2, 2, 0, 0]}
+              activeBar={false}
+            />
           </Chart.BarChart>
         </Chart.Container>
       </MiniCard>
@@ -1959,8 +2337,19 @@ export const Minis: StoryObj<MinisArgs> = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
           <Chart.LineChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" strokeWidth={2} dot={false} activeDot={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Line
+              {...Chart.seriesDefaults}
+              dataKey="revenue"
+              type="monotone"
+              stroke="var(--color-revenue)"
+              strokeWidth={2}
+              dot={false}
+              activeDot={false}
+            />
           </Chart.LineChart>
         </Chart.Container>
       </MiniCard>
@@ -1969,8 +2358,20 @@ export const Minis: StoryObj<MinisArgs> = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 120 }}>
           <Chart.AreaChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={0.2} strokeWidth={2} activeDot={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Area
+              {...Chart.seriesDefaults}
+              dataKey="revenue"
+              type="monotone"
+              stroke="var(--color-revenue)"
+              fill="var(--color-revenue)"
+              fillOpacity={0.2}
+              strokeWidth={2}
+              activeDot={false}
+            />
           </Chart.AreaChart>
         </Chart.Container>
       </MiniCard>
@@ -1979,10 +2380,32 @@ export const Minis: StoryObj<MinisArgs> = {
         <Chart.Container config={config} size="sm" style={{ height: 120 }}>
           <Chart.ComposedChart data={DATA} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" activeBar={false} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" activeBar={false} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} activeBar={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="actuals"
+              stackId="s"
+              fill="var(--color-actuals)"
+              activeBar={false}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="sold"
+              stackId="s"
+              fill="var(--color-sold)"
+              activeBar={false}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="hiProb"
+              stackId="s"
+              fill="var(--color-hiProb)"
+              radius={[2, 2, 0, 0]}
+              activeBar={false}
+            />
           </Chart.ComposedChart>
         </Chart.Container>
       </MiniCard>
@@ -1994,7 +2417,12 @@ export const Minis: StoryObj<MinisArgs> = {
             <Chart.YAxis type="number" dataKey="growth" hide />
             <Chart.ZAxis type="number" dataKey="total" range={[30, 240]} />
             <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
-            <Chart.Scatter {...Chart.seriesDefaults} data={CLIENTS} fill="var(--color-large)" fillOpacity={0.6} />
+            <Chart.Scatter
+              {...Chart.seriesDefaults}
+              data={CLIENTS}
+              fill="var(--color-large)"
+              fillOpacity={0.6}
+            />
           </Chart.ScatterChart>
         </Chart.Container>
       </MiniCard>
@@ -2004,17 +2432,42 @@ export const Minis: StoryObj<MinisArgs> = {
           <Chart.RadarChart data={CAPABILITY} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
             <Chart.PolarGrid />
             <Chart.PolarAngleAxis dataKey="skill" tick={false} />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={score} hideLabel />} />
-            <Chart.Radar {...Chart.seriesDefaults} dataKey="platform" stroke="var(--color-platform)" fill="var(--color-platform)" fillOpacity={0.25} strokeWidth={1.5} />
-            <Chart.Radar {...Chart.seriesDefaults} dataKey="product" stroke="var(--color-product)" fill="var(--color-product)" fillOpacity={0.25} strokeWidth={1.5} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={score} hideLabel />}
+            />
+            <Chart.Radar
+              {...Chart.seriesDefaults}
+              dataKey="platform"
+              stroke="var(--color-platform)"
+              fill="var(--color-platform)"
+              fillOpacity={0.25}
+              strokeWidth={1.5}
+            />
+            <Chart.Radar
+              {...Chart.seriesDefaults}
+              dataKey="product"
+              stroke="var(--color-product)"
+              fill="var(--color-product)"
+              fillOpacity={0.25}
+              strokeWidth={1.5}
+            />
           </Chart.RadarChart>
         </Chart.Container>
       </MiniCard>
 
       <MiniCard title="Donut">
-        <Chart.Container config={pieConfig} size="sm" style={{ height: 120 }} aria-label="Revenue split">
+        <Chart.Container
+          config={pieConfig}
+          size="sm"
+          style={{ height: 120 }}
+          aria-label="Revenue split"
+        >
           <Chart.PieChart margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
             <Chart.Pie
               {...Chart.seriesDefaults}
               data={REVENUE_BY_LINE}
@@ -2119,7 +2572,11 @@ export const BoxPlot: StoryObj<BoxPlotArgs> = {
     }));
     return (
       <div style={{ maxWidth: 640 }}>
-        <Chart.Container config={{}} style={{ height: 360 }} aria-label="Cycle time by phase (days)">
+        <Chart.Container
+          config={{}}
+          style={{ height: 360 }}
+          aria-label="Cycle time by phase (days)"
+        >
           <Chart.BoxPlot
             data={data}
             categoryKey="phase"
@@ -2235,7 +2692,16 @@ function renderSankeyLink() {
     linkWidth: number;
     payload: { source: { name: string } };
   }): ReactElement => {
-    const { sourceX, targetX, sourceY, targetY, sourceControlX, targetControlX, linkWidth, payload } = props;
+    const {
+      sourceX,
+      targetX,
+      sourceY,
+      targetY,
+      sourceControlX,
+      targetControlX,
+      linkWidth,
+      payload,
+    } = props;
     const color = sankeyColor(payload.source.name);
     const d = `M${sourceX},${sourceY}C${sourceControlX},${sourceY} ${targetControlX},${targetY} ${targetX},${targetY}`;
     return (
@@ -2260,12 +2726,16 @@ function sankeyRows(top: any): Array<{ label?: ReactNode; value?: ReactNode; col
   if (!top) return [];
   const inner = top.payload ?? top;
   const value = Number(top.value ?? inner?.value);
-  const isLink = inner && inner.source != null && inner.target != null && typeof inner.source === 'object';
+  const isLink =
+    inner && inner.source != null && inner.target != null && typeof inner.source === 'object';
   if (isLink) {
     const srcName: string = inner.source.name;
     const tgtName: string = inner.target.name;
     const srcIdx = SANKEY_NODES.findIndex((n) => n.name === srcName);
-    const outTotal = SANKEY_LINKS.filter((l) => l.source === srcIdx).reduce((a, l) => a + l.value, 0);
+    const outTotal = SANKEY_LINKS.filter((l) => l.source === srcIdx).reduce(
+      (a, l) => a + l.value,
+      0,
+    );
     const share = outTotal ? Math.round((value / outTotal) * 100) : 0;
     return [
       { label: `${srcName} → ${tgtName}`, value: sankeyMsek(value), color: sankeyColor(srcName) },
@@ -2307,7 +2777,11 @@ export const Sankey: StoryObj<SankeyArgs> = {
   render: ({ nodePadding, nodeWidth, linkCurvature, showValues }) => (
     <div style={{ maxWidth: 760 }}>
       <style>{`.eidra-sankey-link{transition:stroke-opacity .15s ease}.eidra-sankey-link:hover{stroke-opacity:.6}`}</style>
-      <Chart.Container config={sankeyConfig} style={{ height: 420 }} aria-label="Revenue flow: region to net revenue to cost and EBITDA">
+      <Chart.Container
+        config={sankeyConfig}
+        style={{ height: 420 }}
+        aria-label="Revenue flow: region to net revenue to cost and EBITDA"
+      >
         <Chart.Sankey
           data={SANKEY_DATA}
           nodePadding={nodePadding}

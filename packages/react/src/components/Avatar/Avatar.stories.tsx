@@ -23,7 +23,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}>
+  <div
+    style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}
+  >
     {children}
   </div>
 );
@@ -32,10 +34,7 @@ const Row = ({ children }: { children: React.ReactNode }) => (
 export const Playground: Story = {
   render: (args) => (
     <Avatar.Root {...args}>
-      <Avatar.Image
-        src="https://i.pravatar.cc/150?u=astrid"
-        alt="Astrid Lindqvist"
-      />
+      <Avatar.Image src="https://i.pravatar.cc/150?u=astrid" alt="Astrid Lindqvist" />
       <Avatar.Fallback>AL</Avatar.Fallback>
     </Avatar.Root>
   ),
@@ -83,13 +82,19 @@ export const FallbackIcon: Story = {
   render: (args) => (
     <Row>
       <Avatar.Root {...args} size="sm">
-        <Avatar.Fallback><Icon icon={User} size="sm" /></Avatar.Fallback>
+        <Avatar.Fallback>
+          <Icon icon={User} size="sm" />
+        </Avatar.Fallback>
       </Avatar.Root>
       <Avatar.Root {...args} size="md">
-        <Avatar.Fallback><Icon icon={User} size="md" /></Avatar.Fallback>
+        <Avatar.Fallback>
+          <Icon icon={User} size="md" />
+        </Avatar.Fallback>
       </Avatar.Root>
       <Avatar.Root {...args} size="lg">
-        <Avatar.Fallback><Icon icon={User} size="lg" /></Avatar.Fallback>
+        <Avatar.Fallback>
+          <Icon icon={User} size="lg" />
+        </Avatar.Fallback>
       </Avatar.Root>
     </Row>
   ),
@@ -118,21 +123,25 @@ export const AvatarGroup: Story = {
     ];
     return (
       <div
-        style={{
-          display: 'flex',
-          // overlap avatars slightly
-          '--overlap': '-8px',
-        } as React.CSSProperties}
+        style={
+          {
+            display: 'flex',
+            // overlap avatars slightly
+            '--overlap': '-8px',
+          } as React.CSSProperties
+        }
       >
         {members.map((m, i) => (
           <Avatar.Root
             key={m.initials}
             {...args}
             size="md"
-            style={{
-              marginLeft: i === 0 ? 0 : 'var(--overlap, -8px)',
-              boxShadow: '0 0 0 2px var(--eidra-bg)',
-            } as React.CSSProperties}
+            style={
+              {
+                marginLeft: i === 0 ? 0 : 'var(--overlap, -8px)',
+                boxShadow: '0 0 0 2px var(--eidra-bg)',
+              } as React.CSSProperties
+            }
           >
             <Avatar.Image src={m.src} alt={m.name} />
             <Avatar.Fallback>{m.initials}</Avatar.Fallback>
@@ -141,12 +150,14 @@ export const AvatarGroup: Story = {
         <Avatar.Root
           {...args}
           size="md"
-          style={{
-            marginLeft: 'var(--overlap, -8px)',
-            boxShadow: '0 0 0 2px var(--eidra-bg)',
-            backgroundColor: 'var(--eidra-bg-muted)',
-            color: 'var(--eidra-fg-muted)',
-          } as React.CSSProperties}
+          style={
+            {
+              marginLeft: 'var(--overlap, -8px)',
+              boxShadow: '0 0 0 2px var(--eidra-bg)',
+              backgroundColor: 'var(--eidra-bg-muted)',
+              color: 'var(--eidra-fg-muted)',
+            } as React.CSSProperties
+          }
         >
           <Avatar.Fallback>+3</Avatar.Fallback>
         </Avatar.Root>

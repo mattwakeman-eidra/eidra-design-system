@@ -279,9 +279,7 @@ export const DisabledNavigation: Story = {
       // and cannot be activated. Arrow nav therefore steps through Redo, not past it.
       await userEvent.keyboard('{ArrowDown}');
       await waitFor(() =>
-        expect(screen.getByRole('menuitem', { name: /undo/i })).toHaveAttribute(
-          'data-highlighted',
-        ),
+        expect(screen.getByRole('menuitem', { name: /undo/i })).toHaveAttribute('data-highlighted'),
       );
       await userEvent.keyboard('{ArrowDown}');
       const redo = screen.getByRole('menuitem', { name: /redo/i });
@@ -289,9 +287,7 @@ export const DisabledNavigation: Story = {
       await expect(redo).toHaveAttribute('aria-disabled', 'true');
       await userEvent.keyboard('{ArrowDown}');
       await waitFor(() =>
-        expect(screen.getByRole('menuitem', { name: /cut/i })).toHaveAttribute(
-          'data-highlighted',
-        ),
+        expect(screen.getByRole('menuitem', { name: /cut/i })).toHaveAttribute('data-highlighted'),
       );
     });
   },
@@ -307,21 +303,21 @@ export const WithCheckboxItems: Story = {
         <Menu.Positioner sideOffset={8}>
           <Menu.Popup>
             <Menu.Group>
-            <Menu.GroupLabel>Notifications</Menu.GroupLabel>
-            <Menu.CheckboxItem defaultChecked>
-              <Menu.CheckboxItemIndicator>
-                <Icon icon={Check} size="sm" />
-              </Menu.CheckboxItemIndicator>
-              <Icon icon={Bell} size="sm" />
-              Email notifications
-            </Menu.CheckboxItem>
-            <Menu.CheckboxItem>
-              <Menu.CheckboxItemIndicator>
-                <Icon icon={Check} size="sm" />
-              </Menu.CheckboxItemIndicator>
-              <Icon icon={Moon} size="sm" />
-              Dark mode
-            </Menu.CheckboxItem>
+              <Menu.GroupLabel>Notifications</Menu.GroupLabel>
+              <Menu.CheckboxItem defaultChecked>
+                <Menu.CheckboxItemIndicator>
+                  <Icon icon={Check} size="sm" />
+                </Menu.CheckboxItemIndicator>
+                <Icon icon={Bell} size="sm" />
+                Email notifications
+              </Menu.CheckboxItem>
+              <Menu.CheckboxItem>
+                <Menu.CheckboxItemIndicator>
+                  <Icon icon={Check} size="sm" />
+                </Menu.CheckboxItemIndicator>
+                <Icon icon={Moon} size="sm" />
+                Dark mode
+              </Menu.CheckboxItem>
             </Menu.Group>
           </Menu.Popup>
         </Menu.Positioner>
@@ -337,9 +333,10 @@ export const WithCheckboxItems: Story = {
       await expect(
         screen.getByRole('menuitemcheckbox', { name: /email notifications/i }),
       ).toHaveAttribute('aria-checked', 'true');
-      await expect(
-        screen.getByRole('menuitemcheckbox', { name: /dark mode/i }),
-      ).toHaveAttribute('aria-checked', 'false');
+      await expect(screen.getByRole('menuitemcheckbox', { name: /dark mode/i })).toHaveAttribute(
+        'aria-checked',
+        'false',
+      );
     });
 
     await step('toggling a checkbox item flips aria-checked and keeps the menu open', async () => {
@@ -398,10 +395,13 @@ export const ControlledCheckboxItem: Story = {
       await expect(item).toHaveAttribute('aria-checked', 'false');
     });
 
-    await step('clicking fires onCheckedChange and the controlled value updates to checked', async () => {
-      await userEvent.click(item);
-      await expect(item).toHaveAttribute('aria-checked', 'true');
-    });
+    await step(
+      'clicking fires onCheckedChange and the controlled value updates to checked',
+      async () => {
+        await userEvent.click(item);
+        await expect(item).toHaveAttribute('aria-checked', 'true');
+      },
+    );
 
     await step('Space toggles it back off', async () => {
       await userEvent.keyboard(' ');
