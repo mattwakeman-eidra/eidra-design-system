@@ -151,3 +151,17 @@
 :global([data-density='compact']) .groupLegend {
   margin-bottom: var(--eidra-space-0-5);
 }
+
+/* ─── Horizontal group ───────────────────────────────────────────────────────
+   Opt in with `data-orientation="horizontal"` on the group. Wider gap than the
+   vertical stack, and it steps down two rungs under compact like everything
+   else (an attribute selector so it wins over the base .group gap). */
+.group[data-orientation='horizontal'] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--eidra-space-5);
+}
+
+:global([data-density='compact']) .group[data-orientation='horizontal'] {
+  gap: var(--eidra-space-3);
+}
