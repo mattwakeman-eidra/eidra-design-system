@@ -112,6 +112,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 
 - Theme: \`data-theme="light" | "dark"\` on the \`eidra-root\` element. Density: \`data-density="comfortable" | "compact"\`.
 - Style with token CSS variables (e.g. \`var(--eidra-space-4)\`), not raw values.
+- DS styles ship in \`@layer eidra\`, so a component's own \`className\` (and Tailwind utilities, if \`styles.css\` is imported before Tailwind's utilities) override DS defaults — no inline \`style\` needed. Unlayered CSS beats both.
 - **Exact prop types for every component are in \`node_modules/@eidra/react/dist/index.d.ts\`.** This catalog is the index; the \`.d.ts\` is the source of truth for props.
 - Compound components are namespaces: render the listed parts (e.g. \`<Dialog.Root><Dialog.Trigger/>…</Dialog.Root>\`).
 - \`@eidra/react\` is a client boundary (\`"use client"\` baked in) — safe to import from React Server Components.

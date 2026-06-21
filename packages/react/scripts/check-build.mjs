@@ -20,6 +20,9 @@ if (bare) {
 if (!js.startsWith("'use client'") && !js.startsWith('"use client"')) {
   errors.push('Missing "use client" directive at the top of index.js.');
 }
+if (!css.trimStart().startsWith('@layer eidra')) {
+  errors.push('index.css is not wrapped in @layer eidra — consumer styles can\'t override the DS (see ADR-0008).');
+}
 
 if (errors.length) {
   console.error(`✗ build check failed:\n - ${errors.join('\n - ')}`);
