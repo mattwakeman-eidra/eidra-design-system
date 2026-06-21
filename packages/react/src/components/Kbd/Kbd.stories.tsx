@@ -15,7 +15,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}>
+  <div
+    style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}
+  >
     {children}
   </div>
 );
@@ -25,9 +27,15 @@ export const Playground: Story = {};
 export const Sizes: Story = {
   render: (args) => (
     <Row>
-      <Kbd {...args} size="sm">⌘K</Kbd>
-      <Kbd {...args} size="md">⌘K</Kbd>
-      <Kbd {...args} size="lg">⌘K</Kbd>
+      <Kbd {...args} size="sm">
+        ⌘K
+      </Kbd>
+      <Kbd {...args} size="md">
+        ⌘K
+      </Kbd>
+      <Kbd {...args} size="lg">
+        ⌘K
+      </Kbd>
     </Row>
   ),
 };
@@ -51,7 +59,15 @@ export const KeyCombination: Story = {
   render: (args) => (
     <Row>
       <Kbd {...args}>⌘</Kbd>
-      <span style={{ color: 'var(--eidra-fg-subtle)', fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)' }}>+</span>
+      <span
+        style={{
+          color: 'var(--eidra-fg-subtle)',
+          fontFamily: 'var(--eidra-font-family-sans)',
+          fontSize: 'var(--eidra-font-size-sm)',
+        }}
+      >
+        +
+      </span>
       <Kbd {...args}>K</Kbd>
     </Row>
   ),
@@ -59,7 +75,16 @@ export const KeyCombination: Story = {
 
 export const InContext: Story = {
   render: (args) => (
-    <p style={{ fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg)', display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+    <p
+      style={{
+        fontFamily: 'var(--eidra-font-family-sans)',
+        fontSize: 'var(--eidra-font-size-sm)',
+        color: 'var(--eidra-fg)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--eidra-space-1-5)',
+      }}
+    >
       Press <Kbd {...args}>⌘</Kbd> <Kbd {...args}>K</Kbd> to open the command palette
     </p>
   ),
@@ -67,7 +92,16 @@ export const InContext: Story = {
 
 export const SaveShortcut: Story = {
   render: (args) => (
-    <p style={{ fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg)', display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+    <p
+      style={{
+        fontFamily: 'var(--eidra-font-family-sans)',
+        fontSize: 'var(--eidra-font-size-sm)',
+        color: 'var(--eidra-fg)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--eidra-space-1-5)',
+      }}
+    >
       Save changes with <Kbd {...args}>⌘</Kbd> <Kbd {...args}>S</Kbd>
     </p>
   ),

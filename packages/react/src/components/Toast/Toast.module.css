@@ -1,6 +1,7 @@
 /* ---- Viewport ---- */
 .viewport {
   --_inset: var(--eidra-space-5);
+
   position: fixed;
   z-index: var(--eidra-z-toast);
   display: flex;
@@ -17,15 +18,19 @@
 .viewport[data-position^='top-'] {
   top: var(--_inset);
 }
+
 .viewport[data-position^='bottom-'] {
   bottom: var(--_inset);
 }
+
 .viewport[data-position$='-right'] {
   right: var(--_inset);
 }
+
 .viewport[data-position$='-left'] {
   left: var(--_inset);
 }
+
 .viewport[data-position$='-center'] {
   left: 50%;
   transform: translateX(-50%);
@@ -238,6 +243,7 @@
 /* Honour the ambient compact-density scope: tighter padding/gaps. */
 :global([data-density='compact']) .viewport {
   --_inset: var(--eidra-space-3);
+
   gap: var(--eidra-space-0-5);
 }
 
@@ -263,5 +269,6 @@
    so also match the attribute on the element itself, not only an ancestor. */
 .viewport[data-density='compact'] {
   --_inset: var(--eidra-space-3);
+
   gap: var(--eidra-space-0-5);
 }

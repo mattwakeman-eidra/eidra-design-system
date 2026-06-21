@@ -9,7 +9,10 @@ import path from 'node:path';
 const ROOT = process.cwd();
 const RELEASES = path.join(ROOT, 'releases');
 
-const capture = (cmd) => execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+const capture = (cmd) =>
+  execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] })
+    .toString()
+    .trim();
 const run = (cmd) => execSync(cmd, { stdio: 'inherit' });
 
 function changelogSection(md, version) {
@@ -19,7 +22,10 @@ function changelogSection(md, version) {
   if (start === -1) return '';
   let end = lines.findIndex((l, i) => i > start && /^## /.test(l));
   if (end === -1) end = lines.length;
-  return lines.slice(start + 1, end).join('\n').trim();
+  return lines
+    .slice(start + 1, end)
+    .join('\n')
+    .trim();
 }
 
 // Strip Changesets' "Updated dependencies" boilerplate. The fixed group writes
@@ -36,7 +42,10 @@ function stripDepBumps(section) {
     }
     out.push(lines[i]);
   }
-  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  return out
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 // True if a section has content beyond its `###`/`####` headings (i.e. it's not
@@ -56,7 +65,7 @@ function buildNotes(publishedPkgs, version, tag) {
   const groups = [];
   for (const pkg of ordered) {
     const dir = pkg.replace(/^@eidra\//, '');
-    let md = '';
+    let md;
     try {
       md = readFileSync(path.join(ROOT, 'packages', dir, 'CHANGELOG.md'), 'utf8');
     } catch {
@@ -77,7 +86,7 @@ async function main() {
   const { version } = manifest;
   const tag = `v${version}`;
 
-  let exists = false;
+  let exists;
   try {
     capture(`gh release view ${tag}`);
     exists = true;
@@ -101,7 +110,9 @@ async function main() {
     .join(' ');
 
   run(`gh release create ${tag} ${assets} --title "${tag}" --notes-file "${notesFile}"`);
-  console.log(`✓ Created GitHub Release ${tag} with ${Object.keys(manifest.files).length} tarballs`);
+  console.log(
+    `✓ Created GitHub Release ${tag} with ${Object.keys(manifest.files).length} tarballs`,
+  );
   // NOTE: do NOT emit a "New tag: <pkg>@<version>" line here. changesets/action parses that
   // pattern and tries to `git push origin <pkg>@<version>` — a per-package tag this flow never
   // creates (we tag a single `v<version>` via `gh release create`), which fails the run after

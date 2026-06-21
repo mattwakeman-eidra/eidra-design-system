@@ -8,120 +8,85 @@ import styles from './Slider.module.css';
 export type SliderOrientation = 'horizontal' | 'vertical';
 export type SliderSize = 'sm' | 'md' | 'lg';
 
-export interface SliderRootProps
-  extends Omit<BaseSlider.Root.Props, 'className'> {
+export interface SliderRootProps extends Omit<BaseSlider.Root.Props, 'className'> {
   className?: string;
   /** Control size. Defaults to `md`. */
   size?: SliderSize;
 }
 
-const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>(
-  function SliderRoot({ className, size = 'md', ...props }, ref) {
-    return (
-      <BaseSlider.Root
-        ref={ref}
-        className={cn(styles.root, className)}
-        data-size={size}
-        {...props}
-      />
-    );
-  },
-);
+const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>(function SliderRoot(
+  { className, size = 'md', ...props },
+  ref,
+) {
+  return (
+    <BaseSlider.Root ref={ref} className={cn(styles.root, className)} data-size={size} {...props} />
+  );
+});
 
 // ─── Slider.Control ───────────────────────────────────────────────────────────
 
-export interface SliderControlProps
-  extends Omit<BaseSlider.Control.Props, 'className'> {
+export interface SliderControlProps extends Omit<BaseSlider.Control.Props, 'className'> {
   className?: string;
 }
 
-const SliderControl = forwardRef<HTMLDivElement, SliderControlProps>(
-  function SliderControl({ className, ...props }, ref) {
-    return (
-      <BaseSlider.Control
-        ref={ref}
-        className={cn(styles.control, className)}
-        {...props}
-      />
-    );
-  },
-);
+const SliderControl = forwardRef<HTMLDivElement, SliderControlProps>(function SliderControl(
+  { className, ...props },
+  ref,
+) {
+  return <BaseSlider.Control ref={ref} className={cn(styles.control, className)} {...props} />;
+});
 
 // ─── Slider.Track ─────────────────────────────────────────────────────────────
 
-export interface SliderTrackProps
-  extends Omit<BaseSlider.Track.Props, 'className'> {
+export interface SliderTrackProps extends Omit<BaseSlider.Track.Props, 'className'> {
   className?: string;
 }
 
-const SliderTrack = forwardRef<HTMLDivElement, SliderTrackProps>(
-  function SliderTrack({ className, ...props }, ref) {
-    return (
-      <BaseSlider.Track
-        ref={ref}
-        className={cn(styles.track, className)}
-        {...props}
-      />
-    );
-  },
-);
+const SliderTrack = forwardRef<HTMLDivElement, SliderTrackProps>(function SliderTrack(
+  { className, ...props },
+  ref,
+) {
+  return <BaseSlider.Track ref={ref} className={cn(styles.track, className)} {...props} />;
+});
 
 // ─── Slider.Indicator ─────────────────────────────────────────────────────────
 
-export interface SliderIndicatorProps
-  extends Omit<BaseSlider.Indicator.Props, 'className'> {
+export interface SliderIndicatorProps extends Omit<BaseSlider.Indicator.Props, 'className'> {
   className?: string;
 }
 
-const SliderIndicator = forwardRef<HTMLDivElement, SliderIndicatorProps>(
-  function SliderIndicator({ className, ...props }, ref) {
-    return (
-      <BaseSlider.Indicator
-        ref={ref}
-        className={cn(styles.indicator, className)}
-        {...props}
-      />
-    );
-  },
-);
+const SliderIndicator = forwardRef<HTMLDivElement, SliderIndicatorProps>(function SliderIndicator(
+  { className, ...props },
+  ref,
+) {
+  return <BaseSlider.Indicator ref={ref} className={cn(styles.indicator, className)} {...props} />;
+});
 
 // ─── Slider.Thumb ─────────────────────────────────────────────────────────────
 
-export interface SliderThumbProps
-  extends Omit<BaseSlider.Thumb.Props, 'className'> {
+export interface SliderThumbProps extends Omit<BaseSlider.Thumb.Props, 'className'> {
   className?: string;
 }
 
-const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(
-  function SliderThumb({ className, ...props }, ref) {
-    return (
-      <BaseSlider.Thumb
-        ref={ref}
-        className={cn(styles.thumb, className)}
-        {...props}
-      />
-    );
-  },
-);
+const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(function SliderThumb(
+  { className, ...props },
+  ref,
+) {
+  return <BaseSlider.Thumb ref={ref} className={cn(styles.thumb, className)} {...props} />;
+});
 
 // ─── Slider.Value ─────────────────────────────────────────────────────────────
 
-export interface SliderValueProps
-  extends Omit<BaseSlider.Value.Props, 'className'> {
+export interface SliderValueProps extends Omit<BaseSlider.Value.Props, 'className'> {
   className?: string;
 }
 
-const SliderValue = forwardRef<HTMLOutputElement, SliderValueProps>(
-  function SliderValue({ className, ...props }, ref) {
-    return (
-      <BaseSlider.Value
-        ref={ref}
-        className={cn(styles.value, className)}
-        {...props}
-      />
-    );
-  },
-);
+const SliderValue = forwardRef<HTMLOutputElement, SliderValueProps>(function SliderValue(
+  { className, ...props },
+  ref,
+) {
+  return <BaseSlider.Value ref={ref} className={cn(styles.value, className)} {...props} />;
+});
 
 // ─── Compound namespace export ────────────────────────────────────────────────
 

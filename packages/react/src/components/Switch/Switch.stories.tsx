@@ -10,8 +10,7 @@ const meta = {
     'Switch.Thumb': Switch.Thumb,
   },
   tags: ['autodocs'],
-  parameters: {
-  },
+  parameters: {},
   // `name` is form-wiring (invisible) — dropped as a control.
   args: {
     label: 'Enable feature',
@@ -32,7 +31,9 @@ const Col = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: 'var(--eidra-space-6)', alignItems: 'center', flexWrap: 'wrap' }}>
+  <div
+    style={{ display: 'flex', gap: 'var(--eidra-space-6)', alignItems: 'center', flexWrap: 'wrap' }}
+  >
     {children}
   </div>
 );
@@ -61,7 +62,13 @@ export const LabelPosition: Story = {
   render: (args) => (
     <Col>
       <Switch.Root {...args} label="Label at end (default)" name="lp1" labelPosition="end" />
-      <Switch.Root {...args} label="Label at start" name="lp2" labelPosition="start" defaultChecked />
+      <Switch.Root
+        {...args}
+        label="Label at start"
+        name="lp2"
+        labelPosition="start"
+        defaultChecked
+      />
     </Col>
   ),
 };
@@ -301,7 +308,15 @@ export const WorkspaceSettings: Story = {
           }}
         >
           <div>
-            <p style={{ margin: 0, fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)', fontWeight: 'var(--eidra-font-weight-medium)', color: disabled ? 'var(--eidra-fg-disabled)' : 'var(--eidra-fg)' }}>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: 'var(--eidra-font-family-sans)',
+                fontSize: 'var(--eidra-font-size-sm)',
+                fontWeight: 'var(--eidra-font-weight-medium)',
+                color: disabled ? 'var(--eidra-fg-disabled)' : 'var(--eidra-fg)',
+              }}
+            >
               {label}
             </p>
           </div>

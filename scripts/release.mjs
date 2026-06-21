@@ -62,7 +62,9 @@ async function main() {
   for (const [name, file] of Object.entries(files)) {
     console.log(`  "${name}": "file:vendor/eidra/${file}",`);
   }
-  console.log('\nIn the consumer, run your sync script (see docs/consuming.md) then `pnpm install`.\n');
+  console.log(
+    '\nIn the consumer, run your sync script (see docs/consuming.md) then `pnpm install`.\n',
+  );
 }
 
 main().catch((err) => {

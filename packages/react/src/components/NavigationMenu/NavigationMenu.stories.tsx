@@ -235,9 +235,7 @@ export const Playground: Story = {
 
     await step('Escape closes the open flyout', async () => {
       await userEvent.keyboard('{Escape}');
-      await waitFor(() =>
-        expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull());
       await expect(services).toHaveAttribute('aria-expanded', 'false');
     });
   },
@@ -326,10 +324,11 @@ export const Controlled: Story = {
   render: (args) => {
     const [value, setValue] = useState<string | null>(null);
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', padding: 'var(--eidra-space-4)' }}>
+      <div
+        style={{ display: 'grid', gap: 'var(--eidra-space-3)', padding: 'var(--eidra-space-4)' }}
+      >
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
-          Open item:{' '}
-          <strong style={{ color: 'var(--eidra-fg)' }}>{value ?? 'none'}</strong>
+          Open item: <strong style={{ color: 'var(--eidra-fg)' }}>{value ?? 'none'}</strong>
         </p>
         <NavWrapper>
           <NavigationMenu.Root
@@ -383,9 +382,7 @@ export const Controlled: Story = {
 
     await step('closing reports a null value', async () => {
       await userEvent.keyboard('{Escape}');
-      await waitFor(() =>
-        expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull());
       await expect(args.onValueChange).toHaveBeenLastCalledWith(null, expect.anything());
     });
   },
@@ -441,9 +438,7 @@ export const DefaultOpen: Story = {
 
     await step('Escape closes the uncontrolled menu', async () => {
       await userEvent.keyboard('{Escape}');
-      await waitFor(() =>
-        expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull());
       await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     });
   },
@@ -596,9 +591,7 @@ export const Vertical: Story = {
 
     await step('Escape closes the flyout and restores trigger state', async () => {
       await userEvent.keyboard('{Escape}');
-      await waitFor(() =>
-        expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.queryByRole('link', { name: /strategy/i })).toBeNull());
       await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     });
   },

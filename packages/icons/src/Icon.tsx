@@ -39,13 +39,6 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
     ? { role: 'img' as const, 'aria-label': label }
     : { 'aria-hidden': true, focusable: false as const };
   return (
-    <IconCmp
-      ref={ref}
-      width={dimension}
-      height={dimension}
-      strokeWidth={2}
-      {...a11y}
-      {...props}
-    />
+    <IconCmp ref={ref} width={dimension} height={dimension} strokeWidth={2} {...a11y} {...props} />
   );
 });

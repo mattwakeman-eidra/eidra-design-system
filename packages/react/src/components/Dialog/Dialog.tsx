@@ -39,9 +39,7 @@ const Portal = BaseDialog.Portal;
 // ---- Backdrop ----
 const Backdrop = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BaseDialog.Backdrop>>(
   function Backdrop({ className, ...props }, ref) {
-    return (
-      <BaseDialog.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />
-    );
+    return <BaseDialog.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />;
   },
 );
 Backdrop.displayName = 'Dialog.Backdrop';
@@ -97,8 +95,7 @@ const Close = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef<typeof Base
 Close.displayName = 'Dialog.Close';
 
 // ---- CloseButton (convenience: styled X icon button) ----
-export interface DialogCloseButtonProps
-  extends ComponentPropsWithoutRef<typeof BaseDialog.Close> {
+export interface DialogCloseButtonProps extends ComponentPropsWithoutRef<typeof BaseDialog.Close> {
   /** Accessible label. Defaults to "Close dialog". */
   label?: string;
 }

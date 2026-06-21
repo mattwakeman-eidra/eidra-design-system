@@ -7,81 +7,64 @@ import styles from './Radio.module.css';
 
 // ─── Radio.Root ───────────────────────────────────────────────────────────────
 
-export interface RadioRootProps
-  extends Omit<BaseRadio.Root.Props, 'className'> {
+export interface RadioRootProps extends Omit<BaseRadio.Root.Props, 'className'> {
   className?: string;
   /** Label rendered alongside the radio button. */
   label?: ReactNode;
 }
 
-const RadioRoot = forwardRef<HTMLElement, RadioRootProps>(
-  function RadioRoot({ className, label, children, ...props }, ref) {
-    return (
-      <label className={cn(styles.wrapper, className)}>
-        <BaseRadio.Root ref={ref} className={styles.root} {...props}>
-          <BaseRadio.Indicator className={styles.indicator} keepMounted>
-            {/* Filled circle rendered with inline SVG */}
-            <svg
-              className={styles.dot}
-              viewBox="0 0 8 8"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <circle cx="4" cy="4" r="3" />
-            </svg>
-          </BaseRadio.Indicator>
-        </BaseRadio.Root>
-        {label != null && <span className={styles.label}>{label}</span>}
-        {children}
-      </label>
-    );
-  },
-);
+const RadioRoot = forwardRef<HTMLElement, RadioRootProps>(function RadioRoot(
+  { className, label, children, ...props },
+  ref,
+) {
+  return (
+    <label className={cn(styles.wrapper, className)}>
+      <BaseRadio.Root ref={ref} className={styles.root} {...props}>
+        <BaseRadio.Indicator className={styles.indicator} keepMounted>
+          {/* Filled circle rendered with inline SVG */}
+          <svg className={styles.dot} viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
+            <circle cx="4" cy="4" r="3" />
+          </svg>
+        </BaseRadio.Indicator>
+      </BaseRadio.Root>
+      {label != null && <span className={styles.label}>{label}</span>}
+      {children}
+    </label>
+  );
+});
 
 // ─── Radio.Indicator ──────────────────────────────────────────────────────────
 
-export interface RadioIndicatorProps
-  extends Omit<BaseRadio.Indicator.Props, 'className'> {
+export interface RadioIndicatorProps extends Omit<BaseRadio.Indicator.Props, 'className'> {
   className?: string;
 }
 
-const RadioIndicator = forwardRef<HTMLSpanElement, RadioIndicatorProps>(
-  function RadioIndicator({ className, ...props }, ref) {
-    return (
-      <BaseRadio.Indicator
-        ref={ref}
-        className={cn(styles.indicator, className)}
-        {...props}
-      />
-    );
-  },
-);
+const RadioIndicator = forwardRef<HTMLSpanElement, RadioIndicatorProps>(function RadioIndicator(
+  { className, ...props },
+  ref,
+) {
+  return <BaseRadio.Indicator ref={ref} className={cn(styles.indicator, className)} {...props} />;
+});
 
 // ─── RadioGroup ───────────────────────────────────────────────────────────────
 
-export interface RadioGroupProps
-  extends Omit<BaseRadioGroup.Props, 'className'> {
+export interface RadioGroupProps extends Omit<BaseRadioGroup.Props, 'className'> {
   className?: string;
   /** Legend text for the group. */
   legend?: ReactNode;
 }
 
-const RadioGroupRoot = forwardRef<HTMLDivElement, RadioGroupProps>(
-  function RadioGroupRoot({ className, legend, children, ...props }, ref) {
-    return (
-      <BaseRadioGroup
-        ref={ref}
-        className={cn(styles.group, className)}
-        {...props}
-      >
-        {legend != null && (
-          <span className={styles.groupLegend}>{legend}</span>
-        )}
-        {children}
-      </BaseRadioGroup>
-    );
-  },
-);
+const RadioGroupRoot = forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroupRoot(
+  { className, legend, children, ...props },
+  ref,
+) {
+  return (
+    <BaseRadioGroup ref={ref} className={cn(styles.group, className)} {...props}>
+      {legend != null && <span className={styles.groupLegend}>{legend}</span>}
+      {children}
+    </BaseRadioGroup>
+  );
+});
 
 // ─── Compound namespace exports ───────────────────────────────────────────────
 

@@ -12,10 +12,16 @@ const meta = {
     size: 'md',
   },
   argTypes: {
-    tone: { control: 'inline-radio', options: ['neutral', 'success', 'danger', 'warning', 'accent'] },
+    tone: {
+      control: 'inline-radio',
+      options: ['neutral', 'success', 'danger', 'warning', 'accent'],
+    },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     progress: { control: { type: 'range', min: 0, max: 100 } },
-    progressTone: { control: 'select', options: ['accent', 'success', 'warning', 'danger', 'info'] },
+    progressTone: {
+      control: 'select',
+      options: ['accent', 'success', 'warning', 'danger', 'info'],
+    },
     accent: { control: 'boolean' },
     caption: { control: 'text' },
     delta: { control: 'text' },
@@ -60,11 +66,25 @@ export const Accent: Story = {
   // Showcase story — renders a fixed layout and ignores args, so hide the (inapplicable) controls.
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-6)',
+        maxWidth: 480,
+      }}
+    >
       {/* The prop's effect: same metric, border off vs on */}
       <div style={{ display: 'flex', gap: 'var(--eidra-space-6)' }}>
         <Statistic size="sm" label="Net revenue" value="€ 1.05M" tone="success" delta="+6%" />
-        <Statistic accent size="sm" label="Net revenue" value="€ 1.05M" tone="success" delta="+6%" />
+        <Statistic
+          accent
+          size="sm"
+          label="Net revenue"
+          value="€ 1.05M"
+          tone="success"
+          delta="+6%"
+        />
       </div>
       {/* The border picks up each metric's tone */}
       <div style={{ display: 'flex', gap: 'var(--eidra-space-6)', flexWrap: 'wrap' }}>

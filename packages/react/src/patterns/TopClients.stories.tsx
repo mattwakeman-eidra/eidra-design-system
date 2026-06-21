@@ -73,7 +73,20 @@ interface Client {
   months: MonthDatum[];
 }
 
-const MONTHS_12 = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+const MONTHS_12 = [
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+];
 
 // Deterministic pseudo-random generator so the sample data is stable across
 // renders (no hydration / snapshot churn) but still looks realistic.
@@ -94,29 +107,68 @@ function makeMonths(months: string[], opcos: string[], seed: number): MonthDatum
 }
 
 const CLIENTS: Client[] = [
-  { name: 'Volvo Cars', country: 'SE', countryName: 'Sweden', opcos: ['fabrique', 'umain', 'tigerton'] },
+  {
+    name: 'Volvo Cars',
+    country: 'SE',
+    countryName: 'Sweden',
+    opcos: ['fabrique', 'umain', 'tigerton'],
+  },
   { name: 'Equinor', country: 'NO', countryName: 'Norway', opcos: ['mediaMonks', 'umain'] },
-  { name: 'Philips', country: 'NL', countryName: 'Netherlands', opcos: ['fabrique', 'northell', 'brightStep'] },
-  { name: 'Siemens', country: 'DE', countryName: 'Germany', opcos: ['mediaMonks', 'tigerton', 'brightStep'] },
+  {
+    name: 'Philips',
+    country: 'NL',
+    countryName: 'Netherlands',
+    opcos: ['fabrique', 'northell', 'brightStep'],
+  },
+  {
+    name: 'Siemens',
+    country: 'DE',
+    countryName: 'Germany',
+    opcos: ['mediaMonks', 'tigerton', 'brightStep'],
+  },
   { name: 'Nike', country: 'US', countryName: 'United States', opcos: ['mediaMonks', 'fabrique'] },
   { name: 'Barclays', country: 'GB', countryName: 'United Kingdom', opcos: ['umain', 'northell'] },
   { name: 'Maersk', country: 'DK', countryName: 'Denmark', opcos: ['tigerton', 'fabrique'] },
-  { name: 'Nokia', country: 'FI', countryName: 'Finland', opcos: ['northell', 'brightStep', 'umain'] },
-  { name: 'IKEA', country: 'SE', countryName: 'Sweden', opcos: ['fabrique', 'mediaMonks', 'umain', 'tigerton'] },
+  {
+    name: 'Nokia',
+    country: 'FI',
+    countryName: 'Finland',
+    opcos: ['northell', 'brightStep', 'umain'],
+  },
+  {
+    name: 'IKEA',
+    country: 'SE',
+    countryName: 'Sweden',
+    opcos: ['fabrique', 'mediaMonks', 'umain', 'tigerton'],
+  },
   { name: 'DNB', country: 'NO', countryName: 'Norway', opcos: ['umain', 'brightStep'] },
-  { name: 'Heineken', country: 'NL', countryName: 'Netherlands', opcos: ['mediaMonks', 'northell'] },
+  {
+    name: 'Heineken',
+    country: 'NL',
+    countryName: 'Netherlands',
+    opcos: ['mediaMonks', 'northell'],
+  },
   { name: 'BMW', country: 'DE', countryName: 'Germany', opcos: ['fabrique', 'tigerton'] },
-  { name: 'Spotify', country: 'SE', countryName: 'Sweden', opcos: ['mediaMonks', 'umain', 'northell'] },
+  {
+    name: 'Spotify',
+    country: 'SE',
+    countryName: 'Sweden',
+    opcos: ['mediaMonks', 'umain', 'northell'],
+  },
   { name: 'Tesla', country: 'US', countryName: 'United States', opcos: ['tigerton', 'brightStep'] },
-  { name: 'HSBC', country: 'GB', countryName: 'United Kingdom', opcos: ['umain', 'fabrique', 'northell'] },
+  {
+    name: 'HSBC',
+    country: 'GB',
+    countryName: 'United Kingdom',
+    opcos: ['umain', 'fabrique', 'northell'],
+  },
   { name: 'Carlsberg', country: 'DK', countryName: 'Denmark', opcos: ['mediaMonks', 'tigerton'] },
 ].map((c, i) => ({ ...c, months: makeMonths(MONTHS_12, c.opcos, (i + 1) * 7919) }));
 
 const clientTotal = (c: Client, monthCount: number) =>
-  c.months.slice(-monthCount).reduce(
-    (sum, row) => sum + c.opcos.reduce((s, key) => s + Number(row[key] ?? 0), 0),
-    0,
-  );
+  c.months
+    .slice(-monthCount)
+    .reduce((sum, row) => sum + c.opcos.reduce((s, key) => s + Number(row[key] ?? 0), 0), 0);
 
 // ── Pieces ───────────────────────────────────────────────────────────────────
 const kicker = (text: ReactNode) => (
@@ -145,7 +197,10 @@ function OpCoLegend() {
       }}
     >
       {OPCOS.map((o) => (
-        <span key={o.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}>
+        <span
+          key={o.key}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}
+        >
           <span
             aria-hidden
             style={{
@@ -178,12 +233,33 @@ function ClientCell({ client, monthCount }: { client: Client; monthCount: number
         background: 'var(--eidra-surface)',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 'var(--eidra-space-2)' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)', font: '600 var(--eidra-font-size-sm)/1.2 var(--eidra-font-family-sans)', color: 'var(--eidra-fg)' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          gap: 'var(--eidra-space-2)',
+        }}
+      >
+        <span
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 'var(--eidra-space-1-5)',
+            font: '600 var(--eidra-font-size-sm)/1.2 var(--eidra-font-family-sans)',
+            color: 'var(--eidra-fg)',
+          }}
+        >
           <Flag code={client.country} size="xs" label={client.countryName} />
           {client.name}
         </span>
-        <span style={{ font: '700 var(--eidra-font-size-sm)/1.2 var(--eidra-font-family-sans)', fontVariantNumeric: 'tabular-nums', color: 'var(--eidra-fg)' }}>
+        <span
+          style={{
+            font: '700 var(--eidra-font-size-sm)/1.2 var(--eidra-font-family-sans)',
+            fontVariantNumeric: 'tabular-nums',
+            color: 'var(--eidra-fg)',
+          }}
+        >
           {fmt(total)}
         </span>
       </div>
@@ -240,7 +316,16 @@ function TopClientsList({ monthCount, topN }: { monthCount: number; topN: number
       }}
     >
       {kicker('Top clients')}
-      <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+      <ol
+        style={{
+          listStyle: 'none',
+          margin: 0,
+          padding: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--eidra-space-1)',
+        }}
+      >
         {ranked.map(({ client, total }, i) => (
           <li
             key={client.name}
@@ -254,10 +339,21 @@ function TopClientsList({ monthCount, topN }: { monthCount: number; topN: number
               color: 'var(--eidra-fg)',
             }}
           >
-            <span style={{ width: 20, textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: 'var(--eidra-fg-muted)' }}>{i + 1}</span>
+            <span
+              style={{
+                width: 20,
+                textAlign: 'right',
+                fontVariantNumeric: 'tabular-nums',
+                color: 'var(--eidra-fg-muted)',
+              }}
+            >
+              {i + 1}
+            </span>
             <Flag code={client.country} size="sm" label={client.countryName} />
             <span style={{ flex: 1 }}>{client.name}</span>
-            <span style={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{fmt(total)}</span>
+            <span style={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+              {fmt(total)}
+            </span>
           </li>
         ))}
       </ol>
@@ -266,7 +362,15 @@ function TopClientsList({ monthCount, topN }: { monthCount: number; topN: number
 }
 
 /** The full page: legend, small-multiples grid, and ranked list side by side. */
-function TopClientsPage({ monthCount, topN, showRankedList }: { monthCount: number; topN: number; showRankedList: boolean }) {
+function TopClientsPage({
+  monthCount,
+  topN,
+  showRankedList,
+}: {
+  monthCount: number;
+  topN: number;
+  showRankedList: boolean;
+}) {
   // Show the top-N clients for the window in both the mini grid and the list.
   const shown = rankedClients(monthCount, topN).map((r) => r.client);
   return (

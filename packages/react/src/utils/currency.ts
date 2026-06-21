@@ -17,12 +17,20 @@ export interface CurrencyFormatOptions {
  */
 export function formatCurrency(
   value: number,
-  { currency = 'EUR', locale = 'en-US', maximumFractionDigits = 0 }: CurrencyFormatOptions & {
+  {
+    currency = 'EUR',
+    locale = 'en-US',
+    maximumFractionDigits = 0,
+  }: CurrencyFormatOptions & {
     /** Max fraction digits. Defaults to `0`. */
     maximumFractionDigits?: number;
   } = {},
 ): string {
-  return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits }).format(value);
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    maximumFractionDigits,
+  }).format(value);
 }
 
 /**
@@ -45,6 +53,9 @@ export function formatCompactCurrency(
  * Currency in thousands with a `k` suffix — e.g. `€2,916k` for `2_916_000`.
  * Useful for dense totals rows. (Invoicing's `fmtK`.)
  */
-export function formatCurrencyThousands(value: number, options: CurrencyFormatOptions = {}): string {
+export function formatCurrencyThousands(
+  value: number,
+  options: CurrencyFormatOptions = {},
+): string {
   return `${formatCurrency(value / 1000, options)}k`;
 }

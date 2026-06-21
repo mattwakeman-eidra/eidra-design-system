@@ -95,7 +95,9 @@ export const StickyBottom: Story = {
       }}
     >
       <div style={{ padding: 'var(--eidra-space-4)', minHeight: 480 }}>
-        <p style={{ color: 'var(--eidra-fg-muted)' }}>Scroll — the action bar stays pinned to the bottom.</p>
+        <p style={{ color: 'var(--eidra-fg-muted)' }}>
+          Scroll — the action bar stays pinned to the bottom.
+        </p>
       </div>
       <ActionBar {...args} />
     </div>
@@ -134,7 +136,9 @@ export const StickyTop: Story = {
     >
       <ActionBar {...args} />
       <div style={{ padding: 'var(--eidra-space-4)', minHeight: 480 }}>
-        <p style={{ color: 'var(--eidra-fg-muted)' }}>Scroll — the action bar stays pinned to the top.</p>
+        <p style={{ color: 'var(--eidra-fg-muted)' }}>
+          Scroll — the action bar stays pinned to the top.
+        </p>
       </div>
     </div>
   ),

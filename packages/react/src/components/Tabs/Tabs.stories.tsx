@@ -311,15 +311,9 @@ export const Vertical: Story = {
         <Tabs.Tab value={2}>Invoices</Tabs.Tab>
         <Tabs.Indicator />
       </Tabs.List>
-      <Tabs.Panel value={0}>
-        Manage and review your submitted proposals here.
-      </Tabs.Panel>
-      <Tabs.Panel value={1}>
-        Signed contracts and amendments for this client.
-      </Tabs.Panel>
-      <Tabs.Panel value={2}>
-        All invoices issued and their current payment status.
-      </Tabs.Panel>
+      <Tabs.Panel value={0}>Manage and review your submitted proposals here.</Tabs.Panel>
+      <Tabs.Panel value={1}>Signed contracts and amendments for this client.</Tabs.Panel>
+      <Tabs.Panel value={2}>All invoices issued and their current payment status.</Tabs.Panel>
     </Tabs.Root>
   ),
   play: async ({ canvasElement, step }) => {
@@ -366,12 +360,8 @@ export const WithDisabledTab: Story = {
       <Tabs.Panel value={0}>
         Active engagements are listed here. Click a project to see full details.
       </Tabs.Panel>
-      <Tabs.Panel value={1}>
-        Proposals and deliverables currently under client review.
-      </Tabs.Panel>
-      <Tabs.Panel value={2}>
-        Archived content is not accessible in this workspace tier.
-      </Tabs.Panel>
+      <Tabs.Panel value={1}>Proposals and deliverables currently under client review.</Tabs.Panel>
+      <Tabs.Panel value={2}>Archived content is not accessible in this workspace tier.</Tabs.Panel>
     </Tabs.Root>
   ),
   play: async ({ canvasElement, step }) => {

@@ -67,9 +67,7 @@ Popup.displayName = 'Tooltip.Popup';
 // ---- Arrow ----
 const Arrow = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BaseTooltip.Arrow>>(
   function Arrow({ className, ...props }, ref) {
-    return (
-      <BaseTooltip.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />
-    );
+    return <BaseTooltip.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />;
   },
 );
 Arrow.displayName = 'Tooltip.Arrow';

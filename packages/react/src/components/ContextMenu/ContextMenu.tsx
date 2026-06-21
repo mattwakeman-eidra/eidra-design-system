@@ -13,8 +13,9 @@ const Root = BaseContextMenu.Root;
 
 // ---- Trigger ----
 
-export interface ContextMenuTriggerProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Trigger> {
+export interface ContextMenuTriggerProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Trigger
+> {
   className?: string;
 }
 
@@ -22,13 +23,7 @@ const Trigger = forwardRef<HTMLDivElement, ContextMenuTriggerProps>(function Tri
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseContextMenu.Trigger
-      ref={ref}
-      className={cn(styles.trigger, className)}
-      {...props}
-    />
-  );
+  return <BaseContextMenu.Trigger ref={ref} className={cn(styles.trigger, className)} {...props} />;
 });
 
 // ---- Portal ----
@@ -37,29 +32,32 @@ const Portal = BaseContextMenu.Portal;
 
 // ---- Positioner ----
 
-export interface ContextMenuPositionerProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Positioner> {
+export interface ContextMenuPositionerProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Positioner
+> {
   className?: string;
 }
 
-const Positioner = forwardRef<HTMLDivElement, ContextMenuPositionerProps>(
-  function Positioner({ className, ...props }, ref) {
-    const scope = useScopeDataAttrs();
-    return (
-      <BaseContextMenu.Positioner
-        ref={ref}
-        className={cn(styles.positioner, className)}
-        {...scope}
-        {...props}
-      />
-    );
-  },
-);
+const Positioner = forwardRef<HTMLDivElement, ContextMenuPositionerProps>(function Positioner(
+  { className, ...props },
+  ref,
+) {
+  const scope = useScopeDataAttrs();
+  return (
+    <BaseContextMenu.Positioner
+      ref={ref}
+      className={cn(styles.positioner, className)}
+      {...scope}
+      {...props}
+    />
+  );
+});
 
 // ---- Popup ----
 
-export interface ContextMenuPopupProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> {
+export interface ContextMenuPopupProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Popup
+> {
   className?: string;
   /**
    * How the popup decides its width. `content` (default) hugs content from a
@@ -86,15 +84,13 @@ const Popup = forwardRef<Element, ContextMenuPopupProps>(function Popup(
 
 // ---- Item ----
 
-export interface ContextMenuItemProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Item> {
+export interface ContextMenuItemProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Item
+> {
   className?: string;
 }
 
-const Item = forwardRef<Element, ContextMenuItemProps>(function Item(
-  { className, ...props },
-  ref,
-) {
+const Item = forwardRef<Element, ContextMenuItemProps>(function Item({ className, ...props }, ref) {
   return (
     <BaseContextMenu.Item
       ref={ref as Ref<HTMLElement>}
@@ -106,27 +102,30 @@ const Item = forwardRef<Element, ContextMenuItemProps>(function Item(
 
 // ---- CheckboxItem ----
 
-export interface ContextMenuCheckboxItemProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.CheckboxItem> {
+export interface ContextMenuCheckboxItemProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.CheckboxItem
+> {
   className?: string;
 }
 
-const CheckboxItem = forwardRef<Element, ContextMenuCheckboxItemProps>(
-  function CheckboxItem({ className, ...props }, ref) {
-    return (
-      <BaseContextMenu.CheckboxItem
-        ref={ref as Ref<HTMLElement>}
-        className={cn(styles.item, styles.checkboxItem, className)}
-        {...props}
-      />
-    );
-  },
-);
+const CheckboxItem = forwardRef<Element, ContextMenuCheckboxItemProps>(function CheckboxItem(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseContextMenu.CheckboxItem
+      ref={ref as Ref<HTMLElement>}
+      className={cn(styles.item, styles.checkboxItem, className)}
+      {...props}
+    />
+  );
+});
 
 // ---- CheckboxItemIndicator ----
 
-export interface ContextMenuCheckboxItemIndicatorProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.CheckboxItemIndicator> {
+export interface ContextMenuCheckboxItemIndicatorProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.CheckboxItemIndicator
+> {
   className?: string;
 }
 
@@ -144,46 +143,51 @@ const CheckboxItemIndicator = forwardRef<HTMLSpanElement, ContextMenuCheckboxIte
 
 // ---- RadioGroup ----
 
-export interface ContextMenuRadioGroupProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.RadioGroup> {
+export interface ContextMenuRadioGroupProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.RadioGroup
+> {
   className?: string;
 }
 
-const RadioGroup = forwardRef<Element, ContextMenuRadioGroupProps>(
-  function RadioGroup({ className, ...props }, ref) {
-    return (
-      <BaseContextMenu.RadioGroup
-        ref={ref as Ref<HTMLDivElement>}
-        className={cn(styles.radioGroup, className)}
-        {...props}
-      />
-    );
-  },
-);
+const RadioGroup = forwardRef<Element, ContextMenuRadioGroupProps>(function RadioGroup(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseContextMenu.RadioGroup
+      ref={ref as Ref<HTMLDivElement>}
+      className={cn(styles.radioGroup, className)}
+      {...props}
+    />
+  );
+});
 
 // ---- RadioItem ----
 
-export interface ContextMenuRadioItemProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.RadioItem> {
+export interface ContextMenuRadioItemProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.RadioItem
+> {
   className?: string;
 }
 
-const RadioItem = forwardRef<Element, ContextMenuRadioItemProps>(
-  function RadioItem({ className, ...props }, ref) {
-    return (
-      <BaseContextMenu.RadioItem
-        ref={ref as Ref<HTMLElement>}
-        className={cn(styles.item, styles.radioItem, className)}
-        {...props}
-      />
-    );
-  },
-);
+const RadioItem = forwardRef<Element, ContextMenuRadioItemProps>(function RadioItem(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseContextMenu.RadioItem
+      ref={ref as Ref<HTMLElement>}
+      className={cn(styles.item, styles.radioItem, className)}
+      {...props}
+    />
+  );
+});
 
 // ---- RadioItemIndicator ----
 
-export interface ContextMenuRadioItemIndicatorProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.RadioItemIndicator> {
+export interface ContextMenuRadioItemIndicatorProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.RadioItemIndicator
+> {
   className?: string;
 }
 
@@ -201,8 +205,9 @@ const RadioItemIndicator = forwardRef<HTMLSpanElement, ContextMenuRadioItemIndic
 
 // ---- Group ----
 
-export interface ContextMenuGroupProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Group> {
+export interface ContextMenuGroupProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Group
+> {
   className?: string;
 }
 
@@ -221,41 +226,37 @@ const Group = forwardRef<Element, ContextMenuGroupProps>(function Group(
 
 // ---- GroupLabel ----
 
-export interface ContextMenuGroupLabelProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.GroupLabel> {
+export interface ContextMenuGroupLabelProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.GroupLabel
+> {
   className?: string;
 }
 
-const GroupLabel = forwardRef<HTMLDivElement, ContextMenuGroupLabelProps>(
-  function GroupLabel({ className, ...props }, ref) {
-    return (
-      <BaseContextMenu.GroupLabel
-        ref={ref}
-        className={cn(styles.groupLabel, className)}
-        {...props}
-      />
-    );
-  },
-);
+const GroupLabel = forwardRef<HTMLDivElement, ContextMenuGroupLabelProps>(function GroupLabel(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseContextMenu.GroupLabel ref={ref} className={cn(styles.groupLabel, className)} {...props} />
+  );
+});
 
 // ---- Separator ----
 
-export interface ContextMenuSeparatorProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Separator> {
+export interface ContextMenuSeparatorProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Separator
+> {
   className?: string;
 }
 
-const Separator = forwardRef<HTMLDivElement, ContextMenuSeparatorProps>(
-  function Separator({ className, ...props }, ref) {
-    return (
-      <BaseContextMenu.Separator
-        ref={ref}
-        className={cn(styles.separator, className)}
-        {...props}
-      />
-    );
-  },
-);
+const Separator = forwardRef<HTMLDivElement, ContextMenuSeparatorProps>(function Separator(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <BaseContextMenu.Separator ref={ref} className={cn(styles.separator, className)} {...props} />
+  );
+});
 
 // ---- SubmenuRoot ----
 
@@ -263,8 +264,9 @@ const SubmenuRoot = BaseContextMenu.SubmenuRoot;
 
 // ---- SubmenuTrigger ----
 
-export interface ContextMenuSubmenuTriggerProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.SubmenuTrigger> {
+export interface ContextMenuSubmenuTriggerProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.SubmenuTrigger
+> {
   className?: string;
 }
 
@@ -282,8 +284,9 @@ const SubmenuTrigger = forwardRef<HTMLElement, ContextMenuSubmenuTriggerProps>(
 
 // ---- Arrow ----
 
-export interface ContextMenuArrowProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Arrow> {
+export interface ContextMenuArrowProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Arrow
+> {
   className?: string;
 }
 
@@ -291,19 +294,14 @@ const Arrow = forwardRef<HTMLDivElement, ContextMenuArrowProps>(function Arrow(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseContextMenu.Arrow
-      ref={ref}
-      className={cn(styles.arrow, className)}
-      {...props}
-    />
-  );
+  return <BaseContextMenu.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />;
 });
 
 // ---- Backdrop ----
 
-export interface ContextMenuBackdropProps
-  extends ComponentPropsWithoutRef<typeof BaseContextMenu.Backdrop> {
+export interface ContextMenuBackdropProps extends ComponentPropsWithoutRef<
+  typeof BaseContextMenu.Backdrop
+> {
   className?: string;
 }
 
@@ -312,11 +310,7 @@ const Backdrop = forwardRef<HTMLDivElement, ContextMenuBackdropProps>(function B
   ref,
 ) {
   return (
-    <BaseContextMenu.Backdrop
-      ref={ref}
-      className={cn(styles.backdrop, className)}
-      {...props}
-    />
+    <BaseContextMenu.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />
   );
 });
 

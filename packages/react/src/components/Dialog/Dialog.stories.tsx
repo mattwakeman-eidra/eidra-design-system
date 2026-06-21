@@ -60,7 +60,13 @@ export const Playground: Story = {
   },
   render: (args) => (
     <Dialog.Root {...args}>
-      <Dialog.Trigger render={<Button variant="solid" tone="accent">Open dialog</Button>} />
+      <Dialog.Trigger
+        render={
+          <Button variant="solid" tone="accent">
+            Open dialog
+          </Button>
+        }
+      />
       <Dialog.Portal>
         <Dialog.Backdrop />
         <Dialog.Popup>
@@ -75,8 +81,20 @@ export const Playground: Story = {
             </Dialog.Description>
           </Dialog.Body>
           <Dialog.Footer>
-            <Dialog.Close render={<Button variant="outline" tone="neutral">Cancel</Button>} />
-            <Dialog.Close render={<Button variant="solid" tone="accent">Confirm</Button>} />
+            <Dialog.Close
+              render={
+                <Button variant="outline" tone="neutral">
+                  Cancel
+                </Button>
+              }
+            />
+            <Dialog.Close
+              render={
+                <Button variant="solid" tone="accent">
+                  Confirm
+                </Button>
+              }
+            />
           </Dialog.Footer>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -116,7 +134,13 @@ export const Confirmation: Story = {
   name: 'Confirmation (destructive)',
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger render={<Button variant="outline" tone="danger" startIcon={<Icon icon={Trash2} />}>Delete project</Button>} />
+      <Dialog.Trigger
+        render={
+          <Button variant="outline" tone="danger" startIcon={<Icon icon={Trash2} />}>
+            Delete project
+          </Button>
+        }
+      />
       <Dialog.Portal>
         <Dialog.Backdrop />
         <Dialog.Popup>
@@ -131,8 +155,20 @@ export const Confirmation: Story = {
             </Dialog.Description>
           </Dialog.Body>
           <Dialog.Footer>
-            <Dialog.Close render={<Button variant="ghost" tone="neutral">Cancel</Button>} />
-            <Dialog.Close render={<Button variant="solid" tone="danger">Delete project</Button>} />
+            <Dialog.Close
+              render={
+                <Button variant="ghost" tone="neutral">
+                  Cancel
+                </Button>
+              }
+            />
+            <Dialog.Close
+              render={
+                <Button variant="solid" tone="danger">
+                  Delete project
+                </Button>
+              }
+            />
           </Dialog.Footer>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -160,7 +196,13 @@ export const Confirmation: Story = {
 export const NonModal: Story = {
   render: () => (
     <Dialog.Root modal={false}>
-      <Dialog.Trigger render={<Button variant="outline" tone="neutral">Open non-modal</Button>} />
+      <Dialog.Trigger
+        render={
+          <Button variant="outline" tone="neutral">
+            Open non-modal
+          </Button>
+        }
+      />
       <Dialog.Portal>
         <Dialog.Popup>
           <Dialog.Header>
@@ -173,7 +215,13 @@ export const NonModal: Story = {
             </Dialog.Description>
           </Dialog.Body>
           <Dialog.Footer>
-            <Dialog.Close render={<Button variant="solid" tone="accent">Got it</Button>} />
+            <Dialog.Close
+              render={
+                <Button variant="solid" tone="accent">
+                  Got it
+                </Button>
+              }
+            />
           </Dialog.Footer>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -234,7 +282,13 @@ export const Controlled: Story = {
                 </Dialog.Description>
               </Dialog.Body>
               <Dialog.Footer>
-                <Dialog.Close render={<Button variant="outline" tone="neutral">Cancel</Button>} />
+                <Dialog.Close
+                  render={
+                    <Button variant="outline" tone="neutral">
+                      Cancel
+                    </Button>
+                  }
+                />
                 <Button variant="solid" tone="accent" onClick={() => setOpen(false)}>
                   Save changes
                 </Button>
@@ -281,7 +335,13 @@ export const Controlled: Story = {
 export const LongContent: Story = {
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger render={<Button variant="outline" tone="neutral">Terms &amp; conditions</Button>} />
+      <Dialog.Trigger
+        render={
+          <Button variant="outline" tone="neutral">
+            Terms &amp; conditions
+          </Button>
+        }
+      />
       <Dialog.Portal>
         <Dialog.Backdrop />
         <Dialog.Popup>
@@ -292,16 +352,36 @@ export const LongContent: Story = {
           <Dialog.Body>
             <Dialog.Description>Please read and accept before continuing.</Dialog.Description>
             {Array.from({ length: 12 }, (_, i) => (
-              <p key={i} style={{ margin: 0, fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)', lineHeight: 'var(--eidra-font-line-height-relaxed)' }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant
-                morbi tristique senectus et netus et malesuada fames ac turpis egestas. Eidra
-                helps Nordic companies shape digital experiences that matter.
+              <p
+                key={i}
+                style={{
+                  margin: 0,
+                  fontSize: 'var(--eidra-font-size-sm)',
+                  color: 'var(--eidra-fg-muted)',
+                  lineHeight: 'var(--eidra-font-line-height-relaxed)',
+                }}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi
+                tristique senectus et netus et malesuada fames ac turpis egestas. Eidra helps Nordic
+                companies shape digital experiences that matter.
               </p>
             ))}
           </Dialog.Body>
           <Dialog.Footer>
-            <Dialog.Close render={<Button variant="ghost" tone="neutral">Decline</Button>} />
-            <Dialog.Close render={<Button variant="solid" tone="accent">Accept</Button>} />
+            <Dialog.Close
+              render={
+                <Button variant="ghost" tone="neutral">
+                  Decline
+                </Button>
+              }
+            />
+            <Dialog.Close
+              render={
+                <Button variant="solid" tone="accent">
+                  Accept
+                </Button>
+              }
+            />
           </Dialog.Footer>
         </Dialog.Popup>
       </Dialog.Portal>

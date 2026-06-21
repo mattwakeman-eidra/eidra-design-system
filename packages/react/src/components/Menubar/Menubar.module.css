@@ -313,9 +313,11 @@
 :global([data-density='compact']) .root {
   padding: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .popup {
   padding: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .item,
 :global([data-density='compact']) .checkboxItem,
 :global([data-density='compact']) .radioItem,
@@ -323,6 +325,7 @@
   gap: var(--eidra-space-1);
   padding-inline: var(--eidra-space-1);
 }
+
 :global([data-density='compact']) .groupLabel {
   padding-inline: var(--eidra-space-1);
   padding-block: var(--eidra-space-0-5);

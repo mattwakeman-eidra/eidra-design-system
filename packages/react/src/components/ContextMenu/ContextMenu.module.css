@@ -29,7 +29,9 @@
    * min(cap, viewport) come from the shared overlay policy (`data-eidra-width`,
    * default `content`) in base.css. */
   min-width: var(--eidra-size-container-2xs);
+
   --eidra-overlay-max-width: var(--eidra-size-container-xs);
+
   padding-block: var(--eidra-space-1);
   border: 1px solid var(--eidra-border);
   border-radius: var(--eidra-radius-lg);
@@ -184,6 +186,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
+
   /* Transparent — used only for dismiss-on-click outside */
   background-color: transparent;
 }
@@ -195,11 +198,13 @@
 :global([data-density='compact']) .popup {
   padding-block: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .item {
   gap: var(--eidra-space-1);
   padding-inline: var(--eidra-space-1-5);
   padding-block: var(--eidra-space-0-5);
 }
+
 /* The compact `.item` rule above uses the `padding-inline` shorthand, which would
    otherwise clobber the radio/checkbox indicator gutter and let the tick overlap
    the label. Restore the start padding (the indicator is the same size in compact). */
@@ -207,6 +212,7 @@
 :global([data-density='compact']) .checkboxItem {
   padding-inline-start: var(--eidra-space-8);
 }
+
 :global([data-density='compact']) .groupLabel {
   padding-inline: var(--eidra-space-1-5);
   padding-block: var(--eidra-space-0-5);

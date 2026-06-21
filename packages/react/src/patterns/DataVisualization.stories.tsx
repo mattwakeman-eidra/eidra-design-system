@@ -109,7 +109,11 @@ const ALLOCATION: AllocNode[] = [
       { name: 'Corp', value: 8, colorKey: 'bonds' },
     ],
   },
-  { name: 'Cash', colorKey: 'cash', children: [{ name: 'Money market', value: 7, colorKey: 'cash' }] },
+  {
+    name: 'Cash',
+    colorKey: 'cash',
+    children: [{ name: 'Money market', value: 7, colorKey: 'cash' }],
+  },
 ];
 const allocConfig: ChartConfig = {
   equities: { label: 'Equities', color: 'var(--eidra-chart-1)' },
@@ -221,8 +225,17 @@ export const Gallery: Story = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 110 }}>
           <Chart.BarChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="revenue" fill="var(--color-revenue)" radius={[2, 2, 0, 0]} activeBar={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="revenue"
+              fill="var(--color-revenue)"
+              radius={[2, 2, 0, 0]}
+              activeBar={false}
+            />
           </Chart.BarChart>
         </Chart.Container>
       </Card>
@@ -231,8 +244,19 @@ export const Gallery: Story = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 110 }}>
           <Chart.LineChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Line {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" strokeWidth={2} dot={false} activeDot={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Line
+              {...Chart.seriesDefaults}
+              dataKey="revenue"
+              type="monotone"
+              stroke="var(--color-revenue)"
+              strokeWidth={2}
+              dot={false}
+              activeDot={false}
+            />
           </Chart.LineChart>
         </Chart.Container>
       </Card>
@@ -241,8 +265,20 @@ export const Gallery: Story = {
         <Chart.Container config={trendConfig} size="sm" style={{ height: 110 }}>
           <Chart.AreaChart data={TREND} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Area {...Chart.seriesDefaults} dataKey="revenue" type="monotone" stroke="var(--color-revenue)" fill="var(--color-revenue)" fillOpacity={0.2} strokeWidth={2} activeDot={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Area
+              {...Chart.seriesDefaults}
+              dataKey="revenue"
+              type="monotone"
+              stroke="var(--color-revenue)"
+              fill="var(--color-revenue)"
+              fillOpacity={0.2}
+              strokeWidth={2}
+              activeDot={false}
+            />
           </Chart.AreaChart>
         </Chart.Container>
       </Card>
@@ -251,10 +287,32 @@ export const Gallery: Story = {
         <Chart.Container config={stackConfig} size="sm" style={{ height: 110 }}>
           <Chart.ComposedChart data={STACK} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
             <Chart.XAxis dataKey="month" hide />
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="actuals" stackId="s" fill="var(--color-actuals)" activeBar={false} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="sold" stackId="s" fill="var(--color-sold)" activeBar={false} />
-            <Chart.Bar {...Chart.seriesDefaults} dataKey="hiProb" stackId="s" fill="var(--color-hiProb)" radius={[2, 2, 0, 0]} activeBar={false} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="actuals"
+              stackId="s"
+              fill="var(--color-actuals)"
+              activeBar={false}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="sold"
+              stackId="s"
+              fill="var(--color-sold)"
+              activeBar={false}
+            />
+            <Chart.Bar
+              {...Chart.seriesDefaults}
+              dataKey="hiProb"
+              stackId="s"
+              fill="var(--color-hiProb)"
+              radius={[2, 2, 0, 0]}
+              activeBar={false}
+            />
           </Chart.ComposedChart>
         </Chart.Container>
       </Card>
@@ -266,7 +324,12 @@ export const Gallery: Story = {
             <Chart.YAxis type="number" dataKey="growth" hide />
             <Chart.ZAxis type="number" dataKey="total" range={[30, 240]} />
             <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
-            <Chart.Scatter {...Chart.seriesDefaults} data={POINTS} fill="var(--color-clients)" fillOpacity={0.6} />
+            <Chart.Scatter
+              {...Chart.seriesDefaults}
+              data={POINTS}
+              fill="var(--color-clients)"
+              fillOpacity={0.6}
+            />
           </Chart.ScatterChart>
         </Chart.Container>
       </Card>
@@ -277,16 +340,38 @@ export const Gallery: Story = {
             <Chart.PolarGrid />
             <Chart.PolarAngleAxis dataKey="skill" tick={false} />
             <Chart.Tooltip cursor={false} content={<Chart.TooltipContent hideLabel />} />
-            <Chart.Radar {...Chart.seriesDefaults} dataKey="platform" stroke="var(--color-platform)" fill="var(--color-platform)" fillOpacity={0.25} strokeWidth={1.5} />
-            <Chart.Radar {...Chart.seriesDefaults} dataKey="product" stroke="var(--color-product)" fill="var(--color-product)" fillOpacity={0.25} strokeWidth={1.5} />
+            <Chart.Radar
+              {...Chart.seriesDefaults}
+              dataKey="platform"
+              stroke="var(--color-platform)"
+              fill="var(--color-platform)"
+              fillOpacity={0.25}
+              strokeWidth={1.5}
+            />
+            <Chart.Radar
+              {...Chart.seriesDefaults}
+              dataKey="product"
+              stroke="var(--color-product)"
+              fill="var(--color-product)"
+              fillOpacity={0.25}
+              strokeWidth={1.5}
+            />
           </Chart.RadarChart>
         </Chart.Container>
       </Card>
 
       <Card title="Donut">
-        <Chart.Container config={sliceConfig} size="sm" style={{ height: 110 }} aria-label="Revenue split">
+        <Chart.Container
+          config={sliceConfig}
+          size="sm"
+          style={{ height: 110 }}
+          aria-label="Revenue split"
+        >
           <Chart.PieChart margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
-            <Chart.Tooltip cursor={false} content={<Chart.TooltipContent formatter={fmt} hideLabel />} />
+            <Chart.Tooltip
+              cursor={false}
+              content={<Chart.TooltipContent formatter={fmt} hideLabel />}
+            />
             <Chart.Pie
               {...Chart.seriesDefaults}
               data={SLICES}
@@ -321,7 +406,13 @@ export const Gallery: Story = {
       </Card>
 
       <Card title="Sunburst">
-        <Chart.Container config={{}} size="sm" role="img" aria-label="Traffic sources by channel" style={{ height: 110 }}>
+        <Chart.Container
+          config={{}}
+          size="sm"
+          role="img"
+          aria-label="Traffic sources by channel"
+          style={{ height: 110 }}
+        >
           <Chart.SunburstChart
             data={SUNBURST_TREE}
             dataKey="value"
@@ -347,11 +438,21 @@ export const Gallery: Story = {
 
       <Card title="Momentum (StatusStrip)">
         <StatusStrip aria-label="Monthly momentum">
-          <StatusStrip.Cell status="positive" label="Jan">+4%</StatusStrip.Cell>
-          <StatusStrip.Cell status="positive" label="Feb">+2%</StatusStrip.Cell>
-          <StatusStrip.Cell status="caution" label="Mar">0%</StatusStrip.Cell>
-          <StatusStrip.Cell status="negative" label="Apr">−3%</StatusStrip.Cell>
-          <StatusStrip.Cell status="positive" label="May">+6%</StatusStrip.Cell>
+          <StatusStrip.Cell status="positive" label="Jan">
+            +4%
+          </StatusStrip.Cell>
+          <StatusStrip.Cell status="positive" label="Feb">
+            +2%
+          </StatusStrip.Cell>
+          <StatusStrip.Cell status="caution" label="Mar">
+            0%
+          </StatusStrip.Cell>
+          <StatusStrip.Cell status="negative" label="Apr">
+            −3%
+          </StatusStrip.Cell>
+          <StatusStrip.Cell status="positive" label="May">
+            +6%
+          </StatusStrip.Cell>
         </StatusStrip>
       </Card>
 

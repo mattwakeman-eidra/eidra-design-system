@@ -25,9 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Interactive playground. */
 export const Playground: Story = {
-  render: (args) => (
-    <EmptyState {...args} icon={<Icon icon={Inbox} size="lg" />} />
-  ),
+  render: (args) => <EmptyState {...args} icon={<Icon icon={Inbox} size="lg" />} />,
 };
 
 /** No-results state for a search or filtered list. */

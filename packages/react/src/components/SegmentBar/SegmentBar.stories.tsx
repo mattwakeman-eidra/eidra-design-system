@@ -128,7 +128,15 @@ export const SharedBudgetLine: Story = {
     return (
       <div style={{ display: 'grid', gap: 'var(--eidra-space-4)', maxWidth: 560 }}>
         <div>
-          <div style={{ font: '700 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--eidra-fg-muted)', marginBottom: 'var(--eidra-space-1)' }}>
+          <div
+            style={{
+              font: '700 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em',
+              color: 'var(--eidra-fg-muted)',
+              marginBottom: 'var(--eidra-space-1)',
+            }}
+          >
             Billable
           </div>
           <SegmentBar
@@ -143,7 +151,15 @@ export const SharedBudgetLine: Story = {
           />
         </div>
         <div>
-          <div style={{ font: '700 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--eidra-fg-muted)', marginBottom: 'var(--eidra-space-1)' }}>
+          <div
+            style={{
+              font: '700 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em',
+              color: 'var(--eidra-fg-muted)',
+              marginBottom: 'var(--eidra-space-1)',
+            }}
+          >
             Revenue
           </div>
           <SegmentBar

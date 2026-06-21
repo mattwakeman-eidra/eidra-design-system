@@ -12,7 +12,9 @@ import { fileURLToPath } from 'node:url';
 const storybookDir = fileURLToPath(new URL('./.storybook', import.meta.url));
 // Istanbul loads custom coverage reporters via require(), resolved from inside its
 // own package — so it needs an absolute path, not a project-relative one.
-const brandedHtmlReporter = fileURLToPath(new URL('./scripts/eidra-html-reporter.cjs', import.meta.url));
+const brandedHtmlReporter = fileURLToPath(
+  new URL('./scripts/eidra-html-reporter.cjs', import.meta.url),
+);
 
 export default defineConfig({
   plugins: [storybookTest({ configDir: storybookDir })],

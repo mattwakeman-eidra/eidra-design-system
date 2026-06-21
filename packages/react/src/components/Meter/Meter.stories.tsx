@@ -34,13 +34,17 @@ type Story = StoryObj<typeof meta>;
 // ── Helpers ────────────────────────────────────────────────────────────────
 
 const Stack = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
+  <div
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}
+  >
     {children}
   </div>
 );
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', maxWidth: 480 }}>
+  <div
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', maxWidth: 480 }}
+  >
     {children}
   </div>
 );
@@ -51,7 +55,13 @@ export const Playground: Story = {
   render: (args) => (
     <div style={{ maxWidth: 480, width: '100%' }}>
       <Meter.Root {...args}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Storage used</Meter.Label>
           <Meter.Value />
         </div>
@@ -67,7 +77,13 @@ export const Sizes: Story = {
   render: (args) => (
     <Row>
       <Meter.Root {...args} size="sm">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Small</Meter.Label>
           <Meter.Value />
         </div>
@@ -76,7 +92,13 @@ export const Sizes: Story = {
         </Meter.Track>
       </Meter.Root>
       <Meter.Root {...args} size="md">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Medium</Meter.Label>
           <Meter.Value />
         </div>
@@ -85,7 +107,13 @@ export const Sizes: Story = {
         </Meter.Track>
       </Meter.Root>
       <Meter.Root {...args} size="lg">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Large</Meter.Label>
           <Meter.Value />
         </div>
@@ -101,7 +129,13 @@ export const Tones: Story = {
   render: (args) => (
     <Stack>
       <Meter.Root {...args} tone="accent">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Accent — Budget consumption</Meter.Label>
           <Meter.Value />
         </div>
@@ -110,7 +144,13 @@ export const Tones: Story = {
         </Meter.Track>
       </Meter.Root>
       <Meter.Root {...args} value={40} tone="success">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Success — Deliverables completed</Meter.Label>
           <Meter.Value />
         </div>
@@ -119,7 +159,13 @@ export const Tones: Story = {
         </Meter.Track>
       </Meter.Root>
       <Meter.Root {...args} value={68} tone="warning">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Warning — Hours logged</Meter.Label>
           <Meter.Value />
         </div>
@@ -128,7 +174,13 @@ export const Tones: Story = {
         </Meter.Track>
       </Meter.Root>
       <Meter.Root {...args} value={91} tone="danger">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Danger — Storage capacity</Meter.Label>
           <Meter.Value />
         </div>
@@ -137,7 +189,13 @@ export const Tones: Story = {
         </Meter.Track>
       </Meter.Root>
       <Meter.Root {...args} value={55} tone="info">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Info — Data transfer</Meter.Label>
           <Meter.Value />
         </div>
@@ -159,11 +217,15 @@ export const WithCustomFormat: Story = {
   render: (args) => (
     <div style={{ maxWidth: 480 }}>
       <Meter.Root {...args} tone="success">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Client satisfaction score</Meter.Label>
-          <Meter.Value>
-            {(formattedValue) => `${formattedValue} / 5`}
-          </Meter.Value>
+          <Meter.Value>{(formattedValue) => `${formattedValue} / 5`}</Meter.Value>
         </div>
         <Meter.Track>
           <Meter.Indicator />
@@ -178,7 +240,13 @@ export const ProjectKPIs: Story = {
   render: () => (
     <Stack>
       <Meter.Root value={84} min={0} max={100} tone="success">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Milestones delivered</Meter.Label>
           <Meter.Value />
         </div>
@@ -186,9 +254,20 @@ export const ProjectKPIs: Story = {
           <Meter.Indicator />
         </Meter.Track>
       </Meter.Root>
-      <Meter.Root value={62000} min={0} max={80000} tone="accent"
-        format={{ style: 'currency', currency: 'NOK', maximumFractionDigits: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+      <Meter.Root
+        value={62000}
+        min={0}
+        max={80000}
+        tone="accent"
+        format={{ style: 'currency', currency: 'NOK', maximumFractionDigits: 0 }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Budget spent</Meter.Label>
           <Meter.Value />
         </div>
@@ -197,7 +276,13 @@ export const ProjectKPIs: Story = {
         </Meter.Track>
       </Meter.Root>
       <Meter.Root value={78} min={0} max={100} tone="warning">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--eidra-space-1-5)',
+          }}
+        >
           <Meter.Label>Team capacity utilisation</Meter.Label>
           <Meter.Value />
         </div>

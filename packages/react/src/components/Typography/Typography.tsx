@@ -61,7 +61,15 @@ export interface TypographyProps extends HTMLAttributes<HTMLElement> {
  * default; `display-*` variants are the brand's expressive editorial scale.
  */
 export const Typography = forwardRef<HTMLElement, TypographyProps>(function Typography(
-  { variant = 'body', as, tone = 'default', tabular = false, truncate = false, className, ...props },
+  {
+    variant = 'body',
+    as,
+    tone = 'default',
+    tabular = false,
+    truncate = false,
+    className,
+    ...props
+  },
   ref,
 ) {
   const Tag = as ?? DEFAULT_TAG[variant];

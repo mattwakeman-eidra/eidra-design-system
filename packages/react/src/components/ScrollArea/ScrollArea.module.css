@@ -31,6 +31,7 @@
   transition:
     background-color var(--eidra-duration-fast) var(--eidra-easing-standard),
     opacity var(--eidra-duration-fast) var(--eidra-easing-standard);
+
   /* Show on hover/scroll, fade out otherwise */
   opacity: 0;
   touch-action: none;
@@ -48,8 +49,7 @@
 
 .scrollbarHorizontal {
   position: absolute;
-  inset-inline-start: 0;
-  inset-inline-end: 0;
+  inset-inline: 0;
   bottom: 0;
   height: 10px;
   flex-direction: row;
@@ -80,6 +80,7 @@
   border-radius: var(--eidra-radius-full);
   background-color: var(--eidra-border-strong);
   transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
+
   /* Thumb needs a minimum size so it stays visible */
   min-height: 40px;
   min-width: 40px;

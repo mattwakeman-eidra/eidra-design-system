@@ -14,6 +14,7 @@
   flex: none;
   align-items: center;
   justify-content: center;
+
   /* Square control whose size derives from the control-size token, so the ambient
      data-density="compact" scope shrinks it automatically. */
   width: calc(var(--eidra-size-control-md) - var(--eidra-space-2));

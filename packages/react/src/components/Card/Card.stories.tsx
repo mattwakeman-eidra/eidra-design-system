@@ -21,13 +21,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Col = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 380 }}>
+  <div
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 380 }}
+  >
     {children}
   </div>
 );
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: 'var(--eidra-space-4)', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+  <div
+    style={{
+      display: 'flex',
+      gap: 'var(--eidra-space-4)',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+    }}
+  >
     {children}
   </div>
 );
@@ -52,7 +61,9 @@ export const Variants: Story = {
       </Card>
       <Card {...args} variant="outline" style={{ width: 240 }}>
         <Card.Header>Outline</Card.Header>
-        <Card.Body>Defined by a 1 px border with no shadow — works well on tinted backgrounds.</Card.Body>
+        <Card.Body>
+          Defined by a 1 px border with no shadow — works well on tinted backgrounds.
+        </Card.Body>
       </Card>
       <Card {...args} variant="subtle" style={{ width: 240 }}>
         <Card.Header>Subtle</Card.Header>
@@ -106,14 +117,17 @@ export const ProjectCard: Story = {
             Q3 2026
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}>
-            <Icon icon={Users} />
-            4 consultants
+            <Icon icon={Users} />4 consultants
           </span>
         </div>
       </Card.Body>
       <Card.Footer style={{ justifyContent: 'flex-end' }}>
-        <Button variant="outline" size="sm">Edit</Button>
-        <Button size="sm" endIcon={<Icon icon={ArrowRight} />}>Open project</Button>
+        <Button variant="outline" size="sm">
+          Edit
+        </Button>
+        <Button size="sm" endIcon={<Icon icon={ArrowRight} />}>
+          Open project
+        </Button>
       </Card.Footer>
     </Card>
   ),
@@ -140,7 +154,10 @@ export const CardGrid: Story = {
     const projects = [
       { title: 'Data Platform', desc: 'Real-time analytics pipeline for a retail client.' },
       { title: 'UX Audit', desc: 'Accessibility and usability review across 12 key journeys.' },
-      { title: 'API Gateway', desc: 'Centralised gateway reducing integration complexity by 40 %.' },
+      {
+        title: 'API Gateway',
+        desc: 'Centralised gateway reducing integration complexity by 40 %.',
+      },
     ];
     return (
       <div
@@ -205,7 +222,9 @@ export const ProfileCard: Story = {
             marginTop: 'var(--eidra-space-4)',
           }}
         >
-          <Badge tone="accent" size="sm">Design Systems</Badge>
+          <Badge tone="accent" size="sm">
+            Design Systems
+          </Badge>
           <Badge size="sm">React</Badge>
           <Badge size="sm">Accessibility</Badge>
         </div>
@@ -226,9 +245,33 @@ export const ProfileCard: Story = {
 export const TeamGrid: Story = {
   render: (args) => {
     const team = [
-      { name: 'Astrid Lindqvist', role: 'Principal Consultant', city: 'Stockholm', code: 'SE', country: 'Sweden', initials: 'AL', tags: ['Design Systems', 'React'] },
-      { name: 'Erik Møller', role: 'Staff Engineer', city: 'Oslo', code: 'NO', country: 'Norway', initials: 'EM', tags: ['Platform', 'TypeScript'] },
-      { name: 'Sofia Rossi', role: 'UX Research Lead', city: 'Milan', code: 'IT', country: 'Italy', initials: 'SR', tags: ['Research', 'Accessibility'] },
+      {
+        name: 'Astrid Lindqvist',
+        role: 'Principal Consultant',
+        city: 'Stockholm',
+        code: 'SE',
+        country: 'Sweden',
+        initials: 'AL',
+        tags: ['Design Systems', 'React'],
+      },
+      {
+        name: 'Erik Møller',
+        role: 'Staff Engineer',
+        city: 'Oslo',
+        code: 'NO',
+        country: 'Norway',
+        initials: 'EM',
+        tags: ['Platform', 'TypeScript'],
+      },
+      {
+        name: 'Sofia Rossi',
+        role: 'UX Research Lead',
+        city: 'Milan',
+        code: 'IT',
+        country: 'Italy',
+        initials: 'SR',
+        tags: ['Research', 'Accessibility'],
+      },
     ];
     return (
       <div
@@ -246,7 +289,9 @@ export const TeamGrid: Story = {
                   <Avatar.Fallback>{m.initials}</Avatar.Fallback>
                 </Avatar.Root>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+                  <div
+                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+                  >
                     <strong style={{ color: 'var(--eidra-fg)' }}>{m.name}</strong>
                     <Flag code={m.code} size="sm" label={m.country} />
                   </div>
@@ -270,7 +315,9 @@ export const TeamGrid: Story = {
                 }}
               >
                 {m.tags.map((t) => (
-                  <Badge key={t} size="sm">{t}</Badge>
+                  <Badge key={t} size="sm">
+                    {t}
+                  </Badge>
                 ))}
               </div>
             </Card.Body>
@@ -292,12 +339,13 @@ export const ArticleCard: Story = {
       <div
         style={{
           height: 150,
-          background:
-            'linear-gradient(135deg, var(--eidra-accent), var(--eidra-accent-active))',
+          background: 'linear-gradient(135deg, var(--eidra-accent), var(--eidra-accent-active))',
         }}
       />
       <Card.Body>
-        <Badge tone="accent" size="sm">Design Systems</Badge>
+        <Badge tone="accent" size="sm">
+          Design Systems
+        </Badge>
         <h3
           style={{
             margin: 'var(--eidra-space-2) 0 0',

@@ -53,6 +53,7 @@
 :global([data-density='compact']) .root {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .title {
   font-size: var(--eidra-font-size-lg);
 }

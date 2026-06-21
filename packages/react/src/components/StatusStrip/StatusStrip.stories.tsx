@@ -47,10 +47,18 @@ export const Tones: Story = {
   render: () => (
     <div style={{ maxWidth: 420 }}>
       <StatusStrip>
-        <StatusStrip.Cell status="positive" label="Positive">+12%</StatusStrip.Cell>
-        <StatusStrip.Cell status="caution" label="Caution">0%</StatusStrip.Cell>
-        <StatusStrip.Cell status="negative" label="Negative">−9%</StatusStrip.Cell>
-        <StatusStrip.Cell status="neutral" label="Neutral">—</StatusStrip.Cell>
+        <StatusStrip.Cell status="positive" label="Positive">
+          +12%
+        </StatusStrip.Cell>
+        <StatusStrip.Cell status="caution" label="Caution">
+          0%
+        </StatusStrip.Cell>
+        <StatusStrip.Cell status="negative" label="Negative">
+          −9%
+        </StatusStrip.Cell>
+        <StatusStrip.Cell status="neutral" label="Neutral">
+          —
+        </StatusStrip.Cell>
       </StatusStrip>
     </div>
   ),

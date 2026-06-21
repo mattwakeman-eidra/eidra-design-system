@@ -53,27 +53,23 @@ const Positioner = forwardRef<
 Positioner.displayName = 'PreviewCard.Positioner';
 
 // ---- Popup ----
-const Popup = forwardRef<
-  HTMLDivElement,
-  ComponentPropsWithoutRef<typeof BasePreviewCard.Popup>
->(function Popup({ className, children, ...props }, ref) {
-  return (
-    <BasePreviewCard.Popup ref={ref} className={cn(styles.popup, className)} {...props}>
-      {children}
-    </BasePreviewCard.Popup>
-  );
-});
+const Popup = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BasePreviewCard.Popup>>(
+  function Popup({ className, children, ...props }, ref) {
+    return (
+      <BasePreviewCard.Popup ref={ref} className={cn(styles.popup, className)} {...props}>
+        {children}
+      </BasePreviewCard.Popup>
+    );
+  },
+);
 Popup.displayName = 'PreviewCard.Popup';
 
 // ---- Arrow ----
-const Arrow = forwardRef<
-  HTMLDivElement,
-  ComponentPropsWithoutRef<typeof BasePreviewCard.Arrow>
->(function Arrow({ className, ...props }, ref) {
-  return (
-    <BasePreviewCard.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />
-  );
-});
+const Arrow = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof BasePreviewCard.Arrow>>(
+  function Arrow({ className, ...props }, ref) {
+    return <BasePreviewCard.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />;
+  },
+);
 Arrow.displayName = 'PreviewCard.Arrow';
 
 // ---- Backdrop ----

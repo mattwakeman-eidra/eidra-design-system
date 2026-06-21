@@ -30,24 +30,24 @@ the first segment of its story `title`. So the title is not cosmetic; keep it co
 
 ## Functional categories (tier 2)
 
-| Category | Rule — what belongs here | Examples |
-|---|---|---|
-| **Actions** | Controls whose purpose is to trigger an action | Button |
-| **Forms** | Controls that capture user input | Input, Select, Combobox, Autocomplete, Checkbox, Radio, Switch, Slider, NumberField, Toggle (incl. `appearance="segmented"`), FilterSelect, Field, Fieldset, Form |
-| **Navigation** | Move between views or sections | Breadcrumbs, Tabs, Menubar, NavigationMenu, Toolbar, PeriodNavigator |
-| **Overlays** | Float above the page, usually portaled | Dialog, AlertDialog, Popover, Menu, ContextMenu, Tooltip, PreviewCard |
-| **Layout** | Structure and spacing of content | Accordion, Collapsible, ScrollArea, Separator |
-| **Data Display** | Present persistent data and values | Avatar, Badge, Card, Chart, DataGrid, Kbd, SegmentBar, Statistic, StatisticBar, StatusStrip |
-| **Feedback** | Communicate the status of a process or system state (often transient) | Alert, Toast, Spinner, Skeleton, Progress, Meter, SaveIndicator, Freshness, EmptyState |
+| Category         | Rule — what belongs here                                              | Examples                                                                                                                                                          |
+| ---------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Actions**      | Controls whose purpose is to trigger an action                        | Button                                                                                                                                                            |
+| **Forms**        | Controls that capture user input                                      | Input, Select, Combobox, Autocomplete, Checkbox, Radio, Switch, Slider, NumberField, Toggle (incl. `appearance="segmented"`), FilterSelect, Field, Fieldset, Form |
+| **Navigation**   | Move between views or sections                                        | Breadcrumbs, Tabs, Menubar, NavigationMenu, Toolbar, PeriodNavigator                                                                                              |
+| **Overlays**     | Float above the page, usually portaled                                | Dialog, AlertDialog, Popover, Menu, ContextMenu, Tooltip, PreviewCard                                                                                             |
+| **Layout**       | Structure and spacing of content                                      | Accordion, Collapsible, ScrollArea, Separator                                                                                                                     |
+| **Data Display** | Present persistent data and values                                    | Avatar, Badge, Card, Chart, DataGrid, Kbd, SegmentBar, Statistic, StatisticBar, StatusStrip                                                                       |
+| **Feedback**     | Communicate the status of a process or system state (often transient) | Alert, Toast, Spinner, Skeleton, Progress, Meter, SaveIndicator, Freshness, EmptyState                                                                            |
 
 ### Boundary clarifications (so the fuzzy cases are decided, not guessed)
 
 - **Feedback vs Data Display** — `Meter`/`Progress` measure progress toward a goal or
   limit (feedback on a process) → **Feedback**. `SegmentBar`/`Statistic`/`StatusStrip`
   present data values → **Data Display**.
-- **A component page may import another component** only as a *necessary fixture*
+- **A component page may import another component** only as a _necessary fixture_
   (e.g. a `Dialog` story needs a `Button` to open it). If the other component is part
-  of the *point* of the story — a layout of several components — it's a **Pattern**,
+  of the _point_ of the story — a layout of several components — it's a **Pattern**,
   not a story on this component's page.
 
 ## Conventions

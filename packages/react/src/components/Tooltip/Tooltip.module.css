@@ -38,6 +38,7 @@
   border-radius: var(--eidra-radius-md);
   box-shadow: var(--eidra-shadow-md);
   outline: none;
+
   /* Enter/exit animated via opacity + small translateY */
   transition:
     opacity var(--eidra-duration-fast) var(--eidra-easing-standard),

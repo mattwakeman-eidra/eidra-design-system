@@ -17,7 +17,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: 'var(--eidra-space-4)', alignItems: 'center', flexWrap: 'wrap' }}>
+  <div
+    style={{ display: 'flex', gap: 'var(--eidra-space-4)', alignItems: 'center', flexWrap: 'wrap' }}
+  >
     {children}
   </div>
 );
@@ -49,11 +51,29 @@ export const Tones: Story = {
 export const InlineWithText: Story = {
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)', color: 'var(--eidra-fg-muted)', fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--eidra-space-2)',
+          color: 'var(--eidra-fg-muted)',
+          fontFamily: 'var(--eidra-font-family-sans)',
+          fontSize: 'var(--eidra-font-size-sm)',
+        }}
+      >
         <Spinner {...args} size="sm" label="Fetching data" />
         Fetching consultant availability…
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-3)', color: 'var(--eidra-fg)', fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-base)' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--eidra-space-3)',
+          color: 'var(--eidra-fg)',
+          fontFamily: 'var(--eidra-font-family-sans)',
+          fontSize: 'var(--eidra-font-size-base)',
+        }}
+      >
         <Spinner {...args} size="md" label="Uploading report" />
         Uploading engagement report…
       </div>
@@ -63,9 +83,28 @@ export const InlineWithText: Story = {
 
 export const FullPageOverlay: Story = {
   render: (args) => (
-    <div style={{ position: 'relative', width: '100%', height: 240, background: 'var(--eidra-bg-subtle)', borderRadius: 'var(--eidra-radius-lg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: 240,
+        background: 'var(--eidra-bg-subtle)',
+        borderRadius: 'var(--eidra-radius-lg)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-3)',
+      }}
+    >
       <Spinner {...args} size="lg" label="Loading dashboard" />
-      <span style={{ fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>
+      <span
+        style={{
+          fontFamily: 'var(--eidra-font-family-sans)',
+          fontSize: 'var(--eidra-font-size-sm)',
+          color: 'var(--eidra-fg-muted)',
+        }}
+      >
         Loading your dashboard…
       </span>
     </div>

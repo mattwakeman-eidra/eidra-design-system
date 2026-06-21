@@ -71,16 +71,16 @@ export const Playground: Story = {
     <div style={{ maxWidth: 640 }}>
       <Accordion.Root defaultValue={['approach']} {...args}>
         <AccordionItem value="approach" heading="Our Approach">
-          At Eidra we combine Nordic clarity with strategic depth — turning
-          complex challenges into elegant, scalable solutions that endure.
+          At Eidra we combine Nordic clarity with strategic depth — turning complex challenges into
+          elegant, scalable solutions that endure.
         </AccordionItem>
         <AccordionItem value="services" heading="Services">
-          From digital strategy and service design to software architecture and
-          delivery, we partner with organisations across their full transformation journey.
+          From digital strategy and service design to software architecture and delivery, we partner
+          with organisations across their full transformation journey.
         </AccordionItem>
         <AccordionItem value="locations" heading="Locations">
-          Headquartered in Stockholm, with studios in Oslo, Helsinki, and
-          Copenhagen — always close to where the work happens.
+          Headquartered in Stockholm, with studios in Oslo, Helsinki, and Copenhagen — always close
+          to where the work happens.
         </AccordionItem>
       </Accordion.Root>
     </div>
@@ -127,16 +127,16 @@ export const SingleOpen: Story = {
     <div style={{ maxWidth: 640 }}>
       <Accordion.Root multiple={false}>
         <AccordionItem value="q1" heading="What is Eidra?">
-          Eidra is a Nordic digital consultancy that helps organisations navigate
-          transformation — from strategy through delivery.
+          Eidra is a Nordic digital consultancy that helps organisations navigate transformation —
+          from strategy through delivery.
         </AccordionItem>
         <AccordionItem value="q2" heading="Who do you work with?">
-          We partner with ambitious organisations in financial services,
-          healthcare, public sector, and consumer markets.
+          We partner with ambitious organisations in financial services, healthcare, public sector,
+          and consumer markets.
         </AccordionItem>
         <AccordionItem value="q3" heading="How do I get in touch?">
-          Reach us at hello@eidra.com or through the contact form on our website.
-          We typically respond within one business day.
+          Reach us at hello@eidra.com or through the contact form on our website. We typically
+          respond within one business day.
         </AccordionItem>
       </Accordion.Root>
     </div>
@@ -332,24 +332,21 @@ export const FAQ: Story = {
       </h2>
       <Accordion.Root multiple={false}>
         <AccordionItem value="process" heading="What does an engagement look like?">
-          We begin with a focused discovery phase to align on outcomes and
-          constraints. From there we move into iterative design and delivery
-          cycles — always working in the open with your team.
+          We begin with a focused discovery phase to align on outcomes and constraints. From there
+          we move into iterative design and delivery cycles — always working in the open with your
+          team.
         </AccordionItem>
         <AccordionItem value="duration" heading="How long do engagements typically run?">
-          Most projects run between three and twelve months. We size the team and
-          timeline to your ambition and the complexity of the challenge, not the
-          other way around.
+          Most projects run between three and twelve months. We size the team and timeline to your
+          ambition and the complexity of the challenge, not the other way around.
         </AccordionItem>
         <AccordionItem value="remote" heading="Do you work remotely?">
-          Yes — our teams are distributed across the Nordics and work effectively
-          both remotely and on-site. We adapt to whatever rhythm suits your
-          organisation.
+          Yes — our teams are distributed across the Nordics and work effectively both remotely and
+          on-site. We adapt to whatever rhythm suits your organisation.
         </AccordionItem>
         <AccordionItem value="pricing" heading="How is pricing structured?">
-          We offer both time-and-materials and fixed-scope engagements depending
-          on the nature of the work. We&apos;re transparent about costs and scope
-          from day one.
+          We offer both time-and-materials and fixed-scope engagements depending on the nature of
+          the work. We&apos;re transparent about costs and scope from day one.
         </AccordionItem>
       </Accordion.Root>
     </div>

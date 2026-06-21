@@ -19,16 +19,29 @@ function Swatch({ name, varName }: { name: string; varName: string }) {
           background: `var(${varName})`,
         }}
       />
-      <div style={{ fontSize: 'var(--eidra-font-size-sm)', fontWeight: 'var(--eidra-font-weight-medium)' }}>
+      <div
+        style={{
+          fontSize: 'var(--eidra-font-size-sm)',
+          fontWeight: 'var(--eidra-font-weight-medium)',
+        }}
+      >
         {name}
       </div>
-      <code style={{ fontSize: 'var(--eidra-font-size-xs)', color: 'var(--eidra-fg-muted)' }}>{varName}</code>
+      <code style={{ fontSize: 'var(--eidra-font-size-xs)', color: 'var(--eidra-fg-muted)' }}>
+        {varName}
+      </code>
     </div>
   );
 }
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 'var(--eidra-space-4)' }}>
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+      gap: 'var(--eidra-space-4)',
+    }}
+  >
     {children}
   </div>
 );

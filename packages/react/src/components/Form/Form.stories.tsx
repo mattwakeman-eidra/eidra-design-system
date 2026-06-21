@@ -173,7 +173,6 @@ export const ValidationModeOnChange: Story = {
 export const ControlledWithCallback: Story = {
   name: 'Controlled — onFormSubmit callback',
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [submitted, setSubmitted] = useState<Record<string, unknown> | null>(null);
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>

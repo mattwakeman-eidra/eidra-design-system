@@ -25,12 +25,7 @@ const Root = forwardRef<HTMLSpanElement, AvatarRootCombinedProps>(function Root(
   ref,
 ) {
   return (
-    <BaseAvatar.Root
-      ref={ref}
-      className={cn(styles.root, className)}
-      data-size={size}
-      {...props}
-    >
+    <BaseAvatar.Root ref={ref} className={cn(styles.root, className)} data-size={size} {...props}>
       {children}
     </BaseAvatar.Root>
   );
@@ -50,13 +45,7 @@ const Image = forwardRef<HTMLImageElement, AvatarImageCombinedProps>(function Im
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseAvatar.Image
-      ref={ref}
-      className={cn(styles.image, className)}
-      {...props}
-    />
-  );
+  return <BaseAvatar.Image ref={ref} className={cn(styles.image, className)} {...props} />;
 });
 
 // ─── Fallback ─────────────────────────────────────────────────────────────────
@@ -75,11 +64,7 @@ const Fallback = forwardRef<HTMLSpanElement, AvatarFallbackCombinedProps>(functi
   ref,
 ) {
   return (
-    <BaseAvatar.Fallback
-      ref={ref}
-      className={cn(styles.fallback, className)}
-      {...props}
-    >
+    <BaseAvatar.Fallback ref={ref} className={cn(styles.fallback, className)} {...props}>
       {children}
     </BaseAvatar.Fallback>
   );

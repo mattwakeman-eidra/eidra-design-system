@@ -1,5 +1,5 @@
 ---
-"@eidra/react": minor
+'@eidra/react': minor
 ---
 
 Ship component styles in a cascade layer (`@layer eidra`) so consumer styles can override the DS.

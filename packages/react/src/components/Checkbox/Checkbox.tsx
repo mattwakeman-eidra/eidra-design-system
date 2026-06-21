@@ -7,107 +7,75 @@ import styles from './Checkbox.module.css';
 
 // ─── Checkbox.Root ────────────────────────────────────────────────────────────
 
-export interface CheckboxRootProps
-  extends Omit<BaseCheckbox.Root.Props, 'className'> {
+export interface CheckboxRootProps extends Omit<BaseCheckbox.Root.Props, 'className'> {
   className?: string;
   /** Label rendered alongside the checkbox. */
   label?: ReactNode;
 }
 
-const CheckboxRoot = forwardRef<HTMLElement, CheckboxRootProps>(
-  function CheckboxRoot({ className, label, children, ...props }, ref) {
-    return (
-      <label className={cn(styles.wrapper, className)}>
-        <BaseCheckbox.Root
-          ref={ref}
-          className={styles.root}
-          {...props}
-        >
-          <BaseCheckbox.Indicator className={styles.indicator} keepMounted>
-            {/* Checkmark icon rendered with SVG to avoid icon dependency */}
-            <svg
-              className={styles.check}
-              viewBox="0 0 12 12"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M2 6l3 3 5-5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {/* Indeterminate icon */}
-            <svg
-              className={styles.indeterminate}
-              viewBox="0 0 12 12"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M2.5 6h7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </BaseCheckbox.Indicator>
-        </BaseCheckbox.Root>
-        {label != null && (
-          <span className={styles.label}>{label}</span>
-        )}
-        {children}
-      </label>
-    );
-  },
-);
+const CheckboxRoot = forwardRef<HTMLElement, CheckboxRootProps>(function CheckboxRoot(
+  { className, label, children, ...props },
+  ref,
+) {
+  return (
+    <label className={cn(styles.wrapper, className)}>
+      <BaseCheckbox.Root ref={ref} className={styles.root} {...props}>
+        <BaseCheckbox.Indicator className={styles.indicator} keepMounted>
+          {/* Checkmark icon rendered with SVG to avoid icon dependency */}
+          <svg className={styles.check} viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path
+              d="M2 6l3 3 5-5"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {/* Indeterminate icon */}
+          <svg className={styles.indeterminate} viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2.5 6h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </BaseCheckbox.Indicator>
+      </BaseCheckbox.Root>
+      {label != null && <span className={styles.label}>{label}</span>}
+      {children}
+    </label>
+  );
+});
 
 // ─── Checkbox.Indicator ───────────────────────────────────────────────────────
 
-export interface CheckboxIndicatorProps
-  extends Omit<BaseCheckbox.Indicator.Props, 'className'> {
+export interface CheckboxIndicatorProps extends Omit<BaseCheckbox.Indicator.Props, 'className'> {
   className?: string;
 }
 
 const CheckboxIndicator = forwardRef<HTMLSpanElement, CheckboxIndicatorProps>(
   function CheckboxIndicator({ className, ...props }, ref) {
     return (
-      <BaseCheckbox.Indicator
-        ref={ref}
-        className={cn(styles.indicator, className)}
-        {...props}
-      />
+      <BaseCheckbox.Indicator ref={ref} className={cn(styles.indicator, className)} {...props} />
     );
   },
 );
 
 // ─── CheckboxGroup ────────────────────────────────────────────────────────────
 
-export interface CheckboxGroupProps
-  extends Omit<BaseCheckboxGroup.Props, 'className'> {
+export interface CheckboxGroupProps extends Omit<BaseCheckboxGroup.Props, 'className'> {
   className?: string;
   /** Legend text for the group. */
   legend?: ReactNode;
 }
 
-const CheckboxGroupRoot = forwardRef<HTMLDivElement, CheckboxGroupProps>(
-  function CheckboxGroupRoot({ className, legend, children, ...props }, ref) {
-    return (
-      <BaseCheckboxGroup
-        ref={ref}
-        className={cn(styles.group, className)}
-        {...props}
-      >
-        {legend != null && (
-          <span className={styles.groupLegend}>{legend}</span>
-        )}
-        {children}
-      </BaseCheckboxGroup>
-    );
-  },
-);
+const CheckboxGroupRoot = forwardRef<HTMLDivElement, CheckboxGroupProps>(function CheckboxGroupRoot(
+  { className, legend, children, ...props },
+  ref,
+) {
+  return (
+    <BaseCheckboxGroup ref={ref} className={cn(styles.group, className)} {...props}>
+      {legend != null && <span className={styles.groupLegend}>{legend}</span>}
+      {children}
+    </BaseCheckboxGroup>
+  );
+});
 
 // ─── Compound namespace exports ───────────────────────────────────────────────
 

@@ -17,6 +17,7 @@
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
+
   /* Track dimensions: 2.25rem × 1.25rem (36×20px) */
   width: 2.25rem;
   height: 1.25rem;
@@ -69,7 +70,7 @@
 /* ─── Thumb (the circular knob) ──────────────────────────────────────────── */
 .thumb {
   display: block;
-  width: 0.875rem;  /* 14px */
+  width: 0.875rem; /* 14px */
   height: 0.875rem;
   border-radius: var(--eidra-radius-full);
   background-color: var(--eidra-fg-on-accent);

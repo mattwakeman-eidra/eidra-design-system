@@ -66,7 +66,10 @@ export const Freshness = forwardRef<HTMLSpanElement, FreshnessProps>(function Fr
       <span className={styles.dot} data-pulse={pulse || undefined} aria-hidden="true" />
       {label != null && <span className={styles.label}>{label}</span>}
       {relative != null && (
-        <time className={styles.time} dateTime={sinceMs != null ? new Date(sinceMs).toISOString() : undefined}>
+        <time
+          className={styles.time}
+          dateTime={sinceMs != null ? new Date(sinceMs).toISOString() : undefined}
+        >
           {relative}
         </time>
       )}

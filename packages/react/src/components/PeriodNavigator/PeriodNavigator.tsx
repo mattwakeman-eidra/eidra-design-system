@@ -4,8 +4,7 @@ import { Icon, ChevronLeft, ChevronRight } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
 import styles from './PeriodNavigator.module.css';
 
-export interface PeriodNavigatorProps
-  extends Omit<ComponentPropsWithoutRef<'div'>, 'onChange'> {
+export interface PeriodNavigatorProps extends Omit<ComponentPropsWithoutRef<'div'>, 'onChange'> {
   /** The current label shown in the centre (e.g. a formatted period). */
   value: ReactNode;
   /** Step to the previous value. */

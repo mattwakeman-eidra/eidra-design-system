@@ -104,8 +104,22 @@ function buildColumns(
   onEdit: (rowId: string, month: string, value: number | null) => void,
 ): DataGridColumnDef<ForecastRow>[] {
   return [
-    { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 200, sortable: true },
-    { id: 'opco', header: 'Opco', accessor: (r) => r.opco, pinned: true, width: 130, sortable: true },
+    {
+      id: 'client',
+      header: 'Client',
+      accessor: (r) => r.client,
+      pinned: true,
+      width: 200,
+      sortable: true,
+    },
+    {
+      id: 'opco',
+      header: 'Opco',
+      accessor: (r) => r.opco,
+      pinned: true,
+      width: 130,
+      sortable: true,
+    },
     { id: 'owner', header: 'Owner', accessor: (r) => r.owner, width: 150 },
     ...MONTHS.map(
       (m): DataGridColumnDef<ForecastRow> => ({
@@ -153,12 +167,40 @@ function buildColumns(
  * `totalsPlacement`, `tableLayout`, and `showFooter`.
  */
 const PLAYGROUND_COLUMNS: DataGridColumnDef<ForecastRow>[] = [
-  { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 180, sortable: true },
+  {
+    id: 'client',
+    header: 'Client',
+    accessor: (r) => r.client,
+    pinned: true,
+    width: 180,
+    sortable: true,
+  },
   { id: 'opco', header: 'Opco', accessor: (r) => r.opco, width: 140, sortable: true },
   { id: 'owner', header: 'Owner', accessor: (r) => r.owner, width: 160 },
-  { id: 'jan', header: 'Jan', numeric: true, width: 100, accessor: (r) => r.months.Jan?.total ?? null, footer: (rows) => sum(rows, 'Jan', 'total') },
-  { id: 'feb', header: 'Feb', numeric: true, width: 100, accessor: (r) => r.months.Feb?.total ?? null, footer: (rows) => sum(rows, 'Feb', 'total') },
-  { id: 'mar', header: 'Mar', numeric: true, width: 100, accessor: (r) => r.months.Mar?.total ?? null, footer: (rows) => sum(rows, 'Mar', 'total') },
+  {
+    id: 'jan',
+    header: 'Jan',
+    numeric: true,
+    width: 100,
+    accessor: (r) => r.months.Jan?.total ?? null,
+    footer: (rows) => sum(rows, 'Jan', 'total'),
+  },
+  {
+    id: 'feb',
+    header: 'Feb',
+    numeric: true,
+    width: 100,
+    accessor: (r) => r.months.Feb?.total ?? null,
+    footer: (rows) => sum(rows, 'Feb', 'total'),
+  },
+  {
+    id: 'mar',
+    header: 'Mar',
+    numeric: true,
+    width: 100,
+    accessor: (r) => r.months.Mar?.total ?? null,
+    footer: (rows) => sum(rows, 'Mar', 'total'),
+  },
 ];
 
 export const Playground: Story = {
@@ -207,7 +249,10 @@ export const ForecastGrid: Story = {
         prev.map((r) => {
           if (r.id !== rowId) return r;
           const existing: MonthCell = r.months[month] ?? { total: null, sold: null };
-          return { ...r, months: { ...r.months, [month]: { ...existing, sold: value, overridden: true } } };
+          return {
+            ...r,
+            months: { ...r.months, [month]: { ...existing, sold: value, overridden: true } },
+          };
         }),
       );
     return (
@@ -244,25 +289,38 @@ export const ForecastGrid: Story = {
       await waitFor(() => expect(canvas.queryByText('Platform rebuild')).toBeNull());
     });
 
-    await step('clicking a Sold cell opens an inline editor; Enter commits the new value', async () => {
-      // Globex Jan Sold is 90 — find its click-to-edit button and override it.
-      const soldButton = canvas.getByRole('button', { name: /^90/ });
-      await userEvent.click(soldButton);
-      const input = canvas.getByRole('spinbutton');
-      await expect(input).toHaveFocus();
-      await userEvent.clear(input);
-      await userEvent.type(input, '95');
-      await userEvent.keyboard('{Enter}');
-      // The committed value re-renders as a resting cell button.
-      await expect(canvas.getByRole('button', { name: /^95/ })).toBeInTheDocument();
-    });
+    await step(
+      'clicking a Sold cell opens an inline editor; Enter commits the new value',
+      async () => {
+        // Globex Jan Sold is 90 — find its click-to-edit button and override it.
+        const soldButton = canvas.getByRole('button', { name: /^90/ });
+        await userEvent.click(soldButton);
+        const input = canvas.getByRole('spinbutton');
+        await expect(input).toHaveFocus();
+        await userEvent.clear(input);
+        await userEvent.type(input, '95');
+        await userEvent.keyboard('{Enter}');
+        // The committed value re-renders as a resting cell button.
+        await expect(canvas.getByRole('button', { name: /^95/ })).toBeInTheDocument();
+      },
+    );
   },
 };
 
 // ── Sold & Forecast parity: 12 months, 3 pinned cols, NOW highlight, top totals ──
 const YEAR_MONTHS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
 const NOW_MONTH = 'Jun';
 
@@ -285,8 +343,22 @@ function buildYearColumns(
   onEdit: (rowId: string, month: string, value: number | null) => void,
 ): DataGridColumnDef<ForecastRow>[] {
   return [
-    { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 180, sortable: true },
-    { id: 'opco', header: 'Company', accessor: (r) => r.opco, pinned: true, width: 140, sortable: true },
+    {
+      id: 'client',
+      header: 'Client',
+      accessor: (r) => r.client,
+      pinned: true,
+      width: 180,
+      sortable: true,
+    },
+    {
+      id: 'opco',
+      header: 'Company',
+      accessor: (r) => r.opco,
+      pinned: true,
+      width: 140,
+      sortable: true,
+    },
     { id: 'owner', header: 'Account owner', accessor: (r) => r.owner, pinned: true, width: 160 },
     ...YEAR_MONTHS.map(
       (m): DataGridColumnDef<ForecastRow> => ({
@@ -343,7 +415,10 @@ export const SoldForecastParity: Story = {
         prev.map((r) => {
           if (r.id !== rowId) return r;
           const existing: MonthCell = r.months[month] ?? { total: null, sold: null };
-          return { ...r, months: { ...r.months, [month]: { ...existing, sold: value, overridden: true } } };
+          return {
+            ...r,
+            months: { ...r.months, [month]: { ...existing, sold: value, overridden: true } },
+          };
         }),
       );
     return (
@@ -374,22 +449,58 @@ export const Density: Story = {
     const cols: DataGridColumnDef<ForecastRow>[] = [
       { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 160 },
       { id: 'opco', header: 'Company', accessor: (r) => r.opco },
-      { id: 'jan', header: 'Jan', numeric: true, accessor: (r) => r.months.Jan?.total ?? null, footer: (rows) => sum(rows, 'Jan', 'total') },
-      { id: 'feb', header: 'Feb', numeric: true, accessor: (r) => r.months.Feb?.total ?? null, footer: (rows) => sum(rows, 'Feb', 'total') },
+      {
+        id: 'jan',
+        header: 'Jan',
+        numeric: true,
+        accessor: (r) => r.months.Jan?.total ?? null,
+        footer: (rows) => sum(rows, 'Jan', 'total'),
+      },
+      {
+        id: 'feb',
+        header: 'Feb',
+        numeric: true,
+        accessor: (r) => r.months.Feb?.total ?? null,
+        footer: (rows) => sum(rows, 'Feb', 'total'),
+      },
     ];
     return (
       <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
         <div>
-          <p style={{ font: 'var(--eidra-font-size-sm)/1.4 var(--eidra-font-family-sans)', color: 'var(--eidra-fg-muted)', marginBottom: 'var(--eidra-space-2)' }}>
+          <p
+            style={{
+              font: 'var(--eidra-font-size-sm)/1.4 var(--eidra-font-family-sans)',
+              color: 'var(--eidra-fg-muted)',
+              marginBottom: 'var(--eidra-space-2)',
+            }}
+          >
             density=&quot;comfortable&quot; (default)
           </p>
-          <DataGrid<ForecastRow> aria-label="Comfortable" density="comfortable" columns={cols} data={SAMPLE} getRowId={(r) => r.id} />
+          <DataGrid<ForecastRow>
+            aria-label="Comfortable"
+            density="comfortable"
+            columns={cols}
+            data={SAMPLE}
+            getRowId={(r) => r.id}
+          />
         </div>
         <div>
-          <p style={{ font: 'var(--eidra-font-size-sm)/1.4 var(--eidra-font-family-sans)', color: 'var(--eidra-fg-muted)', marginBottom: 'var(--eidra-space-2)' }}>
+          <p
+            style={{
+              font: 'var(--eidra-font-size-sm)/1.4 var(--eidra-font-family-sans)',
+              color: 'var(--eidra-fg-muted)',
+              marginBottom: 'var(--eidra-space-2)',
+            }}
+          >
             density=&quot;compact&quot;
           </p>
-          <DataGrid<ForecastRow> aria-label="Compact" density="compact" columns={cols} data={SAMPLE} getRowId={(r) => r.id} />
+          <DataGrid<ForecastRow>
+            aria-label="Compact"
+            density="compact"
+            columns={cols}
+            data={SAMPLE}
+            getRowId={(r) => r.id}
+          />
         </div>
       </div>
     );
@@ -414,12 +525,29 @@ export const FinanceTheme: Story = {
       setData((prev) =>
         prev.map((r) =>
           r.id === rowId
-            ? { ...r, months: { ...r.months, Jan: { ...(r.months.Jan ?? { total: null, sold: null }), sold: value, overridden: true } } }
+            ? {
+                ...r,
+                months: {
+                  ...r.months,
+                  Jan: {
+                    ...(r.months.Jan ?? { total: null, sold: null }),
+                    sold: value,
+                    overridden: true,
+                  },
+                },
+              }
             : r,
         ),
       );
     const cols: DataGridColumnDef<ForecastRow>[] = [
-      { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 160, sortable: true },
+      {
+        id: 'client',
+        header: 'Client',
+        accessor: (r) => r.client,
+        pinned: true,
+        width: 160,
+        sortable: true,
+      },
       { id: 'owner', header: 'Owner', accessor: (r) => r.owner, sortable: true },
       {
         id: 'jan-sold',
@@ -435,18 +563,42 @@ export const FinanceTheme: Story = {
           />
         ),
       },
-      { id: 'feb', header: 'Feb · NOW', numeric: true, width: 110, highlighted: true, accessor: (r) => r.months.Feb?.total ?? null, footer: (rows) => sum(rows, 'Feb', 'total') },
+      {
+        id: 'feb',
+        header: 'Feb · NOW',
+        numeric: true,
+        width: 110,
+        highlighted: true,
+        accessor: (r) => r.months.Feb?.total ?? null,
+        footer: (rows) => sum(rows, 'Feb', 'total'),
+      },
     ];
-    const label = { font: 'var(--eidra-font-size-sm)/1.4 var(--eidra-font-family-sans)', color: 'var(--eidra-fg-muted)', marginBottom: 'var(--eidra-space-2)' } as const;
+    const label = {
+      font: 'var(--eidra-font-size-sm)/1.4 var(--eidra-font-family-sans)',
+      color: 'var(--eidra-fg-muted)',
+      marginBottom: 'var(--eidra-space-2)',
+    } as const;
     return (
       <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
         <div>
           <p style={label}>accent=&quot;brand&quot; (default) — accent is orange</p>
-          <DataGrid<ForecastRow> aria-label="Brand accent" accent="brand" columns={cols} data={data} getRowId={(r) => r.id} />
+          <DataGrid<ForecastRow>
+            aria-label="Brand accent"
+            accent="brand"
+            columns={cols}
+            data={data}
+            getRowId={(r) => r.id}
+          />
         </div>
         <div>
           <p style={label}>accent=&quot;finance&quot; — accent repointed to the data-viz blue</p>
-          <DataGrid<ForecastRow> aria-label="Finance accent" accent="finance" columns={cols} data={data} getRowId={(r) => r.id} />
+          <DataGrid<ForecastRow>
+            aria-label="Finance accent"
+            accent="finance"
+            columns={cols}
+            data={data}
+            getRowId={(r) => r.id}
+          />
         </div>
       </div>
     );
@@ -503,9 +655,29 @@ export const ColumnHighlight: Story = {
       aria-label="Column highlight"
       columns={[
         { id: 'client', header: 'Client', accessor: (r) => r.client, pinned: true, width: 160 },
-        { id: 'jan', header: 'Jan', numeric: true, accessor: (r) => r.months.Jan?.total ?? null, footer: (rows) => sum(rows, 'Jan', 'total') },
-        { id: 'feb', header: 'Feb · NOW', numeric: true, highlighted: true, highlightTone: 'accent', accessor: (r) => r.months.Feb?.total ?? null, footer: (rows) => sum(rows, 'Feb', 'total') },
-        { id: 'mar', header: 'Mar', numeric: true, accessor: (r) => r.months.Mar?.total ?? null, footer: (rows) => sum(rows, 'Mar', 'total') },
+        {
+          id: 'jan',
+          header: 'Jan',
+          numeric: true,
+          accessor: (r) => r.months.Jan?.total ?? null,
+          footer: (rows) => sum(rows, 'Jan', 'total'),
+        },
+        {
+          id: 'feb',
+          header: 'Feb · NOW',
+          numeric: true,
+          highlighted: true,
+          highlightTone: 'accent',
+          accessor: (r) => r.months.Feb?.total ?? null,
+          footer: (rows) => sum(rows, 'Feb', 'total'),
+        },
+        {
+          id: 'mar',
+          header: 'Mar',
+          numeric: true,
+          accessor: (r) => r.months.Mar?.total ?? null,
+          footer: (rows) => sum(rows, 'Mar', 'total'),
+        },
       ]}
       data={SAMPLE}
       getRowId={(r) => r.id}
@@ -554,14 +726,16 @@ const LEDGER: LedgerRow[] = [
     opco: 'GP NL',
     revenue: 64_000,
     net: 0,
-    lines: [
-      { entry: 'INV-3300', date: '2026-06-10', description: 'Monthly fee', amount: 64_000 },
-    ],
+    lines: [{ entry: 'INV-3300', date: '2026-06-10', description: 'Monthly fee', amount: 64_000 }],
   },
 ];
 
 const eur = (n: number) =>
-  new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat('en-IE', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+  }).format(n);
 
 /**
  * **Cell tone + cell drill-down.** `cellTone` tints a cell by its value or state
@@ -583,17 +757,48 @@ export const CellTonesAndDrilldown: Story = {
         footer: (rows) => eur(rows.reduce((s, r) => s + r.revenue, 0)),
         renderCellDetail: (r) => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
-            <div style={{ font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--eidra-fg-muted)' }}>
+            <div
+              style={{
+                font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+                color: 'var(--eidra-fg-muted)',
+              }}
+            >
               {r.opco} — invoice lines
             </div>
-            <table style={{ width: '100%', fontSize: 'var(--eidra-font-size-xs)', borderCollapse: 'collapse' }}>
+            <table
+              style={{
+                width: '100%',
+                fontSize: 'var(--eidra-font-size-xs)',
+                borderCollapse: 'collapse',
+              }}
+            >
               <tbody>
                 {r.lines.map((l) => (
                   <tr key={l.entry}>
-                    <td style={{ padding: '2px 12px 2px 0', fontFamily: 'var(--eidra-font-family-mono)', color: 'var(--eidra-fg-muted)' }}>{l.entry}</td>
-                    <td style={{ padding: '2px 12px 2px 0', color: 'var(--eidra-fg-muted)' }}>{l.date}</td>
+                    <td
+                      style={{
+                        padding: '2px 12px 2px 0',
+                        fontFamily: 'var(--eidra-font-family-mono)',
+                        color: 'var(--eidra-fg-muted)',
+                      }}
+                    >
+                      {l.entry}
+                    </td>
+                    <td style={{ padding: '2px 12px 2px 0', color: 'var(--eidra-fg-muted)' }}>
+                      {l.date}
+                    </td>
                     <td style={{ padding: '2px 12px 2px 0' }}>{l.description}</td>
-                    <td style={{ padding: '2px 0', textAlign: 'right', fontFamily: 'var(--eidra-font-family-mono)' }}>{eur(l.amount)}</td>
+                    <td
+                      style={{
+                        padding: '2px 0',
+                        textAlign: 'right',
+                        fontFamily: 'var(--eidra-font-family-mono)',
+                      }}
+                    >
+                      {eur(l.amount)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -607,7 +812,8 @@ export const CellTonesAndDrilldown: Story = {
         numeric: true,
         width: 150,
         accessor: (r) => r.net,
-        cell: (r) => (r.net === 0 ? 'Balanced' : r.net > 0 ? `${eur(r.net)} WIP` : `${eur(-r.net)} deferred`),
+        cell: (r) =>
+          r.net === 0 ? 'Balanced' : r.net > 0 ? `${eur(r.net)} WIP` : `${eur(-r.net)} deferred`,
         cellTone: (value) => {
           const n = Number(value);
           if (n > 0) return 'positive';
@@ -670,7 +876,13 @@ export const Simple: Story = {
         { id: 'client', header: 'Client', accessor: (r) => r.client, sortable: true },
         { id: 'opco', header: 'Opco', accessor: (r) => r.opco, sortable: true },
         { id: 'owner', header: 'Owner', accessor: (r) => r.owner },
-        { id: 'jan', header: 'Jan total', numeric: true, accessor: (r) => r.months.Jan?.total ?? null, sortable: true },
+        {
+          id: 'jan',
+          header: 'Jan total',
+          numeric: true,
+          accessor: (r) => r.months.Jan?.total ?? null,
+          sortable: true,
+        },
       ]}
       data={SAMPLE}
       getRowId={(r) => r.id}
@@ -752,13 +964,19 @@ export const ControlledSort: Story = {
     await step('clicking the already-asc Client header advances to desc and notifies', async () => {
       const clientSort = canvas.getByRole('button', { name: /sort by client/i });
       await userEvent.click(clientSort);
-      await expect(controlledSortSpy).toHaveBeenCalledWith({ columnId: 'client', direction: 'desc' });
+      await expect(controlledSortSpy).toHaveBeenCalledWith({
+        columnId: 'client',
+        direction: 'desc',
+      });
     });
 
     await step('clicking a different header resets to asc on that column', async () => {
       const opcoSort = canvas.getByRole('button', { name: /sort by opco/i });
       await userEvent.click(opcoSort);
-      await expect(controlledSortSpy).toHaveBeenLastCalledWith({ columnId: 'opco', direction: 'asc' });
+      await expect(controlledSortSpy).toHaveBeenLastCalledWith({
+        columnId: 'opco',
+        direction: 'asc',
+      });
     });
   },
 };
@@ -1033,7 +1251,9 @@ export const DragFill: Story = {
     // Fill handles, in DOM order: row0-status, row0-note, row1-status, … two per row.
     const handles = () =>
       Array.from(
-        canvasElement.querySelectorAll<HTMLElement>('[title="Drag down to fill the column with this value"]'),
+        canvasElement.querySelectorAll<HTMLElement>(
+          '[title="Drag down to fill the column with this value"]',
+        ),
       );
     // The status <td> for a given row index (every row's status cell).
     const statusCells = () =>
@@ -1122,8 +1342,7 @@ const PROB_SAMPLE: ProbRow[] = [
   },
 ];
 
-const childSoldSum = (r: ProbRow) =>
-  r.children?.reduce((s, c) => s + (c.sold ?? 0), 0) ?? null;
+const childSoldSum = (r: ProbRow) => r.children?.reduce((s, c) => s + (c.sold ?? 0), 0) ?? null;
 /** Resolved Sold: an overridden parent shows its own value, else the rollup. */
 const resolvedSold = (r: ProbRow) => (r.children && !r.soldOverride ? childSoldSum(r) : r.sold);
 
@@ -1164,7 +1383,10 @@ export const EditableProbabilityTiers: Story = {
             if (r.children) return { ...r, sold: value, soldOverride: value != null };
             return { ...r, sold: value };
           }
-          return { ...r, children: r.children?.map((c) => (c.id === id ? { ...c, sold: value } : c)) };
+          return {
+            ...r,
+            children: r.children?.map((c) => (c.id === id ? { ...c, sold: value } : c)),
+          };
         }),
       );
 
@@ -1181,7 +1403,13 @@ export const EditableProbabilityTiers: Story = {
     );
 
     const cols: DataGridColumnDef<ProbRow>[] = [
-      { id: 'client', header: 'Client / project', accessor: (r) => r.client, pinned: true, width: 200 },
+      {
+        id: 'client',
+        header: 'Client / project',
+        accessor: (r) => r.client,
+        pinned: true,
+        width: 200,
+      },
       {
         id: 'hi',
         header: 'Hi Prob',
@@ -1189,9 +1417,18 @@ export const EditableProbabilityTiers: Story = {
         width: 110,
         accessor: (r) => r.hi,
         cell: (r) => (
-          <EditableNumberCell value={r.hi} tone="positive" format={eurK} onCommit={(v) => editTier(r.id, 'hi', v)} />
+          <EditableNumberCell
+            value={r.hi}
+            tone="positive"
+            format={eurK}
+            onCommit={(v) => editTier(r.id, 'hi', v)}
+          />
         ),
-        footer: (rows) => toned('positive', rows.reduce((s, r) => s + (r.hi ?? 0), 0)),
+        footer: (rows) =>
+          toned(
+            'positive',
+            rows.reduce((s, r) => s + (r.hi ?? 0), 0),
+          ),
       },
       {
         id: 'med',
@@ -1200,9 +1437,18 @@ export const EditableProbabilityTiers: Story = {
         width: 110,
         accessor: (r) => r.med,
         cell: (r) => (
-          <EditableNumberCell value={r.med} tone="caution" format={eurK} onCommit={(v) => editTier(r.id, 'med', v)} />
+          <EditableNumberCell
+            value={r.med}
+            tone="caution"
+            format={eurK}
+            onCommit={(v) => editTier(r.id, 'med', v)}
+          />
         ),
-        footer: (rows) => toned('caution', rows.reduce((s, r) => s + (r.med ?? 0), 0)),
+        footer: (rows) =>
+          toned(
+            'caution',
+            rows.reduce((s, r) => s + (r.med ?? 0), 0),
+          ),
       },
       {
         id: 'sold',
@@ -1260,15 +1506,18 @@ export const EditableProbabilityTiers: Story = {
       await expect(canvas.getByRole('button', { name: /€ 200k/ })).toBeInTheDocument();
     });
 
-    await step('clearing the override (empty + Enter) returns to the aggregated rollup', async () => {
-      const overridden = canvas.getByRole('button', { name: /€ 200k/ });
-      await userEvent.click(overridden);
-      const input = canvas.getByRole('spinbutton');
-      await userEvent.clear(input);
-      await userEvent.keyboard('{Enter}');
-      // Back to the project rollup (190).
-      await expect(canvas.getByRole('button', { name: /€ 190k/ })).toBeInTheDocument();
-    });
+    await step(
+      'clearing the override (empty + Enter) returns to the aggregated rollup',
+      async () => {
+        const overridden = canvas.getByRole('button', { name: /€ 200k/ });
+        await userEvent.click(overridden);
+        const input = canvas.getByRole('spinbutton');
+        await userEvent.clear(input);
+        await userEvent.keyboard('{Enter}');
+        // Back to the project rollup (190).
+        await expect(canvas.getByRole('button', { name: /€ 190k/ })).toBeInTheDocument();
+      },
+    );
   },
 };
 
@@ -1291,7 +1540,9 @@ export const ControlledFilterAndVisibility: Story = {
       { id: 'owner', header: 'Owner', accessor: (r) => r.owner, width: 160 },
     ];
     const toggleOwner = () =>
-      setHidden((prev) => (prev.includes('owner') ? prev.filter((id) => id !== 'owner') : [...prev, 'owner']));
+      setHidden((prev) =>
+        prev.includes('owner') ? prev.filter((id) => id !== 'owner') : [...prev, 'owner'],
+      );
     return (
       <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
         <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center' }}>
@@ -1337,7 +1588,9 @@ export const ControlledFilterAndVisibility: Story = {
     await step('toggling column visibility drops the Owner column header', async () => {
       await expect(canvas.getByRole('columnheader', { name: /owner/i })).toBeInTheDocument();
       await userEvent.click(canvas.getByRole('button', { name: /hide owner column/i }));
-      await waitFor(() => expect(canvas.queryByRole('columnheader', { name: /owner/i })).toBeNull());
+      await waitFor(() =>
+        expect(canvas.queryByRole('columnheader', { name: /owner/i })).toBeNull(),
+      );
       // And it comes back.
       await userEvent.click(canvas.getByRole('button', { name: /show owner column/i }));
       await expect(canvas.getByRole('columnheader', { name: /owner/i })).toBeInTheDocument();

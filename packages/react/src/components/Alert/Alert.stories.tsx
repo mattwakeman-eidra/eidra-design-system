@@ -105,6 +105,7 @@ export const NoIcon: Story = {
     tone: 'neutral',
     title: 'Maintenance window',
     icon: null,
-    children: 'Scheduled maintenance is planned for Sunday 02:00–04:00 CET. Services may be briefly unavailable.',
+    children:
+      'Scheduled maintenance is planned for Sunday 02:00–04:00 CET. Services may be briefly unavailable.',
   },
 };

@@ -40,13 +40,7 @@ const Label = forwardRef<HTMLSpanElement, MeterLabelProps>(function Label(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMeter.Label
-      ref={ref}
-      className={cn(styles.label, className)}
-      {...props}
-    />
-  );
+  return <BaseMeter.Label ref={ref} className={cn(styles.label, className)} {...props} />;
 });
 
 // ── Value ─────────────────────────────────────────────────────────────────────
@@ -57,13 +51,7 @@ const Value = forwardRef<HTMLSpanElement, MeterValueProps>(function Value(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMeter.Value
-      ref={ref}
-      className={cn(styles.value, className)}
-      {...props}
-    />
-  );
+  return <BaseMeter.Value ref={ref} className={cn(styles.value, className)} {...props} />;
 });
 
 // ── Track ─────────────────────────────────────────────────────────────────────
@@ -74,13 +62,7 @@ const Track = forwardRef<HTMLDivElement, MeterTrackProps>(function Track(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMeter.Track
-      ref={ref}
-      className={cn(styles.track, className)}
-      {...props}
-    />
-  );
+  return <BaseMeter.Track ref={ref} className={cn(styles.track, className)} {...props} />;
 });
 
 // ── Indicator ────────────────────────────────────────────────────────────────
@@ -91,13 +73,7 @@ const Indicator = forwardRef<HTMLDivElement, MeterIndicatorProps>(function Indic
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMeter.Indicator
-      ref={ref}
-      className={cn(styles.indicator, className)}
-      {...props}
-    />
-  );
+  return <BaseMeter.Indicator ref={ref} className={cn(styles.indicator, className)} {...props} />;
 });
 
 // ── Compound namespace export ─────────────────────────────────────────────────

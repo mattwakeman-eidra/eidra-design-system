@@ -88,6 +88,7 @@
 .positioner {
   position: absolute;
   z-index: var(--eidra-z-popover);
+
   /* Width is driven by content; positioner handles placement */
 }
 
@@ -103,6 +104,7 @@
   border-radius: var(--eidra-radius-lg);
   box-shadow: var(--eidra-shadow-lg);
   overflow: hidden;
+
   /* Enter transition */
   transition:
     opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
@@ -131,6 +133,7 @@
 /* ─── Viewport ─────────────────────────────────────────────────────────────── */
 .viewport {
   overflow: hidden;
+
   /* Viewport handles the content crossfade / resize transitions */
   transition:
     width var(--eidra-duration-base) var(--eidra-easing-standard),
@@ -140,6 +143,7 @@
 /* ─── Content ──────────────────────────────────────────────────────────────── */
 .content {
   padding: var(--eidra-space-4);
+
   /* Content slides in from left/right based on activation direction */
   transition:
     opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
@@ -183,6 +187,7 @@
   border: 1px solid var(--eidra-border);
   border-radius: var(--eidra-radius-sm);
   transform: rotate(45deg);
+
   /* Arrow is absolutely positioned by Base UI */
 }
 
@@ -192,6 +197,7 @@
   inset: 0;
   z-index: var(--eidra-z-overlay);
   background-color: transparent;
+
   /* Optional: use for click-away dismissal */
 }
 
@@ -243,9 +249,11 @@
 :global([data-density='compact']) .list {
   gap: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .content {
   padding: var(--eidra-space-2);
 }
+
 :global([data-density='compact']) .link {
   gap: var(--eidra-space-1);
   padding: var(--eidra-space-1) var(--eidra-space-1-5);

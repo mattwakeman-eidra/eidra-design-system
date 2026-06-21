@@ -111,12 +111,7 @@ export function ReportPage({
             <Avatar.Fallback>{index}</Avatar.Fallback>
           </Avatar.Root>
         )}
-        <PageHeader
-          title={title}
-          subtitle={subtitle}
-          actions={<Wordmark />}
-          style={{ flex: 1 }}
-        />
+        <PageHeader title={title} subtitle={subtitle} actions={<Wordmark />} style={{ flex: 1 }} />
       </div>
 
       {/* Framed content */}
@@ -259,7 +254,14 @@ const trendConfig: ChartConfig = {
 
 function ExecSummary() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', height: '100%' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--eidra-space-6)',
+        height: '100%',
+      }}
+    >
       <StatisticBar
         aria-label="Exec summary"
         size="lg"
@@ -271,9 +273,23 @@ function ExecSummary() {
         ]}
       />
       <Separator />
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 'var(--eidra-space-8)', flex: 1, minHeight: 0 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1.4fr',
+          gap: 'var(--eidra-space-8)',
+          flex: 1,
+          minHeight: 0,
+        }}
+      >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
-          <Statistic label="Billable utilisation" value="78%" tone="success" caption="+3 pts vs Apr" progress={78} />
+          <Statistic
+            label="Billable utilisation"
+            value="78%"
+            tone="success"
+            caption="+3 pts vs Apr"
+            progress={78}
+          />
           <Statistic label="Cash runway" value="14 mo" caption="Stable" />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
@@ -316,7 +332,11 @@ export const Cover: StoryObj<CoverArgs> = {
     title: { control: 'text' },
     confidential: { control: 'text' },
   },
-  args: { eyebrow: 'Monthly Financial Deck', title: 'Financial update May 2026', confidential: 'Confidential' },
+  args: {
+    eyebrow: 'Monthly Financial Deck',
+    title: 'Financial update May 2026',
+    confidential: 'Confidential',
+  },
   render: ({ eyebrow, title, confidential }) => (
     <div style={{ padding: 'var(--eidra-space-6)' }}>
       <CoverPage eyebrow={eyebrow} title={title} confidential={confidential} />
@@ -401,7 +421,9 @@ export const Deck: StoryObj<DeckArgs> = {
         background: 'var(--eidra-bg-muted)',
       }}
     >
-      {showCover && <CoverPage eyebrow="Monthly Financial Deck" title="Financial update May 2026" />}
+      {showCover && (
+        <CoverPage eyebrow="Monthly Financial Deck" title="Financial update May 2026" />
+      )}
       <ReportPage
         index={2}
         title="Executive summary"

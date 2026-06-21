@@ -74,6 +74,7 @@
 }
 
 /* ─── Variants ───────────────────────────────────────────────────────────── */
+
 /* outline (default) — already set by --_border above */
 
 .toggle[data-variant='solid'] {
@@ -84,6 +85,7 @@
 
 .toggle[data-variant='solid'][data-pressed] {
   --_bg-pressed: var(--eidra-accent);
+
   background-color: var(--eidra-accent);
   color: var(--eidra-fg-on-accent);
   border-color: var(--eidra-accent);
@@ -106,6 +108,7 @@
 }
 
 /* ─── Shape ──────────────────────────────────────────────────────────────── */
+
 /* Pill: fully-rounded standalone chip (e.g. quick-filter chips). */
 .toggle[data-shape='pill'] {
   border-radius: var(--eidra-radius-full);
@@ -182,12 +185,13 @@
 .group[data-appearance='segmented'][data-orientation='horizontal'] .toggle + .toggle {
   border-left: none;
 }
+
 .group[data-appearance='segmented'][data-orientation='vertical'] .toggle + .toggle {
   border-top: none;
 }
 
 /* Hover (inactive segment). */
-.group[data-appearance='segmented'] .toggle:hover:not([data-pressed]):not([data-disabled]) {
+.group[data-appearance='segmented'] .toggle:hover:not([data-pressed], [data-disabled]) {
   color: var(--eidra-fg);
   background-color: var(--eidra-surface-hover);
 }
@@ -215,6 +219,7 @@
   padding-inline: var(--eidra-space-2);
   font-size: var(--eidra-font-size-xs);
 }
+
 .group[data-appearance='segmented'][data-size='lg'] .toggle {
   height: calc(var(--eidra-size-control-lg) - var(--eidra-space-2));
   padding-inline: var(--eidra-space-4);

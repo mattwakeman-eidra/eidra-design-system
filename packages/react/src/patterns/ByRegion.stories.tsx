@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Flag } from '@eidra/icons';
 import {
@@ -27,7 +26,9 @@ export default meta;
 
 // Swedish-style figures: comma decimal, space thousands — matches the deck.
 const num = (n: number, dp = 1) =>
-  new Intl.NumberFormat('sv-SE', { minimumFractionDigits: dp, maximumFractionDigits: dp }).format(n);
+  new Intl.NumberFormat('sv-SE', { minimumFractionDigits: dp, maximumFractionDigits: dp }).format(
+    n,
+  );
 const pct = (n: number) => `${num(n, 1)} %`;
 
 // ── Recipe 1: "By Region" summary table (deck page 4) ────────────────────────
@@ -69,7 +70,13 @@ const MONTH_GROUP: DataGridColumnDef<RegionRow> = {
   id: 'month',
   header: 'Month',
   columns: [
-    { id: 'monthNr', header: 'NR', numeric: true, accessor: (r) => r.monthNr, cell: (r) => num(r.monthNr) },
+    {
+      id: 'monthNr',
+      header: 'NR',
+      numeric: true,
+      accessor: (r) => r.monthNr,
+      cell: (r) => num(r.monthNr),
+    },
     {
       id: 'monthMg',
       header: 'MG %',
@@ -85,7 +92,13 @@ const YTD_GROUP: DataGridColumnDef<RegionRow> = {
   id: 'ytd',
   header: 'YTD',
   columns: [
-    { id: 'ytdNr', header: 'NR', numeric: true, accessor: (r) => r.ytdNr, cell: (r) => num(r.ytdNr) },
+    {
+      id: 'ytdNr',
+      header: 'NR',
+      numeric: true,
+      accessor: (r) => r.ytdNr,
+      cell: (r) => num(r.ytdNr),
+    },
     {
       id: 'ytdMg',
       header: 'MG %',
@@ -160,11 +173,51 @@ interface RegionCard {
 }
 
 const REGION_CARDS: RegionCard[] = [
-  { code: 'SE', name: 'Sweden', ebitdaMargin: 21.5, netRevenue: [104.9, 116.8, 119.2], opEbitda: [12.8, 18.6, 21.5], regionalContribution: [13.4, 21.7, 25.6], legalContribution: [9.5, 18.7, 22.5] },
-  { code: 'NO', name: 'Norway', ebitdaMargin: 11.1, netRevenue: [21.4, 24.0, 25.5], opEbitda: [7.9, 9.8, 11.1], regionalContribution: [2.9, 3.6, 4.2], legalContribution: [1.7, 2.0, 2.5] },
-  { code: 'NL', name: 'Netherlands', ebitdaMargin: 6.3, netRevenue: [19.8, 21.7, 23.0], opEbitda: [4.1, 5.5, 6.3], regionalContribution: [1.9, 2.6, 3.1], legalContribution: [1.2, 1.7, 2.0] },
-  { code: 'DE', name: 'DACH', ebitdaMargin: 34.6, netRevenue: [8.4, 10.2, 11.6], opEbitda: [22.0, 29.5, 34.6], regionalContribution: [3.0, 3.7, 4.4], legalContribution: [2.1, 2.8, 3.3] },
-  { code: 'US', name: 'USA', ebitdaMargin: 26.2, netRevenue: [6.2, 7.6, 8.9], opEbitda: [15.4, 21.5, 26.2], regionalContribution: [1.4, 2.0, 2.5], legalContribution: [0.9, 1.4, 1.8] },
+  {
+    code: 'SE',
+    name: 'Sweden',
+    ebitdaMargin: 21.5,
+    netRevenue: [104.9, 116.8, 119.2],
+    opEbitda: [12.8, 18.6, 21.5],
+    regionalContribution: [13.4, 21.7, 25.6],
+    legalContribution: [9.5, 18.7, 22.5],
+  },
+  {
+    code: 'NO',
+    name: 'Norway',
+    ebitdaMargin: 11.1,
+    netRevenue: [21.4, 24.0, 25.5],
+    opEbitda: [7.9, 9.8, 11.1],
+    regionalContribution: [2.9, 3.6, 4.2],
+    legalContribution: [1.7, 2.0, 2.5],
+  },
+  {
+    code: 'NL',
+    name: 'Netherlands',
+    ebitdaMargin: 6.3,
+    netRevenue: [19.8, 21.7, 23.0],
+    opEbitda: [4.1, 5.5, 6.3],
+    regionalContribution: [1.9, 2.6, 3.1],
+    legalContribution: [1.2, 1.7, 2.0],
+  },
+  {
+    code: 'DE',
+    name: 'DACH',
+    ebitdaMargin: 34.6,
+    netRevenue: [8.4, 10.2, 11.6],
+    opEbitda: [22.0, 29.5, 34.6],
+    regionalContribution: [3.0, 3.7, 4.4],
+    legalContribution: [2.1, 2.8, 3.3],
+  },
+  {
+    code: 'US',
+    name: 'USA',
+    ebitdaMargin: 26.2,
+    netRevenue: [6.2, 7.6, 8.9],
+    opEbitda: [15.4, 21.5, 26.2],
+    regionalContribution: [1.4, 2.0, 2.5],
+    legalContribution: [0.9, 1.4, 1.8],
+  },
 ];
 
 const miniTitle = (text: string) => (
@@ -179,7 +232,15 @@ const miniTitle = (text: string) => (
   </div>
 );
 
-function MiniBars({ values, percent = false, showLabels = true }: { values: Triple; percent?: boolean; showLabels?: boolean }) {
+function MiniBars({
+  values,
+  percent = false,
+  showLabels = true,
+}: {
+  values: Triple;
+  percent?: boolean;
+  showLabels?: boolean;
+}) {
   const data = SERIES.map((s, i) => ({ period: s.key, value: values[i] }));
   return (
     <Chart.Container config={periodConfig} style={{ height: 116 }}>
@@ -203,24 +264,62 @@ function MiniBars({ values, percent = false, showLabels = true }: { values: Trip
   );
 }
 
-function RegionOverviewCard({ region, showLabels = true, showMargin = true }: { region: RegionCard; showLabels?: boolean; showMargin?: boolean }) {
+function RegionOverviewCard({
+  region,
+  showLabels = true,
+  showMargin = true,
+}: {
+  region: RegionCard;
+  showLabels?: boolean;
+  showMargin?: boolean;
+}) {
   return (
     <Card variant="outline" padding="none">
       <Card.Header
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--eidra-space-2)' }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 'var(--eidra-space-2)',
+        }}
       >
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)', fontWeight: 'var(--eidra-font-weight-medium)' }}>
+        <span
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 'var(--eidra-space-2)',
+            fontWeight: 'var(--eidra-font-weight-medium)',
+          }}
+        >
           <Flag code={region.code} size="md" label={region.name} />
           {region.name}
         </span>
-        {showMargin && <Badge tone="neutral" variant="subtle">{pct(region.ebitdaMargin)}</Badge>}
+        {showMargin && (
+          <Badge tone="neutral" variant="subtle">
+            {pct(region.ebitdaMargin)}
+          </Badge>
+        )}
       </Card.Header>
       <Card.Body>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--eidra-space-4)' }}>
-          <div>{miniTitle('Net Revenue (MSEK)')}<MiniBars values={region.netRevenue} showLabels={showLabels} /></div>
-          <div>{miniTitle('OP EBITDA %')}<MiniBars values={region.opEbitda} percent showLabels={showLabels} /></div>
-          <div>{miniTitle('Regional Contribution (MSEK)')}<MiniBars values={region.regionalContribution} showLabels={showLabels} /></div>
-          <div>{miniTitle('Legal Contribution (MSEK)')}<MiniBars values={region.legalContribution} showLabels={showLabels} /></div>
+        <div
+          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--eidra-space-4)' }}
+        >
+          <div>
+            {miniTitle('Net Revenue (MSEK)')}
+            <MiniBars values={region.netRevenue} showLabels={showLabels} />
+          </div>
+          <div>
+            {miniTitle('OP EBITDA %')}
+            <MiniBars values={region.opEbitda} percent showLabels={showLabels} />
+          </div>
+          <div>
+            {miniTitle('Regional Contribution (MSEK)')}
+            <MiniBars values={region.regionalContribution} showLabels={showLabels} />
+          </div>
+          <div>
+            {miniTitle('Legal Contribution (MSEK)')}
+            <MiniBars values={region.legalContribution} showLabels={showLabels} />
+          </div>
         </div>
       </Card.Body>
     </Card>
@@ -260,7 +359,12 @@ export const RegionalOverview: StoryObj<RegionalOverviewArgs> = {
       }}
     >
       {REGION_CARDS.map((r) => (
-        <RegionOverviewCard key={r.code} region={r} showLabels={showLabels} showMargin={showMargin} />
+        <RegionOverviewCard
+          key={r.code}
+          region={r}
+          showLabels={showLabels}
+          showMargin={showMargin}
+        />
       ))}
     </div>
   ),

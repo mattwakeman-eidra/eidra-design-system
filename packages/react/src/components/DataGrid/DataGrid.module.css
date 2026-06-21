@@ -21,6 +21,7 @@
   --dg-pad-block: var(--eidra-space-0-5);
   --dg-pad-inline: var(--eidra-space-1-5);
   --dg-font-size: var(--eidra-font-size-xs);
+
   /* Shrink the control metric that sets the inline-edit cell's min row height. */
   --eidra-size-control-sm: 1.5rem;
 }
@@ -56,6 +57,7 @@
   overflow: auto;
   outline: none;
 }
+
 .scroll:focus-visible {
   outline: 2px solid var(--eidra-accent);
   outline-offset: -2px;
@@ -110,6 +112,7 @@
 .colHeader[data-align='end'] {
   text-align: end;
 }
+
 .colHeader[data-align='center'] {
   text-align: center;
 }
@@ -136,9 +139,11 @@
   color: inherit;
   cursor: pointer;
 }
+
 .sortButton:hover {
   color: var(--eidra-fg);
 }
+
 .sortButton:focus-visible {
   outline: 2px solid var(--eidra-accent);
   outline-offset: 2px;
@@ -149,6 +154,7 @@
   font-size: var(--eidra-font-size-xs);
   color: var(--eidra-fg-subtle);
 }
+
 .sortGlyph[data-direction='asc'],
 .sortGlyph[data-direction='desc'] {
   color: var(--eidra-accent);
@@ -158,12 +164,15 @@
 .row {
   background-color: var(--eidra-surface);
 }
+
 .row:hover {
   background-color: var(--eidra-surface-hover);
 }
+
 .row[data-depth] {
   background-color: var(--eidra-bg-subtle);
 }
+
 .row[data-depth]:hover {
   background-color: var(--eidra-surface-hover);
 }
@@ -176,15 +185,19 @@
   white-space: nowrap;
   vertical-align: middle;
   text-align: start;
+
   /* Inherit row background so pinned cells stay opaque while scrolling. */
   background-color: inherit;
 }
+
 .cell[data-align='end'] {
   text-align: end;
 }
+
 .cell[data-align='center'] {
   text-align: center;
 }
+
 .cell[data-numeric] {
   font-family: var(--eidra-font-family-mono);
   font-variant-numeric: tabular-nums;
@@ -196,9 +209,11 @@
   gap: var(--eidra-space-1);
   width: 100%;
 }
+
 .cell[data-align='end'] .cellInner {
   justify-content: flex-end;
 }
+
 .cell[data-align='center'] .cellInner {
   justify-content: center;
 }
@@ -208,6 +223,7 @@
 }
 
 /* ---- Drag-fill ---- */
+
 /*
  * A fill handle sits in the bottom-inline-end corner of a fillable cell. It's
  * absolutely positioned so it never displaces cell content, and only becomes
@@ -229,13 +245,16 @@
     opacity var(--eidra-duration-fast) var(--eidra-easing-standard),
     transform var(--eidra-duration-fast) var(--eidra-easing-standard);
 }
+
 .row:hover .fillHandle,
 .cell[data-fill-range] .fillHandle {
   opacity: 1;
 }
+
 .fillHandle:hover {
   transform: scale(1.3);
 }
+
 /* Cells inside the live fill range get an accent wash + inset ring. */
 .cell[data-fill-range] {
   background-color: var(--eidra-accent-subtle);
@@ -266,14 +285,17 @@
   border-radius: var(--eidra-radius-sm);
   transition: transform var(--eidra-duration-fast) var(--eidra-easing-standard);
 }
+
 .expandToggle:hover {
   background-color: var(--eidra-surface-active);
   color: var(--eidra-fg);
 }
+
 .expandToggle:focus-visible {
   outline: 2px solid var(--eidra-accent);
   outline-offset: 1px;
 }
+
 .expandToggle[data-expanded] {
   transform: rotate(90deg);
 }
@@ -283,9 +305,11 @@
   position: sticky;
   bottom: 0;
 }
+
 .totalsRow {
   background-color: var(--eidra-bg-subtle);
 }
+
 .footerCell,
 .totalsCell {
   z-index: var(--eidra-z-sticky);
@@ -296,35 +320,42 @@
   white-space: nowrap;
   text-align: start;
 }
+
 /* Bottom totals stick to the foot; top totals stick under the header (inline `top`). */
 .footerCell {
   position: sticky;
   bottom: 0;
   border-top: 1px solid var(--eidra-border);
 }
+
 .totalsCell {
   position: sticky;
   border-bottom: 1px solid var(--eidra-border);
 }
+
 .footerCell[data-align='end'],
 .totalsCell[data-align='end'] {
   text-align: end;
 }
+
 .footerCell[data-align='center'],
 .totalsCell[data-align='center'] {
   text-align: center;
 }
+
 .footerCell[data-numeric],
 .totalsCell[data-numeric] {
   font-family: var(--eidra-font-family-mono);
   font-variant-numeric: tabular-nums;
 }
+
 .footerCell[data-pinned],
 .totalsCell[data-pinned] {
   z-index: calc(var(--eidra-z-sticky) + 1);
 }
 
 /* ---- Column highlight (e.g. the current "NOW" column) ---- */
+
 /*
  * Tint header + body + totals of a flagged column. Default tone uses the grid's
  * accent-subtle (which `accent="finance"` already repoints to the finance tint);
@@ -336,18 +367,22 @@
 .totalsCell[data-highlighted] {
   background-color: var(--eidra-accent-subtle);
 }
+
 .colHeader[data-highlight-tone='finance'],
 .cell[data-highlight-tone='finance'],
 .footerCell[data-highlight-tone='finance'],
 .totalsCell[data-highlight-tone='finance'] {
   background-color: var(--eidra-finance-accent-subtle);
 }
+
 .colHeader[data-highlighted] {
   border-top: 2px solid var(--eidra-accent-border);
 }
+
 .colHeader[data-highlighted][data-highlight-tone='finance'] {
   border-top-color: var(--eidra-finance-accent);
 }
+
 /*
  * On a hovered row the highlighted column was frozen at its flat tint while the
  * rest of the row lifted to --eidra-surface-hover, so the current column looked
@@ -358,11 +393,17 @@
 .row:hover .cell[data-highlighted]:not([data-cell-tone]) {
   background-color: color-mix(in srgb, var(--eidra-accent-subtle) 55%, var(--eidra-surface-hover));
 }
+
 .row:hover .cell[data-highlight-tone='finance']:not([data-cell-tone]) {
-  background-color: color-mix(in srgb, var(--eidra-finance-accent-subtle) 55%, var(--eidra-surface-hover));
+  background-color: color-mix(
+    in srgb,
+    var(--eidra-finance-accent-subtle) 55%,
+    var(--eidra-surface-hover)
+  );
 }
 
 /* ---- Value/state-driven cell tint ---- */
+
 /*
  * Tints an individual cell by its value or state. Placed after the column
  * highlight so a per-cell tone wins over a highlighted column's flat tint.
@@ -370,12 +411,15 @@
 .cell[data-cell-tone='positive'] {
   background-color: var(--eidra-success-subtle);
 }
+
 .cell[data-cell-tone='negative'] {
   background-color: var(--eidra-danger-subtle);
 }
+
 .cell[data-cell-tone='caution'] {
   background-color: var(--eidra-warning-subtle);
 }
+
 .cell[data-cell-tone='muted'] {
   background-color: var(--eidra-bg-muted);
 }
@@ -398,21 +442,26 @@
   cursor: pointer;
   border-radius: var(--eidra-radius-sm);
 }
+
 .cell[data-align='end'] .cellDrill {
   justify-content: flex-end;
 }
+
 .cell[data-align='center'] .cellDrill {
   justify-content: center;
 }
+
 .cellDrill:hover {
   text-decoration: underline;
   text-decoration-color: var(--eidra-accent);
   text-underline-offset: 2px;
 }
+
 .cellDrill:focus-visible {
   outline: 2px solid var(--eidra-accent);
   outline-offset: 1px;
 }
+
 .cellDrill[data-open] {
   color: var(--eidra-accent);
   font-weight: 600;
@@ -422,6 +471,7 @@
 .detailRow {
   background-color: var(--eidra-bg-subtle);
 }
+
 .detailCell {
   padding: var(--dg-pad-block) var(--dg-pad-inline);
   border-bottom: 1px solid var(--eidra-border);

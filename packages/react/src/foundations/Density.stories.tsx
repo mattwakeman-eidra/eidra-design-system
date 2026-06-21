@@ -39,7 +39,14 @@ function Panel() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
       {/* Controls */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-2)', alignItems: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 'var(--eidra-space-2)',
+          alignItems: 'center',
+        }}
+      >
         <Button>Save</Button>
         <Button variant="outline" tone="neutral">
           Cancel
@@ -48,7 +55,14 @@ function Panel() {
         <Kbd>⌘K</Kbd>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-4)', alignItems: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 'var(--eidra-space-4)',
+          alignItems: 'center',
+        }}
+      >
         <Checkbox.Root label="Email me" defaultChecked />
         <Switch.Root label="Auto-save" defaultChecked />
         <Badge tone="success" variant="subtle">
@@ -81,11 +95,21 @@ function Panel() {
       </div>
 
       <StatusStrip aria-label="Momentum">
-        <StatusStrip.Cell status="positive" label="Jan">+4%</StatusStrip.Cell>
-        <StatusStrip.Cell status="positive" label="Feb">+2%</StatusStrip.Cell>
-        <StatusStrip.Cell status="caution" label="Mar">0%</StatusStrip.Cell>
-        <StatusStrip.Cell status="negative" label="Apr">−3%</StatusStrip.Cell>
-        <StatusStrip.Cell status="positive" label="May">+6%</StatusStrip.Cell>
+        <StatusStrip.Cell status="positive" label="Jan">
+          +4%
+        </StatusStrip.Cell>
+        <StatusStrip.Cell status="positive" label="Feb">
+          +2%
+        </StatusStrip.Cell>
+        <StatusStrip.Cell status="caution" label="Mar">
+          0%
+        </StatusStrip.Cell>
+        <StatusStrip.Cell status="negative" label="Apr">
+          −3%
+        </StatusStrip.Cell>
+        <StatusStrip.Cell status="positive" label="May">
+          +6%
+        </StatusStrip.Cell>
       </StatusStrip>
 
       <SegmentBar
@@ -159,7 +183,7 @@ function Column({
  */
 export const ComfortableVsCompact: Story = {
   render: (_args, { globals }) => {
-    const theme = ((globals as { theme?: 'light' | 'dark' }).theme) ?? 'light';
+    const theme = (globals as { theme?: 'light' | 'dark' }).theme ?? 'light';
     return (
       <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'stretch' }}>
         <Column theme={theme} density="comfortable" label="Comfortable" />

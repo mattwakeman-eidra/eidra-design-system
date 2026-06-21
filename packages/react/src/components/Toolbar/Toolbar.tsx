@@ -14,13 +14,7 @@ const ToolbarRoot = forwardRef<HTMLDivElement, ToolbarRootProps>(function Toolba
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseToolbar.Root
-      ref={ref}
-      className={cn(styles.root, className)}
-      {...props}
-    />
-  );
+  return <BaseToolbar.Root ref={ref} className={cn(styles.root, className)} {...props} />;
 });
 
 // ─── Button ────────────────────────────────────────────────────────────────
@@ -33,13 +27,7 @@ const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(function
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseToolbar.Button
-      ref={ref}
-      className={cn(styles.button, className)}
-      {...props}
-    />
-  );
+  return <BaseToolbar.Button ref={ref} className={cn(styles.button, className)} {...props} />;
 });
 
 // ─── Link ──────────────────────────────────────────────────────────────────
@@ -52,13 +40,7 @@ const ToolbarLink = forwardRef<HTMLAnchorElement, ToolbarLinkProps>(function Too
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseToolbar.Link
-      ref={ref}
-      className={cn(styles.link, className)}
-      {...props}
-    />
-  );
+  return <BaseToolbar.Link ref={ref} className={cn(styles.link, className)} {...props} />;
 });
 
 // ─── Input ─────────────────────────────────────────────────────────────────
@@ -71,13 +53,7 @@ const ToolbarInput = forwardRef<HTMLInputElement, ToolbarInputProps>(function To
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseToolbar.Input
-      ref={ref}
-      className={cn(styles.input, className)}
-      {...props}
-    />
-  );
+  return <BaseToolbar.Input ref={ref} className={cn(styles.input, className)} {...props} />;
 });
 
 // ─── Group ─────────────────────────────────────────────────────────────────
@@ -90,33 +66,24 @@ const ToolbarGroup = forwardRef<HTMLDivElement, ToolbarGroupProps>(function Tool
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseToolbar.Group
-      ref={ref}
-      className={cn(styles.group, className)}
-      {...props}
-    />
-  );
+  return <BaseToolbar.Group ref={ref} className={cn(styles.group, className)} {...props} />;
 });
 
 // ─── Separator ─────────────────────────────────────────────────────────────
 
-export interface ToolbarSeparatorProps extends ComponentPropsWithoutRef<typeof BaseToolbar.Separator> {
+export interface ToolbarSeparatorProps extends ComponentPropsWithoutRef<
+  typeof BaseToolbar.Separator
+> {
   className?: string;
 }
 
-const ToolbarSeparator = forwardRef<HTMLDivElement, ToolbarSeparatorProps>(function ToolbarSeparator(
-  { className, ...props },
-  ref,
-) {
-  return (
-    <BaseToolbar.Separator
-      ref={ref}
-      className={cn(styles.separator, className)}
-      {...props}
-    />
-  );
-});
+const ToolbarSeparator = forwardRef<HTMLDivElement, ToolbarSeparatorProps>(
+  function ToolbarSeparator({ className, ...props }, ref) {
+    return (
+      <BaseToolbar.Separator ref={ref} className={cn(styles.separator, className)} {...props} />
+    );
+  },
+);
 
 // ─── Compound namespace export ─────────────────────────────────────────────
 

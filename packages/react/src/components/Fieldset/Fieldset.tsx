@@ -6,8 +6,10 @@ import styles from './Fieldset.module.css';
 
 // ---- Root ----
 
-export interface FieldsetRootProps
-  extends Omit<ComponentPropsWithoutRef<typeof BaseFieldset.Root>, 'className'> {
+export interface FieldsetRootProps extends Omit<
+  ComponentPropsWithoutRef<typeof BaseFieldset.Root>,
+  'className'
+> {
   className?: string;
 }
 
@@ -15,19 +17,15 @@ const Root = forwardRef<HTMLElement, FieldsetRootProps>(function Root(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseFieldset.Root
-      ref={ref}
-      className={cn(styles.root, className)}
-      {...props}
-    />
-  );
+  return <BaseFieldset.Root ref={ref} className={cn(styles.root, className)} {...props} />;
 });
 
 // ---- Legend ----
 
-export interface FieldsetLegendProps
-  extends Omit<ComponentPropsWithoutRef<typeof BaseFieldset.Legend>, 'className'> {
+export interface FieldsetLegendProps extends Omit<
+  ComponentPropsWithoutRef<typeof BaseFieldset.Legend>,
+  'className'
+> {
   className?: string;
 }
 
@@ -35,13 +33,7 @@ const Legend = forwardRef<HTMLDivElement, FieldsetLegendProps>(function Legend(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseFieldset.Legend
-      ref={ref}
-      className={cn(styles.legend, className)}
-      {...props}
-    />
-  );
+  return <BaseFieldset.Legend ref={ref} className={cn(styles.legend, className)} {...props} />;
 });
 
 /**
@@ -57,4 +49,3 @@ const Legend = forwardRef<HTMLDivElement, FieldsetLegendProps>(function Legend(
  * ```
  */
 export const Fieldset = { Root, Legend };
-

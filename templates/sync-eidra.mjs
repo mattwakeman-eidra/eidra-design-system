@@ -40,7 +40,11 @@ async function resolveReleasesDir() {
   return dir;
 }
 
-const exists = (p) => fs.access(p).then(() => true).catch(() => false);
+const exists = (p) =>
+  fs
+    .access(p)
+    .then(() => true)
+    .catch(() => false);
 
 async function main() {
   const releasesDir = await resolveReleasesDir();

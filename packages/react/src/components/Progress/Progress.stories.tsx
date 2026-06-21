@@ -34,19 +34,29 @@ type Story = StoryObj<typeof meta>;
 // ── Helpers ────────────────────────────────────────────────────────────────
 
 const Stack = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
+  <div
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}
+  >
     {children}
   </div>
 );
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', maxWidth: 480 }}>
+  <div
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', maxWidth: 480 }}
+  >
     {children}
   </div>
 );
 
 const Header = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--eidra-space-1-5)' }}>
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginBottom: 'var(--eidra-space-1-5)',
+    }}
+  >
     {children}
   </div>
 );
@@ -243,9 +253,7 @@ export const WithCustomFormat: Story = {
       <Progress.Root {...args} tone="accent">
         <Header>
           <Progress.Label>Interview stages completed</Progress.Label>
-          <Progress.Value>
-            {(formattedValue, value) => `${value ?? 0} of 10`}
-          </Progress.Value>
+          <Progress.Value>{(formattedValue, value) => `${value ?? 0} of 10`}</Progress.Value>
         </Header>
         <Progress.Track>
           <Progress.Indicator />

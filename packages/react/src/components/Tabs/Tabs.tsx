@@ -43,11 +43,7 @@ const TabsTab = forwardRef<HTMLButtonElement, TabsTabProps>(function TabsTab(
   ref,
 ) {
   return (
-    <BaseTabs.Tab
-      ref={ref as Ref<HTMLElement>}
-      className={cn(styles.tab, className)}
-      {...props}
-    />
+    <BaseTabs.Tab ref={ref as Ref<HTMLElement>} className={cn(styles.tab, className)} {...props} />
   );
 });
 

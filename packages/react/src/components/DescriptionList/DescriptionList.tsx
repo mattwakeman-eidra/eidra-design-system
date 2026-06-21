@@ -47,28 +47,30 @@ export interface DescriptionDetailsProps extends ComponentPropsWithoutRef<'dd'> 
  * />
  * ```
  */
-const DescriptionListRoot = forwardRef<HTMLDListElement, DescriptionListProps>(function DescriptionList(
-  { items, orientation = 'horizontal', columns = 1, className, style, children, ...props },
-  ref,
-) {
-  return (
-    <dl
-      ref={ref}
-      className={cn(styles.root, className)}
-      data-orientation={orientation}
-      style={{ '--_columns': columns, ...style } as CSSProperties}
-      {...props}
-    >
-      {items?.map((entry, i) => (
-        <div key={i} className={styles.row}>
-          <DescriptionTerm>{entry.label}</DescriptionTerm>
-          <DescriptionDetails>{entry.value}</DescriptionDetails>
-        </div>
-      ))}
-      {children}
-    </dl>
-  );
-});
+const DescriptionListRoot = forwardRef<HTMLDListElement, DescriptionListProps>(
+  function DescriptionList(
+    { items, orientation = 'horizontal', columns = 1, className, style, children, ...props },
+    ref,
+  ) {
+    return (
+      <dl
+        ref={ref}
+        className={cn(styles.root, className)}
+        data-orientation={orientation}
+        style={{ '--_columns': columns, ...style } as CSSProperties}
+        {...props}
+      >
+        {items?.map((entry, i) => (
+          <div key={i} className={styles.row}>
+            <DescriptionTerm>{entry.label}</DescriptionTerm>
+            <DescriptionDetails>{entry.value}</DescriptionDetails>
+          </div>
+        ))}
+        {children}
+      </dl>
+    );
+  },
+);
 
 const DescriptionTerm = forwardRef<HTMLElement, DescriptionTermProps>(function DescriptionTerm(
   { className, ...props },
@@ -77,12 +79,11 @@ const DescriptionTerm = forwardRef<HTMLElement, DescriptionTermProps>(function D
   return <dt ref={ref} className={cn(styles.term, className)} {...props} />;
 });
 
-const DescriptionDetails = forwardRef<HTMLElement, DescriptionDetailsProps>(function DescriptionDetails(
-  { className, ...props },
-  ref,
-) {
-  return <dd ref={ref} className={cn(styles.details, className)} {...props} />;
-});
+const DescriptionDetails = forwardRef<HTMLElement, DescriptionDetailsProps>(
+  function DescriptionDetails({ className, ...props }, ref) {
+    return <dd ref={ref} className={cn(styles.details, className)} {...props} />;
+  },
+);
 
 /**
  * Compound DescriptionList. Use the `items` prop for the common case, or compose

@@ -33,15 +33,7 @@ function toCssValue(value: string | number): string {
  * ```
  */
 export const Skeleton = forwardRef<HTMLSpanElement, SkeletonProps>(function Skeleton(
-  {
-    variant = 'rect',
-    width,
-    height,
-    radius,
-    className,
-    style,
-    ...props
-  },
+  { variant = 'rect', width, height, radius, className, style, ...props },
   ref,
 ) {
   const cssVars: Record<string, string> = {};

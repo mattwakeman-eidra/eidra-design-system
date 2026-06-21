@@ -81,15 +81,17 @@ const ALL_CONSULTANTS = Object.values(CONSULTANTS_BY_TEAM).flat();
 
 // ---- Shared wrapper ----
 
-const ComboboxField = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1-5)', width: 280 }}>
-    <label style={{ fontSize: 'var(--eidra-font-size-sm)', fontWeight: 'var(--eidra-font-weight-medium)', color: 'var(--eidra-fg)' }}>
+const ComboboxField = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1-5)', width: 280 }}
+  >
+    <label
+      style={{
+        fontSize: 'var(--eidra-font-size-sm)',
+        fontWeight: 'var(--eidra-font-weight-medium)',
+        color: 'var(--eidra-fg)',
+      }}
+    >
       {label}
     </label>
     {children}
@@ -127,7 +129,6 @@ export const Playground: Story = {
     onInputValueChange: fn(),
   },
   render: ({ disabled, ...args }) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState<string | null>(null);
 
     return (
@@ -167,12 +168,12 @@ export const Playground: Story = {
                   {(item) => {
                     const country = item as (typeof COUNTRIES)[number];
                     return (
-                    <Combobox.Item key={country.value} value={country.value}>
-                      {country.label}
-                      <Combobox.ItemIndicator>
-                        <Icon icon={Check} size="sm" />
-                      </Combobox.ItemIndicator>
-                    </Combobox.Item>
+                      <Combobox.Item key={country.value} value={country.value}>
+                        {country.label}
+                        <Combobox.ItemIndicator>
+                          <Icon icon={Check} size="sm" />
+                        </Combobox.ItemIndicator>
+                      </Combobox.Item>
                     );
                   }}
                 </Combobox.List>
@@ -206,7 +207,6 @@ export const Behaviour: Story = {
     onInputValueChange: fn(),
   },
   render: ({ multiple, disabled, autoHighlight, readOnly, required, ...args }) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState<string | null>(null);
 
     return (
@@ -244,12 +244,12 @@ export const Behaviour: Story = {
                   {(item) => {
                     const country = item as (typeof COUNTRIES)[number];
                     return (
-                    <Combobox.Item key={country.value} value={country.value}>
-                      {country.label}
-                      <Combobox.ItemIndicator>
-                        <Icon icon={Check} size="sm" />
-                      </Combobox.ItemIndicator>
-                    </Combobox.Item>
+                      <Combobox.Item key={country.value} value={country.value}>
+                        {country.label}
+                        <Combobox.ItemIndicator>
+                          <Icon icon={Check} size="sm" />
+                        </Combobox.ItemIndicator>
+                      </Combobox.Item>
                     );
                   }}
                 </Combobox.List>
@@ -277,12 +277,8 @@ export const Behaviour: Story = {
     await step('type-ahead filters the list and fires onInputValueChange', async () => {
       await userEvent.type(input, 'Swe');
       await expect(args.onInputValueChange).toHaveBeenCalled();
-      await waitFor(() =>
-        expect(screen.getByRole('option', { name: /Sweden/i })).toBeVisible(),
-      );
-      await waitFor(() =>
-        expect(screen.queryByRole('option', { name: /Norway/i })).toBeNull(),
-      );
+      await waitFor(() => expect(screen.getByRole('option', { name: /Sweden/i })).toBeVisible());
+      await waitFor(() => expect(screen.queryByRole('option', { name: /Norway/i })).toBeNull());
     });
 
     await step('clicking a filtered option selects it and fires onValueChange', async () => {
@@ -296,7 +292,6 @@ export const Behaviour: Story = {
 export const WithGroups: Story = {
   args: { onValueChange: fn() },
   render: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState<string | null>(null);
 
     return (
@@ -378,7 +373,6 @@ export const WithGroups: Story = {
 export const MultiSelect: Story = {
   args: { onValueChange: fn() },
   render: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [values, setValues] = useState<string[]>([]);
 
     return (
@@ -451,9 +445,10 @@ export const MultiSelect: Story = {
       await expect(args.onValueChange).toHaveBeenCalledWith(['anna-larsen'], expect.anything());
       await userEvent.click(await screen.findByRole('option', { name: /David Berg/i }));
       await waitFor(() =>
-        expect(
-          args.onValueChange,
-        ).toHaveBeenLastCalledWith(['anna-larsen', 'david-berg'], expect.anything()),
+        expect(args.onValueChange).toHaveBeenLastCalledWith(
+          ['anna-larsen', 'david-berg'],
+          expect.anything(),
+        ),
       );
       // Both chips render in the canvas.
       await expect(canvas.getByText('Anna Larsen')).toBeVisible();
@@ -470,9 +465,7 @@ export const MultiSelect: Story = {
         canvas.getByRole('button', { name: /Remove Anna Larsen/i, hidden: true }),
       );
       await waitFor(() => expect(canvas.queryByText('Anna Larsen')).toBeNull());
-      await expect(
-        args.onValueChange,
-      ).toHaveBeenLastCalledWith(['david-berg'], expect.anything());
+      await expect(args.onValueChange).toHaveBeenLastCalledWith(['david-berg'], expect.anything());
     });
   },
 };
@@ -480,7 +473,6 @@ export const MultiSelect: Story = {
 export const WithClear: Story = {
   args: { onValueChange: fn() },
   render: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState<string | null>(null);
 
     return (
@@ -506,7 +498,11 @@ export const WithClear: Story = {
                 background: 'var(--eidra-surface)',
               }}
             >
-              <Icon icon={Search} size="sm" style={{ color: 'var(--eidra-fg-subtle)', flexShrink: 0 }} />
+              <Icon
+                icon={Search}
+                size="sm"
+                style={{ color: 'var(--eidra-fg-subtle)', flexShrink: 0 }}
+              />
               <Combobox.Input
                 placeholder="Search countries…"
                 style={{
@@ -628,7 +624,6 @@ const OFFICES = [
 export const AutoHighlight: Story = {
   args: { onValueChange: fn() },
   render: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState<string | null>(null);
 
     return (
@@ -665,12 +660,12 @@ export const AutoHighlight: Story = {
                   {(item) => {
                     const city = item as (typeof OFFICES)[number];
                     return (
-                    <Combobox.Item key={city.value} value={city.value}>
-                      {city.label}
-                      <Combobox.ItemIndicator>
-                        <Icon icon={Check} size="sm" />
-                      </Combobox.ItemIndicator>
-                    </Combobox.Item>
+                      <Combobox.Item key={city.value} value={city.value}>
+                        {city.label}
+                        <Combobox.ItemIndicator>
+                          <Icon icon={Check} size="sm" />
+                        </Combobox.ItemIndicator>
+                      </Combobox.Item>
                     );
                   }}
                 </Combobox.List>
@@ -757,13 +752,16 @@ export const Uncontrolled: Story = {
       await expect(norway).toHaveAttribute('aria-selected', 'true');
     });
 
-    await step('arrow navigation + Enter selects a different option without host state', async () => {
-      // Move the highlight off the initially-selected row, then commit it.
-      await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
-      // Selection moved off Norway; the input reflects the new choice, and the
-      // uncontrolled root tracked it with no host value/onValueChange wiring.
-      await waitFor(() => expect(input).not.toHaveValue('Norway'));
-      await expect(input).not.toHaveValue('');
-    });
+    await step(
+      'arrow navigation + Enter selects a different option without host state',
+      async () => {
+        // Move the highlight off the initially-selected row, then commit it.
+        await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
+        // Selection moved off Norway; the input reflects the new choice, and the
+        // uncontrolled root tracked it with no host value/onValueChange wiring.
+        await waitFor(() => expect(input).not.toHaveValue('Norway'));
+        await expect(input).not.toHaveValue('');
+      },
+    );
   },
 };

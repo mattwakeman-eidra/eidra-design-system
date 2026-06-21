@@ -21,14 +21,7 @@ export interface BadgeProps extends ComponentPropsWithoutRef<'span'> {
  * Use to convey status, category, or metadata at a glance.
  */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
-  {
-    tone = 'neutral',
-    variant = 'subtle',
-    size = 'md',
-    className,
-    children,
-    ...props
-  },
+  { tone = 'neutral', variant = 'subtle', size = 'md', className, children, ...props },
   ref,
 ) {
   return (

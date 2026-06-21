@@ -1,11 +1,11 @@
 // Drop into a consumer at: apps/web/src/app/design/settings/page.tsx  → visit /design/settings
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Typography, Card, Field, Input, Switch, Button, Separator } from '@eidra/react'
+import { useState } from 'react';
+import { Typography, Card, Field, Input, Switch, Button, Separator } from '@eidra/react';
 
 export default function SettingsForm() {
-  const [notify, setNotify] = useState(true)
+  const [notify, setNotify] = useState(true);
 
   return (
     <main style={{ maxWidth: 560, margin: '0 auto' }}>
@@ -24,11 +24,17 @@ export default function SettingsForm() {
             <Input type="email" defaultValue="not-an-email" />
           </Field>
           <Separator />
-          <Switch.Root checked={notify} onCheckedChange={setNotify} label="Email me about sync failures">
+          <Switch.Root
+            checked={notify}
+            onCheckedChange={setNotify}
+            label="Email me about sync failures"
+          >
             <Switch.Thumb />
           </Switch.Root>
         </Card.Body>
-        <Card.Footer style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--eidra-space-3)' }}>
+        <Card.Footer
+          style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--eidra-space-3)' }}
+        >
           <Button variant="ghost" tone="neutral">
             Cancel
           </Button>
@@ -36,5 +42,5 @@ export default function SettingsForm() {
         </Card.Footer>
       </Card>
     </main>
-  )
+  );
 }

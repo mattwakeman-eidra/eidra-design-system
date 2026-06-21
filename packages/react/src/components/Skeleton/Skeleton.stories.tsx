@@ -18,13 +18,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Stack = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', width: '320px' }}>
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'var(--eidra-space-3)',
+      width: '320px',
+    }}
+  >
     {children}
   </div>
 );
 
 const Row = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}>
+  <div
+    style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}
+  >
     {children}
   </div>
 );
@@ -83,7 +92,9 @@ export const ProfileCard: Story = {
       }}
     >
       <Skeleton variant="circle" width="48px" height="48px" />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
+      <div
+        style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}
+      >
         <Skeleton variant="text" width="55%" />
         <Skeleton variant="text" width="40%" />
         <Skeleton variant="text" width="80%" />

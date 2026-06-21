@@ -24,13 +24,7 @@ const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>(function Men
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMenu.Trigger
-      ref={ref}
-      className={cn(styles.trigger, className)}
-      {...props}
-    />
-  );
+  return <BaseMenu.Trigger ref={ref} className={cn(styles.trigger, className)} {...props} />;
 });
 
 // ─── Portal ────────────────────────────────────────────────────────────────
@@ -52,7 +46,14 @@ const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>(function 
   ref,
 ) {
   const scope = useScopeDataAttrs();
-  return <BaseMenu.Positioner ref={ref} className={cn(styles.positioner, className)} {...scope} {...props} />;
+  return (
+    <BaseMenu.Positioner
+      ref={ref}
+      className={cn(styles.positioner, className)}
+      {...scope}
+      {...props}
+    />
+  );
 });
 
 // ─── Popup ─────────────────────────────────────────────────────────────────
@@ -103,27 +104,29 @@ const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
 
 // ─── CheckboxItem ──────────────────────────────────────────────────────────
 
-export interface MenuCheckboxItemProps extends ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItem> {
+export interface MenuCheckboxItemProps extends ComponentPropsWithoutRef<
+  typeof BaseMenu.CheckboxItem
+> {
   className?: string;
 }
 
-const MenuCheckboxItem = forwardRef<HTMLDivElement, MenuCheckboxItemProps>(function MenuCheckboxItem(
-  { className, ...props },
-  ref,
-) {
-  return (
-    <BaseMenu.CheckboxItem
-      ref={ref as Ref<HTMLElement>}
-      className={cn(styles.item, styles.checkboxItem, className)}
-      {...props}
-    />
-  );
-});
+const MenuCheckboxItem = forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
+  function MenuCheckboxItem({ className, ...props }, ref) {
+    return (
+      <BaseMenu.CheckboxItem
+        ref={ref as Ref<HTMLElement>}
+        className={cn(styles.item, styles.checkboxItem, className)}
+        {...props}
+      />
+    );
+  },
+);
 
 // ─── CheckboxItemIndicator ─────────────────────────────────────────────────
 
-export interface MenuCheckboxItemIndicatorProps
-  extends ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItemIndicator> {
+export interface MenuCheckboxItemIndicatorProps extends ComponentPropsWithoutRef<
+  typeof BaseMenu.CheckboxItemIndicator
+> {
   className?: string;
 }
 
@@ -179,8 +182,9 @@ const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>(function Me
 
 // ─── RadioItemIndicator ────────────────────────────────────────────────────
 
-export interface MenuRadioItemIndicatorProps
-  extends ComponentPropsWithoutRef<typeof BaseMenu.RadioItemIndicator> {
+export interface MenuRadioItemIndicatorProps extends ComponentPropsWithoutRef<
+  typeof BaseMenu.RadioItemIndicator
+> {
   className?: string;
 }
 
@@ -225,9 +229,7 @@ const MenuGroupLabel = forwardRef<HTMLDivElement, MenuGroupLabelProps>(function 
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMenu.GroupLabel ref={ref} className={cn(styles.groupLabel, className)} {...props} />
-  );
+  return <BaseMenu.GroupLabel ref={ref} className={cn(styles.groupLabel, className)} {...props} />;
 });
 
 // ─── Separator ─────────────────────────────────────────────────────────────
@@ -240,13 +242,7 @@ const MenuSeparator = forwardRef<HTMLDivElement, MenuSeparatorProps>(function Me
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMenu.Separator
-      ref={ref}
-      className={cn(styles.separator, className)}
-      {...props}
-    />
-  );
+  return <BaseMenu.Separator ref={ref} className={cn(styles.separator, className)} {...props} />;
 });
 
 // ─── SubmenuRoot ───────────────────────────────────────────────────────────
@@ -259,8 +255,9 @@ function MenuSubmenuRoot(props: MenuSubmenuRootProps) {
 
 // ─── SubmenuTrigger ────────────────────────────────────────────────────────
 
-export interface MenuSubmenuTriggerProps
-  extends ComponentPropsWithoutRef<typeof BaseMenu.SubmenuTrigger> {
+export interface MenuSubmenuTriggerProps extends ComponentPropsWithoutRef<
+  typeof BaseMenu.SubmenuTrigger
+> {
   className?: string;
 }
 
@@ -286,13 +283,7 @@ const MenuArrow = forwardRef<HTMLDivElement, MenuArrowProps>(function MenuArrow(
   { className, ...props },
   ref,
 ) {
-  return (
-    <BaseMenu.Arrow
-      ref={ref}
-      className={cn(styles.arrow, className)}
-      {...props}
-    />
-  );
+  return <BaseMenu.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />;
 });
 
 // ─── Compound namespace export ─────────────────────────────────────────────

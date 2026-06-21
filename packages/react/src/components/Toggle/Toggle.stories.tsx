@@ -280,11 +280,14 @@ export const AlignmentGroup: StoryObj = {
       await expect(left).toHaveAttribute('aria-pressed', 'false');
     });
 
-    await step('clicking the active item clears the selection (single-select empties)', async () => {
-      await userEvent.click(center);
-      await expect(center).toHaveAttribute('aria-pressed', 'false');
-      await expect(left).toHaveAttribute('aria-pressed', 'false');
-    });
+    await step(
+      'clicking the active item clears the selection (single-select empties)',
+      async () => {
+        await userEvent.click(center);
+        await expect(center).toHaveAttribute('aria-pressed', 'false');
+        await expect(left).toHaveAttribute('aria-pressed', 'false');
+      },
+    );
   },
 };
 
@@ -298,7 +301,11 @@ export const AlignmentGroup: StoryObj = {
 export const GroupKeyboardNav: StoryObj = {
   parameters: { controls: { disable: true } },
   render: (args: { onValueChange?: (value: string[]) => void }) => (
-    <ToggleGroup.Root defaultValue={['left']} aria-label="Text alignment" onValueChange={args.onValueChange}>
+    <ToggleGroup.Root
+      defaultValue={['left']}
+      aria-label="Text alignment"
+      onValueChange={args.onValueChange}
+    >
       <Toggle value="left" aria-label="Align left">
         <Icon icon={AlignLeft} size="sm" />
       </Toggle>
@@ -649,7 +656,14 @@ export const SegmentedSizes: StoryObj = {
   render: () => {
     const [view, setView] = useState('graphs');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', alignItems: 'flex-start' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--eidra-space-4)',
+          alignItems: 'flex-start',
+        }}
+      >
         {(['sm', 'md', 'lg'] as const).map((size) => (
           <ToggleGroup.Root
             key={size}

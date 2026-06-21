@@ -1,13 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import {
-  Alert,
-  Badge,
-  DataGrid,
-  SegmentBar,
-  Statistic,
-  type DataGridColumnDef,
-} from '../index.js';
+import { Alert, Badge, DataGrid, SegmentBar, Statistic, type DataGridColumnDef } from '../index.js';
 
 /**
  * **Project Economics — recipes.** These stories are *documentation*, not shipped
@@ -101,7 +94,9 @@ export const BudgetHeader: Story = {
           </div>
           <div>
             {kicker(
-              <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
                 <span>Revenue</span>
                 <Badge tone="warning" variant="subtle" size="sm">
                   Pending
@@ -114,13 +109,19 @@ export const BudgetHeader: Story = {
               markers={budget}
               segments={[
                 { value: 980_000, label: 'Booked', color: 'var(--eidra-finance-positive)' },
-                { value: 70_000, label: 'This month (pending)', color: 'var(--eidra-finance-revenue-hi-prob)' },
+                {
+                  value: 70_000,
+                  label: 'This month (pending)',
+                  color: 'var(--eidra-finance-revenue-hi-prob)',
+                },
               ]}
             />
           </div>
           <div>
             {kicker(
-              <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
                 <span>Net position — Jun</span>
                 <Badge tone="success" variant="subtle" size="sm">
                   Balanced
@@ -177,8 +178,16 @@ const MATRIX: MatrixRow[] = [
       ],
     },
     children: [
-      { id: 'fabrique-exact', label: 'Exact', values: { Mar: 80_000, Apr: 92_000, May: 88_000, Jun: 80_000 } },
-      { id: 'fabrique-delta', label: 'Delta (prelim)', values: { Mar: 0, Apr: 0, May: 0, Jun: 16_000 } },
+      {
+        id: 'fabrique-exact',
+        label: 'Exact',
+        values: { Mar: 80_000, Apr: 92_000, May: 88_000, Jun: 80_000 },
+      },
+      {
+        id: 'fabrique-delta',
+        label: 'Delta (prelim)',
+        values: { Mar: 0, Apr: 0, May: 0, Jun: 16_000 },
+      },
     ],
   },
   {
@@ -186,11 +195,22 @@ const MATRIX: MatrixRow[] = [
     label: 'Q42',
     values: { Mar: 40_000, Apr: 0, May: 0, Jun: -12_500 },
     entries: {
-      Jun: [{ entry: 'CN-2210', date: '2026-06-02', description: 'Deferred — discovery slip', amount: -12_500 }],
+      Jun: [
+        {
+          entry: 'CN-2210',
+          date: '2026-06-02',
+          description: 'Deferred — discovery slip',
+          amount: -12_500,
+        },
+      ],
     },
     children: [
       { id: 'q42-exact', label: 'Exact', values: { Mar: 40_000, Apr: 0, May: 0, Jun: 0 } },
-      { id: 'q42-delta', label: 'Delta (prelim)', values: { Mar: 0, Apr: 0, May: 0, Jun: -12_500 } },
+      {
+        id: 'q42-delta',
+        label: 'Delta (prelim)',
+        values: { Mar: 0, Apr: 0, May: 0, Jun: -12_500 },
+      },
     ],
   },
   {
@@ -239,18 +259,45 @@ export const AccountingMatrix: Story = {
           },
           renderCellDetail: (r) => {
             const lines = r.entries?.[p];
-            if (!lines?.length) return <span style={{ color: 'var(--eidra-fg-muted)' }}>No entries for {p}.</span>;
+            if (!lines?.length)
+              return <span style={{ color: 'var(--eidra-fg-muted)' }}>No entries for {p}.</span>;
             return (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+              <div
+                style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}
+              >
                 {kicker(`${r.label} — ${p} entries`)}
-                <table style={{ width: '100%', fontSize: 'var(--eidra-font-size-xs)', borderCollapse: 'collapse' }}>
+                <table
+                  style={{
+                    width: '100%',
+                    fontSize: 'var(--eidra-font-size-xs)',
+                    borderCollapse: 'collapse',
+                  }}
+                >
                   <tbody>
                     {lines.map((l) => (
                       <tr key={l.entry}>
-                        <td style={{ padding: '2px 12px 2px 0', fontFamily: 'var(--eidra-font-family-mono)', color: 'var(--eidra-fg-muted)' }}>{l.entry}</td>
-                        <td style={{ padding: '2px 12px 2px 0', color: 'var(--eidra-fg-muted)' }}>{l.date}</td>
+                        <td
+                          style={{
+                            padding: '2px 12px 2px 0',
+                            fontFamily: 'var(--eidra-font-family-mono)',
+                            color: 'var(--eidra-fg-muted)',
+                          }}
+                        >
+                          {l.entry}
+                        </td>
+                        <td style={{ padding: '2px 12px 2px 0', color: 'var(--eidra-fg-muted)' }}>
+                          {l.date}
+                        </td>
                         <td style={{ padding: '2px 12px 2px 0' }}>{l.description}</td>
-                        <td style={{ padding: '2px 0', textAlign: 'right', fontFamily: 'var(--eidra-font-family-mono)' }}>{eur(l.amount)}</td>
+                        <td
+                          style={{
+                            padding: '2px 0',
+                            textAlign: 'right',
+                            fontFamily: 'var(--eidra-font-family-mono)',
+                          }}
+                        >
+                          {eur(l.amount)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

@@ -336,40 +336,40 @@ export const WithCheckboxItems: MenuSpyStory = {
           <ContextMenu.Positioner>
             <ContextMenu.Popup>
               <ContextMenu.Group>
-              <ContextMenu.GroupLabel>View options</ContextMenu.GroupLabel>
-              <ContextMenu.CheckboxItem
-                closeOnClick={false}
-                checked={showGrid}
-                onCheckedChange={(checked) => {
-                  onCheckedChange(checked);
-                  setShowGrid(checked);
-                }}
-              >
-                <ContextMenu.CheckboxItemIndicator>
-                  <Icon icon={Check} size="sm" />
-                </ContextMenu.CheckboxItemIndicator>
-                Show grid
-              </ContextMenu.CheckboxItem>
-              <ContextMenu.CheckboxItem
-                closeOnClick={false}
-                checked={showComments}
-                onCheckedChange={(checked) => setShowComments(checked)}
-              >
-                <ContextMenu.CheckboxItemIndicator>
-                  <Icon icon={Check} size="sm" />
-                </ContextMenu.CheckboxItemIndicator>
-                Show comments
-              </ContextMenu.CheckboxItem>
-              <ContextMenu.CheckboxItem
-                closeOnClick={false}
-                checked={showRevisions}
-                onCheckedChange={(checked) => setShowRevisions(checked)}
-              >
-                <ContextMenu.CheckboxItemIndicator>
-                  <Icon icon={Check} size="sm" />
-                </ContextMenu.CheckboxItemIndicator>
-                Show revision history
-              </ContextMenu.CheckboxItem>
+                <ContextMenu.GroupLabel>View options</ContextMenu.GroupLabel>
+                <ContextMenu.CheckboxItem
+                  closeOnClick={false}
+                  checked={showGrid}
+                  onCheckedChange={(checked) => {
+                    onCheckedChange(checked);
+                    setShowGrid(checked);
+                  }}
+                >
+                  <ContextMenu.CheckboxItemIndicator>
+                    <Icon icon={Check} size="sm" />
+                  </ContextMenu.CheckboxItemIndicator>
+                  Show grid
+                </ContextMenu.CheckboxItem>
+                <ContextMenu.CheckboxItem
+                  closeOnClick={false}
+                  checked={showComments}
+                  onCheckedChange={(checked) => setShowComments(checked)}
+                >
+                  <ContextMenu.CheckboxItemIndicator>
+                    <Icon icon={Check} size="sm" />
+                  </ContextMenu.CheckboxItemIndicator>
+                  Show comments
+                </ContextMenu.CheckboxItem>
+                <ContextMenu.CheckboxItem
+                  closeOnClick={false}
+                  checked={showRevisions}
+                  onCheckedChange={(checked) => setShowRevisions(checked)}
+                >
+                  <ContextMenu.CheckboxItemIndicator>
+                    <Icon icon={Check} size="sm" />
+                  </ContextMenu.CheckboxItemIndicator>
+                  Show revision history
+                </ContextMenu.CheckboxItem>
               </ContextMenu.Group>
             </ContextMenu.Popup>
           </ContextMenu.Positioner>
@@ -434,33 +434,33 @@ export const WithRadioItems: MenuSpyStory = {
           <ContextMenu.Positioner>
             <ContextMenu.Popup>
               <ContextMenu.Group>
-              <ContextMenu.GroupLabel>Layout</ContextMenu.GroupLabel>
-              <ContextMenu.RadioGroup
-                value={layout}
-                onValueChange={(v: string) => {
-                  onValueChange(v);
-                  setLayout(v);
-                }}
-              >
-                <ContextMenu.RadioItem value="list">
-                  <ContextMenu.RadioItemIndicator>
-                    <Icon icon={Check} size="sm" />
-                  </ContextMenu.RadioItemIndicator>
-                  List
-                </ContextMenu.RadioItem>
-                <ContextMenu.RadioItem value="grid">
-                  <ContextMenu.RadioItemIndicator>
-                    <Icon icon={Check} size="sm" />
-                  </ContextMenu.RadioItemIndicator>
-                  Grid
-                </ContextMenu.RadioItem>
-                <ContextMenu.RadioItem value="compact">
-                  <ContextMenu.RadioItemIndicator>
-                    <Icon icon={Check} size="sm" />
-                  </ContextMenu.RadioItemIndicator>
-                  Compact
-                </ContextMenu.RadioItem>
-              </ContextMenu.RadioGroup>
+                <ContextMenu.GroupLabel>Layout</ContextMenu.GroupLabel>
+                <ContextMenu.RadioGroup
+                  value={layout}
+                  onValueChange={(v: string) => {
+                    onValueChange(v);
+                    setLayout(v);
+                  }}
+                >
+                  <ContextMenu.RadioItem value="list">
+                    <ContextMenu.RadioItemIndicator>
+                      <Icon icon={Check} size="sm" />
+                    </ContextMenu.RadioItemIndicator>
+                    List
+                  </ContextMenu.RadioItem>
+                  <ContextMenu.RadioItem value="grid">
+                    <ContextMenu.RadioItemIndicator>
+                      <Icon icon={Check} size="sm" />
+                    </ContextMenu.RadioItemIndicator>
+                    Grid
+                  </ContextMenu.RadioItem>
+                  <ContextMenu.RadioItem value="compact">
+                    <ContextMenu.RadioItemIndicator>
+                      <Icon icon={Check} size="sm" />
+                    </ContextMenu.RadioItemIndicator>
+                    Compact
+                  </ContextMenu.RadioItem>
+                </ContextMenu.RadioGroup>
               </ContextMenu.Group>
             </ContextMenu.Popup>
           </ContextMenu.Positioner>

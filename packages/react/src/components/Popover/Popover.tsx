@@ -43,15 +43,16 @@ function Root(props: PopoverRootProps) {
 }
 
 // ---- Trigger ----
-const Trigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>(
-  function Trigger({ className, children, ...props }, ref) {
-    return (
-      <BasePopover.Trigger ref={ref} className={cn(styles.trigger, className)} {...props}>
-        {children}
-      </BasePopover.Trigger>
-    );
-  },
-);
+const Trigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>(function Trigger(
+  { className, children, ...props },
+  ref,
+) {
+  return (
+    <BasePopover.Trigger ref={ref} className={cn(styles.trigger, className)} {...props}>
+      {children}
+    </BasePopover.Trigger>
+  );
+});
 Trigger.displayName = 'Popover.Trigger';
 
 // ---- Portal ----
@@ -60,10 +61,10 @@ function Portal(props: PopoverPortalProps) {
 }
 
 // ---- Positioner ----
-const Positioner = forwardRef<
-  HTMLDivElement,
-  PopoverPositionerProps
->(function Positioner({ className, children, ...props }, ref) {
+const Positioner = forwardRef<HTMLDivElement, PopoverPositionerProps>(function Positioner(
+  { className, children, ...props },
+  ref,
+) {
   const scope = useScopeDataAttrs();
   return (
     <BasePopover.Positioner
@@ -79,54 +80,54 @@ const Positioner = forwardRef<
 Positioner.displayName = 'Popover.Positioner';
 
 // ---- Popup ----
-const Popup = forwardRef<HTMLDivElement, PopoverPopupProps>(
-  function Popup({ className, children, ...props }, ref) {
-    return (
-      <BasePopover.Popup ref={ref} className={cn(styles.popup, className)} {...props}>
-        {children}
-      </BasePopover.Popup>
-    );
-  },
-);
+const Popup = forwardRef<HTMLDivElement, PopoverPopupProps>(function Popup(
+  { className, children, ...props },
+  ref,
+) {
+  return (
+    <BasePopover.Popup ref={ref} className={cn(styles.popup, className)} {...props}>
+      {children}
+    </BasePopover.Popup>
+  );
+});
 Popup.displayName = 'Popover.Popup';
 
 // ---- Arrow ----
-const Arrow = forwardRef<HTMLDivElement, PopoverArrowProps>(
-  function Arrow({ className, ...props }, ref) {
-    return (
-      <BasePopover.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />
-    );
-  },
-);
+const Arrow = forwardRef<HTMLDivElement, PopoverArrowProps>(function Arrow(
+  { className, ...props },
+  ref,
+) {
+  return <BasePopover.Arrow ref={ref} className={cn(styles.arrow, className)} {...props} />;
+});
 Arrow.displayName = 'Popover.Arrow';
 
 // ---- Backdrop ----
-const Backdrop = forwardRef<HTMLDivElement, PopoverBackdropProps>(
-  function Backdrop({ className, ...props }, ref) {
-    return (
-      <BasePopover.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />
-    );
-  },
-);
+const Backdrop = forwardRef<HTMLDivElement, PopoverBackdropProps>(function Backdrop(
+  { className, ...props },
+  ref,
+) {
+  return <BasePopover.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />;
+});
 Backdrop.displayName = 'Popover.Backdrop';
 
 // ---- Title ----
-const Title = forwardRef<HTMLHeadingElement, PopoverTitleProps>(
-  function Title({ className, children, ...props }, ref) {
-    return (
-      <BasePopover.Title ref={ref} className={cn(styles.title, className)} {...props}>
-        {children}
-      </BasePopover.Title>
-    );
-  },
-);
+const Title = forwardRef<HTMLHeadingElement, PopoverTitleProps>(function Title(
+  { className, children, ...props },
+  ref,
+) {
+  return (
+    <BasePopover.Title ref={ref} className={cn(styles.title, className)} {...props}>
+      {children}
+    </BasePopover.Title>
+  );
+});
 Title.displayName = 'Popover.Title';
 
 // ---- Description ----
-const Description = forwardRef<
-  HTMLParagraphElement,
-  PopoverDescriptionProps
->(function Description({ className, children, ...props }, ref) {
+const Description = forwardRef<HTMLParagraphElement, PopoverDescriptionProps>(function Description(
+  { className, children, ...props },
+  ref,
+) {
   return (
     <BasePopover.Description ref={ref} className={cn(styles.description, className)} {...props}>
       {children}
@@ -136,20 +137,20 @@ const Description = forwardRef<
 Description.displayName = 'Popover.Description';
 
 // ---- Close ----
-const Close = forwardRef<HTMLButtonElement, PopoverCloseProps>(
-  function Close({ className, children, ...props }, ref) {
-    return (
-      <BasePopover.Close ref={ref} className={cn(styles.close, className)} {...props}>
-        {children}
-      </BasePopover.Close>
-    );
-  },
-);
+const Close = forwardRef<HTMLButtonElement, PopoverCloseProps>(function Close(
+  { className, children, ...props },
+  ref,
+) {
+  return (
+    <BasePopover.Close ref={ref} className={cn(styles.close, className)} {...props}>
+      {children}
+    </BasePopover.Close>
+  );
+});
 Close.displayName = 'Popover.Close';
 
 // ---- CloseButton (convenience: styled X icon button) ----
-export interface PopoverCloseButtonProps
-  extends PopoverCloseProps {
+export interface PopoverCloseButtonProps extends PopoverCloseProps {
   /** Accessible label. Defaults to "Close popover". */
   label?: string;
 }

@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Icon, File, Folder, FileText, FileCode, Image, Settings, Copy, FilePen, Trash2 } from '@eidra/icons';
+import {
+  Icon,
+  Folder,
+  FileText,
+  FileCode,
+  Image,
+  Settings,
+  Copy,
+  FilePen,
+  Trash2,
+} from '@eidra/icons';
 import { within, userEvent, fireEvent, screen, expect, waitFor } from 'storybook/test';
 import { TreeView } from './TreeView.js';
 import type { TreeNode } from './TreeView.js';
@@ -12,8 +22,7 @@ const meta = {
   title: 'Data Display/TreeView',
   component: TreeView,
   tags: ['autodocs'],
-  parameters: {
-  },
+  parameters: {},
   args: {
     'aria-label': 'Tree',
   },
@@ -246,7 +255,7 @@ export const RightClickMenu: Story = {
         code: [
           "// Each node's label is wrapped in a <ContextMenu> via withMenus().",
           'const items = withMenus(fileTree, setLastAction);',
-          '<TreeView aria-label="Project files" items={items} defaultExpandedIds={[\'src\', \'components\']} />',
+          "<TreeView aria-label=\"Project files\" items={items} defaultExpandedIds={['src', 'components']} />",
         ].join('\n'),
       },
     },
@@ -260,7 +269,11 @@ export const RightClickMenu: Story = {
           Right-click a node — last action:{' '}
           <strong style={{ color: 'var(--eidra-fg)' }}>{lastAction}</strong>
         </p>
-        <TreeView {...args} items={withMenus(fileTree, setLastAction)} defaultExpandedIds={['src', 'components']} />
+        <TreeView
+          {...args}
+          items={withMenus(fileTree, setLastAction)}
+          defaultExpandedIds={['src', 'components']}
+        />
       </div>
     );
   },
@@ -332,7 +345,7 @@ export const Checkboxes: Story = {
         code: [
           '// Each node label renders a <Checkbox.Root>; withCheckboxes() wires checked/indeterminate.',
           'const items = withCheckboxes(fileTree, checked, toggle);',
-          '<TreeView aria-label="Select files" items={items} defaultExpandedIds={[\'src\', \'components\']} />',
+          "<TreeView aria-label=\"Select files\" items={items} defaultExpandedIds={['src', 'components']} />",
         ].join('\n'),
       },
     },

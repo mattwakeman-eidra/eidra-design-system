@@ -7,7 +7,10 @@ import styles from './Statistic.module.css';
 export type StatisticTone = 'neutral' | 'success' | 'danger' | 'warning' | 'accent';
 export type StatisticSize = 'sm' | 'md' | 'lg';
 
-export interface StatisticProps extends Omit<ComponentPropsWithoutRef<'div'>, 'children' | 'title'> {
+export interface StatisticProps extends Omit<
+  ComponentPropsWithoutRef<'div'>,
+  'children' | 'title'
+> {
   /** Short label shown above the value (rendered uppercase). */
   label: ReactNode;
   /** The primary value — already formatted by the caller (e.g. a currency string). */
@@ -39,7 +42,19 @@ export interface StatisticProps extends Omit<ComponentPropsWithoutRef<'div'>, 'c
  * renders the `tone` it is given.
  */
 export const Statistic = forwardRef<HTMLDivElement, StatisticProps>(function Statistic(
-  { label, value, tone = 'neutral', size = 'md', caption, delta, progress, progressTone = 'accent', accent = false, className, ...props },
+  {
+    label,
+    value,
+    tone = 'neutral',
+    size = 'md',
+    caption,
+    delta,
+    progress,
+    progressTone = 'accent',
+    accent = false,
+    className,
+    ...props
+  },
   ref,
 ) {
   const labelId = useId();

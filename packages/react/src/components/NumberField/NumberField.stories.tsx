@@ -16,8 +16,7 @@ const meta = {
     'NumberField.ScrubAreaCursor': NumberField.ScrubAreaCursor,
   },
   tags: ['autodocs'],
-  parameters: {
-  },
+  parameters: {},
   args: {
     defaultValue: 0,
     step: 1,
@@ -36,7 +35,14 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-4)', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: 'var(--eidra-space-4)',
+          flexWrap: 'wrap',
+          alignItems: 'flex-start',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -134,9 +140,7 @@ export const Sizes: Story = {
 
 export const WithMinMax: Story = {
   name: 'With min/max constraints',
-  render: () => (
-    <DefaultField min={0} max={10} defaultValue={9} step={1} />
-  ),
+  render: () => <DefaultField min={0} max={10} defaultValue={9} step={1} />,
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');
@@ -322,20 +326,12 @@ export const CurrencyFormat: Story = {
 export const PercentageFormat: Story = {
   name: 'Percentage format',
   render: () => (
-    <DefaultField
-      min={0}
-      max={1}
-      step={0.05}
-      defaultValue={0.25}
-      format={{ style: 'percent' }}
-    />
+    <DefaultField min={0} max={1} step={0.05} defaultValue={0.25} format={{ style: 'percent' }} />
   ),
 };
 
 export const Disabled: Story = {
-  render: () => (
-    <DefaultField disabled defaultValue={42} />
-  ),
+  render: () => <DefaultField disabled defaultValue={42} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');
@@ -349,9 +345,7 @@ export const Disabled: Story = {
 };
 
 export const ReadOnly: Story = {
-  render: () => (
-    <DefaultField readOnly defaultValue={99} />
-  ),
+  render: () => <DefaultField readOnly defaultValue={99} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');

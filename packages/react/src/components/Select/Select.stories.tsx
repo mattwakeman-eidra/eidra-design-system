@@ -189,7 +189,9 @@ export const WithDefaultValue: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', width: 240 }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', width: 240 }}
+    >
       <Select.Root>
         <Select.Trigger size="sm" />
         <Select.Portal>
@@ -287,9 +289,13 @@ export const WithDisabledItems: Story = {
               <Select.List>
                 <Select.Item value="junior">Junior Consultant</Select.Item>
                 <Select.Item value="senior">Senior Consultant</Select.Item>
-                <Select.Item value="lead" disabled>Lead Consultant (unavailable)</Select.Item>
+                <Select.Item value="lead" disabled>
+                  Lead Consultant (unavailable)
+                </Select.Item>
                 <Select.Item value="principal">Principal Consultant</Select.Item>
-                <Select.Item value="partner" disabled>Partner (unavailable)</Select.Item>
+                <Select.Item value="partner" disabled>
+                  Partner (unavailable)
+                </Select.Item>
               </Select.List>
             </Select.Popup>
           </Select.Positioner>

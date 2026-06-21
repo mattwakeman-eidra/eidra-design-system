@@ -58,10 +58,9 @@ export const Flag = forwardRef<HTMLSpanElement, FlagProps>(function Flag(
 ) {
   const FlagSvgCmp = FLAGS[code?.toUpperCase()];
   if (!FlagSvgCmp) return null;
-  const height = typeof size === 'number' ? size : size in SIZE_VAR ? SIZE_VAR[size as FlagSize] : size;
-  const a11y = label
-    ? { role: 'img' as const, 'aria-label': label }
-    : { 'aria-hidden': true };
+  const height =
+    typeof size === 'number' ? size : size in SIZE_VAR ? SIZE_VAR[size as FlagSize] : size;
+  const a11y = label ? { role: 'img' as const, 'aria-label': label } : { 'aria-hidden': true };
   return (
     <span
       ref={ref}
@@ -81,7 +80,11 @@ export const Flag = forwardRef<HTMLSpanElement, FlagProps>(function Flag(
       {...a11y}
       {...props}
     >
-      <FlagSvgCmp style={{ display: 'block', width: '100%', height: '100%' }} aria-hidden focusable={false} />
+      <FlagSvgCmp
+        style={{ display: 'block', width: '100%', height: '100%' }}
+        aria-hidden
+        focusable={false}
+      />
     </span>
   );
 });

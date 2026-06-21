@@ -13,15 +13,19 @@
 .root[data-tone='positive'] {
   --_dot: var(--eidra-finance-positive);
 }
+
 .root[data-tone='caution'] {
   --_dot: var(--eidra-finance-caution);
 }
+
 .root[data-tone='negative'] {
   --_dot: var(--eidra-finance-negative);
 }
+
 .root[data-tone='info'] {
   --_dot: var(--eidra-info);
 }
+
 .root[data-tone='neutral'] {
   --_dot: var(--eidra-fg-subtle);
 }
@@ -42,9 +46,11 @@
   0% {
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--_dot) 60%, transparent);
   }
+
   70% {
     box-shadow: 0 0 0 0.35rem transparent;
   }
+
   100% {
     box-shadow: 0 0 0 0 transparent;
   }

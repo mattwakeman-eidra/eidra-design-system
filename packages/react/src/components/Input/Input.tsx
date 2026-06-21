@@ -6,7 +6,10 @@ import styles from './Input.module.css';
 
 export type InputSize = 'sm' | 'md' | 'lg';
 
-export interface InputProps extends Omit<ComponentPropsWithoutRef<typeof BaseInput>, 'size' | 'className'> {
+export interface InputProps extends Omit<
+  ComponentPropsWithoutRef<typeof BaseInput>,
+  'size' | 'className'
+> {
   /** Control size. Defaults to `md`. */
   size?: InputSize;
   /** Content rendered inside the field, before the input (e.g. an icon). */

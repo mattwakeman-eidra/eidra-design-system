@@ -60,8 +60,7 @@ const PALETTE = [
   'var(--eidra-finance-comparison)',
 ];
 
-const labelText = (seg: BarSegment): string =>
-  typeof seg.label === 'string' ? seg.label : '';
+const labelText = (seg: BarSegment): string => (typeof seg.label === 'string' ? seg.label : '');
 
 /**
  * A thin horizontal bar split into proportional, tinted segments — for showing a
@@ -71,7 +70,17 @@ const labelText = (seg: BarSegment): string =>
  * single scalar measurement use `Meter` / `Progress` instead.
  */
 export const SegmentBar = forwardRef<HTMLDivElement, SegmentBarProps>(function SegmentBar(
-  { segments, total, markers, showLabels = false, showLegend = false, size = 'md', className, 'aria-label': ariaLabel, ...props },
+  {
+    segments,
+    total,
+    markers,
+    showLabels = false,
+    showLegend = false,
+    size = 'md',
+    className,
+    'aria-label': ariaLabel,
+    ...props
+  },
   ref,
 ) {
   const sum = total ?? segments.reduce((acc, s) => acc + s.value, 0);
@@ -79,12 +88,13 @@ export const SegmentBar = forwardRef<HTMLDivElement, SegmentBarProps>(function S
   const fmtPct = (v: number) => `${Math.round(pct(v))}%`;
   const colorOf = (seg: BarSegment, i: number) => seg.color ?? PALETTE[i % PALETTE.length];
 
-  const segmentSummary = segments.map((s) => `${labelText(s) || 'Segment'} ${fmtPct(s.value)}`).join(', ');
+  const segmentSummary = segments
+    .map((s) => `${labelText(s) || 'Segment'} ${fmtPct(s.value)}`)
+    .join(', ');
   const markerSummary = (markers ?? [])
     .map((m) => `${m.label ?? 'Marker'} at ${fmtPct(m.value)}`)
     .join(', ');
-  const summary =
-    ariaLabel ?? [segmentSummary, markerSummary].filter(Boolean).join('; ');
+  const summary = ariaLabel ?? [segmentSummary, markerSummary].filter(Boolean).join('; ');
 
   return (
     <div ref={ref} className={cn(styles.root, className)} data-size={size} {...props}>
@@ -122,7 +132,11 @@ export const SegmentBar = forwardRef<HTMLDivElement, SegmentBarProps>(function S
         <ul className={styles.legend}>
           {segments.map((seg, i) => (
             <li key={i} className={styles.legendItem}>
-              <span className={styles.swatch} style={{ backgroundColor: colorOf(seg, i) }} aria-hidden="true" />
+              <span
+                className={styles.swatch}
+                style={{ backgroundColor: colorOf(seg, i) }}
+                aria-hidden="true"
+              />
               <span className={styles.legendLabel}>{seg.label}</span>
               <span className={styles.legendPct}>{fmtPct(seg.value)}</span>
             </li>

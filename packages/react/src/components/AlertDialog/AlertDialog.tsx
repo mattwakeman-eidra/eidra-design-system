@@ -16,8 +16,9 @@ export const AlertDialogRoot = BaseAlertDialog.Root;
 
 // ── Trigger ───────────────────────────────────────────────────────────────────
 
-export interface AlertDialogTriggerProps
-  extends ComponentPropsWithoutRef<typeof BaseAlertDialog.Trigger> {
+export interface AlertDialogTriggerProps extends ComponentPropsWithoutRef<
+  typeof BaseAlertDialog.Trigger
+> {
   className?: string;
 }
 
@@ -27,11 +28,7 @@ export interface AlertDialogTriggerProps
 export const AlertDialogTrigger = forwardRef<HTMLButtonElement, AlertDialogTriggerProps>(
   function AlertDialogTrigger({ className, ...props }, ref) {
     return (
-      <BaseAlertDialog.Trigger
-        ref={ref}
-        className={cn(styles.trigger, className)}
-        {...props}
-      />
+      <BaseAlertDialog.Trigger ref={ref} className={cn(styles.trigger, className)} {...props} />
     );
   },
 );
@@ -39,8 +36,9 @@ AlertDialogTrigger.displayName = 'AlertDialog.Trigger';
 
 // ── Backdrop ──────────────────────────────────────────────────────────────────
 
-export interface AlertDialogBackdropProps
-  extends ComponentPropsWithoutRef<typeof BaseAlertDialog.Backdrop> {
+export interface AlertDialogBackdropProps extends ComponentPropsWithoutRef<
+  typeof BaseAlertDialog.Backdrop
+> {
   className?: string;
 }
 
@@ -50,11 +48,7 @@ export interface AlertDialogBackdropProps
 export const AlertDialogBackdrop = forwardRef<HTMLDivElement, AlertDialogBackdropProps>(
   function AlertDialogBackdrop({ className, ...props }, ref) {
     return (
-      <BaseAlertDialog.Backdrop
-        ref={ref}
-        className={cn(styles.backdrop, className)}
-        {...props}
-      />
+      <BaseAlertDialog.Backdrop ref={ref} className={cn(styles.backdrop, className)} {...props} />
     );
   },
 );
@@ -62,8 +56,9 @@ AlertDialogBackdrop.displayName = 'AlertDialog.Backdrop';
 
 // ── Popup ─────────────────────────────────────────────────────────────────────
 
-export interface AlertDialogPopupProps
-  extends ComponentPropsWithoutRef<typeof BaseAlertDialog.Popup> {
+export interface AlertDialogPopupProps extends ComponentPropsWithoutRef<
+  typeof BaseAlertDialog.Popup
+> {
   className?: string;
 }
 
@@ -87,8 +82,9 @@ AlertDialogPopup.displayName = 'AlertDialog.Popup';
 
 // ── Title ─────────────────────────────────────────────────────────────────────
 
-export interface AlertDialogTitleProps
-  extends ComponentPropsWithoutRef<typeof BaseAlertDialog.Title> {
+export interface AlertDialogTitleProps extends ComponentPropsWithoutRef<
+  typeof BaseAlertDialog.Title
+> {
   className?: string;
 }
 
@@ -97,21 +93,16 @@ export interface AlertDialogTitleProps
  */
 export const AlertDialogTitle = forwardRef<HTMLHeadingElement, AlertDialogTitleProps>(
   function AlertDialogTitle({ className, ...props }, ref) {
-    return (
-      <BaseAlertDialog.Title
-        ref={ref}
-        className={cn(styles.title, className)}
-        {...props}
-      />
-    );
+    return <BaseAlertDialog.Title ref={ref} className={cn(styles.title, className)} {...props} />;
   },
 );
 AlertDialogTitle.displayName = 'AlertDialog.Title';
 
 // ── Description ───────────────────────────────────────────────────────────────
 
-export interface AlertDialogDescriptionProps
-  extends ComponentPropsWithoutRef<typeof BaseAlertDialog.Description> {
+export interface AlertDialogDescriptionProps extends ComponentPropsWithoutRef<
+  typeof BaseAlertDialog.Description
+> {
   className?: string;
 }
 
@@ -133,8 +124,9 @@ AlertDialogDescription.displayName = 'AlertDialog.Description';
 
 // ── Close ─────────────────────────────────────────────────────────────────────
 
-export interface AlertDialogCloseProps
-  extends ComponentPropsWithoutRef<typeof BaseAlertDialog.Close> {
+export interface AlertDialogCloseProps extends ComponentPropsWithoutRef<
+  typeof BaseAlertDialog.Close
+> {
   className?: string;
 }
 
@@ -143,13 +135,7 @@ export interface AlertDialogCloseProps
  */
 export const AlertDialogClose = forwardRef<HTMLButtonElement, AlertDialogCloseProps>(
   function AlertDialogClose({ className, ...props }, ref) {
-    return (
-      <BaseAlertDialog.Close
-        ref={ref}
-        className={cn(styles.close, className)}
-        {...props}
-      />
-    );
+    return <BaseAlertDialog.Close ref={ref} className={cn(styles.close, className)} {...props} />;
   },
 );
 AlertDialogClose.displayName = 'AlertDialog.Close';

@@ -31,6 +31,7 @@
 .input[data-invalid] {
   border-color: var(--eidra-danger-border);
 }
+
 .input[data-invalid]:focus-visible {
   border-color: var(--eidra-danger);
   box-shadow: 0 0 0 3px var(--eidra-danger-subtle);
@@ -46,6 +47,7 @@
   height: var(--eidra-size-control-sm);
   font-size: var(--eidra-font-size-xs);
 }
+
 .input[data-size='lg'] {
   height: var(--eidra-size-control-lg);
   font-size: var(--eidra-font-size-base);
@@ -65,13 +67,16 @@
   background-color: var(--eidra-surface);
   color: var(--eidra-fg-muted);
 }
+
 .group[data-size='sm'] {
   height: var(--eidra-size-control-sm);
 }
+
 .group[data-size='lg'] {
   height: var(--eidra-size-control-lg);
   padding-inline: var(--eidra-space-4);
 }
+
 .group:focus-within {
   border-color: var(--eidra-accent);
   box-shadow: 0 0 0 3px var(--eidra-accent-subtle);
@@ -86,6 +91,7 @@
   background: transparent;
   color: var(--eidra-fg);
 }
+
 .group .input[data-grouped]:focus-visible {
   outline: none;
   box-shadow: none;

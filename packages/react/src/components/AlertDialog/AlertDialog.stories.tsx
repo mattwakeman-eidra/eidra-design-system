@@ -192,7 +192,9 @@ export const DestructiveWarning: Story = {
             }}
           >
             <Icon icon={AlertTriangle} size="md" />
-            <AlertDialog.Title style={{ color: 'inherit' }}>Archive "Fjord Portal"?</AlertDialog.Title>
+            <AlertDialog.Title style={{ color: 'inherit' }}>
+              Archive "Fjord Portal"?
+            </AlertDialog.Title>
           </div>
           <AlertDialog.Description>
             Archiving will hide this project from the active dashboard. Team members will lose
@@ -223,9 +225,23 @@ export const Controlled: Story = {
     const [open, setOpen] = useState(false);
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--eidra-space-4)' }}>
-        <p style={{ fontFamily: 'var(--eidra-font-family-sans)', fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>
-          Dialog is: <strong style={{ color: 'var(--eidra-fg)' }}>{open ? 'open' : 'closed'}</strong>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 'var(--eidra-space-4)',
+        }}
+      >
+        <p
+          style={{
+            fontFamily: 'var(--eidra-font-family-sans)',
+            fontSize: 'var(--eidra-font-size-sm)',
+            color: 'var(--eidra-fg-muted)',
+          }}
+        >
+          Dialog is:{' '}
+          <strong style={{ color: 'var(--eidra-fg)' }}>{open ? 'open' : 'closed'}</strong>
         </p>
         <AlertDialog.Root open={open} onOpenChange={(next) => setOpen(next)}>
           <AlertDialog.Trigger>Open controlled dialog</AlertDialog.Trigger>
@@ -235,9 +251,23 @@ export const Controlled: Story = {
               <AlertDialog.Title>Controlled alert dialog</AlertDialog.Title>
               <AlertDialog.Description>
                 This dialog is controlled externally via the{' '}
-                <code style={{ fontFamily: 'var(--eidra-font-family-mono)', fontSize: 'var(--eidra-font-size-xs)' }}>open</code>{' '}
+                <code
+                  style={{
+                    fontFamily: 'var(--eidra-font-family-mono)',
+                    fontSize: 'var(--eidra-font-size-xs)',
+                  }}
+                >
+                  open
+                </code>{' '}
                 and{' '}
-                <code style={{ fontFamily: 'var(--eidra-font-family-mono)', fontSize: 'var(--eidra-font-size-xs)' }}>onOpenChange</code>{' '}
+                <code
+                  style={{
+                    fontFamily: 'var(--eidra-font-family-mono)',
+                    fontSize: 'var(--eidra-font-size-xs)',
+                  }}
+                >
+                  onOpenChange
+                </code>{' '}
                 props.
               </AlertDialog.Description>
               <ActionRow>
