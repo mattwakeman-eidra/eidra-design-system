@@ -5,3 +5,4 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - country-flag-icons@1.6.18
   - style-dictionary@5.5.0
+  - lint-staged@17.0.8
