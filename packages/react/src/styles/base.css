@@ -5,9 +5,24 @@
  */
 @import '@eidra/tokens/css';
 
-*,
-*::before,
-*::after {
+/*
+ * Box-sizing reset, scoped to the Eidra subtree only. Component CSS Modules assume
+ * border-box, so we apply it — but NOT globally: a bare `*` selector would force
+ * border-box onto every element in the host app and can conflict with the
+ * consumer's own layout (flagged in adoption review). Two scopes cover it:
+ *  1. `.eidra-root` and its descendants — the in-page component tree.
+ *  2. `[data-eidra-scope]` — portaled popups (menus, dialogs, tooltips) render
+ *     outside `.eidra-root`; ThemeProvider stamps this marker on their positioner
+ *     via `useScopeDataAttrs`, so the reset reaches them too.
+ */
+.eidra-root,
+.eidra-root *,
+.eidra-root *::before,
+.eidra-root *::after,
+[data-eidra-scope],
+[data-eidra-scope] *,
+[data-eidra-scope] *::before,
+[data-eidra-scope] *::after {
   box-sizing: border-box;
 }
 
