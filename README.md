@@ -59,11 +59,10 @@ All docs live in `docs/` and are browsable on GitHub. The consumer onboarding do
 
 - [Story taxonomy](./docs/STORYBOOK.md): how stories are titled and categorised.
 - [Releasing](./docs/RELEASING.md): the Changesets to GitHub Release runbook.
-- [Figma mirror](./docs/FIGMA.md): the code-to-Figma mirror setup and maintenance.
 
 **Architecture decisions** ([`docs/adr/`](./docs/adr))
 
-0001 Architecture & stack, 0002 Product-first foundation, 0003 Versioned tarballs, 0004 GitHub Releases, 0005 Vite build, 0006 GitHub Packages flow, 0007 Figma mirror, 0008 CSS cascade layer, 0009 Opinionated but overridable.
+0001 Architecture & stack, 0002 Product-first foundation, 0003 Versioned tarballs, 0004 GitHub Releases, 0005 Vite build, 0006 GitHub Packages flow, 0008 CSS cascade layer, 0009 Opinionated but overridable.
 
 ## Design decisions
 
