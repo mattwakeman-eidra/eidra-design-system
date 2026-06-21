@@ -8,7 +8,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
  * feel interchangeable. Pick by what you're expressing, not by what looks closest.
  */
 const meta = {
-  title: 'Foundations/Choosing Components',
+  title: 'Docs/Choosing Components',
   parameters: { layout: 'padded', controls: { disable: true } },
 } satisfies Meta;
 

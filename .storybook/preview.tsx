@@ -73,7 +73,7 @@ const preview: Preview = {
         order: [
           'Introduction',
           'Docs',
-          ['Consuming', 'Glossary'],
+          ['Consuming', 'Choosing Components', 'Glossary'],
           'Foundations',
           'Actions',
           'Forms',
