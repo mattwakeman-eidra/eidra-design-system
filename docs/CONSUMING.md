@@ -106,7 +106,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 ```
 
-- `@eidra/react/styles.css` is the single global stylesheet (must be imported in a layout in the App Router).
+- `@eidra/react/styles.css` is the single global stylesheet (must be imported in a layout in the App Router). It ships inside a cascade layer, **`@layer eidra`**, so your own styles win: unlayered CSS and Tailwind utilities override DS rules via `className` — no inline `style` needed. Import it **before** Tailwind's utilities (see §5) so the `eidra` layer registers first (lower priority). See ADR-0008.
 - `class="eidra-root"` + `data-theme` establishes the theme scope; switch to `data-theme="dark"` for dark mode.
 - The inline `--eidra-font-family-sans` override makes every component use frankly's already-optimized `next/font` Eidra Sans.
 
@@ -126,10 +126,12 @@ Tailwind v4 configures the theme in CSS, not a `tailwind.config.js`. Import the 
 
 ```css
 /* your globals.css */
-@import '@eidra/react/styles.css';   /* defines the --eidra-* variables + component styles */
-@import 'tailwindcss';
+@import '@eidra/react/styles.css';   /* @layer eidra: --eidra-* variables + component styles */
+@import 'tailwindcss';               /* utilities land in @layer utilities (after eidra) */
 @import '@eidra/react/tailwind.css';  /* maps the tokens onto Tailwind's v4 @theme */
 ```
+
+**Order matters:** keep `@eidra/react/styles.css` first. It declares `@layer eidra`, so importing it before `tailwindcss` registers `eidra` *below* Tailwind's `utilities` layer — that's what lets a utility like `w-24` or `border-0` override a DS rule on a component (e.g. `<Select.Trigger className="w-24" />`). Your own unlayered CSS beats both.
 
 `@eidra/react/tailwind.css` (identical to `@eidra/tokens/tailwind.css`) is **generated from the tokens**, so it never drifts. It maps each token onto Tailwind v4's theme namespaces — `--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--font-weight-*`, `--leading-*`, `--tracking-*`, `--ease-*` — inside `@theme inline`, so utilities resolve to the live `var(--eidra-*)` value.
 
