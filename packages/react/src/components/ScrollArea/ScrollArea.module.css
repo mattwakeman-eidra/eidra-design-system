@@ -94,6 +94,11 @@
   inset: -4px;
 }
 
+/* Emphasise the thumb while actively scrolling (Base UI 1.6 thumb hook). */
+.thumb[data-scrolling] {
+  background-color: var(--eidra-fg-muted);
+}
+
 .thumb:hover {
   background-color: var(--eidra-fg-muted);
 }
