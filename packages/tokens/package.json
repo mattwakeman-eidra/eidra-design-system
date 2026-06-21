@@ -14,6 +14,7 @@
     "./css": "./dist/eidra-tokens.css",
     "./tailwind": "./dist/tailwind-preset.cjs",
     "./tailwind.css": "./dist/tailwind.css",
+    "./tailwind-reset.css": "./dist/tailwind-reset.css",
     "./fonts.css": "./dist/fonts.css",
     "./fonts/*": "./dist/fonts/*"
   },
