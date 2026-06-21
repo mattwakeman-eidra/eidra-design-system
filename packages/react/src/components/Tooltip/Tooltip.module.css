@@ -27,7 +27,7 @@
 .popup {
   position: relative;
   z-index: var(--eidra-z-tooltip);
-  max-width: min(calc(100vw - var(--eidra-space-8)), 280px);
+  max-width: min(calc(100vw - var(--eidra-space-8)), var(--eidra-size-container-xs));
   padding: var(--eidra-space-1-5) var(--eidra-space-3);
   background-color: var(--eidra-bg-inverse);
   color: var(--eidra-fg-on-inverse);

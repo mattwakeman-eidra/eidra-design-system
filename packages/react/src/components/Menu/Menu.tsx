@@ -3,6 +3,7 @@ import type { ComponentPropsWithoutRef, Ref } from 'react';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { cn } from '../../utils/cn.js';
 import { useScopeDataAttrs } from '../../utils/scope.js';
+import type { OverlayWidth } from '../../utils/overlayWidth.js';
 import styles from './Menu.module.css';
 
 // ─── Root ──────────────────────────────────────────────────────────────────
@@ -58,16 +59,24 @@ const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>(function 
 
 export interface MenuPopupProps extends ComponentPropsWithoutRef<typeof BaseMenu.Popup> {
   className?: string;
+  /**
+   * How the popup decides its width. `content` (default) hugs content from a
+   * readable floor, capped at the viewport; `anchor` additionally makes it at
+   * least as wide as the trigger; `fill` matches the trigger width exactly. See
+   * the overlay width policy in `base.css`.
+   */
+  width?: OverlayWidth;
 }
 
 const MenuPopup = forwardRef<HTMLDivElement, MenuPopupProps>(function MenuPopup(
-  { className, ...props },
+  { className, width = 'content', ...props },
   ref,
 ) {
   return (
     <BaseMenu.Popup
       ref={ref as Ref<HTMLDivElement>}
       className={cn(styles.popup, className)}
+      data-eidra-width={width}
       {...props}
     />
   );

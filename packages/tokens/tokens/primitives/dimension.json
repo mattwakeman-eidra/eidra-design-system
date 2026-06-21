@@ -43,6 +43,8 @@
       "lg": { "$type": "dimension", "$value": "1.5rem" }
     },
     "container": {
+      "2xs": { "$type": "dimension", "$value": "11.25rem" },
+      "xs": { "$type": "dimension", "$value": "20rem" },
       "sm": { "$type": "dimension", "$value": "40rem" },
       "md": { "$type": "dimension", "$value": "48rem" },
       "lg": { "$type": "dimension", "$value": "64rem" },

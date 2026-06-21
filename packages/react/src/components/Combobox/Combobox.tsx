@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox';
 import { cn } from '../../utils/cn.js';
 import { useScopeDataAttrs } from '../../utils/scope.js';
+import type { OverlayWidth } from '../../utils/overlayWidth.js';
 import styles from './Combobox.module.css';
 
 // ---- Root ----
@@ -141,14 +142,22 @@ const ComboboxPositioner = forwardRef<HTMLDivElement, ComboboxPositionerProps>(
 export interface ComboboxPopupProps
   extends React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> {
   className?: string;
+  /**
+   * How the popup decides its width. `anchor` (default) makes it at least as wide
+   * as the trigger, then hugs content, capped at the viewport; `content` hugs
+   * content with no trigger floor; `fill` matches the trigger width exactly. See
+   * the overlay width policy in `base.css`.
+   */
+  width?: OverlayWidth;
 }
 
 const ComboboxPopup = forwardRef<HTMLDivElement, ComboboxPopupProps>(
-  function ComboboxPopup({ className, ...props }, ref) {
+  function ComboboxPopup({ className, width = 'anchor', ...props }, ref) {
     return (
       <BaseCombobox.Popup
         ref={ref}
         className={cn(styles.popup, className)}
+        data-eidra-width={width}
         {...props}
       />
     );

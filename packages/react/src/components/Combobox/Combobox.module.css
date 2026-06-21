@@ -126,7 +126,8 @@
 /* ---- Popup ---- */
 
 .popup {
-  min-width: var(--available-width, 200px);
+  /* Width comes from the shared overlay policy (`data-eidra-width`, default
+   * `anchor`) in base.css — see utils/overlayWidth.ts. */
   max-height: 320px;
   overflow: hidden;
   background-color: var(--eidra-surface);

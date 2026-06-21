@@ -114,6 +114,7 @@ import { Icon, ChevronDown } from '@eidra/icons'
 - Style with token CSS variables (e.g. \`var(--eidra-space-4)\`), not raw values.
 - **Exact prop types for every component are in \`node_modules/@eidra/react/dist/index.d.ts\`.** This catalog is the index; the \`.d.ts\` is the source of truth for props.
 - Compound components are namespaces: render the listed parts (e.g. \`<Dialog.Root><Dialog.Trigger/>…</Dialog.Root>\`).
+- Anchored popups (Select, Combobox, Autocomplete, Menu, ContextMenu, Menubar, FilterSelect) size via a \`width\` prop — \`"anchor"\` (≥ trigger width, then hug content, capped at the viewport), \`"content"\` (hug content), or \`"fill"\` (= trigger width). Sensible defaults; no inline width overrides needed.
 - \`@eidra/react\` is a client boundary (\`"use client"\` baked in) — safe to import from React Server Components.
 `;
 

@@ -3,6 +3,7 @@ import { Menubar as BaseMenubar } from '@base-ui/react/menubar';
 import { Menu } from '@base-ui/react/menu';
 import { cn } from '../../utils/cn.js';
 import { useScopeDataAttrs } from '../../utils/scope.js';
+import type { OverlayWidth } from '../../utils/overlayWidth.js';
 import styles from './Menubar.module.css';
 
 // ─── Re-export Base UI types ─────────────────────────────────────────────────
@@ -47,11 +48,28 @@ const Positioner = forwardRef<HTMLDivElement, Menu.Positioner.Props>(function Po
 
 // ─── Popup ────────────────────────────────────────────────────────────────────
 
-const Popup = forwardRef<HTMLDivElement, Menu.Popup.Props>(function Popup(
-  { className, ...props },
+export interface MenubarPopupProps extends Menu.Popup.Props {
+  /**
+   * How the popup decides its width. `content` (default) hugs content from a
+   * readable floor, capped at the viewport; `anchor` additionally makes it at
+   * least as wide as the trigger; `fill` matches the trigger width exactly. See
+   * the overlay width policy in `base.css`.
+   */
+  width?: OverlayWidth;
+}
+
+const Popup = forwardRef<HTMLDivElement, MenubarPopupProps>(function Popup(
+  { className, width = 'content', ...props },
   ref,
 ) {
-  return <Menu.Popup ref={ref} className={cn(styles.popup, className)} {...props} />;
+  return (
+    <Menu.Popup
+      ref={ref}
+      className={cn(styles.popup, className)}
+      data-eidra-width={width}
+      {...props}
+    />
+  );
 });
 
 // ─── Item ─────────────────────────────────────────────────────────────────────

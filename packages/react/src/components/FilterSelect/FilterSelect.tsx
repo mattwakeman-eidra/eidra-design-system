@@ -5,6 +5,7 @@ import { ChevronDown, Search, Icon } from '@eidra/icons';
 import { cn } from '../../utils/cn.js';
 import { Checkbox } from '../Checkbox/Checkbox.js';
 import { Button } from '../Button/Button.js';
+import type { OverlayWidth } from '../../utils/overlayWidth.js';
 import styles from './FilterSelect.module.css';
 
 export interface FilterSelectOption {
@@ -44,6 +45,13 @@ export interface FilterSelectProps {
   searchPlaceholder?: string;
   /** Trigger size. Defaults to `md`. */
   size?: 'sm' | 'md';
+  /**
+   * How the popup decides its width. `content` (default) hugs content from a
+   * readable floor, capped at the viewport; `anchor` additionally makes it at
+   * least as wide as the trigger; `fill` matches the trigger width exactly. See
+   * the overlay width policy in `base.css`.
+   */
+  width?: OverlayWidth;
   /** Disable the whole control. */
   disabled?: boolean;
   /** Accessible name for the trigger (e.g. the filter's field name). */
@@ -75,6 +83,7 @@ export const FilterSelect = forwardRef<HTMLButtonElement, FilterSelectProps>(fun
     searchable = 8,
     searchPlaceholder = 'Search…',
     size = 'md',
+    width = 'content',
     disabled,
     'aria-label': ariaLabel,
     className,
@@ -133,7 +142,7 @@ export const FilterSelect = forwardRef<HTMLButtonElement, FilterSelectProps>(fun
 
       <BasePopover.Portal>
         <BasePopover.Positioner className={styles.positioner} sideOffset={6} align="start">
-          <BasePopover.Popup className={styles.popup}>
+          <BasePopover.Popup className={styles.popup} data-eidra-width={width}>
             {showSearch && (
               <div className={styles.search}>
                 <span className={styles.searchIcon} aria-hidden="true">

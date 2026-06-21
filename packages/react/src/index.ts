@@ -62,6 +62,9 @@ export * from './components/Typography/index.js';
 export { cn } from './utils/cn.js';
 export type { ClassValue } from './utils/cn.js';
 
+// Width policy shared by anchored overlay popups (Select, Combobox, Menu, …).
+export type { OverlayWidth } from './utils/overlayWidth.js';
+
 // Currency helpers (formatCompactCurrency is also re-exported via Chart).
 export { formatCurrency, formatCurrencyThousands } from './utils/currency.js';
 export type { CurrencyFormatOptions } from './utils/currency.js';

@@ -55,7 +55,9 @@
 /* ── Popup ───────────────────────────────────────────────────────────────── */
 
 .popup {
-  min-width: 180px;
+  /* Readable floor; width/cap come from the shared overlay policy
+   * (`data-eidra-width`, default `content`) in base.css. */
+  min-width: var(--eidra-size-container-2xs);
   padding: var(--eidra-space-1);
   border: 1px solid var(--eidra-border);
   border-radius: var(--eidra-radius-lg);
