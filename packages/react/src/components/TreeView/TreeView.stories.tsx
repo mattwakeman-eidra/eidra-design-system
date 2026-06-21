@@ -145,7 +145,7 @@ export const ControlledSelection: Story = {
   render: (args) => {
     const [selectedId, setSelectedId] = useState<string>('reports');
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Selected: <strong style={{ color: 'var(--eidra-fg)' }}>{selectedId}</strong>
         </p>
@@ -192,7 +192,7 @@ function NodeMenu({
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger
-        style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}
+        style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-1-5)' }}
       >
         {children}
       </ContextMenu.Trigger>
@@ -264,7 +264,7 @@ export const RightClickMenu: Story = {
   render: (args) => {
     const [lastAction, setLastAction] = useState('—');
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Right-click a node — last action:{' '}
           <strong style={{ color: 'var(--eidra-fg)' }}>{lastAction}</strong>
@@ -304,7 +304,7 @@ function withCheckboxes(
       id: n.id,
       disabled: n.disabled,
       label: (
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
           {/* Isolate the checkbox so its click doesn't also toggle the row's expand/select. */}
           <span
             style={{ display: 'inline-flex' }}
@@ -364,7 +364,7 @@ export const Checkboxes: Story = {
       });
     };
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Selected: <strong style={{ color: 'var(--eidra-fg)' }}>{checked.size}</strong> file(s)
         </p>

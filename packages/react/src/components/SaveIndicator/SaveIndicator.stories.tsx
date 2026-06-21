@@ -38,7 +38,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const Playground: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-3)' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-3)' }}>
       <SaveIndicator {...args} />
     </div>
   ),
@@ -50,7 +50,7 @@ export const HookDriven: Story = {
   render: () => {
     const [saved, markSaved] = useSaveIndicator();
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-3)' }}>
         <Button tone="accent" onClick={markSaved}>
           Save
         </Button>
@@ -65,7 +65,7 @@ export const IconOnly: Story = {
   render: () => {
     const [saved, markSaved] = useSaveIndicator();
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
         <Button variant="outline" size="sm" onClick={markSaved}>
           Save
         </Button>
@@ -81,7 +81,7 @@ export const InlineWithField: Story = {
     const [saved, markSaved] = useSaveIndicator();
     const [value, setValue] = useState('120,000');
     return (
-      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
         <span style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>
           Sold
         </span>
@@ -108,7 +108,7 @@ export const Confirms: Story = {
   render: () => {
     const [saved, markSaved] = useSaveIndicator();
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-3)' }}>
         <Button tone="accent" onClick={markSaved}>
           Save
         </Button>
@@ -143,7 +143,7 @@ export const IconOnlyAnnounced: Story = {
   render: () => {
     const [saved, markSaved] = useSaveIndicator();
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
         <Button variant="outline" size="sm" onClick={markSaved}>
           Save
         </Button>

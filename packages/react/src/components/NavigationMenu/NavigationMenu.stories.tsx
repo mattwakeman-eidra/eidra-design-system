@@ -44,7 +44,7 @@ function NavWrapper({ children }: { children: React.ReactNode }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 'var(--eidra-space-3) var(--eidra-space-6)',
+        padding: 'var(--eidra-gap-3) var(--eidra-gap-6)',
         borderBottom: '1px solid var(--eidra-border)',
         background: 'var(--eidra-surface)',
         minHeight: '64px',
@@ -75,22 +75,22 @@ function ContentGrid({ items }: ContentGridProps) {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: 'var(--eidra-space-2)',
+        gap: 'var(--eidra-gap-2)',
         minWidth: '420px',
-        padding: 'var(--eidra-space-2)',
+        padding: 'var(--eidra-gap-2)',
       }}
     >
       {items.map((item) => (
         <NavigationMenu.Link
           key={item.label}
           href="#"
-          style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 'var(--eidra-space-1)' }}
+          style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 'var(--eidra-gap-1)' }}
         >
           <span
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--eidra-space-2)',
+              gap: 'var(--eidra-gap-2)',
               fontWeight: 'var(--eidra-font-weight-semibold)',
             }}
           >
@@ -245,7 +245,7 @@ export const Playground: Story = {
 
 export const SingleDropdown: Story = {
   render: () => (
-    <div style={{ padding: 'var(--eidra-space-4)' }}>
+    <div style={{ padding: 'var(--eidra-gap-4)' }}>
       <NavigationMenu.Root>
         <NavigationMenu.List>
           <NavigationMenu.Item>
@@ -264,9 +264,9 @@ export const SingleDropdown: Story = {
                         style={{
                           display: 'flex',
                           flexDirection: 'column',
-                          gap: 'var(--eidra-space-1)',
+                          gap: 'var(--eidra-gap-1)',
                           minWidth: '200px',
-                          padding: 'var(--eidra-space-2)',
+                          padding: 'var(--eidra-gap-2)',
                         }}
                       >
                         <NavigationMenu.Link href="#">Nordic Consulting</NavigationMenu.Link>
@@ -324,9 +324,7 @@ export const Controlled: Story = {
   render: (args) => {
     const [value, setValue] = useState<string | null>(null);
     return (
-      <div
-        style={{ display: 'grid', gap: 'var(--eidra-space-3)', padding: 'var(--eidra-space-4)' }}
-      >
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)', padding: 'var(--eidra-gap-4)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Open item: <strong style={{ color: 'var(--eidra-fg)' }}>{value ?? 'none'}</strong>
         </p>
@@ -351,7 +349,7 @@ export const Controlled: Story = {
                     <NavigationMenu.Popup>
                       <NavigationMenu.Viewport>
                         <NavigationMenu.Content>
-                          <div style={{ padding: 'var(--eidra-space-2)', minWidth: '200px' }}>
+                          <div style={{ padding: 'var(--eidra-gap-2)', minWidth: '200px' }}>
                             <NavigationMenu.Link href="#">Strategy</NavigationMenu.Link>
                           </div>
                         </NavigationMenu.Content>
@@ -413,7 +411,7 @@ export const DefaultOpen: Story = {
                 <NavigationMenu.Popup>
                   <NavigationMenu.Viewport>
                     <NavigationMenu.Content>
-                      <div style={{ padding: 'var(--eidra-space-2)', minWidth: '200px' }}>
+                      <div style={{ padding: 'var(--eidra-gap-2)', minWidth: '200px' }}>
                         <NavigationMenu.Link href="#">Strategy</NavigationMenu.Link>
                       </div>
                     </NavigationMenu.Content>
@@ -511,7 +509,7 @@ export const Vertical: Story = {
     <div
       style={{
         width: '240px',
-        padding: 'var(--eidra-space-4)',
+        padding: 'var(--eidra-gap-4)',
         borderRight: '1px solid var(--eidra-border)',
         minHeight: '400px',
         background: 'var(--eidra-surface)',
@@ -519,7 +517,7 @@ export const Vertical: Story = {
     >
       <NavigationMenu.Root orientation="vertical">
         <NavigationMenu.List
-          style={{ flexDirection: 'column', alignItems: 'stretch', gap: 'var(--eidra-space-1)' }}
+          style={{ flexDirection: 'column', alignItems: 'stretch', gap: 'var(--eidra-gap-1)' }}
         >
           <NavigationMenu.Item>
             <NavigationMenu.Trigger style={{ width: '100%', justifyContent: 'space-between' }}>
@@ -537,9 +535,9 @@ export const Vertical: Story = {
                         style={{
                           display: 'flex',
                           flexDirection: 'column',
-                          gap: 'var(--eidra-space-1)',
+                          gap: 'var(--eidra-gap-1)',
                           minWidth: '180px',
-                          padding: 'var(--eidra-space-2)',
+                          padding: 'var(--eidra-gap-2)',
                         }}
                       >
                         <NavigationMenu.Link href="#">Strategy</NavigationMenu.Link>

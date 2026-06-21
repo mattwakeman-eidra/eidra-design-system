@@ -10,7 +10,7 @@ type Story = StoryObj;
 
 function Swatch({ name, varName }: { name: string; varName: string }) {
   return (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-1)' }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-1)' }}>
       <div
         style={{
           height: 64,
@@ -39,7 +39,7 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
     style={{
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-      gap: 'var(--eidra-space-4)',
+      gap: 'var(--eidra-gap-4)',
     }}
   >
     {children}

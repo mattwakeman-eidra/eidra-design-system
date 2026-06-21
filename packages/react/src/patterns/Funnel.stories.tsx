@@ -46,14 +46,14 @@ function Funnel({ steps }: { steps: Step[] }) {
       >
         Engagement funnel
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-3)' }}>
         {steps.map((step, i) => {
           const prev = i === 0 ? null : (steps[i - 1]?.value ?? null);
           const widthPct = (step.value / max) * 100;
           return (
             <div
               key={step.label}
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-3)' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-3)' }}
             >
               <div
                 style={{
@@ -83,7 +83,7 @@ function Funnel({ steps }: { steps: Step[] }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'flex-end',
-                    paddingInline: 'var(--eidra-space-3)',
+                    paddingInline: 'var(--eidra-gap-3)',
                     borderRadius: 'var(--eidra-radius-sm)',
                     backgroundColor: 'var(--eidra-accent)',
                     color: 'var(--eidra-accent-fg)',

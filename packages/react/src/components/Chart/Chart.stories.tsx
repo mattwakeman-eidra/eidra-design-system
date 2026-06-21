@@ -955,7 +955,7 @@ export const Donut: StoryObj<DonutArgs> = {
   },
   args: { innerRadius: 58, paddingAngle: 2, showLegend: true },
   render: ({ innerRadius, paddingAngle, showLegend }) => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-4)', maxWidth: 520 }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-4)', maxWidth: 520 }}>
       {/* Chart + centred total. The legend lives below (not inside the chart) so it
           no longer reserves space at the bottom and pushes the donut — and its
           centred total — off-centre. */}
@@ -1025,7 +1025,7 @@ export const Donut: StoryObj<DonutArgs> = {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: 'var(--eidra-space-3)',
+            gap: 'var(--eidra-gap-3)',
             justifyContent: 'center',
             font: 'var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
             color: 'var(--eidra-fg-muted)',
@@ -1037,7 +1037,7 @@ export const Donut: StoryObj<DonutArgs> = {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'var(--eidra-space-1-5)',
+                gap: 'var(--eidra-gap-1-5)',
               }}
             >
               <span
@@ -1472,7 +1472,7 @@ function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) 
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
-        padding: 'var(--eidra-space-4)',
+        padding: 'var(--eidra-gap-4)',
         font: 'var(--eidra-font-size-sm)/1.5 var(--eidra-font-family-sans)',
         color: 'var(--eidra-fg)',
         minWidth: 220,
@@ -1489,11 +1489,11 @@ function OrgDetailPanel({ node, total }: { node: SunburstData; total: number }) 
         {fmt(nodeValue)} · {Math.round((nodeValue / total) * 100)}% of global
       </div>
       {node.children?.length ? (
-        <div style={{ display: 'grid', gap: 'var(--eidra-space-2)' }}>
+        <div style={{ display: 'grid', gap: 'var(--eidra-gap-2)' }}>
           {node.children.map((c) => (
             <div
               key={c.id}
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
             >
               <span
                 aria-hidden
@@ -1627,7 +1627,7 @@ function InteractiveSunburst({
   const crumbs = rootId.split('/');
 
   return (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 720 }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)', maxWidth: 720 }}>
       {/* Breadcrumb — each crumb zooms back to that level. */}
       {showBreadcrumb && (
         <nav
@@ -1635,7 +1635,7 @@ function InteractiveSunburst({
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--eidra-space-1)',
+            gap: 'var(--eidra-gap-1)',
             font: 'var(--eidra-font-size-sm)/1 var(--eidra-font-family-sans)',
           }}
         >
@@ -1648,7 +1648,7 @@ function InteractiveSunburst({
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 'var(--eidra-space-1)',
+                  gap: 'var(--eidra-gap-1)',
                 }}
               >
                 {i > 0 && (
@@ -1663,7 +1663,7 @@ function InteractiveSunburst({
                   style={{
                     border: 'none',
                     background: 'none',
-                    padding: 'var(--eidra-space-1) var(--eidra-space-1-5)',
+                    padding: 'var(--eidra-gap-1) var(--eidra-gap-1-5)',
                     borderRadius: 'var(--eidra-radius-sm)',
                     cursor: isLast ? 'default' : 'pointer',
                     color: isLast ? 'var(--eidra-fg)' : 'var(--eidra-accent)',
@@ -1684,7 +1684,7 @@ function InteractiveSunburst({
         style={{
           display: 'grid',
           gridTemplateColumns: showDetailPanel ? 'minmax(0, 1fr) 260px' : 'minmax(0, 1fr)',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
           alignItems: 'start',
         }}
       >
@@ -1971,7 +1971,7 @@ function DumbbellLegend() {
     <div
       style={{
         display: 'flex',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         font: 'var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
         color: 'var(--eidra-fg-muted)',
       }}
@@ -1979,7 +1979,7 @@ function DumbbellLegend() {
       {(['before', 'after'] as const).map((key) => (
         <span
           key={key}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-1-5)' }}
         >
           <span
             aria-hidden
@@ -2022,7 +2022,7 @@ export const Dumbbell: StoryObj<DumbbellArgs> = {
     showValueLabels: { control: 'boolean' },
   },
   render: (args) => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 560 }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)', maxWidth: 560 }}>
       <DumbbellLegend />
       <Chart.Container
         config={dumbbellConfig}
@@ -2163,7 +2163,7 @@ function WaterfallPanel({
   return (
     <div
       style={{
-        padding: 'var(--eidra-space-3)',
+        padding: 'var(--eidra-gap-3)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
@@ -2263,7 +2263,7 @@ function MiniCard({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div
       style={{
-        padding: 'var(--eidra-space-3)',
+        padding: 'var(--eidra-gap-3)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
@@ -2310,7 +2310,7 @@ export const Minis: StoryObj<MinisArgs> = {
       style={{
         display: 'grid',
         gridTemplateColumns: `repeat(auto-fill, minmax(${minCardWidth}px, 1fr))`,
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         maxWidth: 800,
       }}
     >

@@ -182,8 +182,8 @@ function Card({ title, children }: { title: string; children: ReactNode }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-2)',
-        padding: 'var(--eidra-space-3)',
+        gap: 'var(--eidra-gap-2)',
+        padding: 'var(--eidra-gap-3)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
@@ -216,7 +216,7 @@ export const Gallery: Story = {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         maxWidth: 900,
       }}
     >

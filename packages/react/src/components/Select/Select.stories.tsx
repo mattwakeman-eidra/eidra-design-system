@@ -190,7 +190,7 @@ export const WithDefaultValue: Story = {
 export const Sizes: Story = {
   render: () => (
     <div
-      style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', width: 240 }}
+      style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)', width: 240 }}
     >
       <Select.Root>
         <Select.Trigger size="sm" />
@@ -363,15 +363,15 @@ export const ConsultancyForm: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         width: 320,
-        padding: 'var(--eidra-space-6)',
+        padding: 'var(--eidra-gap-6)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
         <label
           style={{
             fontSize: 'var(--eidra-font-size-sm)',
@@ -399,7 +399,7 @@ export const ConsultancyForm: Story = {
         </Select.Root>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
         <label
           style={{
             fontSize: 'var(--eidra-font-size-sm)',
@@ -579,7 +579,7 @@ export const ControlledValue: Story = {
   render: () => {
     const [value, setValue] = useState<string>('oslo');
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', width: 240 }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)', width: 240 }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Value: <strong style={{ color: 'var(--eidra-fg)' }}>{value}</strong>
         </p>

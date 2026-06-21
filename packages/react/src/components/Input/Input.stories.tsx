@@ -94,7 +94,7 @@ export const WithAdornment: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
       <Input size="sm" placeholder="Small" />
       <Input size="md" placeholder="Medium" />
       <Input size="lg" placeholder="Large" />

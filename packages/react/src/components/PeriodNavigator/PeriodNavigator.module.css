@@ -63,3 +63,9 @@
   text-align: center;
   user-select: none;
 }
+
+/* Compact density: step the value's inline padding down. Root padding/gap are
+   already at the space-0-5 floor; buttons derive size from the control token. */
+:global([data-density='compact']) .value {
+  padding-inline: var(--eidra-space-1);
+}

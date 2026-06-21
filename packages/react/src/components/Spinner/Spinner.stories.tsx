@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', gap: 'var(--eidra-space-4)', alignItems: 'center', flexWrap: 'wrap' }}
+    style={{ display: 'flex', gap: 'var(--eidra-gap-4)', alignItems: 'center', flexWrap: 'wrap' }}
   >
     {children}
   </div>
@@ -50,12 +50,12 @@ export const Tones: Story = {
 
 export const InlineWithText: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
           color: 'var(--eidra-fg-muted)',
           fontFamily: 'var(--eidra-font-family-sans)',
           fontSize: 'var(--eidra-font-size-sm)',
@@ -68,7 +68,7 @@ export const InlineWithText: Story = {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--eidra-space-3)',
+          gap: 'var(--eidra-gap-3)',
           color: 'var(--eidra-fg)',
           fontFamily: 'var(--eidra-font-family-sans)',
           fontSize: 'var(--eidra-font-size-base)',
@@ -94,7 +94,7 @@ export const FullPageOverlay: Story = {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-3)',
+        gap: 'var(--eidra-gap-3)',
       }}
     >
       <Spinner {...args} size="lg" label="Loading dashboard" />

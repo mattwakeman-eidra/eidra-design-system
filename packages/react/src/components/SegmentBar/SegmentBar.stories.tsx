@@ -69,7 +69,7 @@ export const WithLegend: Story = {
 export const Sizes: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-6)', maxWidth: 480 }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-6)', maxWidth: 480 }}>
       <SegmentBar segments={REVENUE} size="sm" showLegend />
       <SegmentBar segments={REVENUE} size="md" showLegend />
       <SegmentBar segments={REVENUE} size="lg" showLegend />
@@ -126,7 +126,7 @@ export const SharedBudgetLine: Story = {
     const total = 200;
     const budget = [{ value: 180, label: 'Budget', tone: 'warning' as const }];
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-4)', maxWidth: 560 }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-4)', maxWidth: 560 }}>
         <div>
           <div
             style={{

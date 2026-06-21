@@ -225,3 +225,30 @@
   padding-inline: var(--eidra-space-4);
   font-size: var(--eidra-font-size-base);
 }
+
+/* Compact density: step inline padding + gap two rungs (standalone + segmented).
+   Heights already compact via the control-size token. */
+:global([data-density='compact']) .toggle {
+  gap: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-1-5);
+}
+
+:global([data-density='compact']) .toggle[data-size='sm'] {
+  padding-inline: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .toggle[data-size='lg'] {
+  padding-inline: var(--eidra-space-2);
+}
+
+:global([data-density='compact']) .group[data-appearance='segmented'] .toggle {
+  padding-inline: var(--eidra-space-1-5);
+}
+
+:global([data-density='compact']) .group[data-appearance='segmented'][data-size='sm'] .toggle {
+  padding-inline: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .group[data-appearance='segmented'][data-size='lg'] .toggle {
+  padding-inline: var(--eidra-space-2);
+}

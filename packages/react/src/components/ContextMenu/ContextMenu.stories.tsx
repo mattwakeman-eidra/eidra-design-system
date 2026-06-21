@@ -595,7 +595,7 @@ export const FileManager: Story = {
     const files = ['Q2 Strategy.pdf', 'Client brief.docx', 'Brand guidelines.fig'];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
         {files.map((file) => (
           <ContextMenu.Root key={file}>
             <ContextMenu.Trigger>
@@ -603,8 +603,8 @@ export const FileManager: Story = {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 'var(--eidra-space-2)',
-                  padding: 'var(--eidra-space-2) var(--eidra-space-3)',
+                  gap: 'var(--eidra-gap-2)',
+                  padding: 'var(--eidra-gap-2) var(--eidra-gap-3)',
                   borderRadius: 'var(--eidra-radius-md)',
                   border: '1px solid var(--eidra-border)',
                   background: 'var(--eidra-surface)',

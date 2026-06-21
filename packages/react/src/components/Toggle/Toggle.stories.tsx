@@ -37,7 +37,7 @@ const Row = ({ children }: { children: React.ReactNode }) => (
   <div
     style={{
       display: 'flex',
-      gap: 'var(--eidra-space-3)',
+      gap: 'var(--eidra-gap-3)',
       alignItems: 'center',
       flexWrap: 'wrap',
     }}
@@ -118,7 +118,7 @@ export const ControlledPress: Story = {
   render: () => {
     const [pressed, setPressed] = useState(false);
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Pressed: <strong style={{ color: 'var(--eidra-fg)' }}>{String(pressed)}</strong>
         </p>
@@ -363,7 +363,7 @@ export const GroupKeyboardNav: StoryObj = {
 export const LoopFocus: StoryObj = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--eidra-space-6)' }}>
+    <div style={{ display: 'flex', gap: 'var(--eidra-gap-6)' }}>
       <ToggleGroup.Root defaultValue={['l-left']} aria-label="Looping group">
         <Toggle value="l-left">Left</Toggle>
         <Toggle value="l-mid">Middle</Toggle>
@@ -411,7 +411,7 @@ export const ControlledGroup: StoryObj = {
   render: () => {
     const [value, setValue] = useState<string[]>(['left']);
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Value: <strong style={{ color: 'var(--eidra-fg)' }}>{value.join(', ') || '—'}</strong>
         </p>
@@ -574,7 +574,7 @@ export const TextGroup: StoryObj = {
  */
 export const QuickFilterChips: StoryObj = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-2)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-gap-2)' }}>
       <Toggle shape="pill" size="sm" variant="solid" defaultPressed>
         Growing
       </Toggle>
@@ -660,7 +660,7 @@ export const SegmentedSizes: StoryObj = {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
           alignItems: 'flex-start',
         }}
       >

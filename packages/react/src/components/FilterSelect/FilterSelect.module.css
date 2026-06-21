@@ -214,3 +214,36 @@
   color: var(--eidra-fg-muted);
   font-variant-numeric: tabular-nums;
 }
+
+/* Compact density: step inline padding/gap two rungs. The popup carries
+   data-density via the portal scope, so these reach the listbox too. */
+:global([data-density='compact']) .trigger {
+  gap: var(--eidra-space-1);
+  padding-inline: var(--eidra-space-1-5);
+}
+
+:global([data-density='compact']) .trigger[data-size='sm'] {
+  padding-inline: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .search {
+  padding: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .list {
+  padding: var(--eidra-space-0-5);
+}
+
+:global([data-density='compact']) .option {
+  padding-block: var(--eidra-space-0-5);
+  padding-inline: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .empty {
+  padding: var(--eidra-space-1-5) var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .footer {
+  gap: var(--eidra-space-1);
+  padding: var(--eidra-space-0-5) var(--eidra-space-1);
+}

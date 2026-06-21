@@ -45,6 +45,25 @@ export function App() {
 
 **Using Tailwind?** The tokens are available as utilities either way: Tailwind **v4** apps `@import '@eidra/react/tailwind.css'` (a generated, drift-proof `@theme` bridge); Tailwind **v3** apps add `presets: [require('@eidra/tokens/tailwind')]`. Both keep utilities reactive to the live theme. See [`docs/CONSUMING.md` §5](./docs/CONSUMING.md).
 
+## Documentation
+
+All docs live in `docs/` and are browsable on GitHub. The consumer onboarding docs (Consuming, Glossary) are also wrapped into the [hosted Storybook](https://mattwakeman-eidra.github.io/eidra-design-system/) under **Docs/**; the rest are GitHub-only (for people developing the system, not using it).
+
+**Consuming the system**
+
+- [Consuming guide](./docs/CONSUMING.md): install (sync-script / tarball), fonts, theming, the Tailwind bridge, example pages, agent setup.
+- [Component catalog](./docs/COMPONENTS.md): generated index of every component plus the token list.
+- [Glossary](./CONTEXT.md): terminology (`eidra-root`, semantic vs primitive tokens, density).
+
+**Contributing**
+
+- [Story taxonomy](./docs/STORYBOOK.md): how stories are titled and categorised.
+- [Releasing](./docs/RELEASING.md): the Changesets to GitHub Release runbook.
+
+**Architecture decisions** ([`docs/adr/`](./docs/adr))
+
+0001 Architecture & stack, 0002 Product-first foundation, 0003 Versioned tarballs, 0004 GitHub Releases, 0005 Vite build, 0006 GitHub Packages flow, 0008 CSS cascade layer, 0009 Opinionated but overridable.
+
 ## Design decisions
 
 - **Product-first foundation.** The brand guidelines define an editorial scale (bold-only type from 15px, coarse 10px spacing). For product UI this system uses a conventional type ramp (Regular→Bold from 12px) and a 4px spacing grid; the brand's large display sizes live in the **display tier** as opt-in expressive styles. Identity is carried by the palette and Eidra Sans. See [`docs/adr/0002`](./docs/adr/0002-product-first-foundation.md).

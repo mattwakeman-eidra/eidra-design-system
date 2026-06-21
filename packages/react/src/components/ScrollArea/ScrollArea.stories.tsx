@@ -44,12 +44,12 @@ export const Playground: Story = {
     <ScrollArea.Root {...args} style={{ height: 320, width: 420 }}>
       <ScrollArea.Viewport>
         <ScrollArea.Content>
-          <ul style={{ listStyle: 'none', margin: 0, padding: 'var(--eidra-space-3)' }}>
+          <ul style={{ listStyle: 'none', margin: 0, padding: 'var(--eidra-gap-3)' }}>
             {consultants.map((c) => (
               <li
                 key={c.name}
                 style={{
-                  padding: 'var(--eidra-space-3)',
+                  padding: 'var(--eidra-gap-3)',
                   borderBottom: '1px solid var(--eidra-border-subtle)',
                   fontFamily: 'var(--eidra-font-family-sans)',
                   fontSize: 'var(--eidra-font-size-sm)',
@@ -87,7 +87,7 @@ export const VerticalOnly: Story = {
         <ScrollArea.Content>
           <div
             style={{
-              padding: 'var(--eidra-space-4)',
+              padding: 'var(--eidra-gap-4)',
               fontFamily: 'var(--eidra-font-family-sans)',
               fontSize: 'var(--eidra-font-size-sm)',
               color: 'var(--eidra-fg)',
@@ -142,8 +142,8 @@ export const HorizontalOnly: Story = {
           <div
             style={{
               display: 'flex',
-              gap: 'var(--eidra-space-3)',
-              padding: 'var(--eidra-space-4)',
+              gap: 'var(--eidra-gap-3)',
+              padding: 'var(--eidra-gap-4)',
               width: 'max-content',
             }}
           >
@@ -153,7 +153,7 @@ export const HorizontalOnly: Story = {
                 style={{
                   flexShrink: 0,
                   width: 160,
-                  padding: 'var(--eidra-space-3)',
+                  padding: 'var(--eidra-gap-3)',
                   borderRadius: 'var(--eidra-radius-md)',
                   background: 'var(--eidra-surface)',
                   border: '1px solid var(--eidra-border-subtle)',
@@ -213,7 +213,7 @@ export const BothAxes: Story = {
                   <th
                     key={h}
                     style={{
-                      padding: 'var(--eidra-space-2) var(--eidra-space-4)',
+                      padding: 'var(--eidra-gap-2) var(--eidra-gap-4)',
                       textAlign: 'left',
                       fontWeight: 'var(--eidra-font-weight-semibold)',
                       color: 'var(--eidra-fg)',
@@ -235,7 +235,7 @@ export const BothAxes: Story = {
                 >
                   <td
                     style={{
-                      padding: 'var(--eidra-space-2) var(--eidra-space-4)',
+                      padding: 'var(--eidra-gap-2) var(--eidra-gap-4)',
                       color: 'var(--eidra-fg)',
                       whiteSpace: 'nowrap',
                     }}
@@ -244,7 +244,7 @@ export const BothAxes: Story = {
                   </td>
                   <td
                     style={{
-                      padding: 'var(--eidra-space-2) var(--eidra-space-4)',
+                      padding: 'var(--eidra-gap-2) var(--eidra-gap-4)',
                       color: 'var(--eidra-fg-muted)',
                       whiteSpace: 'nowrap',
                     }}
@@ -253,7 +253,7 @@ export const BothAxes: Story = {
                   </td>
                   <td
                     style={{
-                      padding: 'var(--eidra-space-2) var(--eidra-space-4)',
+                      padding: 'var(--eidra-gap-2) var(--eidra-gap-4)',
                       color: 'var(--eidra-fg-muted)',
                       whiteSpace: 'nowrap',
                     }}
@@ -262,7 +262,7 @@ export const BothAxes: Story = {
                   </td>
                   <td
                     style={{
-                      padding: 'var(--eidra-space-2) var(--eidra-space-4)',
+                      padding: 'var(--eidra-gap-2) var(--eidra-gap-4)',
                       color: 'var(--eidra-fg-subtle)',
                       whiteSpace: 'nowrap',
                     }}
@@ -271,14 +271,14 @@ export const BothAxes: Story = {
                   </td>
                   <td
                     style={{
-                      padding: 'var(--eidra-space-2) var(--eidra-space-4)',
+                      padding: 'var(--eidra-gap-2) var(--eidra-gap-4)',
                       whiteSpace: 'nowrap',
                     }}
                   >
                     <span
                       style={{
                         display: 'inline-block',
-                        padding: '2px var(--eidra-space-2)',
+                        padding: '2px var(--eidra-gap-2)',
                         borderRadius: 'var(--eidra-radius-full)',
                         fontSize: 'var(--eidra-font-size-xs)',
                         background:

@@ -167,3 +167,18 @@
     transform: rotate(360deg);
   }
 }
+
+/* Compact density: step inline padding + gap down two rungs (base.css
+   convention). Height already compacts via the control-size token. */
+:global([data-density='compact']) .root {
+  gap: var(--eidra-space-1);
+  padding-inline: var(--eidra-space-2);
+}
+
+:global([data-density='compact']) .root[data-size='sm'] {
+  padding-inline: var(--eidra-space-1-5);
+}
+
+:global([data-density='compact']) .root[data-size='lg'] {
+  padding-inline: var(--eidra-space-3);
+}

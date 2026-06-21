@@ -38,7 +38,7 @@ const meta = {
       <div
         style={{
           display: 'flex',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
           flexWrap: 'wrap',
           alignItems: 'flex-start',
         }}
@@ -263,7 +263,7 @@ export const Controlled: Story = {
   render: () => {
     const [value, setValue] = useState<number | null>(20);
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Value: <strong style={{ color: 'var(--eidra-fg)' }}>{String(value)}</strong>
         </p>
@@ -376,7 +376,7 @@ export const WithScrubArea: Story = {
 export const ConsultancyRateExample: Story = {
   name: 'Consultancy daily rate (realistic)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       <div>
         <label
           style={{

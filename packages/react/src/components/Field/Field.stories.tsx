@@ -167,7 +167,7 @@ export const Disabled: Story = {
 /** Several fields stacked — the typical form column. */
 export const FormColumn: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       <Field label="Full name" required>
         <Input placeholder="Ada Lovelace" />
       </Field>

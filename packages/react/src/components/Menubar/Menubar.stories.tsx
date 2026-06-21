@@ -502,7 +502,7 @@ export const ControlledRadioSelection: Story = {
     const ControlledFormat = () => {
       const [value, setValue] = useState('md');
       return (
-        <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+        <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
           <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
             Size: <strong style={{ color: 'var(--eidra-fg)' }}>{value}</strong>
           </p>

@@ -68,7 +68,7 @@ const SIZED: StatisticBarItem[] = [
 export const Sizes: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-6)' }}>
       <StatisticBar size="sm" items={SIZED} />
       <StatisticBar size="md" items={SIZED} />
       <StatisticBar size="lg" items={SIZED} />
@@ -93,7 +93,7 @@ export const InCard: Story = {
   render: () => (
     <div
       style={{
-        padding: 'var(--eidra-space-4) var(--eidra-space-5)',
+        padding: 'var(--eidra-gap-4) var(--eidra-gap-5)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         backgroundColor: 'var(--eidra-surface)',

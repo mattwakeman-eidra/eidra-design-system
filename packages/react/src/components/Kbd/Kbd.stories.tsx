@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}
+    style={{ display: 'flex', gap: 'var(--eidra-gap-3)', alignItems: 'center', flexWrap: 'wrap' }}
   >
     {children}
   </div>
@@ -82,7 +82,7 @@ export const InContext: Story = {
         color: 'var(--eidra-fg)',
         display: 'flex',
         alignItems: 'center',
-        gap: 'var(--eidra-space-1-5)',
+        gap: 'var(--eidra-gap-1-5)',
       }}
     >
       Press <Kbd {...args}>⌘</Kbd> <Kbd {...args}>K</Kbd> to open the command palette
@@ -99,7 +99,7 @@ export const SaveShortcut: Story = {
         color: 'var(--eidra-fg)',
         display: 'flex',
         alignItems: 'center',
-        gap: 'var(--eidra-space-1-5)',
+        gap: 'var(--eidra-gap-1-5)',
       }}
     >
       Save changes with <Kbd {...args}>⌘</Kbd> <Kbd {...args}>S</Kbd>

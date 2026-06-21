@@ -187,3 +187,17 @@
   color: var(--eidra-bg);
   filter: drop-shadow(var(--eidra-shadow-sm));
 }
+
+/* Compact density: step the input's inline padding two rungs. Group height +
+   stepper width already compact via the control-size token. */
+:global([data-density='compact']) .input {
+  padding-inline: var(--eidra-space-1-5);
+}
+
+:global([data-density='compact']) .root[data-size='sm'] .input {
+  padding-inline: var(--eidra-space-1);
+}
+
+:global([data-density='compact']) .root[data-size='lg'] .input {
+  padding-inline: var(--eidra-space-2);
+}

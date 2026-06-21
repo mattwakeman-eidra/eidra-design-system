@@ -87,7 +87,7 @@ export const Playground: StoryObj<PreviewCardPlaygroundArgs> = {
               >
                 🌿
               </div>
-              <div style={{ padding: 'var(--eidra-space-4)' }}>
+              <div style={{ padding: 'var(--eidra-gap-4)' }}>
                 <h3
                   style={{
                     margin: 0,
@@ -111,20 +111,20 @@ export const Playground: StoryObj<PreviewCardPlaygroundArgs> = {
                 <div
                   style={{
                     display: 'flex',
-                    gap: 'var(--eidra-space-3)',
+                    gap: 'var(--eidra-gap-3)',
                     marginTop: 'var(--eidra-space-3)',
                     fontSize: 'var(--eidra-font-size-xs)',
                     color: 'var(--eidra-fg-subtle)',
                   }}
                 >
                   <span
-                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-1)' }}
                   >
                     <Icon icon={Building2} size="sm" aria-hidden />
                     Eidra Oslo
                   </span>
                   <span
-                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-1)' }}
                   >
                     <Icon icon={Calendar} size="sm" aria-hidden />
                     Q2 2026
@@ -178,9 +178,9 @@ export const PersonCard: Story = {
             <PreviewCard.Popup>
               <div
                 style={{
-                  padding: 'var(--eidra-space-4)',
+                  padding: 'var(--eidra-gap-4)',
                   display: 'flex',
-                  gap: 'var(--eidra-space-3)',
+                  gap: 'var(--eidra-gap-3)',
                   alignItems: 'center',
                 }}
               >
@@ -226,16 +226,14 @@ export const PersonCard: Story = {
               <div
                 style={{
                   borderTop: '1px solid var(--eidra-border-subtle)',
-                  padding: 'var(--eidra-space-3) var(--eidra-space-4)',
+                  padding: 'var(--eidra-gap-3) var(--eidra-gap-4)',
                   display: 'flex',
-                  gap: 'var(--eidra-space-3)',
+                  gap: 'var(--eidra-gap-3)',
                   fontSize: 'var(--eidra-font-size-xs)',
                   color: 'var(--eidra-fg-subtle)',
                 }}
               >
-                <span
-                  style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}
-                >
+                <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-1)' }}>
                   <Icon icon={Users} size="sm" aria-hidden />4 active projects
                 </span>
               </div>
@@ -283,12 +281,12 @@ export const SimpleLinkPreview: Story = {
         <PreviewCard.Portal>
           <PreviewCard.Positioner side="top" align="center" sideOffset={8}>
             <PreviewCard.Popup>
-              <div style={{ padding: 'var(--eidra-space-4)' }}>
+              <div style={{ padding: 'var(--eidra-gap-4)' }}>
                 <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 'var(--eidra-space-2)',
+                    gap: 'var(--eidra-gap-2)',
                     marginBottom: 'var(--eidra-space-2)',
                   }}
                 >
@@ -354,7 +352,7 @@ export const Controlled: Story = {
           <PreviewCard.Portal>
             <PreviewCard.Positioner side="bottom" align="center" sideOffset={8}>
               <PreviewCard.Popup>
-                <div style={{ padding: 'var(--eidra-space-4)' }}>
+                <div style={{ padding: 'var(--eidra-gap-4)' }}>
                   <div
                     style={{
                       fontWeight: 'var(--eidra-font-weight-semibold)',
@@ -421,7 +419,7 @@ export const OpenChangeCallback: Story = {
           <PreviewCard.Portal>
             <PreviewCard.Positioner side="bottom" align="start" sideOffset={8}>
               <PreviewCard.Popup>
-                <div style={{ padding: 'var(--eidra-space-4)' }}>
+                <div style={{ padding: 'var(--eidra-gap-4)' }}>
                   <div
                     style={{
                       fontWeight: 'var(--eidra-font-weight-semibold)',
@@ -483,7 +481,7 @@ export const ControlledOpen: Story = {
       <div
         style={{
           display: 'grid',
-          gap: 'var(--eidra-space-3)',
+          gap: 'var(--eidra-gap-3)',
           fontFamily: 'var(--eidra-font-family-sans)',
         }}
       >
@@ -506,7 +504,7 @@ export const ControlledOpen: Story = {
             <PreviewCard.Portal>
               <PreviewCard.Positioner side="bottom" align="start" sideOffset={8}>
                 <PreviewCard.Popup>
-                  <div style={{ padding: 'var(--eidra-space-4)' }}>
+                  <div style={{ padding: 'var(--eidra-gap-4)' }}>
                     <div
                       style={{
                         fontWeight: 'var(--eidra-font-weight-semibold)',

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { within, userEvent, expect, waitFor, fn } from 'storybook/test';
 import { Checkbox, CheckboxGroup } from './Checkbox.js';
+import styles from './Checkbox.stories.module.css';
 
 const meta = {
   title: 'Forms/Checkbox',
@@ -40,9 +41,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Col = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
-    {children}
-  </div>
+  <div className={styles.col}>{children}</div>
 );
 
 // ─── Playground ────────────────────────────────────────────────────────────────
@@ -212,10 +211,10 @@ export const GroupWithParent: Story = {
       <Checkbox.Root label="All offices" parent name="offices-parent" />
       <div
         style={{
-          paddingInlineStart: 'var(--eidra-space-6)',
+          paddingInlineStart: 'var(--eidra-gap-6)',
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
         }}
       >
         <Checkbox.Root label="Oslo" value="norway" name="offices" />
