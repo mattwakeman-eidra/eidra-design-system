@@ -90,4 +90,15 @@ Step-by-step release runbook: **[docs/RELEASING.md](./docs/RELEASING.md)**. Cons
 | `pnpm build` | Build all three packages in order. |
 | `pnpm build:tokens` | Rebuild just the tokens (after editing `packages/tokens/tokens/**`). |
 | `pnpm typecheck` | Typecheck every package. |
+| `pnpm lint` | ESLint (TS/TSX) + Stylelint (CSS Modules). |
+| `pnpm lint:fix` | The above, auto-fixing what's fixable. |
+| `pnpm format` / `pnpm format:check` | Write / check Prettier formatting across the repo. |
 | `pnpm storybook` / `pnpm build-storybook` | Run / build the Storybook workshop. |
+
+## Code style
+
+Linting and formatting are enforced in CI (the `lint` job runs `pnpm lint` and `pnpm format:check` on every PR):
+
+- **Prettier** owns formatting — config in [`.prettierrc.json`](./.prettierrc.json). Run `pnpm format` before committing, or wire it into your editor's format-on-save.
+- **ESLint** (flat config, [`eslint.config.js`](./eslint.config.js)) lints TS/TSX with `typescript-eslint`, `react-hooks`, `jsx-a11y`, and the Storybook plugin. It is intentionally **not** type-aware (tsc covers type correctness via `pnpm typecheck`), so it stays fast. CI fails on errors; warnings are surfaced but non-blocking.
+- **Stylelint** ([`stylelint.config.js`](./stylelint.config.js)) lints the CSS Modules and enforces the house rule that colours come from tokens, not raw literals (`color-no-hex` + `color-named`). `pnpm lint:fix` auto-fixes most stylistic findings.
