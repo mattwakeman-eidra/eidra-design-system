@@ -2,3 +2,6 @@ packages:
   - 'packages/*'
 allowBuilds:
   esbuild: true
+minimumReleaseAgeExclude:
+  - country-flag-icons@1.6.18
+  - style-dictionary@5.5.0
