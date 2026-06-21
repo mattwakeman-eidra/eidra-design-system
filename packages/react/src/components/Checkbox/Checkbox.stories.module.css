@@ -1,0 +1,12 @@
+/* Vertical stack for the Checkbox showcase stories. The gap lives here (not
+   inline) so it reacts to the ambient compact-density scope and the rows
+   tighten in compact, like the real Checkbox.Group does. */
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eidra-space-3);
+}
+
+:global([data-density='compact']) .col {
+  gap: var(--eidra-space-1-5);
+}
