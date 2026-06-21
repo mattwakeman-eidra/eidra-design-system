@@ -490,6 +490,7 @@ export const WithClear: Story = {
                 display: 'flex',
                 alignItems: 'center',
                 flex: 1,
+                height: 'var(--eidra-size-control-md)',
                 paddingInlineStart: 'var(--eidra-space-3)',
                 gap: 'var(--eidra-space-2)',
                 border: '1px solid var(--eidra-border)',
@@ -507,7 +508,7 @@ export const WithClear: Story = {
                 placeholder="Search countries…"
                 style={{
                   flex: 1,
-                  height: 'var(--eidra-size-control-md)',
+                  height: '100%',
                   border: 'none',
                   outline: 'none',
                   background: 'transparent',
