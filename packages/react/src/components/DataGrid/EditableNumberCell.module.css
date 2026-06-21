@@ -16,6 +16,7 @@
   border-radius: var(--eidra-radius-sm);
   transition: background-color var(--eidra-duration-fast) var(--eidra-easing-standard);
 }
+
 /* A hovered editable cell takes the accent-subtle wash — the same "this cell is
    in play" colour as a committed override/rollup — so it reads as a distinct
    colour channel against the neutral row shade (the row already hovers to
@@ -25,10 +26,12 @@
 .cell:hover:not([data-disabled]) {
   background-color: var(--eidra-accent-subtle);
 }
+
 .cell:focus-visible {
   outline: 2px solid var(--eidra-accent);
   outline-offset: -2px;
 }
+
 .cell[data-disabled] {
   cursor: default;
   color: var(--eidra-fg-disabled);
@@ -73,24 +76,31 @@
 .cell[data-tone='positive'] .value {
   color: var(--eidra-success-fg);
 }
+
 .cell[data-tone='caution'] .value {
   color: var(--eidra-warning-fg);
 }
+
 .cell[data-tone='danger'] .value {
   color: var(--eidra-danger-fg);
 }
+
 .cell[data-tone='accent'] .value {
   color: var(--eidra-accent-active);
 }
+
 .input[data-tone='positive'] {
   color: var(--eidra-success-fg);
 }
+
 .input[data-tone='caution'] {
   color: var(--eidra-warning-fg);
 }
+
 .input[data-tone='danger'] {
   color: var(--eidra-danger-fg);
 }
+
 .input[data-tone='accent'] {
   color: var(--eidra-accent-active);
 }
@@ -114,16 +124,22 @@
   font-variant-numeric: tabular-nums;
   text-align: end;
 }
+
 .input:focus-visible {
   outline: none;
 }
+
 /* Hide native number spinners — editing is keyboard/blur driven. */
 .input::-webkit-outer-spin-button,
 .input::-webkit-inner-spin-button {
   appearance: none;
   margin: 0;
 }
+
 .input[type='number'] {
   appearance: textfield;
+
+  /* Firefox still needs the prefix to drop the number-input spinners. */
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -moz-appearance: textfield;
 }

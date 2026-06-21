@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Icon, File, Folder, FileText, FileCode, Image, Settings, Copy, FilePen, Trash2 } from '@eidra/icons';
+import { Icon, Folder, FileText, FileCode, Image, Settings, Copy, FilePen, Trash2 } from '@eidra/icons';
 import { within, userEvent, fireEvent, screen, expect, waitFor } from 'storybook/test';
 import { TreeView } from './TreeView.js';
 import type { TreeNode } from './TreeView.js';

@@ -27,14 +27,17 @@
 .root[data-variant='text'] {
   --_height: 1em;
   --_radius: var(--eidra-radius-sm);
+
   width: var(--_width);
 }
 
 .root[data-variant='circle'] {
   --_radius: var(--eidra-radius-full);
+
   /* For circle, if no explicit width/height is given, fall back to a sensible icon-sized default */
   --_width: var(--eidra-size-icon-md);
   --_height: var(--eidra-size-icon-md);
+
   aspect-ratio: 1;
 }
 
@@ -47,6 +50,7 @@
   from {
     background-position: 200% center;
   }
+
   to {
     background-position: -200% center;
   }
@@ -55,8 +59,8 @@
 /* ---- Respect prefers-reduced-motion ---- */
 @media (prefers-reduced-motion: reduce) {
   .root {
-    animation: none;
     background-image: none;
+
     /* Subtle opacity pulse instead — much less motion */
     animation: eidra-skeleton-fade var(--eidra-duration-slow) var(--eidra-easing-standard) infinite alternate;
   }
@@ -65,6 +69,7 @@
     from {
       opacity: 1;
     }
+
     to {
       opacity: 0.5;
     }

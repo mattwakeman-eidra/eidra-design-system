@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement, type SVGProps, type ComponentProps } from 'react';
+import { useState, useRef, useLayoutEffect, useCallback, memo, type ReactNode, type ReactElement, type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Chart,

@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Flag } from '@eidra/icons';
 import {

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { cn } from '../../utils/cn.js';
 import styles from './EditableNumberCell.module.css';
 
 /** Semantic colour for an editable cell's value text + edit field. */

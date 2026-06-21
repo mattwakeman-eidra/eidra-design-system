@@ -56,7 +56,7 @@ function buildNotes(publishedPkgs, version, tag) {
   const groups = [];
   for (const pkg of ordered) {
     const dir = pkg.replace(/^@eidra\//, '');
-    let md = '';
+    let md;
     try {
       md = readFileSync(path.join(ROOT, 'packages', dir, 'CHANGELOG.md'), 'utf8');
     } catch {
@@ -77,7 +77,7 @@ async function main() {
   const { version } = manifest;
   const tag = `v${version}`;
 
-  let exists = false;
+  let exists;
   try {
     capture(`gh release view ${tag}`);
     exists = true;

@@ -527,6 +527,9 @@ function DataGridInner<Row>(
       data-accent={accent}
       data-density={density}
     >
+      {/* A scrollable region must be keyboard-focusable so keyboard-only users
+          can scroll it; regionProps supplies role="region" + an aria-label. */}
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div className={styles.scroll} tabIndex={0} {...regionProps}>
         <table ref={tableRef} className={styles.table} data-layout={tableLayout}>
           <colgroup>

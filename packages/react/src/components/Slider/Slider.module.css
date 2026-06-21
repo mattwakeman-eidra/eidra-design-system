@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: var(--eidra-space-2);
   width: 100%;
+
   /* Size custom properties */
   --_track-size: 4px;
   --_thumb-size: 18px;
@@ -136,7 +137,6 @@
   font-weight: var(--eidra-font-weight-medium);
   color: var(--eidra-fg-muted);
   line-height: var(--eidra-font-line-height-tight);
-  tabular-nums: inherit;
   font-variant-numeric: tabular-nums;
 }
 

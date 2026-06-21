@@ -160,7 +160,6 @@
   gap: var(--eidra-space-2);
   padding-block: var(--eidra-space-1-5);
   padding-inline: var(--eidra-space-2);
-  padding-inline-start: var(--eidra-space-2);
   border-radius: var(--eidra-radius-md);
   color: var(--eidra-fg);
   cursor: default;
@@ -234,12 +233,13 @@
 :global([data-density='compact']) .popup {
   padding: var(--eidra-space-0-5);
 }
+
 :global([data-density='compact']) .item {
   gap: var(--eidra-space-1);
   padding-block: var(--eidra-space-0-5);
   padding-inline: var(--eidra-space-1);
-  padding-inline-start: var(--eidra-space-1);
 }
+
 :global([data-density='compact']) .groupLabel {
   padding-block: var(--eidra-space-0-5);
   padding-inline: var(--eidra-space-1);

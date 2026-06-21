@@ -328,7 +328,6 @@ export const KeyboardNavigation: Story = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     const file = canvas.getByRole('menuitem', { name: /file/i });
-    const edit = canvas.getByRole('menuitem', { name: /edit/i });
 
     await step('opening one menu lets ArrowRight rove to the next', async () => {
       await userEvent.click(file);
