@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}
+    style={{ display: 'flex', gap: 'var(--eidra-gap-3)', alignItems: 'center', flexWrap: 'wrap' }}
   >
     {children}
   </div>

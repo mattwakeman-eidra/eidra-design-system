@@ -43,7 +43,7 @@ const ActionRow = ({ children }: { children: React.ReactNode }) => (
   <div
     style={{
       display: 'flex',
-      gap: 'var(--eidra-space-2)',
+      gap: 'var(--eidra-gap-2)',
       justifyContent: 'flex-end',
       marginTop: 'var(--eidra-space-2)',
     }}
@@ -187,7 +187,7 @@ export const DestructiveWarning: Story = {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--eidra-space-3)',
+              gap: 'var(--eidra-gap-3)',
               color: 'var(--eidra-warning-fg)',
             }}
           >
@@ -230,7 +230,7 @@ export const Controlled: Story = {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
         }}
       >
         <p

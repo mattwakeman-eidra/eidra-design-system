@@ -37,13 +37,13 @@ type Story = StoryObj;
  */
 function Panel() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       {/* Controls */}
       <div
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
           alignItems: 'center',
         }}
       >
@@ -59,7 +59,7 @@ function Panel() {
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
           alignItems: 'center',
         }}
       >
@@ -89,7 +89,7 @@ function Panel() {
         ]}
       />
 
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-6)', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 'var(--eidra-gap-6)', flexWrap: 'wrap' }}>
         <Statistic label="Revenue" value="€21.6M" caption="projected" />
         <Statistic label="Pipeline" value="€3.4M" tone="success" caption="+8% vs LY" />
       </div>
@@ -156,7 +156,7 @@ function Column({
       style={{
         flex: 1,
         minWidth: 320,
-        padding: 'var(--eidra-space-5)',
+        padding: 'var(--eidra-gap-5)',
       }}
     >
       <h3

@@ -31,7 +31,7 @@ const FormRow = ({
   id: string;
   children: React.ReactNode;
 }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
     <label
       htmlFor={id}
       style={{
@@ -48,7 +48,7 @@ const FormRow = ({
 
 const inputStyle: React.CSSProperties = {
   height: 'var(--eidra-size-control-md)',
-  paddingInline: 'var(--eidra-space-3)',
+  paddingInline: 'var(--eidra-gap-3)',
   border: '1px solid var(--eidra-border)',
   borderRadius: 'var(--eidra-radius-md)',
   backgroundColor: 'var(--eidra-surface)',
@@ -124,7 +124,7 @@ export const MultipleFieldsets: Story = {
         maxWidth: 560,
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-6)',
+        gap: 'var(--eidra-gap-6)',
       }}
     >
       <Fieldset.Root>
@@ -162,7 +162,7 @@ export const WithoutLegend: Story = {
             style={{
               ...inputStyle,
               height: 'auto',
-              paddingBlock: 'var(--eidra-space-2)',
+              paddingBlock: 'var(--eidra-gap-2)',
               resize: 'vertical',
             }}
           />

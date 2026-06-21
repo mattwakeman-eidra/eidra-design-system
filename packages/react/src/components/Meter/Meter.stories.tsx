@@ -35,7 +35,7 @@ type Story = StoryObj<typeof meta>;
 
 const Stack = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-6)', maxWidth: 480 }}
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-6)', maxWidth: 480 }}
   >
     {children}
   </div>
@@ -43,7 +43,7 @@ const Stack = ({ children }: { children: React.ReactNode }) => (
 
 const Row = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)', maxWidth: 480 }}
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-3)', maxWidth: 480 }}
   >
     {children}
   </div>

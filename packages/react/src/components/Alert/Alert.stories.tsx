@@ -27,7 +27,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Stack = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-3)' }}>
     {children}
   </div>
 );

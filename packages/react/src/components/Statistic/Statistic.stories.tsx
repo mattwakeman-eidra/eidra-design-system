@@ -70,12 +70,12 @@ export const Accent: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-6)',
+        gap: 'var(--eidra-gap-6)',
         maxWidth: 480,
       }}
     >
       {/* The prop's effect: same metric, border off vs on */}
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-6)' }}>
+      <div style={{ display: 'flex', gap: 'var(--eidra-gap-6)' }}>
         <Statistic size="sm" label="Net revenue" value="€ 1.05M" tone="success" delta="+6%" />
         <Statistic
           accent
@@ -87,7 +87,7 @@ export const Accent: Story = {
         />
       </div>
       {/* The border picks up each metric's tone */}
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-6)', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 'var(--eidra-gap-6)', flexWrap: 'wrap' }}>
         <Statistic accent size="sm" label="Revenue" value="€ 1.21M" tone="accent" />
         <Statistic accent size="sm" label="WIP" value="€ 84k" tone="warning" />
         <Statistic accent size="sm" label="Margin" value="−2%" tone="danger" />

@@ -51,7 +51,7 @@ const REGION_ROWS: RegionRow[] = [
 ];
 
 const regionCell = (r: RegionRow) => (
-  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
     <Flag code={r.code} size="sm" label={r.name} />
     {r.name}
   </span>
@@ -280,14 +280,14 @@ function RegionOverviewCard({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
         }}
       >
         <span
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 'var(--eidra-space-2)',
+            gap: 'var(--eidra-gap-2)',
             fontWeight: 'var(--eidra-font-weight-medium)',
           }}
         >
@@ -302,7 +302,7 @@ function RegionOverviewCard({
       </Card.Header>
       <Card.Body>
         <div
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--eidra-space-4)' }}
+          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--eidra-gap-4)' }}
         >
           <div>
             {miniTitle('Net Revenue (MSEK)')}
@@ -355,7 +355,7 @@ export const RegionalOverview: StoryObj<RegionalOverviewArgs> = {
       style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${columns}, minmax(${minCardWidth}px, 1fr))`,
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
       }}
     >
       {REGION_CARDS.map((r) => (

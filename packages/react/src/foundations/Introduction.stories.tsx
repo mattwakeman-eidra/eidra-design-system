@@ -73,7 +73,7 @@ function Pre({ children }: { children: string }) {
         background: 'var(--eidra-surface)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-md)',
-        padding: 'var(--eidra-space-4)',
+        padding: 'var(--eidra-gap-4)',
         color: 'var(--eidra-fg)',
         overflowX: 'auto',
         maxWidth: '64ch',
@@ -164,14 +164,14 @@ export const Welcome: Story = {
 
       <H2>Navigating the sidebar</H2>
       <Lead>The catalog is organised into three tiers. Read it top to bottom.</Lead>
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 720 }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)', maxWidth: 720 }}>
         {TIERS.map((tier) => (
           <section
             key={tier.name}
             style={{
               border: '1px solid var(--eidra-border)',
               borderRadius: 'var(--eidra-radius-md)',
-              padding: 'var(--eidra-space-4)',
+              padding: 'var(--eidra-gap-4)',
               background: 'var(--eidra-bg)',
             }}
           >
@@ -240,7 +240,7 @@ export function App() {
           padding: 0,
           margin: 0,
           display: 'grid',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
           maxWidth: 720,
         }}
       >

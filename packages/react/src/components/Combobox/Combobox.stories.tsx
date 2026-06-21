@@ -83,7 +83,7 @@ const ALL_CONSULTANTS = Object.values(CONSULTANTS_BY_TEAM).flat();
 
 const ComboboxField = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1-5)', width: 280 }}
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1-5)', width: 280 }}
   >
     <label
       style={{
@@ -491,8 +491,8 @@ export const WithClear: Story = {
                 alignItems: 'center',
                 flex: 1,
                 height: 'var(--eidra-size-control-md)',
-                paddingInlineStart: 'var(--eidra-space-3)',
-                gap: 'var(--eidra-space-2)',
+                paddingInlineStart: 'var(--eidra-gap-3)',
+                gap: 'var(--eidra-gap-2)',
                 border: '1px solid var(--eidra-border)',
                 borderRight: 'none',
                 borderRadius: 'var(--eidra-radius-md) 0 0 var(--eidra-radius-md)',

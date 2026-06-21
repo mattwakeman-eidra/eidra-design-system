@@ -38,7 +38,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div style={{ padding: 'var(--eidra-space-6)', maxWidth: 400 }}>
+      <div style={{ padding: 'var(--eidra-gap-6)', maxWidth: 400 }}>
         <Story />
       </div>
     ),
@@ -55,7 +55,7 @@ const Column = ({ children }: { children: React.ReactNode }) => (
     style={{
       display: 'flex',
       flexDirection: 'column',
-      gap: 'var(--eidra-space-6)',
+      gap: 'var(--eidra-gap-6)',
     }}
   >
     {children}
@@ -66,7 +66,7 @@ const Row = ({ children }: { children: React.ReactNode }) => (
   <div
     style={{
       display: 'flex',
-      gap: 'var(--eidra-space-8)',
+      gap: 'var(--eidra-gap-8)',
       alignItems: 'flex-start',
     }}
   >
@@ -252,7 +252,7 @@ export const RangeSlider: Story = {
 export const Vertical: Story = {
   decorators: [
     (Story) => (
-      <div style={{ padding: 'var(--eidra-space-6)', height: 280 }}>
+      <div style={{ padding: 'var(--eidra-gap-6)', height: 280 }}>
         <Story />
       </div>
     ),
@@ -368,7 +368,7 @@ export const Controlled: Story = {
   render: (args) => {
     const [value, setValue] = useState(60);
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Value: <strong style={{ color: 'var(--eidra-fg)' }}>{value}</strong>
         </p>

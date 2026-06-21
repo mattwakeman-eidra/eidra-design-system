@@ -35,7 +35,7 @@ export const Playground: Story = {
       <Collapsible.Root {...args}>
         <Collapsible.Trigger>Team overview</Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <p
               style={{
                 margin: 0,
@@ -62,7 +62,7 @@ export const DefaultClosed: Story = {
       <Collapsible.Root>
         <Collapsible.Trigger>Project details</Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <p
               style={{
                 margin: 0,
@@ -106,7 +106,7 @@ export const DefaultOpen: Story = {
       <Collapsible.Root defaultOpen>
         <Collapsible.Trigger>Engagement scope</Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <p
               style={{
                 margin: 0,
@@ -146,7 +146,7 @@ export const Disabled: Story = {
       <Collapsible.Root disabled>
         <Collapsible.Trigger>Restricted section</Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <p style={{ margin: 0 }}>This content is not accessible.</p>
           </div>
         </Collapsible.Panel>
@@ -196,14 +196,14 @@ export const FAQ: Story = {
         maxWidth: 560,
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-2)',
+        gap: 'var(--eidra-gap-2)',
       }}
     >
       {faqs.map((item) => (
         <Collapsible.Root key={item.id}>
           <Collapsible.Trigger>{item.question}</Collapsible.Trigger>
           <Collapsible.Panel>
-            <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+            <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
               <p
                 style={{
                   margin: 0,
@@ -231,20 +231,20 @@ export const WithIconInTrigger: Story = {
         maxWidth: 480,
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-2)',
+        gap: 'var(--eidra-gap-2)',
       }}
     >
       <Collapsible.Root defaultOpen>
         <Collapsible.Trigger>
           <span
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
           >
             <Icon icon={Users} size="sm" />
             Team members
           </span>
         </Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <ul
               style={{
                 margin: 0,
@@ -252,7 +252,7 @@ export const WithIconInTrigger: Story = {
                 listStyle: 'none',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'var(--eidra-space-1-5)',
+                gap: 'var(--eidra-gap-1-5)',
               }}
             >
               {['Astrid Lindqvist', 'Erik Holmberg', 'Maja Sundström'].map((name) => (
@@ -271,14 +271,14 @@ export const WithIconInTrigger: Story = {
       <Collapsible.Root>
         <Collapsible.Trigger>
           <span
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
           >
             <Icon icon={FileText} size="sm" />
             Documents
           </span>
         </Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <p
               style={{
                 margin: 0,
@@ -295,14 +295,14 @@ export const WithIconInTrigger: Story = {
       <Collapsible.Root disabled>
         <Collapsible.Trigger>
           <span
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
           >
             <Icon icon={Settings} size="sm" />
             Advanced settings
           </span>
         </Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <p style={{ margin: 0 }}>Advanced settings are locked.</p>
           </div>
         </Collapsible.Panel>
@@ -325,7 +325,7 @@ export const Controlled: Story = {
           maxWidth: 480,
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
         }}
       >
         <p
@@ -346,7 +346,7 @@ export const Controlled: Story = {
         >
           <Collapsible.Trigger>Controlled collapsible</Collapsible.Trigger>
           <Collapsible.Panel>
-            <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+            <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
               <p
                 style={{
                   margin: 0,
@@ -396,7 +396,7 @@ export const Keyboard: Story = {
       <Collapsible.Root>
         <Collapsible.Trigger>Keyboard toggle</Collapsible.Trigger>
         <Collapsible.Panel>
-          <div style={{ padding: 'var(--eidra-space-4) var(--eidra-space-5)', paddingTop: 0 }}>
+          <div style={{ padding: 'var(--eidra-gap-4) var(--eidra-gap-5)', paddingTop: 0 }}>
             <p
               style={{
                 margin: 0,

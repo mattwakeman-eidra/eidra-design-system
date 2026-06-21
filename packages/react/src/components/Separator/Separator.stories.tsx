@@ -31,7 +31,7 @@ export const Playground: Story = {
           display: 'flex',
           flexDirection: vertical ? 'row' : 'column',
           alignItems: vertical ? 'center' : 'stretch',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
           height: vertical ? 48 : undefined,
           maxWidth: 480,
           fontFamily: 'var(--eidra-font-family-sans)',
@@ -56,7 +56,7 @@ export const Horizontal: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         maxWidth: 480,
       }}
     >
@@ -90,7 +90,7 @@ export const Horizontal: Story = {
 export const Vertical: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-4)', height: 32 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-4)', height: 32 }}>
       {(['Services', 'Case Studies', 'About', 'Contact'] as const).map((item, idx, arr) => (
         <span key={item} style={{ display: 'contents' }}>
           <span
@@ -118,7 +118,7 @@ export const WithLabel: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-6)',
+        gap: 'var(--eidra-gap-6)',
         maxWidth: 480,
       }}
     >
@@ -138,13 +138,13 @@ export const InCard: Story = {
     <div
       style={{
         maxWidth: 360,
-        padding: 'var(--eidra-space-6)',
+        padding: 'var(--eidra-gap-6)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         fontFamily: 'var(--eidra-font-family-sans)',
       }}
     >
@@ -170,7 +170,7 @@ export const InCard: Story = {
         </p>
       </div>
       <Separator />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-2)' }}>
         <p
           style={{
             margin: 0,
@@ -185,7 +185,7 @@ export const InCard: Story = {
         </p>
       </div>
       <Separator />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-2)' }}>
         <p
           style={{
             margin: 0,

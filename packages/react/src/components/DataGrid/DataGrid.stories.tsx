@@ -465,7 +465,7 @@ export const Density: Story = {
       },
     ];
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-6)' }}>
         <div>
           <p
             style={{
@@ -579,7 +579,7 @@ export const FinanceTheme: Story = {
       marginBottom: 'var(--eidra-space-2)',
     } as const;
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-6)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-6)' }}>
         <div>
           <p style={label}>accent=&quot;brand&quot; (default) — accent is orange</p>
           <DataGrid<ForecastRow>
@@ -756,7 +756,7 @@ export const CellTonesAndDrilldown: Story = {
         cell: (r) => eur(r.revenue),
         footer: (rows) => eur(rows.reduce((s, r) => s + r.revenue, 0)),
         renderCellDetail: (r) => (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
             <div
               style={{
                 font: '600 var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
@@ -1544,8 +1544,8 @@ export const ControlledFilterAndVisibility: Story = {
         prev.includes('owner') ? prev.filter((id) => id !== 'owner') : [...prev, 'owner'],
       );
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
-        <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
+        <div style={{ display: 'flex', gap: 'var(--eidra-gap-3)', alignItems: 'center' }}>
           <Input
             aria-label="Filter clients"
             placeholder="Filter…"

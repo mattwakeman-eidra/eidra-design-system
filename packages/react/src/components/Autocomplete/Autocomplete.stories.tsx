@@ -50,7 +50,7 @@ const GROUPED_OPTIONS: ServiceOption[] = [
 
 const Stack = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 360 }}
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)', maxWidth: 360 }}
   >
     {children}
   </div>
@@ -582,7 +582,7 @@ export const GroupedOptions: Story = {
                         <span
                           style={{
                             display: 'inline-flex',
-                            gap: 'var(--eidra-space-1)',
+                            gap: 'var(--eidra-gap-1)',
                             alignItems: 'center',
                           }}
                         >

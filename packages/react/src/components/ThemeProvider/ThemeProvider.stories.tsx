@@ -33,8 +33,8 @@ function Panel({ label }: { label: ReactNode }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-3)',
-        padding: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-3)',
+        padding: 'var(--eidra-gap-4)',
       }}
     >
       <div
@@ -50,7 +50,7 @@ function Panel({ label }: { label: ReactNode }) {
       <div
         style={{
           display: 'flex',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
           alignItems: 'center',
           flexWrap: 'wrap',
         }}
@@ -95,7 +95,7 @@ export const Accent: Story = {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         maxWidth: 760,
       }}
     >
@@ -123,7 +123,7 @@ export const Matrix: Story = {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         maxWidth: 760,
       }}
     >

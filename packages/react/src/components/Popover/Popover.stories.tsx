@@ -262,7 +262,7 @@ export const Positioning: Story = {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, auto)',
-        gap: 'var(--eidra-space-3)',
+        gap: 'var(--eidra-gap-3)',
         alignItems: 'center',
         justifyItems: 'center',
       }}
@@ -386,7 +386,7 @@ export const Uncontrolled: Story = {
   name: 'Uncontrolled (defaultOpen)',
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
       <Popover.Root defaultOpen onOpenChange={(next) => uncontrolledOnOpenChange(next)}>
         <Popover.Trigger
           render={

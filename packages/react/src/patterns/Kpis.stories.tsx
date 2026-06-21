@@ -25,9 +25,9 @@ export const KpiBar: Story = {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         flexWrap: 'wrap',
-        padding: 'var(--eidra-space-3) var(--eidra-space-4)',
+        padding: 'var(--eidra-gap-3) var(--eidra-gap-4)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
       }}
@@ -50,7 +50,7 @@ export const StatCardGrid: Story = {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         maxWidth: 720,
       }}
     >

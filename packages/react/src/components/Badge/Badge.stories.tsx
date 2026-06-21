@@ -21,14 +21,14 @@ type Story = StoryObj<typeof meta>;
 
 const Row = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', gap: 'var(--eidra-space-2)', alignItems: 'center', flexWrap: 'wrap' }}
+    style={{ display: 'flex', gap: 'var(--eidra-gap-2)', alignItems: 'center', flexWrap: 'wrap' }}
   >
     {children}
   </div>
 );
 
 const Section = ({ label, children }: { label: string; children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-2)' }}>
     <span
       style={{
         fontSize: 'var(--eidra-font-size-xs)',
@@ -74,7 +74,7 @@ export const Tones: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       <Section label="Subtle">
         <Row>
           <Badge {...args} variant="subtle" tone="neutral">
@@ -170,7 +170,7 @@ export const Sizes: Story = {
 /** Realistic usage in a Nordic consultancy context: project statuses, contract states, role tags. */
 export const RealWorldExamples: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       <Section label="Project status">
         <Row>
           <Badge tone="info" variant="subtle">

@@ -406,8 +406,8 @@ export const Controlled: Story = {
   render: function ControlledStory(args) {
     const [value, setValue] = React.useState<number>(0);
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
-        <div style={{ display: 'flex', gap: 'var(--eidra-space-2)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
+        <div style={{ display: 'flex', gap: 'var(--eidra-gap-2)' }}>
           <span style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>
             Active tab: <strong>{value}</strong>
           </span>

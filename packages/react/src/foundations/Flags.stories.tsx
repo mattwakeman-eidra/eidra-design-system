@@ -155,7 +155,7 @@ export const AllFlags: StoryObj<FlagGalleryArgs> = {
             onChange={(e) => setQ(e.target.value)}
             style={{
               height: 'var(--eidra-size-control-sm)',
-              paddingInline: 'var(--eidra-space-2)',
+              paddingInline: 'var(--eidra-gap-2)',
               border: '1px solid var(--eidra-border)',
               borderRadius: 'var(--eidra-radius-md)',
               background: 'var(--eidra-surface)',
@@ -177,7 +177,7 @@ export const AllFlags: StoryObj<FlagGalleryArgs> = {
               style={{
                 display: 'grid',
                 justifyItems: 'center',
-                gap: 'var(--eidra-space-1)',
+                gap: 'var(--eidra-gap-1)',
                 textAlign: 'center',
               }}
             >

@@ -25,14 +25,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Col = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-3)' }}>
     {children}
   </div>
 );
 
 const Row = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', gap: 'var(--eidra-space-6)', alignItems: 'center', flexWrap: 'wrap' }}
+    style={{ display: 'flex', gap: 'var(--eidra-gap-6)', alignItems: 'center', flexWrap: 'wrap' }}
   >
     {children}
   </div>
@@ -282,7 +282,7 @@ export const WorkspaceSettings: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-0)',
+        gap: 'var(--eidra-gap-0)',
         maxWidth: '28rem',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
@@ -302,7 +302,7 @@ export const WorkspaceSettings: Story = {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: 'var(--eidra-space-4)',
+            padding: 'var(--eidra-gap-4)',
             borderBottom: i < arr.length - 1 ? '1px solid var(--eidra-border-subtle)' : undefined,
             backgroundColor: 'var(--eidra-surface)',
           }}

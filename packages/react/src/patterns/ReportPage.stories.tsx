@@ -100,12 +100,12 @@ export function ReportPage({
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         overflow: 'hidden',
-        padding: 'var(--eidra-space-8)',
+        padding: 'var(--eidra-gap-8)',
         fontFamily: 'var(--eidra-font-family-sans)',
       }}
     >
       {/* Header band */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--eidra-space-4)' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--eidra-gap-4)' }}>
         {index != null && (
           <Avatar.Root size="md" aria-hidden>
             <Avatar.Fallback>{index}</Avatar.Fallback>
@@ -135,14 +135,14 @@ export function ReportPage({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'baseline',
-            gap: 'var(--eidra-space-4)',
+            gap: 'var(--eidra-gap-4)',
             marginTop: 'var(--eidra-space-3)',
             font: 'var(--eidra-font-weight-regular) var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
             color: 'var(--eidra-fg-muted)',
           }}
         >
           <span>Monthly Financials · Confidential</span>
-          <span style={{ display: 'flex', gap: 'var(--eidra-space-4)' }}>
+          <span style={{ display: 'flex', gap: 'var(--eidra-gap-4)' }}>
             {generated != null && <span>Generated {generated}</span>}
             {pageNumber != null && (
               <span style={{ fontFamily: 'var(--eidra-font-family-mono)' }}>
@@ -188,7 +188,7 @@ export function CoverPage({ eyebrow, title, confidential = 'Confidential' }: Cov
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         overflow: 'hidden',
-        padding: 'var(--eidra-space-12)',
+        padding: 'var(--eidra-gap-12)',
         fontFamily: 'var(--eidra-font-family-sans)',
       }}
     >
@@ -203,7 +203,7 @@ export function CoverPage({ eyebrow, title, confidential = 'Confidential' }: Cov
         {eyebrow}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
         <h1
           style={{
             margin: 0,
@@ -258,7 +258,7 @@ function ExecSummary() {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-6)',
+        gap: 'var(--eidra-gap-6)',
         height: '100%',
       }}
     >
@@ -277,12 +277,12 @@ function ExecSummary() {
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1.4fr',
-          gap: 'var(--eidra-space-8)',
+          gap: 'var(--eidra-gap-8)',
           flex: 1,
           minHeight: 0,
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
           <Statistic
             label="Billable utilisation"
             value="78%"
@@ -338,7 +338,7 @@ export const Cover: StoryObj<CoverArgs> = {
     confidential: 'Confidential',
   },
   render: ({ eyebrow, title, confidential }) => (
-    <div style={{ padding: 'var(--eidra-space-6)' }}>
+    <div style={{ padding: 'var(--eidra-gap-6)' }}>
       <CoverPage eyebrow={eyebrow} title={title} confidential={confidential} />
     </div>
   ),
@@ -379,7 +379,7 @@ export const ContentSlide: StoryObj<ContentSlideArgs> = {
     generated: '19 Jun 2026',
   },
   render: ({ index, title, subtitle, pageNumber, totalPages, generated }) => (
-    <div style={{ padding: 'var(--eidra-space-6)' }}>
+    <div style={{ padding: 'var(--eidra-gap-6)' }}>
       <ReportPage
         index={index}
         title={title}
@@ -416,8 +416,8 @@ export const Deck: StoryObj<DeckArgs> = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-8)',
-        padding: 'var(--eidra-space-6)',
+        gap: 'var(--eidra-gap-8)',
+        padding: 'var(--eidra-gap-6)',
         background: 'var(--eidra-bg-muted)',
       }}
     >
@@ -442,7 +442,7 @@ export const Deck: StoryObj<DeckArgs> = {
         totalPages={18}
         generated="19 Jun 2026"
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
           <StatisticBar
             aria-label="Top clients"
             items={[

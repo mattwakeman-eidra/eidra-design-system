@@ -255,7 +255,7 @@ export const Controlled: Story = {
   render: (args) => {
     const [value, setValue] = useState<AccordionValue>(['services']);
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)', maxWidth: 640 }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)', maxWidth: 640 }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Open: <strong style={{ color: 'var(--eidra-fg)' }}>{value.join(', ') || '—'}</strong>
         </p>

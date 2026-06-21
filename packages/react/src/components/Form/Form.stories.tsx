@@ -175,7 +175,7 @@ export const ControlledWithCallback: Story = {
   render: () => {
     const [submitted, setSubmitted] = useState<Record<string, unknown> | null>(null);
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
         <Form
           onFormSubmit={(values) => {
             setSubmitted(values as Record<string, unknown>);
@@ -198,7 +198,7 @@ export const ControlledWithCallback: Story = {
               background: 'var(--eidra-bg-subtle)',
               border: '1px solid var(--eidra-border)',
               borderRadius: 'var(--eidra-radius-md)',
-              padding: 'var(--eidra-space-3)',
+              padding: 'var(--eidra-gap-3)',
               fontSize: 'var(--eidra-font-size-xs)',
               fontFamily: 'var(--eidra-font-family-mono)',
               color: 'var(--eidra-fg-muted)',
@@ -282,7 +282,7 @@ export const ContactForm: Story = {
       <Field name="phone" label="Phone number" hint="Optional — include country code.">
         <Input type="tel" placeholder="+47 900 00 000" />
       </Field>
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', gap: 'var(--eidra-gap-3)', justifyContent: 'flex-end' }}>
         <Button variant="ghost" tone="neutral" type="reset">
           Clear
         </Button>

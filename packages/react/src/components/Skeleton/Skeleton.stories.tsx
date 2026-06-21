@@ -22,7 +22,7 @@ const Stack = ({ children }: { children: React.ReactNode }) => (
     style={{
       display: 'flex',
       flexDirection: 'column',
-      gap: 'var(--eidra-space-3)',
+      gap: 'var(--eidra-gap-3)',
       width: '320px',
     }}
   >
@@ -32,7 +32,7 @@ const Stack = ({ children }: { children: React.ReactNode }) => (
 
 const Row = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center', flexWrap: 'wrap' }}
+    style={{ display: 'flex', gap: 'var(--eidra-gap-3)', alignItems: 'center', flexWrap: 'wrap' }}
   >
     {children}
   </div>
@@ -82,9 +82,9 @@ export const ProfileCard: Story = {
     <div
       style={{
         display: 'flex',
-        gap: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-4)',
         alignItems: 'flex-start',
-        padding: 'var(--eidra-space-5)',
+        padding: 'var(--eidra-gap-5)',
         background: 'var(--eidra-surface)',
         borderRadius: 'var(--eidra-radius-lg)',
         border: '1px solid var(--eidra-border)',
@@ -93,7 +93,7 @@ export const ProfileCard: Story = {
     >
       <Skeleton variant="circle" width="48px" height="48px" />
       <div
-        style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-2)' }}
+        style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-2)' }}
       >
         <Skeleton variant="text" width="55%" />
         <Skeleton variant="text" width="40%" />
@@ -110,8 +110,8 @@ export const ArticleCard: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-3)',
-        padding: 'var(--eidra-space-5)',
+        gap: 'var(--eidra-gap-3)',
+        padding: 'var(--eidra-gap-5)',
         background: 'var(--eidra-surface)',
         borderRadius: 'var(--eidra-radius-lg)',
         border: '1px solid var(--eidra-border)',

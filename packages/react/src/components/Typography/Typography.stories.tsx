@@ -51,7 +51,7 @@ export const Playground: Story = {};
 
 export const ProductScale: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-4)' }}>
       <Typography variant="heading-1">Heading 1</Typography>
       <Typography variant="heading-2">Heading 2</Typography>
       <Typography variant="heading-3">Heading 3</Typography>
@@ -69,7 +69,7 @@ export const ProductScale: Story = {
 
 export const DisplayTier: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-5)' }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-5)' }}>
       <Typography variant="display-lg">Great change</Typography>
       <Typography variant="display-md">Great change</Typography>
     </div>
@@ -78,7 +78,7 @@ export const DisplayTier: Story = {
 
 export const Tones: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--eidra-space-2)' }}>
+    <div style={{ display: 'grid', gap: 'var(--eidra-gap-2)' }}>
       <Typography tone="default">Default</Typography>
       <Typography tone="muted">Muted</Typography>
       <Typography tone="subtle">Subtle</Typography>
@@ -87,7 +87,7 @@ export const Tones: Story = {
       <div
         style={{
           background: 'var(--eidra-bg-inverse, #111827)',
-          padding: 'var(--eidra-space-3)',
+          padding: 'var(--eidra-gap-3)',
           borderRadius: 'var(--eidra-radius-md, 6px)',
         }}
       >

@@ -10,6 +10,7 @@ import {
 } from '@storybook/addon-docs/blocks';
 import { ThemeProvider } from '@eidra/react';
 import '@eidra/tokens/fonts.css';
+import './story-density.css';
 
 // Custom autodocs page: the default template repeats the first story — once as
 // the top `Primary` preview and again in the `Stories` list — which reads as a

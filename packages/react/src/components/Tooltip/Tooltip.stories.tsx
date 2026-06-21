@@ -171,9 +171,9 @@ export const Sides: Story = {
       style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: 'var(--eidra-space-6)',
+        gap: 'var(--eidra-gap-6)',
         placeItems: 'center',
-        padding: 'var(--eidra-space-10)',
+        padding: 'var(--eidra-gap-10)',
       }}
     >
       <TooltipExample label="Appears above" side="top">
@@ -195,7 +195,7 @@ export const Sides: Story = {
 export const OnIconButton: Story = {
   name: 'On icon buttons',
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--eidra-space-4)', alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: 'var(--eidra-gap-4)', alignItems: 'center' }}>
       <TooltipExample label="More information" side="top">
         <Button variant="ghost" tone="neutral" iconOnly aria-label="More information">
           <Icon icon={Info} />
@@ -236,7 +236,7 @@ export const SharedDelay: Story = {
   },
   render: () => (
     <Tooltip.Provider delay={600} closeDelay={0}>
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-4)' }}>
+      <div style={{ display: 'flex', gap: 'var(--eidra-gap-4)' }}>
         {['Proposals', 'Clients', 'Projects', 'Reports'].map((item) => (
           <TooltipExample key={item} label={`Go to ${item}`} side="bottom">
             <Button variant="outline" size="sm">

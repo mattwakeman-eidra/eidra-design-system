@@ -186,7 +186,7 @@ function ClusterTable({ cluster }: { cluster: Cluster }) {
             <tr key={c.use} style={{ borderTop: '1px solid var(--eidra-border)' }}>
               <td
                 style={{
-                  padding: 'var(--eidra-space-2) var(--eidra-space-3) var(--eidra-space-2) 0',
+                  padding: 'var(--eidra-gap-2) var(--eidra-gap-3) var(--eidra-gap-2) 0',
                   whiteSpace: 'nowrap',
                   verticalAlign: 'top',
                   fontWeight: 'var(--eidra-font-weight-semibold)',
@@ -198,7 +198,7 @@ function ClusterTable({ cluster }: { cluster: Cluster }) {
               </td>
               <td
                 style={{
-                  padding: 'var(--eidra-space-2) 0',
+                  padding: 'var(--eidra-gap-2) 0',
                   verticalAlign: 'top',
                   color: 'var(--eidra-fg)',
                 }}

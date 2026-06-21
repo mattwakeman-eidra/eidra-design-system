@@ -211,10 +211,10 @@ export const GroupWithParent: Story = {
       <Checkbox.Root label="All offices" parent name="offices-parent" />
       <div
         style={{
-          paddingInlineStart: 'var(--eidra-space-6)',
+          paddingInlineStart: 'var(--eidra-gap-6)',
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
         }}
       >
         <Checkbox.Root label="Oslo" value="norway" name="offices" />

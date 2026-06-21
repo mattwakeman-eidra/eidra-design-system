@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 const Col = ({ children }: { children: React.ReactNode }) => (
   <div
-    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)', maxWidth: 380 }}
+    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)', maxWidth: 380 }}
   >
     {children}
   </div>
@@ -32,7 +32,7 @@ const Row = ({ children }: { children: React.ReactNode }) => (
   <div
     style={{
       display: 'flex',
-      gap: 'var(--eidra-space-4)',
+      gap: 'var(--eidra-gap-4)',
       flexWrap: 'wrap',
       alignItems: 'flex-start',
     }}
@@ -107,16 +107,16 @@ export const ProjectCard: Story = {
         <div
           style={{
             display: 'flex',
-            gap: 'var(--eidra-space-4)',
+            gap: 'var(--eidra-gap-4)',
             fontSize: 'var(--eidra-font-size-xs)',
             color: 'var(--eidra-fg-subtle)',
           }}
         >
-          <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-1)' }}>
             <Icon icon={Calendar} />
             Q3 2026
           </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-1)' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-1)' }}>
             <Icon icon={Users} />4 consultants
           </span>
         </div>
@@ -164,7 +164,7 @@ export const CardGrid: Story = {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
         }}
       >
         {projects.map((p) => (
@@ -192,12 +192,12 @@ export const ProfileCard: Story = {
   render: (args) => (
     <Card {...args} style={{ maxWidth: 340 }}>
       <Card.Body>
-        <div style={{ display: 'flex', gap: 'var(--eidra-space-4)', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 'var(--eidra-gap-4)', alignItems: 'center' }}>
           <Avatar.Root size="lg">
             <Avatar.Fallback>AL</Avatar.Fallback>
           </Avatar.Root>
           <div style={{ minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
               <strong style={{ fontSize: 'var(--eidra-font-size-lg)', color: 'var(--eidra-fg)' }}>
                 Astrid Lindqvist
               </strong>
@@ -218,7 +218,7 @@ export const ProfileCard: Story = {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: 'var(--eidra-space-2)',
+            gap: 'var(--eidra-gap-2)',
             marginTop: 'var(--eidra-space-4)',
           }}
         >
@@ -278,19 +278,19 @@ export const TeamGrid: Story = {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
         }}
       >
         {team.map((m) => (
           <Card key={m.name} {...args}>
             <Card.Body>
-              <div style={{ display: 'flex', gap: 'var(--eidra-space-3)', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 'var(--eidra-gap-3)', alignItems: 'center' }}>
                 <Avatar.Root size="md">
                   <Avatar.Fallback>{m.initials}</Avatar.Fallback>
                 </Avatar.Root>
                 <div style={{ minWidth: 0 }}>
                   <div
-                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-space-2)' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
                   >
                     <strong style={{ color: 'var(--eidra-fg)' }}>{m.name}</strong>
                     <Flag code={m.code} size="sm" label={m.country} />
@@ -310,7 +310,7 @@ export const TeamGrid: Story = {
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: 'var(--eidra-space-2)',
+                  gap: 'var(--eidra-gap-2)',
                   marginTop: 'var(--eidra-space-3)',
                 }}
               >
@@ -370,7 +370,7 @@ export const ArticleCard: Story = {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--eidra-space-2)',
+            gap: 'var(--eidra-gap-2)',
             marginTop: 'var(--eidra-space-4)',
           }}
         >
@@ -385,7 +385,7 @@ export const ArticleCard: Story = {
               marginLeft: 'auto',
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--eidra-space-1)',
+              gap: 'var(--eidra-gap-1)',
               fontSize: 'var(--eidra-font-size-xs)',
               color: 'var(--eidra-fg-subtle)',
             }}

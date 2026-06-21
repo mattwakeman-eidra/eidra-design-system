@@ -191,7 +191,7 @@ function OpCoLegend() {
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        gap: 'var(--eidra-space-3)',
+        gap: 'var(--eidra-gap-3)',
         font: 'var(--eidra-font-size-xs)/1.2 var(--eidra-font-family-sans)',
         color: 'var(--eidra-fg-muted)',
       }}
@@ -199,7 +199,7 @@ function OpCoLegend() {
       {OPCOS.map((o) => (
         <span
           key={o.key}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-space-1-5)' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-1-5)' }}
         >
           <span
             aria-hidden
@@ -226,8 +226,8 @@ function ClientCell({ client, monthCount }: { client: Client; monthCount: number
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-2)',
-        padding: 'var(--eidra-space-3)',
+        gap: 'var(--eidra-gap-2)',
+        padding: 'var(--eidra-gap-3)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
@@ -238,14 +238,14 @@ function ClientCell({ client, monthCount }: { client: Client; monthCount: number
           display: 'flex',
           alignItems: 'baseline',
           justifyContent: 'space-between',
-          gap: 'var(--eidra-space-2)',
+          gap: 'var(--eidra-gap-2)',
         }}
       >
         <span
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 'var(--eidra-space-1-5)',
+            gap: 'var(--eidra-gap-1-5)',
             font: '600 var(--eidra-font-size-sm)/1.2 var(--eidra-font-family-sans)',
             color: 'var(--eidra-fg)',
           }}
@@ -307,8 +307,8 @@ function TopClientsList({ monthCount, topN }: { monthCount: number; topN: number
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-3)',
-        padding: 'var(--eidra-space-4)',
+        gap: 'var(--eidra-gap-3)',
+        padding: 'var(--eidra-gap-4)',
         border: '1px solid var(--eidra-border)',
         borderRadius: 'var(--eidra-radius-lg)',
         background: 'var(--eidra-surface)',
@@ -323,7 +323,7 @@ function TopClientsList({ monthCount, topN }: { monthCount: number; topN: number
           padding: 0,
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--eidra-space-1)',
+          gap: 'var(--eidra-gap-1)',
         }}
       >
         {ranked.map(({ client, total }, i) => (
@@ -332,8 +332,8 @@ function TopClientsList({ monthCount, topN }: { monthCount: number; topN: number
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--eidra-space-2)',
-              padding: 'var(--eidra-space-1-5) 0',
+              gap: 'var(--eidra-gap-2)',
+              padding: 'var(--eidra-gap-1-5) 0',
               borderBottom: i < ranked.length - 1 ? '1px solid var(--eidra-border-subtle)' : 'none',
               font: 'var(--eidra-font-size-sm)/1.2 var(--eidra-font-family-sans)',
               color: 'var(--eidra-fg)',
@@ -374,13 +374,13 @@ function TopClientsPage({
   // Show the top-N clients for the window in both the mini grid and the list.
   const shown = rankedClients(monthCount, topN).map((r) => r.client);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       <OpCoLegend />
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: showRankedList ? 'minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
-          gap: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
           alignItems: 'start',
         }}
       >
@@ -388,7 +388,7 @@ function TopClientsPage({
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: 'var(--eidra-space-4)',
+            gap: 'var(--eidra-gap-4)',
           }}
         >
           {shown.map((c) => (

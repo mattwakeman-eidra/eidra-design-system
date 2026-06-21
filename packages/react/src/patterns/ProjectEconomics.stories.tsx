@@ -58,8 +58,8 @@ export const BudgetHeader: Story = {
           maxWidth: 640,
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--eidra-space-4)',
-          padding: 'var(--eidra-space-4)',
+          gap: 'var(--eidra-gap-4)',
+          padding: 'var(--eidra-gap-4)',
           border: '1px solid var(--eidra-border)',
           borderRadius: 'var(--eidra-radius-lg)',
           background: 'var(--eidra-surface)',
@@ -78,7 +78,7 @@ export const BudgetHeader: Story = {
         </div>
 
         {/* Three bars sharing one scale; the budget line threads through all of them */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-3)' }}>
           <div>
             {kicker('Billable')}
             <SegmentBar
@@ -263,7 +263,7 @@ export const AccountingMatrix: Story = {
               return <span style={{ color: 'var(--eidra-fg-muted)' }}>No entries for {p}.</span>;
             return (
               <div
-                style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-1)' }}
+                style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}
               >
                 {kicker(`${r.label} — ${p} entries`)}
                 <table

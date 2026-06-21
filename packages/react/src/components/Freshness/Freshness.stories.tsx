@@ -44,7 +44,7 @@ export const DataAge: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-3)',
+        gap: 'var(--eidra-gap-3)',
         alignItems: 'flex-start',
       }}
     >
@@ -62,7 +62,7 @@ export const Tones: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-3)',
+        gap: 'var(--eidra-gap-3)',
         alignItems: 'flex-start',
       }}
     >
@@ -82,7 +82,7 @@ export const AutoSave: Story = {
 /** Label only — a static status dot with no relative time. */
 export const LabelOnly: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--eidra-space-4)' }}>
+    <div style={{ display: 'flex', gap: 'var(--eidra-gap-4)' }}>
       <Freshness label="Live" tone="positive" pulse />
       <Freshness label="Offline" tone="negative" />
       <Freshness label="Draft" tone="neutral" />
@@ -97,7 +97,7 @@ export const RelativeTime: Story = {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--eidra-space-2)',
+        gap: 'var(--eidra-gap-2)',
         alignItems: 'flex-start',
       }}
     >

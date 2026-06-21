@@ -35,7 +35,7 @@ type PlaygroundArgs = {
 type PlaygroundStory = StoryObj<PlaygroundArgs>;
 
 const Col = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-space-3)' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-3)' }}>
     {children}
   </div>
 );
@@ -379,7 +379,7 @@ export const ControlledSelection: Story = {
   render: () => {
     const [value, setValue] = useState('email');
     return (
-      <div style={{ display: 'grid', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--eidra-gap-3)' }}>
         <p style={{ margin: 0, font: 'inherit', color: 'var(--eidra-fg-muted)' }}>
           Selected: <strong style={{ color: 'var(--eidra-fg)' }}>{value}</strong>
         </p>

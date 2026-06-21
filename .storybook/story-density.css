@@ -1,0 +1,36 @@
+/*
+ * Storybook-only density-reactive spacing tokens for showcase layouts.
+ *
+ * Story demo layouts use inline `gap`/`padding` to arrange examples. Inline
+ * styles can't react to the ambient `[data-density]` scope, so those gaps stayed
+ * fixed when switching comfortable <-> compact. These `--eidra-gap-*` aliases map
+ * onto the spacing scale and step DOWN two rungs (6-4-3-2-1-5-1-0-5) under
+ * compact, so a story that uses `gap: var(--eidra-gap-3)` compacts uniformly with
+ * the components. Imported once in preview.tsx; NOT shipped in the library.
+ */
+.eidra-root,
+[data-density] {
+  --eidra-gap-0: var(--eidra-space-0);
+  --eidra-gap-1: var(--eidra-space-1);
+  --eidra-gap-1-5: var(--eidra-space-1-5);
+  --eidra-gap-2: var(--eidra-space-2);
+  --eidra-gap-3: var(--eidra-space-3);
+  --eidra-gap-4: var(--eidra-space-4);
+  --eidra-gap-5: var(--eidra-space-5);
+  --eidra-gap-6: var(--eidra-space-6);
+  --eidra-gap-8: var(--eidra-space-8);
+  --eidra-gap-12: var(--eidra-space-12);
+}
+
+.eidra-root[data-density='compact'],
+[data-density='compact'] {
+  --eidra-gap-1: var(--eidra-space-0-5);
+  --eidra-gap-1-5: var(--eidra-space-0-5);
+  --eidra-gap-2: var(--eidra-space-1);
+  --eidra-gap-3: var(--eidra-space-1-5);
+  --eidra-gap-4: var(--eidra-space-2);
+  --eidra-gap-5: var(--eidra-space-3);
+  --eidra-gap-6: var(--eidra-space-3);
+  --eidra-gap-8: var(--eidra-space-4);
+  --eidra-gap-12: var(--eidra-space-6);
+}

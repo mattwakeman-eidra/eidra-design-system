@@ -193,7 +193,7 @@ export const Preselected: Story = {
     const [one, setOne] = useState<string[]>(['nordics']);
     const [many, setMany] = useState<string[]>(['nordics', 'dach', 'uki']);
     return (
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'flex', gap: 'var(--eidra-gap-3)' }}>
         <FilterSelect
           aria-label="Region"
           placeholder="Region"
@@ -267,7 +267,7 @@ export const DisabledStates: Story = {
       { value: 'dach', label: 'DACH' },
     ];
     return (
-      <div style={{ display: 'flex', gap: 'var(--eidra-space-3)' }}>
+      <div style={{ display: 'flex', gap: 'var(--eidra-gap-3)' }}>
         <FilterSelect
           aria-label="Region"
           placeholder="Region"
@@ -350,7 +350,7 @@ export const FilterToolbar: Story = {
       { value: 'tech', label: 'Technology' },
     ];
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-space-2)' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--eidra-gap-2)' }}>
         <FilterSelect
           size="sm"
           aria-label="Region"
