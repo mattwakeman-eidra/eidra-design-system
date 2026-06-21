@@ -20,13 +20,14 @@ A Figma reproduction of the Eidra Design System so designers can **sketch new sc
 
 Whichever mechanism, the **collection shape is the same**:
 
-| Collection   | Source                                    | Modes                    |
-| ------------ | ----------------------------------------- | ------------------------ |
-| `Primitives` | `tokens/primitives/*.json`                | 1 (no mode)              |
-| `Theme`      | `tokens/semantic/light.json`, `dark.json` | `light`, `dark`          |
-| `Density`    | density-scaled spacing/sizing/base-type   | `comfortable`, `compact` |
+| Collection   | Source                                    | Modes           |
+| ------------ | ----------------------------------------- | --------------- |
+| `Primitives` | `tokens/primitives/*.json`                | 1 (no mode)     |
+| `Theme`      | `tokens/semantic/light.json`, `dark.json` | `light`, `dark` |
 
-Modes apply per-collection on a frame, so `Theme` and `Density` compose independently, exactly like `data-theme` + `data-density` in CSS. Semantic variables in `Theme`/`Density` **alias** the `Primitives` collection (a Figma variable reference), so the primitive→semantic graph is preserved.
+Semantic variables in `Theme` **alias** the `Primitives` collection (a Figma variable reference), so the primitive→semantic graph is preserved.
+
+**Density is deliberately not a collection.** There are no density tokens and the primitive scale does not change between densities: compact is per-component CSS (each component steps its spacing/size down, the root drops the base reading size 16→14px). So density is a **component-variant property** (`comfortable` / `compact`), built into the Tier-1 components, not a variable mode. Theme and density still compose independently (a compact component on a dark frame), but Theme is a variable-mode axis and density is a variant axis.
 
 ### Schema fit: what's clean, what needs conversion
 
@@ -52,7 +53,7 @@ Verified against the current token JSON. Most types map cleanly; three wrinkles 
 
 | Tier                 | What                                                                                                                                       | How                                                                                | Upkeep                            |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | --------------------------------- |
-| **1: Core (~18)**    | Button, Input, Field, Select, Checkbox, Radio, Switch, NumberField, OTPField, Card, Badge, Alert, Avatar, Tabs, Menu, Dialog, Drawer, PageHeader | Generate from code via `/figma-generate-library`; hand-tune where fidelity falls short. Variant props **bound to variables**, mode-switchable. | Regenerate + eyeball each release |
+| **1: Core (~18)**    | Button, Input, Field, Select, Checkbox, Radio, Switch, NumberField, OTPField, Card, Badge, Alert, Avatar, Tabs, Menu, Dialog, Drawer, PageHeader | Generate from code via `/figma-generate-library`; hand-tune where fidelity falls short. Variant props (incl. a `density` comfortable/compact variant) **bound to variables**, theme-mode-switchable. | Regenerate + eyeball each release |
 | **2: Other visual**  | every remaining drawable component                                                                                                         | Import rendered stories from the deployed Storybook (HTML/URL-import plugin)        | Re-import on release              |
 | **3: Code-only**     | `ThemeProvider`, `Form`, `Toast`, `SaveIndicator`, `Freshness`, `Chart`, `DataGrid`                                                        | Reference card: "code-only, mock with a screenshot"                                | None                              |
 

@@ -33,15 +33,14 @@ That fits a large org with dedicated design headcount. Eidra is the inverse on e
 
 - `Primitives`: raw palette + scales, 1 mode.
 - `Theme`: semantic aliases resolving to primitives, **2 modes: light / dark**.
-- `Density`: spacing/sizing/base-type, **2 modes: comfortable / compact**.
 
-Modes apply per-collection on a frame, so `Theme=Dark` + `Density=Compact` compose without multiplying, mirroring how `data-theme` and `data-density` stack independently in CSS.
+**Theme is the only variable-mode axis.** Density is _not_ a variable collection: there are no density tokens, and the primitive scale does not change between densities. Compact is per-component CSS (each component steps its spacing/size down two steps, and the root drops the base reading size 16→14px). In Figma it is a **component-variant property** (`comfortable` / `compact`) on the Tier-1 components, not a variable mode. The two axes still compose independently (a compact component on a dark frame), mirroring how `data-theme` and `data-density` stack in CSS, but through different Figma mechanisms: Theme via variable modes, density via variant props.
 
 This runs **interactively at release time**: a human invokes the agent to push. The MCP is a session bridge, not a headless/cron primitive, so there is no unattended sync guarantee; that is the trade for not standing up a hosted plugin. Two documented fallbacks exist if a hands-off CI sync is ever needed: **Tokens Studio** (git-backed, free, deterministic) or the **REST Variables API** (Enterprise plan, colour + dimension only). Both are bolt-ons, not prerequisites (see `docs/FIGMA.md`).
 
 **Components, generation-first (three tiers):**
 
-- **Tier 1: ~18 core components.** Generated from code via the Figma MCP's library generation (`/figma-generate-library`) where fidelity holds, hand-tuned otherwise; variant properties bound to variables, mode-switchable. The pieces designers assemble screens from: Button, Input, Field, Select, Checkbox, Radio, Switch, NumberField, **OTPField**, Card, Badge, Alert, Avatar, Tabs, Menu, Dialog, **Drawer**, PageHeader.
+- **Tier 1: ~18 core components.** Generated from code via the Figma MCP's library generation (`/figma-generate-library`) where fidelity holds, hand-tuned otherwise; variant properties (including a `density` comfortable/compact variant) bound to variables, theme-mode-switchable. The pieces designers assemble screens from: Button, Input, Field, Select, Checkbox, Radio, Switch, NumberField, **OTPField**, Card, Badge, Alert, Avatar, Tabs, Menu, Dialog, **Drawer**, PageHeader.
 - **Tier 2: every other visual component, imported from Storybook** (an HTML/URL-import plugin against the deployed Storybook). The stories already enumerate the full state matrix, so coverage is free; regenerate by re-import on release, not by hand-redraw. Imports are flattened frames, not true components.
 - **Tier 3: logic/runtime/data components documented, not faked** (`ThemeProvider`, `Form`, `Toast`, `SaveIndicator`, `Freshness`, `Chart`, `DataGrid`). Reference cards saying "code-only, mock with a screenshot." Faking these is strictly worse than omitting them.
 

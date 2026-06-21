@@ -30,7 +30,8 @@ Read from `packages/tokens/tokens/`:
 
 - **`Primitives`**: 1 mode. Raw palette + scales.
 - **`Theme`**: 2 modes (`light`, `dark`). Every value is an alias to a Primitives variable.
-- **`Density`**: 2 modes (`comfortable` / `compact`). **Out of scope for now:** there is no density token file; density is CSS-computed (the two-step scaling convention in `base.css`), so these must be derived, not read. Do Primitives + Theme first; add Density only once the scaling logic is encoded.
+
+**Density is not a variable axis, so it is not synced here.** There are no density tokens; compact is per-component CSS (each component steps its spacing/size down, and the root drops the base reading size 16→14px). The primitive scale does not change. In Figma, density is therefore a **component-variant property** (`comfortable` / `compact`) on the Tier-1 components, handled in the component build, not in this token sync. Theme and density still compose independently (a compact component on a dark frame), but through different Figma mechanisms: Theme is variable modes, density is variant props.
 
 ## Conversions (apply at push time)
 
