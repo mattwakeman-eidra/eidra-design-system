@@ -8,6 +8,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "prepare": "husky",
     "build": "pnpm --filter @eidra/tokens build && pnpm --filter @eidra/icons build && pnpm --filter @eidra/react build",
     "build:tokens": "pnpm --filter @eidra/tokens build",
     "typecheck": "pnpm -r --parallel typecheck",
@@ -26,8 +27,23 @@
     "release": "node scripts/release.mjs",
     "release:github": "node scripts/release.mjs && node scripts/github-release.mjs"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,cjs,mjs}": [
+      "eslint --fix --no-warn-ignored",
+      "prettier --write"
+    ],
+    "*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
     "@eidra/icons": "workspace:*",
     "@eidra/react": "workspace:*",
     "@eidra/tokens": "workspace:*",
@@ -47,6 +63,8 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-storybook": "^10.4.6",
     "globals": "^17.6.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
     "playwright": "^1.50.0",
     "prettier": "^3.8.4",
     "react": "^19.2.7",
