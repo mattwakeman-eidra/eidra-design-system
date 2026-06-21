@@ -141,29 +141,16 @@ export const SingleOpen: Story = {
       </Accordion.Root>
     </div>
   ),
-  // Keyboard: roving focus across triggers (arrows/Home/End) and toggle via Enter/Space.
+  // Keyboard: per the updated APG (and Base UI >=1.6), accordion headers are
+  // plain buttons in the Tab order — arrow-key roving focus was removed — and
+  // Enter/Space toggles the focused panel.
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     const q1 = canvas.getByRole('button', { name: /what is eidra/i });
     const q2 = canvas.getByRole('button', { name: /who do you work with/i });
-    const q3 = canvas.getByRole('button', { name: /how do i get in touch/i });
 
-    await step('ArrowDown moves roving focus to the next trigger', async () => {
+    await step('triggers are focusable buttons', async () => {
       q1.focus();
-      await expect(q1).toHaveFocus();
-      await userEvent.keyboard('{ArrowDown}');
-      await expect(q2).toHaveFocus();
-    });
-
-    await step('ArrowUp moves focus back to the previous trigger', async () => {
-      await userEvent.keyboard('{ArrowUp}');
-      await expect(q1).toHaveFocus();
-    });
-
-    await step('End jumps focus to the last trigger, Home to the first', async () => {
-      await userEvent.keyboard('{End}');
-      await expect(q3).toHaveFocus();
-      await userEvent.keyboard('{Home}');
       await expect(q1).toHaveFocus();
     });
 
@@ -172,7 +159,7 @@ export const SingleOpen: Story = {
       await expect(q1).toHaveAttribute('aria-expanded', 'true');
     });
 
-    await step('Space on another trigger opens it and closes the first', async () => {
+    await step('Space on another trigger opens it and closes the first (exclusive)', async () => {
       q2.focus();
       await userEvent.keyboard(' ');
       await expect(q2).toHaveAttribute('aria-expanded', 'true');
