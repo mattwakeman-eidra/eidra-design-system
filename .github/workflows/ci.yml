@@ -80,15 +80,44 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test-storybook
       # Publish a persistent pass/fail summary from junit.xml on every run (green
-      # or red): a "Storybook tests" check run (Checks tab) + a table on this job's
-      # summary page. always() so it reports even when the test step above failed;
-      # fail_on_failure:false because that step already sets the job status. The
-      # vitest github-actions reporter still owns the inline per-failure annotations.
+      # or red): a "Storybook tests" check run (Checks tab). always() so it reports
+      # even when the test step above failed; fail_on_failure:false because that step
+      # already sets the job status. The vitest github-actions reporter still owns the
+      # inline per-failure annotations.
+      #
+      # We render the job-summary page ourselves (next step) instead of letting the
+      # action attach it, so the big passed-test table can live inside a collapsed
+      # <details>. The action has no input to collapse it, but it exposes the compact
+      # and detailed tables as HTML outputs (summary / detailed_summary) we can place
+      # by hand. include_passed + detailed_summary make detailed_summary include the
+      # passed rows; job_summary:false stops the action writing its own (uncollapsed)
+      # summary.
       - name: Publish test report
+        id: junit
         if: ${{ !cancelled() }}
         uses: mikepenz/action-junit-report@v6
         with:
           report_paths: junit.xml
           check_name: Storybook tests
+          include_passed: true
           detailed_summary: true
+          job_summary: false
           fail_on_failure: false
+      # Compact pass/fail table always visible; the (large) per-test table — passed
+      # tests included — only when the reader expands the disclosure. GitHub renders
+      # raw HTML, incl. <details>, in $GITHUB_STEP_SUMMARY.
+      - name: Job summary with collapsible passed tests
+        if: ${{ !cancelled() }}
+        env:
+          SUMMARY: ${{ steps.junit.outputs.summary }}
+          DETAILED_SUMMARY: ${{ steps.junit.outputs.detailed_summary }}
+        run: |
+          {
+            echo "### Storybook tests"
+            echo "$SUMMARY"
+            echo "<details><summary>Per-test results (incl. passed)</summary>"
+            echo ""
+            echo "$DETAILED_SUMMARY"
+            echo ""
+            echo "</details>"
+          } >>"$GITHUB_STEP_SUMMARY"
