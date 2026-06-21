@@ -5,7 +5,13 @@ import { stripPlayOnBrowse } from './strip-play.js';
 const root = process.cwd();
 
 const config: StorybookConfig = {
-  stories: ['../packages/*/src/**/*.stories.@(ts|tsx)'],
+  stories: [
+    // Doc-only MDX pages that render the repo's markdown docs (docs/*.md, ADRs,
+    // CONTEXT.md) via `<Markdown>` of a `?raw` import — single-source, the .md
+    // files stay canonical. See `.storybook/docs/`.
+    '../.storybook/docs/**/*.mdx',
+    '../packages/*/src/**/*.stories.@(ts|tsx)',
+  ],
   addons: ['@storybook/addon-a11y', '@storybook/addon-docs', '@storybook/addon-vitest'],
   framework: { name: '@storybook/react-vite', options: {} },
   typescript: {

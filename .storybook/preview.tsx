@@ -64,13 +64,16 @@ const preview: Preview = {
   parameters: {
     layout: 'fullscreen',
     // Order the sidebar by the docs taxonomy (docs/STORYBOOK.md): the welcome page
-    // first, then the cross-cutting Foundations, then the per-component functional
-    // categories, then (via the `*` wildcard) anything unlisted, with the
-    // multi-component Patterns recipes pinned last.
+    // first, then the rendered markdown docs (Docs/*), then the cross-cutting
+    // Foundations, then the per-component functional categories, then (via the
+    // `*` wildcard) anything unlisted, with the multi-component Patterns recipes
+    // pinned last.
     options: {
       storySort: {
         order: [
           'Introduction',
+          'Docs',
+          ['Consuming', 'Glossary'],
           'Foundations',
           'Actions',
           'Forms',
