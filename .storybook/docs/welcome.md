@@ -38,6 +38,6 @@ export function App() {
 
 ## Learn more
 
-- **[GitHub repository](https://github.com/mattwakeman-eidra/eidra-design-system)** — source, ADRs, and the release runbook.
-- **[Component catalog](https://github.com/mattwakeman-eidra/eidra-design-system/blob/main/docs/COMPONENTS.md)** — the generated index of every component and its import.
-- **[Consuming guide](https://github.com/mattwakeman-eidra/eidra-design-system/blob/main/docs/CONSUMING.md)** — how an app adopts the design system (fonts, theming, Tailwind).
+- **[Eidra Brand Portal](https://app.notion.com/p/3281f15509d88193a53ce81e051f1f10)** — the brand source of truth: brand assets, narrative, tone of voice, and visual guidelines.
+- **[Consuming guide](?path=/docs/docs-consuming--docs)** — how an app adopts the design system (fonts, theming, Tailwind).
+- **[Glossary](?path=/docs/docs-glossary--docs)** — the system's shared vocabulary: tokens, themes, and density.
