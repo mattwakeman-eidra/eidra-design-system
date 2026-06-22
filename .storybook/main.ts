@@ -1,14 +1,16 @@
 import { resolve } from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
 import { stripPlayOnBrowse } from './strip-play.js';
+import { markdownDocPlugin } from './markdown-doc-plugin.js';
 
 const root = process.cwd();
 
 const config: StorybookConfig = {
   stories: [
     // Doc-only MDX pages that render the repo's markdown docs (docs/*.md, ADRs,
-    // CONTEXT.md) via `<Markdown>` of a `?raw` import — single-source, the .md
-    // files stay canonical. See `.storybook/docs/`.
+    // CONTEXT.md) by compiling a `?mdxdoc` import to a real MDX component
+    // (markdown-doc-plugin) — single-source, the .md files stay canonical. See
+    // `.storybook/docs/`.
     '../.storybook/docs/**/*.mdx',
     '../packages/*/src/**/*.stories.@(ts|tsx)',
   ],
@@ -33,12 +35,14 @@ const config: StorybookConfig = {
   managerHead: (head) => `${head}<link rel="icon" href="./favicon.ico" />`,
   viteFinal: async (cfg) => {
     cfg.resolve ??= {};
+    cfg.plugins ??= [];
+    // Compile `?mdxdoc` markdown imports (the doc pages) to MDX components.
+    cfg.plugins.push(markdownDocPlugin());
     // Strip `play` from stories so browsing doesn't auto-run interaction tests
     // (Storybook 10 canvas autoplay has no off switch). Browse build only — the
     // Vitest/CI build sets VITEST and the plugin skips itself there, so tests
     // still run in CI and via the manual "Run component tests" button.
     if (!process.env.VITEST && !process.env.VITEST_STORYBOOK) {
-      cfg.plugins ??= [];
       cfg.plugins.push(stripPlayOnBrowse());
     }
     // Resolve the React/icons packages to source so Storybook compiles components and their
