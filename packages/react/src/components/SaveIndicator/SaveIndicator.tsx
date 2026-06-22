@@ -26,6 +26,10 @@ export const SaveIndicator = forwardRef<HTMLSpanElement, SaveIndicatorProps>(fun
 
   useEffect(() => {
     if (!saved) return;
+    // Intentional: a save event makes the indicator transiently visible, then the
+    // timer hides it. Showing on each rising edge of `saved` requires this state
+    // write, so the synchronous-setState-in-effect heuristic doesn't apply here.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisible(true);
     const timer = setTimeout(() => setVisible(false), duration);
     return () => clearTimeout(timer);

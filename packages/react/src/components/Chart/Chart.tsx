@@ -112,6 +112,9 @@ interface ChartTooltipContentProps {
     name?: string;
     value?: number | string;
     color?: string;
+    // The raw Recharts datum behind this entry: shape varies per chart type, so
+    // it is intentionally dynamic (it flows to the `rows` callback below).
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     payload?: any;
   }>;
   label?: ReactNode;
@@ -129,7 +132,12 @@ interface ChartTooltipContentProps {
    * sunburst) where the Recharts payload isn't what should be shown. Receives
    * `payload[0].payload` (the datum); return `{ label, value, color? }` rows
    * (values pre-formatted). The themed shell, heading and footer are unchanged.
+   *
+   * `datum` is the raw hovered Recharts datum, whose shape varies per chart type,
+   * so it stays `any` to keep the callback ergonomic (consumers read fields off it
+   * directly without narrowing).
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rows?: (datum: any) => Array<{ label?: ReactNode; value?: ReactNode; color?: string }>;
   className?: string;
 }

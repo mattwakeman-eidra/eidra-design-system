@@ -81,11 +81,15 @@ export const InlineWithField: Story = {
     const [saved, markSaved] = useSaveIndicator();
     const [value, setValue] = useState('120,000');
     return (
-      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
+      <label
+        htmlFor="save-demo-sold"
+        style={{ display: 'flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}
+      >
         <span style={{ fontSize: 'var(--eidra-font-size-sm)', color: 'var(--eidra-fg-muted)' }}>
           Sold
         </span>
         <Input
+          id="save-demo-sold"
           value={value}
           size="sm"
           style={{ width: 120 }}

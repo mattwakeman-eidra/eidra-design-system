@@ -30,6 +30,10 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
+// Computed once at import, not during render, so the freshness demo has a stable
+// reference time (calling Date.now() in render is impure).
+const DATA_UPDATED_AT = Date.now() - 12 * 60_000;
+
 /**
  * A representative slice of the library. Density is ambient: every component reads
  * the surrounding `data-density` scope — control sizes via the `--eidra-size-control-*`
@@ -69,7 +73,7 @@ function Panel() {
           Live
         </Badge>
         <Badge tone="accent">New</Badge>
-        <Freshness label="Data" since={Date.now() - 12 * 60_000} tone="positive" />
+        <Freshness label="Data" since={DATA_UPDATED_AT} tone="positive" />
       </div>
 
       <ToggleGroup.Root appearance="segmented" aria-label="View" defaultValue={['table']}>

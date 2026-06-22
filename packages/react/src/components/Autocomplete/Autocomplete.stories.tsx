@@ -377,7 +377,6 @@ export const ValueChangeCallback: Story = {
 // ---- Controlled input value ----
 
 export const ControlledValue: Story = {
-  name: 'Controlled Value',
   parameters: { controls: { disable: true } },
   render: () => {
     const [value, setValue] = useState('');
@@ -443,7 +442,6 @@ export const ControlledValue: Story = {
 // ---- With clear button ----
 
 export const WithClearButton: Story = {
-  name: 'With Clear Button',
   render: () => (
     <Autocomplete.Root items={CONSULTING_SERVICES}>
       <Autocomplete.Control>
@@ -504,7 +502,6 @@ export const WithClearButton: Story = {
 // ---- With search icon ----
 
 export const WithSearchIcon: Story = {
-  name: 'With Search Icon',
   render: () => (
     <Autocomplete.Root items={NORDIC_CITIES}>
       <Autocomplete.Control>
@@ -542,7 +539,6 @@ export const WithSearchIcon: Story = {
 // ---- Grouped options ----
 
 export const GroupedOptions: Story = {
-  name: 'Grouped Options',
   render: () => {
     // Base UI only filters (and unmounts) grouped options when it owns the data:
     // pass *grouped* items to Root, then render via the function-child Collection
@@ -640,7 +636,6 @@ export const GroupedOptions: Story = {
 // ---- Auto-highlight mode ----
 
 export const AutoHighlight: Story = {
-  name: 'Auto Highlight',
   render: () => (
     <Stack>
       <p

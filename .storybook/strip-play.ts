@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any --
+   This build-only plugin walks the loosely-typed CSF/Babel AST returned by
+   storybook's csf-tools (node.type / node.expression / obj.properties / p.key …),
+   which has no practical static type here, so the AST nodes stay `any`. */
 import type { Plugin } from 'vite';
 import { loadCsf, printCsf } from 'storybook/internal/csf-tools';
 

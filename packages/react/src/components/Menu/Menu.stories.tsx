@@ -674,7 +674,6 @@ export const ControlledOpen: Story = {
 // ─── FullProjectMenu ─────────────────────────────────────────────────────────
 
 export const FullProjectMenu: Story = {
-  name: 'Full Project Menu',
   render: () => (
     <Menu.Root>
       <Menu.Trigger>
