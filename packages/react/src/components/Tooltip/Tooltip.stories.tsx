@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex --
+   These demos render inline text triggers (`<span tabIndex={0}>`) so a keyboard
+   user can focus the term to reveal its tooltip; that is the intended, accessible
+   pattern for a text-anchored tooltip, and Base UI's Tooltip.Trigger wires the ARIA. */
 import type { ComponentProps, ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Info, Save, Trash2, Settings } from '@eidra/icons';

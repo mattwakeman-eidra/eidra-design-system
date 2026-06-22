@@ -273,11 +273,14 @@ function DataGridInner<Row>(
 
   // Drag-fill gesture: global mouseup applies the resolved [lo, hi] range via
   // `onFillRange`; Escape aborts. Mirrors the invoicing `useFillRange` model.
-  // A ref keeps the listeners stable while reading the live fill state.
+  // A ref keeps the listeners stable while reading the live fill state. Write the
+  // refs in an effect, not during render (the mouseup fires long after commit).
   const fillRef = useRef(fill);
-  fillRef.current = fill;
   const onFillRangeRef = useRef(onFillRange);
-  onFillRangeRef.current = onFillRange;
+  useEffect(() => {
+    fillRef.current = fill;
+    onFillRangeRef.current = onFillRange;
+  });
   useEffect(() => {
     const onUp = () => {
       const f = fillRef.current;

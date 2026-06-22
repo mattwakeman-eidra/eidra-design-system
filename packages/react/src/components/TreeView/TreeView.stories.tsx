@@ -305,7 +305,10 @@ function withCheckboxes(
       disabled: n.disabled,
       label: (
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--eidra-gap-2)' }}>
-          {/* Isolate the checkbox so its click doesn't also toggle the row's expand/select. */}
+          {/* Isolate the checkbox so its click doesn't also toggle the row's expand/select.
+              This wrapper only stops propagation around the real control (the Checkbox); it
+              isn't itself interactive. */}
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
           <span
             style={{ display: 'inline-flex' }}
             onClick={(e) => e.stopPropagation()}

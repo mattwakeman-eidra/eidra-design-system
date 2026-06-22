@@ -24,6 +24,9 @@ export default tseslint.config(
       'static/**',
       'storybook-static/**',
       '**/*.workflow.mjs',
+      // Git worktrees live here: full repo copies that would otherwise be linted
+      // 2-3 times over locally (CI checks out clean, so it never sees them).
+      '.claude/**',
     ],
   },
   js.configs.recommended,

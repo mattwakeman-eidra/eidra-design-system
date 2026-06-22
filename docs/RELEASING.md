@@ -22,13 +22,17 @@ You never bump versions or pack tarballs by hand — merging the two PRs does it
    pnpm changeset
    ```
 
-   Pick the bump (`patch` for fixes, `minor` for new components/props, `major` for breaking changes) and write a one-line summary. This creates a file under `.changeset/`. Commit it with your change.
+   Pick the bump (`patch` for fixes, `minor` for new components/props, `major` for breaking changes). This creates a file under `.changeset/`; commit it with your change.
+
+   **Write the summary at release-notes quality**, because the changesets are the raw material for the changelog. Cover **what** changed (the user-facing behaviour or API), **why** (the bug or motivation, briefly), and **migration** (any import-order, prop, or config change a consumer must make). A one-liner is fine for a small fix; a new component or a cascade/policy change deserves a few sentences. Tooling-only work uses an empty changeset (`---` over `---`) so it carries no bump and stays out of the user-facing changelog.
 
 2. **Open your PR.** CI (`ci.yml`) runs typecheck + build and **fails if no changeset is present**. Get it reviewed and merge to `main`.
 
 3. **The bot opens a "Version Packages" PR** (workflow `release.yml`). It bumps all three `package.json` versions and writes `CHANGELOG.md` entries from the changesets. Review it like any PR — the diff is just versions + changelog.
 
-4. **Merge the "Version Packages" PR.** That triggers the publish step, which builds, regenerates the catalog, packs the tarballs, and creates **GitHub Release `v<version>`** with `eidra-tokens-<v>.tgz`, `eidra-icons-<v>.tgz`, `eidra-react-<v>.tgz`, and `manifest.json` attached. The release notes aggregate the `## <version>` changelog section of every published package (`scripts/github-release.mjs`): packages that share an identical summary — the usual case, since the fixed group writes each changeset to every listed package — are grouped under one heading (e.g. `## @eidra/react · @eidra/tokens`), and packages carrying only dependency bumps are omitted.
+4. **Author the curated release notes.** Create `docs/releases/v<version>.md` (the `<version>` the bot just proposed) with the human-facing changelog: a short **Highlights** paragraph, then sections grouped by theme (**New components**, **New features and API**, **Fixes and improvements**, **Dependencies**, optional **Internal and tooling**), and an **Upgrade notes at a glance** list. Use `docs/releases/v1.6.0.md` as the template. This is the layer the aggregated changesets cannot produce on their own. Commit it to `main` before merging the Version Packages PR.
+
+5. **Merge the "Version Packages" PR.** That triggers the publish step, which builds, regenerates the catalog, packs the tarballs, and creates **GitHub Release `v<version>`** with `eidra-tokens-<v>.tgz`, `eidra-icons-<v>.tgz`, `eidra-react-<v>.tgz`, and `manifest.json` attached. The release body uses `docs/releases/v<version>.md` when it exists (`scripts/github-release.mjs`); otherwise it falls back to aggregating the `## <version>` changelog section of every published package, grouping packages that share an identical summary under one heading (e.g. `## @eidra/react · @eidra/tokens`) and omitting packages carrying only dependency bumps.
 
 Done — the release is live on the repo's **Releases** page.
 

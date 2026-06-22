@@ -146,7 +146,6 @@ export const Behaviour: Story = {
 // ─── WithDefaultValue ─────────────────────────────────────────────────────────
 
 export const WithDefaultValue: Story = {
-  name: 'With Default Value',
   render: () => (
     <div style={{ width: 240 }}>
       <Select.Root defaultValue="bergen">
@@ -240,7 +239,6 @@ export const Sizes: Story = {
 // ─── WithGroups ───────────────────────────────────────────────────────────────
 
 export const WithGroups: Story = {
-  name: 'With Groups',
   render: () => (
     <div style={{ width: 260 }}>
       <Select.Root>
@@ -278,7 +276,6 @@ export const WithGroups: Story = {
 // ─── WithDisabledItems ────────────────────────────────────────────────────────
 
 export const WithDisabledItems: Story = {
-  name: 'With Disabled Items',
   render: () => (
     <div style={{ width: 240 }}>
       <Select.Root>
@@ -373,6 +370,7 @@ export const ConsultancyForm: Story = {
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
         <label
+          htmlFor="sel-practice-area"
           style={{
             fontSize: 'var(--eidra-font-size-sm)',
             fontWeight: 'var(--eidra-font-weight-medium)',
@@ -382,7 +380,7 @@ export const ConsultancyForm: Story = {
           Practice area
         </label>
         <Select.Root>
-          <Select.Trigger />
+          <Select.Trigger id="sel-practice-area" />
           <Select.Portal>
             <Select.Positioner sideOffset={8}>
               <Select.Popup>
@@ -401,6 +399,7 @@ export const ConsultancyForm: Story = {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-1)' }}>
         <label
+          htmlFor="sel-office-location"
           style={{
             fontSize: 'var(--eidra-font-size-sm)',
             fontWeight: 'var(--eidra-font-weight-medium)',
@@ -410,7 +409,7 @@ export const ConsultancyForm: Story = {
           Office location
         </label>
         <Select.Root defaultValue="oslo">
-          <Select.Trigger />
+          <Select.Trigger id="sel-office-location" />
           <Select.Portal>
             <Select.Positioner sideOffset={8}>
               <Select.Popup>
@@ -444,7 +443,6 @@ export const ConsultancyForm: Story = {
  * type-ahead, then commit with Enter. All driven from the trigger via the keyboard.
  */
 export const KeyboardNavigation: Story = {
-  name: 'Keyboard Navigation',
   parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ width: 240 }}>
@@ -628,7 +626,6 @@ export const ControlledValue: Story = {
 const multipleOnValueChange = fn();
 
 export const MultipleSelection: Story = {
-  name: 'Multiple Selection',
   parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ width: 240 }}>

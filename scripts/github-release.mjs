@@ -98,7 +98,18 @@ async function main() {
     return;
   }
 
-  const notes = buildNotes(Object.keys(manifest.files), version, tag);
+  // Prefer hand-curated release notes (docs/releases/v<version>.md) when present:
+  // the Highlights / theme-grouped / upgrade-notes layer that aggregating the raw
+  // changesets can't produce. Falls back to aggregating each package's CHANGELOG
+  // section, so a missing file is no worse than the previous behaviour.
+  const curatedPath = path.join(ROOT, 'docs', 'releases', `${tag}.md`);
+  let notes;
+  try {
+    notes = (await fs.readFile(curatedPath, 'utf8')).trim();
+    console.log(`Using curated release notes: docs/releases/${tag}.md`);
+  } catch {
+    notes = buildNotes(Object.keys(manifest.files), version, tag);
+  }
   const notesFile = path.join(RELEASES, 'NOTES.md');
   await fs.writeFile(notesFile, `${notes}\n`);
 

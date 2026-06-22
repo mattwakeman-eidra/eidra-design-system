@@ -2722,6 +2722,7 @@ function renderSankeyLink() {
 // Recharts wraps the Sankey entry as `{ name, value, payload: <node|link> }`, so
 // the node/link object is one level in. A link's `source`/`target` are node objects
 // post-layout (a node has neither) — that's how we tell them apart.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- the hovered Recharts Sankey datum is dynamically shaped (mirrors the Chart `rows` callback's `any`)
 function sankeyRows(top: any): Array<{ label?: ReactNode; value?: ReactNode; color?: string }> {
   if (!top) return [];
   const inner = top.payload ?? top;

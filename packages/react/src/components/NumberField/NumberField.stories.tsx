@@ -379,6 +379,7 @@ export const ConsultancyRateExample: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--eidra-gap-4)' }}>
       <div>
         <label
+          htmlFor="nf-daily-rate"
           style={{
             display: 'block',
             marginBottom: 'var(--eidra-space-1)',
@@ -391,6 +392,7 @@ export const ConsultancyRateExample: Story = {
           Daily rate (NOK)
         </label>
         <DefaultField
+          id="nf-daily-rate"
           min={0}
           max={50000}
           step={500}
@@ -402,6 +404,7 @@ export const ConsultancyRateExample: Story = {
       </div>
       <div>
         <label
+          htmlFor="nf-billable-hours"
           style={{
             display: 'block',
             marginBottom: 'var(--eidra-space-1)',
@@ -414,6 +417,7 @@ export const ConsultancyRateExample: Story = {
           Billable hours per week
         </label>
         <DefaultField
+          id="nf-billable-hours"
           min={0}
           max={40}
           step={0.5}
