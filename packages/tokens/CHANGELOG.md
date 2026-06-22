@@ -1,5 +1,49 @@
 # @eidra/tokens
 
+## 1.6.0
+
+### Minor Changes
+
+- d2c1cac: One coherent width policy for every anchored overlay — fixes full-width menus.
+
+  **The bug.** `Select` (and `Combobox`) set `min-width: var(--available-width)` on their popup. `--available-width` is Base UI's space from the popup to the viewport edge, so a trigger near the left of a wide screen opened a menu that spanned almost the whole viewport (~1584px in a 1600px window). Consumers were working around it with inline `style={{ minWidth: 'var(--anchor-width)', width: 'max-content' }}`.
+
+  **The policy.** Overlay width is now decided in one place — the `[data-eidra-width]` block in `base.css` — driven by a typed `width` prop on each anchored popup:
+
+  - `anchor` — at least as wide as the trigger, then hug content, capped at the viewport (`min-width: var(--anchor-width); width: max-content`). **Default** for `Select`, `Combobox`, `Autocomplete`.
+  - `content` — hug content, capped at the viewport, with a readable per-component floor. **Default** for `Menu`, `ContextMenu`, `Menubar`, `FilterSelect`.
+  - `fill` — exactly the trigger width.
+
+  All three cap at `min(var(--eidra-overlay-max-width, 100vw), var(--available-width))` — `--available-width` is now only ever a ceiling, never a floor. The `OverlayWidth` type is exported from `@eidra/react`.
+
+  **Tokens.** New `--eidra-size-container-2xs` (11.25rem) and `--eidra-size-container-xs` (20rem). The fixed overlay widths that were magic numbers (Menu/Menubar/ContextMenu/FilterSelect floors, Popover/Tooltip/ContextMenu/FilterSelect caps) now reference these instead of `180px`/`220px`/`280px`/`320px`.
+
+  **Consumers:** after syncing, delete inline `minWidth`/`width` overrides on overlay popups (e.g. Frankly's Client Dashboard `Select.Popup`s) — the default behaviour now hugs the trigger/content. Use `width="fill"` if you specifically want a popup to match its trigger width, or `width="anchor"`/`"content"` to override a component's default.
+
+- b2e5c69: Make the Tailwind theme reset opt-in instead of bundling it into the bridge.
+
+  `@eidra/react/tailwind.css` (and `@eidra/tokens/tailwind.css`) used to include a `@theme { --*: initial }` reset that dropped Tailwind's entire built-in theme, so importing the bridge forced Eidra-only utilities on every consumer. Per the "enable, don't force" principle (ADR-0009), that reset is now a **separate, opt-in import** and the bridge only maps Eidra tokens onto Tailwind's `@theme`.
+
+  **New export:** `@eidra/react/tailwind-reset.css` (and `@eidra/tokens/tailwind-reset.css`) — `@theme { --*: initial }`.
+
+  ```css
+  @import '@eidra/react/styles.css';
+  @import 'tailwindcss';
+  @import '@eidra/react/tailwind-reset.css'; /* opt-in: drop Tailwind's defaults */
+  @import '@eidra/react/tailwind.css'; /* re-add only the Eidra tokens */
+  ```
+
+  **Migration:** if you were relying on the bundled reset to get Eidra-only utilities, add `@eidra/react/tailwind-reset.css` **after** `tailwindcss` and **before** `@eidra/react/tailwind.css`. If you omit it, Tailwind's default theme stays available alongside the Eidra tokens (the new default). The bridge import path itself is unchanged.
+
+### Patch Changes
+
+- fc6359b: Dependency refresh (batched Dependabot bumps):
+
+  - Shipped runtime deps: lucide-react 1.18 to 1.21 and country-flag-icons to 1.6.18 (`@eidra/icons`).
+  - Build/dev tooling (devDependencies, no change to published output): Vite 7 to 8, TypeScript 5.9 to 6, the vitest family 3 to 4 (`vitest`, `@vitest/browser`, `@vitest/coverage-v8`, plus the new `@vitest/browser-playwright`), and style-dictionary 5.4 to 5.5.
+
+  vitest 4 moved the browser provider config from a string to a factory, so `vitest.config.ts` now imports `playwright` from `@vitest/browser-playwright` and uses `provider: playwright()`.
+
 ## 1.5.0
 
 ### Minor Changes
@@ -36,9 +80,9 @@
 
   ```css
   /* app globals.css — Tailwind v4 */
-  @import "@eidra/react/styles.css";
-  @import "tailwindcss";
-  @import "@eidra/react/tailwind.css"; /* or @eidra/tokens/tailwind.css */
+  @import '@eidra/react/styles.css';
+  @import 'tailwindcss';
+  @import '@eidra/react/tailwind.css'; /* or @eidra/tokens/tailwind.css */
   ```
 
   The shipped file includes the `@layer` order and a `@theme { --*: initial }` reset (Eidra-only utilities); delete that block in your own copy if you want to keep Tailwind's default theme alongside. The v3 preset (`@eidra/tokens/tailwind`) is unchanged and still exported for v3 apps. See `docs/CONSUMING.md` §5.
