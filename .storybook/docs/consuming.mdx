@@ -1,6 +1,7 @@
-import { Meta, Markdown } from '@storybook/addon-docs/blocks';
-import content from '../../docs/CONSUMING.md?raw';
+import { Meta } from '@storybook/addon-docs/blocks';
+import { mdxComponents } from './mdxComponents.js';
+import Content from '../../docs/CONSUMING.md?mdxdoc';
 
 <Meta title="Docs/Consuming" />
 
-<Markdown>{content}</Markdown>
+<Content components={mdxComponents} />
